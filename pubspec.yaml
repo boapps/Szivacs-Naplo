@@ -1,0 +1,113 @@
+name: flutter_naplo
+description: A new Flutter application.
+
+dependencies:
+  path_provider: "^0.4.0"
+  fluro: "^1.3.1"
+  shared_preferences: "^0.4.1"
+  url_launcher: ^3.0.3
+  dynamic_theme:
+    git:
+      url: git://github.com/Norbert515/dynamic_theme.git
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.0
+#  http_casesensitive:
+#    path: "/home/boa/Downloads/httpflutter/http_casesensitive/"
+#    version: ^0.11.3
+#  http_parser_casesensitive:
+#    path: "/home/boa/Downloads/httpflutter/http_parser_casesensitive/"
+#    version: ^3.1.2
+#  http_parser:
+#    name: http_parser_casesensitive
+#    version: 3.1.2
+#  http:
+#    name: http_casesensitive
+#    version: 0.11.3+16
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://www.dartlang.org/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon.png
+    - assets/noise.webp
+    - assets/data.json
+
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: fonts/Rubik/Rubik-Regular.ttf
+    - family: Quicksand
+      fonts:
+        - asset: fonts/Quicksand/Quicksand-Regular.ttf
+    - family: Titillium_Web
+      fonts:
+        - asset: fonts/Titillium_Web/TitilliumWeb-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat/Montserrat-Regular.ttf
+    - family: Material Design Icons
+      fonts:
+        - asset: fonts/materialdesign/materialdesignicons-webfont.ttf
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+#    - assets/noise.webp
+#    - assets/data.json
+#
+#  fonts:
+#    - family: Raleway
+#      fonts:
+#        - asset: fonts/Rubik/Rubik-Regular.ttf
+#    - family: Quicksand
+#      fonts:
+#        - asset: fonts/Quicksand/Quicksand-Regular.ttf
+#    - family: Titillium_Web
+#      fonts:
+#        - asset: fonts/Titillium_Web/TitilliumWeb-Regular.ttf
+#    - family: Montserrat
+#      fonts:
+#        - asset: fonts/Montserrat/Montserrat-Regular.ttf
+#        */
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+
+  # To add assets to your application, add an assets section, like this:
+  #  - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.io/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.io/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies, 
+  # see https://flutter.io/custom-fonts/#from-packages
