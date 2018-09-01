@@ -177,6 +177,21 @@ class AboutScreenState extends State<AboutScreen> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                         )
                                     ),
+                              new FlatButton(onPressed: _launchGithubURL,
+                                        child: new Row(
+                                           children: <Widget>[
+                                             new Container(
+//                                               child: new Icon(Icons.message, color: Colors.blue, size: 20.0,),
+                                               child: new Icon(IconData(0xf2a4, fontFamily: "Material Design Icons"), color: Colors.black, size: 20.0,),
+                                               padding: EdgeInsets.all(5.0),
+                                             ),
+                                             new Text(
+                                               "GitHub", style: new TextStyle(color: Colors.black, fontSize: 20.0,),
+                                             ),
+                                           ],
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                        )
+                                    ),
 //                                alignment: Alignment(0.0, 0.0),
 
                             ],
@@ -222,6 +237,14 @@ class AboutScreenState extends State<AboutScreen> {
   }
   _launchGmailURL() async {
     const url = 'mailto:eSzivacs@gmail.com';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  _launchGithubURL() async {
+    const url = 'https://github.com/boapps/e-Szivacs-2';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
