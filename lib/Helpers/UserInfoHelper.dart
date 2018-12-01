@@ -13,13 +13,47 @@ class UserInfoHelper {
 
     evaluationsMap = await _getEvaluationlist(instCode, userName, password);
 
+    print((evaluationsMap.toString() + "end"));
+    print(evaluationsMap.toString().substring(evaluationsMap
+        .toString()
+        .length - 50));
+
+    print("start");
+    String StudentId = evaluationsMap["StudentId"].toString();
+    if (StudentId == null)
+      StudentId = "";
+    String StudentName = evaluationsMap["Name"].toString();
+    print("end");
+    if (StudentName == null)
+      StudentName = "";
+//    String ParentId;
+//    String ParentName;
+//    if (evaluationsMap["Tutelary"]==null) {
+//      ParentId = "";
+//      ParentName = "";
+//    } else {
+//      ParentId = evaluationsMap["Tutelary"]["TutelaryId"].toString();
+//      ParentName = evaluationsMap["Tutelary"]["TutelaryName"].toString();
+//    }
+//
+//    String TeacherId;
+//    String TeacherName;
+//    if (evaluationsMap["FormTeacher"]==null) {
+//      TeacherId = "";
+//      TeacherName = "";
+//    } else {
+//      TeacherId = evaluationsMap["FormTeacher"]["TeacherId"].toString();
+//      TeacherName = evaluationsMap["FormTeacher"]["Name"].toString();
+//    }
+//
+
     Map<String, String> infoMap = {
-      "StudentId": evaluationsMap["StudentId"].toString(),
-      "StudentName": evaluationsMap["Name"].toString(),
-      "ParentId": evaluationsMap["Tutelary"]["TutelaryId"].toString(),
-      "ParentName": evaluationsMap["Tutelary"]["TutelaryName"].toString(),
-      "TeacherId": evaluationsMap["FormTeacher"]["TeacherId"].toString(),
-      "TeacherName": evaluationsMap["FormTeacher"]["Name"].toString(),
+      "StudentId": StudentId,
+      "StudentName": StudentName,
+//      "ParentId": ParentId,
+//      "ParentName": ParentName,
+//      "TeacherId": TeacherId,
+//      "TeacherName": TeacherName,
     };
 
     return infoMap;

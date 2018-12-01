@@ -42,9 +42,18 @@ class Absence {
   this.justificationStateName = json["JustificationStateName"];
   this.justificationType = json["JustificationType"];
   this.justificationTypeName = json["JustificationTypeName"];
-
+/*
+  print("\n");
+  print(type);
+  print(typeName);
+  print(mode);
+  print(modeName);
+  print(startTime);
+  print(delayMinutes);
   print(justificationState);
-  print(justificationStateName);
+  print(justificationStateName);*/
+    //print(justificationType);
+    //print(justificationTypeName);
 
   }
 

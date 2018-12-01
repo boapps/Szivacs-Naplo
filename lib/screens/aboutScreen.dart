@@ -24,10 +24,10 @@ class AboutScreenState extends State<AboutScreen> {
     return new WillPopScope(
         onWillPop: () {
           globals.screen = 0;
-          Navigator.pushReplacementNamed(context, "/main");
+          Navigator.pushReplacementNamed(context, "/settings");
         },
         child: Scaffold(
-        drawer: GlobalDrawer(context),
+            drawer: GDrawer(),
         appBar: new AppBar(
           title: new Text("e-Szivacs 2"),
           actions: <Widget>[
@@ -171,7 +171,10 @@ class AboutScreenState extends State<AboutScreen> {
                                                padding: EdgeInsets.all(5.0),
                                              ),
                                              new Text(
-                                               "e-szivacs@gmail.com", style: new TextStyle(color: Colors.red, fontSize: 20.0,),
+                                               "eSzivacs@gmail.com",
+                                               style: new TextStyle(
+                                                 color: Colors.red,
+                                                 fontSize: 20.0,),
                                              ),
                                            ],
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -192,6 +195,24 @@ class AboutScreenState extends State<AboutScreen> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                         )
                                     ),
+                              new FlatButton(onPressed: _launchIGURL,
+                                  child: new Row(
+                                    children: <Widget>[
+                                      new Container(
+//                                               child: new Icon(Icons.message, color: Colors.blue, size: 20.0,),
+                                        child: new Icon(IconData(0xf2fe,
+                                            fontFamily: "Material Design Icons"),
+                                          color: Colors.pink, size: 20.0,),
+                                        padding: EdgeInsets.all(5.0),
+                                      ),
+                                      new Text(
+                                        "Instagram", style: new TextStyle(
+                                        color: Colors.pink, fontSize: 20.0,),
+                                      ),
+                                    ],
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  )
+                              ),
 //                                alignment: Alignment(0.0, 0.0),
 
                             ],
@@ -245,6 +266,15 @@ class AboutScreenState extends State<AboutScreen> {
   }
   _launchGithubURL() async {
     const url = 'https://github.com/boapps/e-Szivacs-2';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _launchIGURL() async {
+    const url = 'https://www.instagram.com/e_szivacs/';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

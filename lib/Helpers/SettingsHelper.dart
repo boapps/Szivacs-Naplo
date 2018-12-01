@@ -1,5 +1,6 @@
 import '../Utils/Saver.dart';
 import 'dart:convert' show utf8, json;
+import '../globals.dart';
 import 'dart:async';
 
 class SettingsHelper {
@@ -43,5 +44,30 @@ class SettingsHelper {
 
   Future<bool> getDarkTheme() async {
     return await _getProperty("DarkTheme", false);
+  }
+
+  void setNotification(bool value) {
+    _setPropertyBool("Notification", value);
+  }
+
+  Future<bool> getNotification() async {
+    return await _getProperty("Notification", false);
+  }
+
+  void setLogo(bool value) {
+    isLogo = value;
+    _setPropertyBool("Logo", value);
+  }
+
+  Future<bool> getLogo() async {
+    return await _getProperty("Logo", true);
+  }
+
+  void setRefreshNotification(int value) {
+    _setPropertyBool("RefreshNotification", value);
+  }
+
+  Future<int> getRefreshNotification() async {
+    return await _getProperty("RefreshNotification", 15);
   }
 }

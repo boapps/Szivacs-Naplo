@@ -14,9 +14,11 @@ import '../Helpers/AbsentHelper.dart';
 import '../Utils/AccountManager.dart';
 import '../Helpers/EvaluationHelper.dart';
 import '../Helpers/NotesHelper.dart';
-import '../Helpers/PushNotificationHelper.dart';
-import '../Helpers/SettingsHelper.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
+import '../Helpers/SettingsHelper.dart';
+import '../Datas/User.dart';
+import '../Helpers/PushNotificationHelper.dart';
+import '../main.dart';
 
 void main() {
   runApp(new MaterialApp(home: new MainScreen()));
@@ -29,8 +31,12 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
 
+
   Map<String, List<Absence>> absents = new Map();
   bool isColor;
+
+  bool hasOfflineLoaded = false;
+  bool hasLoaded = false;
 
   void _initSettings() async {
     DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme() ? Brightness.dark : Brightness.light);
@@ -41,10 +47,11 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
 //        .then((_) {...use the important variable...});
 
-
     _initSettings();
 //    isColor = await SettingsHelper().getColoredMainPage();
     super.initState();
+
+
     _initAccountsType();
 //    PushNotificationHelper().enablePushNotification();
     _onRefreshOffline();
@@ -63,13 +70,8 @@ class MainScreenState extends State<MainScreen> {
 
     for (String s in absents.keys.toList())
       widgets.add(new AbsenceCard(absents[s]));
-//      SettingsHelper().getColoredMainPage().then(
-//            (bool isColor) {
-     for (Evaluation e in evals /*.sublist(0, SHOW_ITEMS)*/)
-                widgets.add(new EvaluationCard(e, isColor));
-
-//            }
-//    );
+    for (Evaluation e in evals /*.sublist(0, SHOW_ITEMS)*/)
+      widgets.add(new EvaluationCard(e, isColor));
     for (Note n in notes)
       widgets.add(new NoteCard(n));
 
@@ -115,7 +117,7 @@ class MainScreenState extends State<MainScreen> {
     return new WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
-      drawer: GlobalDrawer(context),
+            drawer: GDrawer(),
         appBar: new AppBar(
           title: new Text("e-Szivacs 2"),
           actions: <Widget>[
@@ -128,23 +130,27 @@ class MainScreenState extends State<MainScreen> {
               preferredSize: null),*/
         ),
         body: new Container(
-              child:
-                  evals.isNotEmpty&&isColor!=null ? new Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: new RefreshIndicator(
-                        child: new ListView(
-                          children: feedItems(),
-                        ),
-                        onRefresh: _onRefresh),
-                  ) :
-                  new Center(child: new CircularProgressIndicator())
+            child:
+            hasOfflineLoaded && isColor != null ? new Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: new RefreshIndicator(
+                  child: new ListView(
+                    children: feedItems(),
+                  ),
+                  onRefresh: _onRefresh),
+            ) :
+            new Center(child: new CircularProgressIndicator())
         )
         )
     );
   }
 
   Future<Null> _onRefresh() async {
+    setState(() {
+      hasLoaded = false;
+    });
+    hasLoaded = false;
     absents = await AbsentHelper().getAbsents();
     notes = await NotesHelper().getNotes();
     evals = await EvaluationHelper().getEvaluations();
@@ -152,6 +158,7 @@ class MainScreenState extends State<MainScreen> {
     Completer<Null> completer = new Completer<Null>();
     if (mounted) {
       setState(() {
+        hasLoaded = true;
         completer.complete();
       });
     }
@@ -159,6 +166,9 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Future<Null> _onRefreshOffline() async {
+    setState(() {
+      hasOfflineLoaded = false;
+    });
     absents = await AbsentHelper().getAbsentsOffline();
     notes = await NotesHelper().getNotesOffline();
     evals = await EvaluationHelper().getEvaluationsOffline();
@@ -166,6 +176,8 @@ class MainScreenState extends State<MainScreen> {
     Completer<Null> completer = new Completer<Null>();
     if (mounted)
       setState(() {
+        print('hasOfflineLoaded');
+        hasOfflineLoaded = true;
         completer.complete();
       });
     return completer.future;

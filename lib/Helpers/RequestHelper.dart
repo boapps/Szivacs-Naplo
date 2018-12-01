@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert' show utf8, json;
 import 'dart:io';
 
+import 'package:native_http_request/native_http_request.dart' as nhttp;
 import 'package:http/http.dart' as http;
 
 class RequestHelper {
@@ -22,6 +23,33 @@ class RequestHelper {
 
   Future<http.Response> getEvaluations(String accessToken, String schoolCode) {
     return http.get("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/Student",
+        // Send authorization headers to your backend
+        headers: {
+          "Authorization": "Bearer " + accessToken,
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "application/json",
+          "HOST": schoolCode + ".e-kreta.hu"
+        });
+  }
+
+  Future<http.Response> getHomework(String accessToken, String schoolCode,
+      int id) {
+    return http.get("https://" + schoolCode +
+        ".e-kreta.hu/mapi/api/v1/HaziFeladat/TanuloHaziFeladatLista/" +
+        id.toString(),
+        // Send authorization headers to your backend
+        headers: {
+          "Authorization": "Bearer " + accessToken,
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "application/json",
+          "HOST": schoolCode + ".e-kreta.hu"
+        });
+  }
+
+  Future<http.Response> getHomeworkByTeacher(String accessToken,
+      String schoolCode, int id) {
+    return http.get("https://" + schoolCode +
+        ".e-kreta.hu/mapi/api/v1/HaziFeladat/TanarHaziFeladat/" + id.toString(),
         // Send authorization headers to your backend
         headers: {
           "Authorization": "Bearer " + accessToken,

@@ -2,28 +2,36 @@ import 'dart:async';
 import 'dart:convert' show utf8, json;
 import 'dart:io';
 
+import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:background_fetch/background_fetch.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'PageRouteBuilder.dart';
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
 import 'Helpers/RequestHelper.dart';
 import 'Helpers/UserInfoHelper.dart';
+import 'Helpers/SettingsHelper.dart';
 import 'Utils/AccountManager.dart';
 import 'globals.dart' as globals;
 import 'screens/accountsScreen.dart';
 import 'screens/aboutScreen.dart';
 import 'screens/absentsScreen.dart';
 import 'screens/evaluationsScreen.dart';
+import 'screens/homeworkScreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/notesScreen.dart';
-import 'screens/timeTableScreen.dart';
 import 'screens/settingsScreen.dart';
-import 'package:flutter/animation.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'screens/statisticsScreen.dart';
+import 'screens/timeTableScreen.dart';
 
 bool isNew = true;
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey(
+    debugLabel: "Main Navigator");
 
 class MyApp extends StatelessWidget {
   @override
@@ -33,6 +41,7 @@ class MyApp extends StatelessWidget {
         data: (brightness) => new ThemeData(
           primarySwatch: Colors.blue,
           primaryColor: Colors.blue[700],
+          accentColor: Colors.blueAccent,
 //          primarySwatch: Color.fromARGB(255, 25, 117, 208),
           brightness: brightness,
           fontFamily: 'Quicksand',
@@ -47,12 +56,15 @@ class MyApp extends StatelessWidget {
               '/login': (_) => new LoginScreen(),
               '/about': (_) => new AboutScreen(),
               '/timetable': (_) => new TimeTableScreen(),
+              '/homework': (_) => new HomeworkScreen(),
               '/evaluations': (_) => new EvaluationsScreen(),
               '/notes': (_) => new NotesScreen(),
               '/absents': (_) => new AbsentsScreen(),
               '/accounts': (_) => new AccountsScreen(),
               '/settings': (_) => new SettingsScreen(),
+              '/statistics': (_) => new StatisticsScreen(),
             },
+            navigatorKey: navigatorKey,
             home: isNew ? new LogoApp() : MainScreen(),
           );
         }
@@ -62,8 +74,29 @@ class MyApp extends StatelessWidget {
 
 void main() async {
   List<User> users = await AccountManager().getUsers();
-  //isNew = prefs.getBool("new") ?? true; //isNew = (users.length!=0);
   isNew = (users.isEmpty);
+  globals.isLogo = await SettingsHelper().getLogo();
+
+  if (!isNew) {
+    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+    SettingsHelper().getRefreshNotification().then((int integer) {
+      BackgroundFetch.configure(BackgroundFetchConfig(
+        minimumFetchInterval: integer,
+        stopOnTerminate: false,
+        forceReload: true,
+        enableHeadless: true,
+        startOnBoot: true,
+      ), () {
+        backgroundFetchHeadlessTask();
+      });
+    });
+
+    //isNew = prefs.getBool("new") ?? true; //isNew = (users.length!=0);
+
+    globals.users = users;
+    globals.selectedUser = users[0];
+  }
+
   runApp(MyApp());
 /*
       new MaterialApp(
@@ -191,6 +224,7 @@ class WelcomeAcceptState extends StatelessWidget {
         new Container(
           child: new Text(
               "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
+//                '"Zsombor egy gyökér"\n     - Úgy kb. mindenki',
             style: TextStyle(
               fontSize: 21.0,
             ),
@@ -280,14 +314,18 @@ double kbSize = null;
 
 bool isDialog = false;
 
+bool loggingIn = false;
+
 final userNameController = new TextEditingController();
 final passwordController = new TextEditingController();
 
 class LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
+    loggingIn = false;
     super.initState();
   }
+
 
   void initJson() async {
     final String data =
@@ -319,6 +357,8 @@ class LoginScreenState extends State<LoginScreen> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         password = passwordController.text;
         userName = userNameController.text;
+        print(userName);
+        print(password);
         userError = null;
         passwordError = null;
         schoolSelected = true;
@@ -326,9 +366,18 @@ class LoginScreenState extends State<LoginScreen> {
         String code;
         if (userName == "") {
           userError = "Kérlek add meg a felhasználónevedet!";
+          setState(() {
+            loggingIn = false;
+          });
         } else if (password == "") {
+          setState(() {
+            loggingIn = false;
+          });
           passwordError = "Kérlek add meg a jelszavadat!";
         } else if (globals.selectedSchoolUrl == "") {
+          setState(() {
+            loggingIn = false;
+          });
           schoolSelected = false;
         } else {
           //iskolák lekérése
@@ -336,7 +385,7 @@ class LoginScreenState extends State<LoginScreen> {
           //bejelentkezés
 
           String instCode = globals.selectedSchoolCode; //suli kódja
-
+          print(instCode);
           String jsonBody = "institute_code=" +
               instCode +
               "&userName=" +
@@ -344,12 +393,14 @@ class LoginScreenState extends State<LoginScreen> {
               "&password=" +
               password +
               "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
+          print(jsonBody);
 
           try {
             bearerResp =
             await RequestHelper().getBearer(jsonBody, instCode);
+            print(bearerResp.body);
             Map<String, dynamic> bearerMap = json.decode(bearerResp.body);
-
+            print(bearerMap);
             code = bearerMap.values.toList()[0];
 
             Map<String, String> userInfo =
@@ -368,12 +419,21 @@ class LoginScreenState extends State<LoginScreen> {
                   userInfo["ParentId"]);
               AccountManager().addUser(user);
 
+              globals.users.add(user);
+
+              globals.selectedUser = user;
+
 //            prefs.setBool("new", false);
               Navigator.pushNamed(context, "/main");
 
             });
           } catch (e) {
             setState(() {
+              loggingIn = false;
+            });
+            print(e);
+            setState(() {
+              print(code);
               if (code == "invalid_grant") {
                 passwordError = "hibás felasználónév vagy jelszó";
               } else if (bearerResp.statusCode == 403) {
@@ -386,8 +446,15 @@ class LoginScreenState extends State<LoginScreen> {
             });
           }
         }
+      } else {
+        setState(() {
+          loggingIn = false;
+        });
       }
     } on SocketException catch (_) {
+      setState(() {
+        loggingIn = false;
+      });
       passwordError = "nincs internet";
     }
 
@@ -447,7 +514,7 @@ class LoginScreenState extends State<LoginScreen> {
             body: new Container(
                 color: Colors.black87,
                 child: new Center(
-                    child: new Container(
+                    child: !loggingIn ? new Container(
                         child: new ListView(
                   reverse: true,
                   padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
@@ -586,17 +653,24 @@ class LoginScreenState extends State<LoginScreen> {
                     new Container(
                         margin: EdgeInsets.only(top: 20.0),
                         child: new FlatButton(
-                          onPressed: () {
+                          onPressed: !loggingIn ? () {
                             setState(() {
+                              loggingIn = true;
                               login(context);
                             });
-                          },
+                          } : null,
+                          disabledColor: Colors.blueGrey.shade800,
+                          disabledTextColor: Colors.blueGrey,
                           child: new Text("Bejelentkezés"),
                           color: Colors.blue, //#2196F3
                           textColor: Colors.white,
                         )),
                   ].reversed.toList(),
-                ))))));
+                        )) : new Container(
+                      child: new CircularProgressIndicator(),
+                    )
+                )
+            )));
   }
 
   @override

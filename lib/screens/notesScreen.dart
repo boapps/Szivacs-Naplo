@@ -32,6 +32,9 @@ class NotesScreenState extends State<NotesScreen> {
 //    refNotes();
   }
 
+  bool hasOfflineLoaded = false;
+  bool hasLoaded = false;
+
   List<Note> notes = new List();
   List<Note> selectedNotes = new List();
 //  List<Evaluation> evals = new List();
@@ -42,10 +45,8 @@ class NotesScreenState extends State<NotesScreen> {
   List<User> users;
 
   void initSelectedUser() async {
-    users = await AccountManager().getUsers();
     setState(() {
-      selectedUser = users[0];
-//      refNotes();
+      selectedUser = globals.selectedUser;
     });
   }
 
@@ -88,37 +89,10 @@ class NotesScreenState extends State<NotesScreen> {
           Navigator.pushReplacementNamed(context, "/main");
         },
         child: Scaffold(
-      drawer: GlobalDrawer(context),
+            drawer: GDrawer(),
         appBar: new AppBar(
           title: new Text("Feljegyzések"),
           actions: <Widget>[
-            globals.multiAccount ? new PopupMenuButton<User>(
-              child: new Container(
-                child: new Row(
-                  children: <Widget>[
-                    new Text(
-                      selectedUser!=null ? selectedUser.name:"",
-                      style: new TextStyle(color: Colors.white, fontSize: 17.0),
-                    ),
-                    new Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-                padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-              ),
-              onSelected: _onSelect,
-              itemBuilder: (BuildContext context) {
-                return users.map((User user) {
-                  return new PopupMenuItem<User>(
-                    value: user,
-                    child: new Text(user.name),
-                  );
-                }).toList();
-              },
-            ) : new Container(),
-
           ],
          /* bottom: new PreferredSize(
               child: new LinearProgressIndicator(
@@ -128,7 +102,7 @@ class NotesScreenState extends State<NotesScreen> {
         ),
         body: new Container(
               child:
-              selectedNotes.isNotEmpty ? new Container(
+              hasOfflineLoaded ? new Container(
                     width: double.infinity,
                     height: double.infinity,
                     child: new RefreshIndicator(
@@ -146,22 +120,34 @@ class NotesScreenState extends State<NotesScreen> {
         );
   }
   Future<Null> _onRefresh() async {
+    setState(() {
+      hasLoaded = false;
+    });
     Completer<Null> completer = new Completer<Null>();
     notes = await NotesHelper().getNotes();
 //    notes.removeWhere((Note n)=>n.owner==selectedUser);
     refNotes();
     if (mounted)
-      setState(()=>completer.complete());
+      setState(() {
+        hasLoaded = true;
+        completer.complete();
+      });
     return completer.future;
   }
 
   Future<Null> _onRefreshOffline() async {
+    setState(() {
+      hasOfflineLoaded = false;
+    });
     Completer<Null> completer = new Completer<Null>();
     notes = await NotesHelper().getNotesOffline();
     refNotes();
 //    notes.removeWhere((Note n)=>n.owner==selectedUser);
     if (mounted)
-      setState(()=>completer.complete());
+      setState(() {
+        hasOfflineLoaded = true;
+        completer.complete();
+      });
     return completer.future;
   }
 

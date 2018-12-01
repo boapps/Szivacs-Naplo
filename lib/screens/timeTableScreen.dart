@@ -4,6 +4,7 @@ import 'dart:convert' show utf8, json;
 import 'package:flutter/material.dart';
 
 import '../Datas/User.dart';
+import '../Datas/Lesson.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/RequestHelper.dart';
 import '../Utils/AccountManager.dart';
@@ -27,9 +28,35 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
   DateTime startDateText;
   Week lessonsWeek;
 
+  int relativeWeek = 0;
+
   void _initWeek() async {
     DateTime startDate = new DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+    lessonsWeek = await getWeek(startDate, true);
+    lessonsWeek = await getWeek(startDate, false);
+  }
+
+  void nextWeek() async {
+    relativeWeek++;
+    DateTime startDate = new DateTime.now();
+    startDate = startDate.add(
+        new Duration(days: (-1 * startDate.weekday + 1 + 7 * relativeWeek)));
+    setState(() {
+      startDateText = startDate;
+    });
+    lessonsWeek = await getWeek(startDate, true);
+    lessonsWeek = await getWeek(startDate, false);
+  }
+
+  void previousWeek() async {
+    relativeWeek--;
+    DateTime startDate = new DateTime.now();
+    startDate = startDate.add(
+        new Duration(days: (-1 * startDate.weekday + 1 + 7 * relativeWeek)));
+    setState(() {
+      startDateText = startDate;
+    });
     lessonsWeek = await getWeek(startDate, true);
     lessonsWeek = await getWeek(startDate, false);
   }
@@ -38,22 +65,10 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
   List<User> users;
 
   void initSelectedUser() async {
-
-    users = await AccountManager().getUsers();
     setState(() {
-    selectedUser = users[0];
+      selectedUser = globals.selectedUser;
     });
 
-  }
-
-  void _onSelect(User user) async {
-    setState(() {
-      selectedUser = user;
-    });
-    DateTime startDate = new DateTime.now();
-    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
-    lessonsWeek = await getWeek(startDate, true);
-    lessonsWeek = await getWeek(startDate, false);
   }
 
   @override
@@ -62,12 +77,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
     initSelectedUser();
 
     startDateText = new DateTime.now();
-    startDateText = startDateText.add(new Duration(days: (-1 * startDateText.weekday + 1)));
+    startDateText = startDateText.add(new Duration(
+        days: (-1 * startDateText.weekday + 1 + 7 * relativeWeek)));
 
     _initWeek();
     setState(() {lessonsWeek;});
 
     _tabController = new TabController(vsync: this, length: 7);
+    _tabController.animateTo(new DateTime.now().weekday - 1);
+
   }
 
   @override
@@ -94,7 +112,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
         child: new DefaultTabController(
           length: 7,
           child: new Scaffold(
-            drawer: GlobalDrawer(context),
+              drawer: GDrawer(),
             appBar: new AppBar(
 //              leading:
               actions: <Widget>[
@@ -108,23 +126,6 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                   child: new TabBarView(
                     controller: _tabController,
                     children: (lessonsWeek != null) ? <Widget>[
-                      /*new Container(
-                  color: Colors.deepOrange,
-                  child: new Column(
-                    children: <Widget>[
-                      new Text("asd"),
-                      new Container(
-                        width: 400.0,
-                        height: 518.0,
-                        child: new ListView.builder(
-                          itemBuilder: _itemBuilderTuesday,
-                          itemCount: lessonsWeek!=null ? lessonsWeek.tuesday.length:0,
-                        ),
-                      ),
-                    ],
-                  )
-                ),*/
-
                       lessonsWeek.monday.isNotEmpty ? new ListView.builder(
                         itemBuilder: _itemBuilderMonday,
                         itemCount: lessonsWeek!=null ? lessonsWeek.monday.length:0,
@@ -231,39 +232,35 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           new IconButton(
-                            tooltip: 'Previous choice',
-                            icon: const Icon(Icons.arrow_back),
+                            tooltip: 'előző hét',
+                            icon: const Icon(Icons.skip_previous),
+                            onPressed: () {
+                              previousWeek();
+                            },
+                          ),
+                          new IconButton(
+                            tooltip: 'előző nap',
+                            icon: const Icon(Icons.keyboard_arrow_left),
                             onPressed: () {
                               _nextPage(-1);
                             },
                           ),
                           new TabPageSelector(controller: _tabController),
-                          selectedUser != null && globals.multiAccount ? new PopupMenuButton<User>(
-                            child: new Container(
-                              child: new Row(
-                                children: <Widget>[
-                                  new Text(selectedUser.name, style: new TextStyle(color: Colors.white, fontSize: 17.0),),
-                                  new Icon(Icons.arrow_drop_down, color: Colors.white,),
-                                ],
-                              ),
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-                            ),
-                            onSelected: _onSelect,
-                            itemBuilder: (BuildContext context) {
-                              return users.map((User user) {
-                                return new PopupMenuItem<User>(
-                                  value: user,
-                                  child: new Text(user.name),
-                                );
-                              }).toList();
-                            },
-                          ):new Container(),
                           new IconButton(
-                            icon: const Icon(Icons.arrow_forward),
-                            tooltip: 'Next choice',
+                            icon: const Icon(Icons.keyboard_arrow_right),
+                            tooltip: 'következő nap',
                             onPressed: () {
                               setState(() {
                                 _nextPage(1);
+                              });
+                            },
+                          ),
+                          new IconButton(
+                            icon: const Icon(Icons.skip_next),
+                            tooltip: 'következő hét',
+                            onPressed: () {
+                              setState(() {
+                                nextWeek();
                               });
                             },
                           ),
@@ -288,64 +285,106 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
   Widget _itemBuilderMonday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.monday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.monday[index].subject),
+      title: new Text(lessonsWeek.monday[index].subject +
+          (lessonsWeek.monday[index].state == "Missed" ? " (Elmarad)" : ""),
+        style: TextStyle(color: lessonsWeek.monday[index].state == "Missed"
+            ? Colors.red
+            : null),),
       subtitle: new Text(lessonsWeek.monday[index].theme),
       trailing: new Text(lessonsWeek.monday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.monday[index]);
+      },
     );
   }
   Widget _itemBuilderTuesday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.tuesday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.tuesday[index].subject),
+      title: new Text(lessonsWeek.tuesday[index].subject +
+          (lessonsWeek.tuesday[index].state == "Missed" ? " (Elmarad)" : ""),
+          style: TextStyle(color: lessonsWeek.tuesday[index].state == "Missed"
+              ? Colors.red
+              : null)),
       subtitle: new Text(lessonsWeek.tuesday[index].theme),
       trailing: new Text(lessonsWeek.tuesday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.tuesday[index]);
+      },
     );
   }
   Widget _itemBuilderWednesday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.wednesday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.wednesday[index].subject),
+      title: new Text(lessonsWeek.wednesday[index].subject +
+          (lessonsWeek.wednesday[index].state == "Missed" ? " (Elmarad)" : ""),
+          style: TextStyle(color: lessonsWeek.wednesday[index].state == "Missed"
+              ? Colors.red
+              : null)),
       subtitle: new Text(lessonsWeek.wednesday[index].theme),
       trailing: new Text(lessonsWeek.wednesday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.wednesday[index]);
+      },
     );
   }
   Widget _itemBuilderThursday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.thursday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.thursday[index].subject),
+      title: new Text(lessonsWeek.thursday[index].subject +
+          (lessonsWeek.thursday[index].state == "Missed" ? " (Elmarad)" : ""),
+          style: TextStyle(color: lessonsWeek.thursday[index].state == "Missed"
+              ? Colors.red
+              : null)),
       subtitle: new Text(lessonsWeek.thursday[index].theme),
       trailing: new Text(lessonsWeek.thursday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.thursday[index]);
+      },
     );
   }
   Widget _itemBuilderFriday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.friday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.friday[index].subject),
+      title: new Text(lessonsWeek.friday[index].subject +
+          (lessonsWeek.friday[index].state == "Missed" ? " (Elmarad)" : ""),
+          style: TextStyle(color: lessonsWeek.friday[index].state == "Missed"
+              ? Colors.red
+              : null)),
       subtitle: new Text(lessonsWeek.friday[index].theme),
       trailing: new Text(lessonsWeek.friday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.friday[index]);
+      },
     );
   }
   Widget _itemBuilderSaturday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.saturday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.saturday[index].subject),
+      title: new Text(lessonsWeek.saturday[index].subject +
+          (lessonsWeek.saturday[index].state == "Missed" ? " (Elmarad)" : ""),
+          style: TextStyle(color: lessonsWeek.saturday[index].state == "Missed"
+              ? Colors.red
+              : null)),
       subtitle: new Text(lessonsWeek.saturday[index].theme),
       trailing: new Text(lessonsWeek.saturday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.saturday[index]);
+      },
     );
   }
   Widget _itemBuilderSunday(BuildContext context, int index) {
     return new ListTile(
       leading: new Text(lessonsWeek.sunday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.sunday[index].subject),
+      title: new Text(lessonsWeek.sunday[index].subject +
+          (lessonsWeek.sunday[index].state == "Missed" ? " (Elmarad)" : ""),
+          style: TextStyle(color: lessonsWeek.sunday[index].state == "Missed"
+              ? Colors.red
+              : null)),
       subtitle: new Text(lessonsWeek.sunday[index].theme),
       trailing: new Text(lessonsWeek.sunday[index].room),
-      onTap: () {print(index);},
+      onTap: () {
+        _lessonDialog(lessonsWeek.sunday[index]);
+      },
     );
   }
   Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
@@ -374,8 +413,52 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
     }
     return lessons;
   }
-  
-  
+
+  Future<Null> _lessonDialog(Lesson lesson) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text(lesson.subjectName),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: <Widget>[
+                new Text("terem: " + lesson.room),
+                new Text("tanár: " + lesson.teacher),
+                new Text("osztály: " + lesson.group),
+                new Text("Órakezdés: " +
+                    lesson.start.hour.toString().padLeft(2, "0") + ":" +
+                    lesson.start.minute.toString().padLeft(2, "0")),
+                new Text("Vége: " + lesson.end.hour.toString().padLeft(2, "0") +
+                    ":" + lesson.end.minute.toString().padLeft(2, "0")),
+                lesson.state == "Missed" ? new Text(
+                    "állapot: " + lesson.stateName) : new Container(),
+                lesson.depTeacher != ""
+                    ? new Text("helyettesítő tanár: " + lesson.depTeacher)
+                    : new Container(),
+                lesson.theme != ""
+                    ? new Text("téma: " + lesson.theme)
+                    : new Container(),
+
+//                new Text("óraszám: " + lesson.oraszam.toString()),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to) async {
     if (selectedUser==null)
       selectedUser = (await AccountManager().getUsers())[0];
@@ -452,52 +535,3 @@ class Week {
       this.saturday, this.sunday, this.startDay);
 }
 
-class Lesson {
-
-  int id;
-  int count;
-  int oraszam;
-  DateTime date;
-  DateTime start;
-  DateTime end;
-  String subject;
-  String subjectName;
-  String room;
-  String group;
-  String teacher;
-  String depTeacher;
-  String state;
-  String stateName;
-  String presence;
-  String presenceName;
-  String theme;
-  String homework;
-  String calendarOraType;
-
-  Lesson(this.id, this.count, this.oraszam, this.date, this.start, this.end,
-      this.subject, this.subjectName, this.room, this.group, this.teacher,
-      this.depTeacher, this.state, this.stateName, this.presence,
-      this.presenceName, this.theme, this.homework, this.calendarOraType);
-
-  Lesson.fromJson(Map json) {
-    this.id = json["LessonId"];
-    this.count = json["Count"];
-    this.oraszam = 0;
-    this.date = DateTime.parse(json["Date"]);
-    this.start = DateTime.parse(json["StartTime"]);
-    this.end = DateTime.parse(json["EndTime"]);
-    this.subject = json["Subject"];
-    this.subjectName = json["SubjectCategoryName"];
-    this.room = json["ClassRoom"];
-    this.group = json["ClassGroup"];
-    this.teacher = json["Teacher"];
-    this.depTeacher = json["DeputyTeacher"];
-    this.state = json["State"];
-    this.stateName = json["StateName"];
-    this.presence = json["PresenceType"];
-    this.presenceName = json["PresenceTypeName"];
-    this.theme = json["Theme"];
-    this.homework = json["Homework"];
-    this.calendarOraType = json["CalendarOraType"];
-  }
-}

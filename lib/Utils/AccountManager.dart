@@ -69,6 +69,7 @@ class AccountManager {
   void addUser(User user) async{
     List<User> users = await getUsers();
     users.add(user);
+    globals.users.add(user);
     saveUsers(users);
   }
 
@@ -81,6 +82,7 @@ class AccountManager {
         newUsers.add(u);
     if (newUsers.length < 2)
       globals.multiAccount = false;
+    globals.users = newUsers;
     saveUsers(newUsers);
   }
 

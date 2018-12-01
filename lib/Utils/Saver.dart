@@ -65,7 +65,6 @@ Future<List<dynamic>> readEvents(User user) async {
   }
 }
 
-
 Future<File> _localNotes(User user) async {
   final path = await _localFolder;
   String suffix = user.id.toString();
@@ -89,6 +88,36 @@ Future<List<dynamic>> readNotes(User user) async {
     return notesMap;
   } catch (e) {
     // If we encounter an error, return 0
+  }
+}
+
+Future<File> _localHomework(User user) async {
+  final path = await _localFolder;
+  String suffix = user.id.toString();
+  return new File('$path/' + suffix + '_homework.json');
+}
+
+Future<File> saveHomework(String homeworkString, User user) async {
+  final file = await _localHomework(user);
+  // Write the file
+  return file.writeAsString(homeworkString);
+}
+
+Future<List<Map<String, dynamic>>> readHomework(User user) async {
+  try {
+    final file = await _localHomework(user);
+    // Read the file
+    String contents = await file.readAsString();
+
+    List<Map<String, dynamic>> notes = new List();
+    List<dynamic> notesMap = json.decode(contents);
+    for (dynamic note in notesMap)
+      notes.add(note as Map<String, dynamic>);
+
+    return notes;
+  } catch (e) {
+    // If we encounter an error, return 0
+    return new List();
   }
 }
 

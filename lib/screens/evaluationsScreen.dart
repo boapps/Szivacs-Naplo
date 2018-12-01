@@ -32,6 +32,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   List<Evaluation> evals = new List();
   List<Average> avers = new List();
 
+  bool hasOfflineLoaded = false;
+  bool hasLoaded = false;
+
   User selectedUser;
   List<User> users;
 
@@ -40,8 +43,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     setState(() {
       selectedUser = users[0];
     });
-    globals.selectedUser = selectedUser;
-    globals.users = users;
   }
 
   void _onSelect(User user) async {
@@ -104,6 +105,21 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         false;
   }
 
+  Future<bool> sort() {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return new SortDialog();
+      },
+    ) ??
+        false;
+  }
+
+  void ss() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -112,13 +128,21 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           Navigator.pushReplacementNamed(context, "/main");
         },
         child: Scaffold(
-            drawer: GlobalDrawer(context),
+            drawer: GDrawer(),
             appBar: new AppBar(
               title: new Text("Jegyek"),
               actions: <Widget>[
                 new FlatButton(
                   onPressed: showAverages,
                   child: new Icon(Icons.assessment, color: Colors.white),
+                ),
+                new FlatButton(
+                  onPressed: () {
+                    sort().then((b) {
+                      refreshOffline();
+                    });
+                  },
+                  child: new Icon(Icons.sort, color: Colors.white),
                 )
               ],
               /* bottom: new PreferredSize(
@@ -128,7 +152,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
               preferredSize: null),*/
             ),
             body: new Container(
-                child: evals.isNotEmpty
+                child: hasOfflineLoaded
                     ? new Container(
                         width: double.infinity,
                         height: double.infinity,
@@ -146,33 +170,160 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   Map<String, dynamic> onlyEvaluations;
 
   Future<Null> _onRefresh() async {
+    setState(() {
+      hasLoaded = false;
+    });
     Completer<Null> completer = new Completer<Null>();
     avers = await AverageHelper().getAverages();
     globals.avers = avers;
 
     evals = await EvaluationHelper().getEvaluations();
+
+    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
+
+    switch (globals.sort) {
+      case 0:
+        evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+        break;
+      case 1:
+        evals.sort((a, b) => a.owner.name.compareTo(b.owner.name));
+        break;
+      case 2:
+        evals.sort((a, b) => a.numericValue.compareTo(b.numericValue));
+        break;
+      case 3:
+        evals.sort((a, b) => a.subject.compareTo(b.subject));
+        break;
+    }
+
     if (mounted)
       setState(() {
         completer.complete();
+        hasLoaded = true;
       });
     return completer.future;
   }
 
+  void refreshOffline() async {
+    setState(() {
+      switch (globals.sort) {
+        case 0:
+          evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+          break;
+        case 1:
+          evals.sort((a, b) {
+            if (a.owner.name == b.owner.name)
+              return b.creationDate.compareTo(a.creationDate);
+            return a.owner.name.compareTo(b.owner.name);
+          });
+          break;
+        case 2:
+          evals.sort((a, b) {
+            if (a.numericValue == b.numericValue)
+              return b.creationDate.compareTo(a.creationDate);
+            return a.numericValue.compareTo(b.numericValue);
+          });
+          break;
+        case 3:
+          evals.sort((a, b) {
+            if (a.subject == b.subject)
+              return b.creationDate.compareTo(a.creationDate);
+            return a.subject.compareTo(b.subject);
+          });
+          break;
+      }
+    });
+  }
+
   Future<Null> _onRefreshOffline() async {
+    setState(() {
+      hasOfflineLoaded = false;
+    });
     Completer<Null> completer = new Completer<Null>();
     avers = await AverageHelper().getAveragesOffline();
     globals.avers = avers;
 
     evals = await EvaluationHelper().getEvaluationsOffline();
+
+    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
+
+    switch (globals.sort) {
+      case 0:
+        evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+        break;
+      case 1:
+        evals.sort((a, b) {
+          if (a.owner.name == b.owner.name)
+            return b.creationDate.compareTo(a.creationDate);
+          return a.owner.name.compareTo(b.owner.name);
+        });
+        break;
+      case 2:
+        evals.sort((a, b) {
+          if (a.numericValue == b.numericValue)
+            return b.creationDate.compareTo(a.creationDate);
+          return a.numericValue.compareTo(b.numericValue);
+        });
+        break;
+      case 3:
+        evals.sort((a, b) {
+          if (a.subject == b.subject)
+            return b.creationDate.compareTo(a.creationDate);
+          return a.subject.compareTo(b.subject);
+        });
+        break;
+    }
+
     if (mounted)
       setState(() {
         completer.complete();
+        hasOfflineLoaded = true;
       });
     return completer.future;
   }
 
   void evalDialog(int index) {
-    print("tapped " + index.toString());
+    evalDialog(index);
+  }
+
+  Future<Null> _evaluationDialog(Evaluation evaluation) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text(evaluation.subject + " " + evaluation.value),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: <Widget>[
+                evaluation.theme != ""
+                    ? new Text("téma: " + evaluation.theme)
+                    : new Container(),
+                new Text("tanár: " + evaluation.teacher),
+                new Text("idő: " + evaluation.date.substring(0, 11)
+                    .replaceAll("-", '. ')
+                    .replaceAll("T", ". ")),
+                new Text("mód: " + evaluation.mode),
+                new Text("naplózás ideje: " +
+                    evaluation.creationDate.substring(0, 16).replaceAll(
+                        "-", ". ").replaceAll("T", ". ")),
+                new Text("súly: " + evaluation.weight),
+                new Text("érték: " + evaluation.value),
+                new Text("határ: " + evaluation.range),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
@@ -186,6 +337,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             child: new Text(
               evals[index].numericValue.toString(),
               textScaleFactor: 2.0,
+              style: TextStyle(color: evals[index].weight != "100%"
+                  ? Colors.redAccent
+                  : null),
             ),
             padding: EdgeInsets.only(left: 8.0),
           ),
@@ -194,14 +348,10 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           trailing: new Column(
             children: <Widget>[
               new Text(evals[index].date.substring(0, 10)),
-              globals.multiAccount ? new Text(
-                evals[index].owner.name,
-                style: new TextStyle(color: evals[index].owner.color),
-              ) : new Text(""),
             ],
           ),
           onTap: () {
-            evalDialog(index);
+            _evaluationDialog(evals[index]);
           },
         ),
       ],
@@ -260,36 +410,6 @@ class AverageDialogState extends State<AverageDialog> {
       refWidgets();
     });
 
-    if (globals.multiAccount)
-      widgets.add(
-      new PopupMenuButton<User>(
-        child: new Container(
-          child: new Row(
-            children: <Widget>[
-              new Text(
-                selectedUser.name,
-                style: new TextStyle(color: Colors.black, fontSize: 17.0),
-              ),
-              new Icon(
-                Icons.arrow_drop_down,
-                color: Colors.black,
-              ),
-            ],
-          ),
-          padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-        ),
-        onSelected: _onSelect,
-        itemBuilder: (BuildContext context) {
-          return users.map((User user) {
-            return new PopupMenuItem<User>(
-              value: user,
-              child: new Text(user.name),
-            );
-          }).toList();
-        },
-      ),
-    );
-
     setState(() {
       if (currentAvers.isNotEmpty)
         widgets.add(
@@ -314,7 +434,8 @@ class AverageDialogState extends State<AverageDialog> {
 
     return new ListTile(
       title: new Text(currentAvers[index].subject),
-      subtitle: new Text(currentAvers[index].value.toString()),
+      subtitle: new Text(currentAvers[index].value.toString(), style: TextStyle(
+          color: currentAvers[index].value < 2 ? Colors.red : null),),
       trailing: globals.multiAccount ? new Text(currentAvers[index].owner.name,
           style: TextStyle(color: currentAvers[index].owner.color)):null,
       onTap: () {
@@ -328,4 +449,62 @@ class AverageDialogState extends State<AverageDialog> {
     for (Average average in avers)
       if (average.owner.id == selectedUser.id) currentAvers.add(average);
   }
+}
+
+class SortDialog extends StatefulWidget {
+//  List newList;
+  const SortDialog();
+
+  @override
+  SortDialogState createState() => new SortDialogState();
+}
+
+class SortDialogState extends State<SortDialog> {
+
+  List<String> sorba = ["idő", "tanuló (név)", "jegy", "tárgy"];
+  int selected = 0;
+
+  void _onSelect(String sel) {
+    setState(() {
+      selected = sorba.indexOf(sel);
+      globals.sort = selected;
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return new SimpleDialog(
+      title: new Text("Rendezés"),
+      contentPadding: const EdgeInsets.all(10.0),
+      children: <Widget>[
+        new PopupMenuButton<String>(
+          child: new Container(
+            child: new Row(
+              children: <Widget>[
+                new Text(
+                  sorba[globals.sort],
+                  style: new TextStyle(color: null, fontSize: 17.0),
+                ),
+                new Icon(
+                  Icons.arrow_drop_down,
+                  color: null,
+                ),
+              ],
+            ),
+            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
+          ),
+          onSelected: _onSelect,
+          itemBuilder: (BuildContext context) {
+            return sorba.map((String sor) {
+              return new PopupMenuItem<String>(
+                value: sor,
+                child: new Text(sor),
+              );
+            }).toList();
+          },
+        ),
+      ],
+    );
+  }
+
+
 }

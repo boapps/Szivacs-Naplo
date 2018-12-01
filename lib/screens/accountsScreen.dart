@@ -58,9 +58,12 @@ class AccountsScreenState extends State<AccountsScreen> {
         );
         accountListWidgets.add(new Divider(height: 1.0,),);
       });
-
     }
-    accountListWidgets.add(new FlatButton(onPressed: addPressed, child: new Icon(Icons.add, color: Colors.blue,)));
+
+    setState(() {
+      accountListWidgets.add(new FlatButton(onPressed: addPressed,
+          child: new Icon(Icons.add, color: Colors.blue,)));
+    });
 
   }
 
@@ -90,6 +93,7 @@ class AccountsScreenState extends State<AccountsScreen> {
               onPressed: () {
                 setState(() {
                   AccountManager().removeUser(user);
+                  _getUserList();
                   _getListWidgets();
                   Navigator.of(context).pop();
 
@@ -131,7 +135,7 @@ class AccountsScreenState extends State<AccountsScreen> {
         Navigator.pushReplacementNamed(context, "/main");
       },
         child: Scaffold(
-            drawer: GlobalDrawer(context),
+          drawer: GDrawer(),
             appBar: new AppBar(
               title: new Text("Fiókok"),
               actions: <Widget>[
