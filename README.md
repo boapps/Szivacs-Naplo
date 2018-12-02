@@ -10,13 +10,12 @@ Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért ír
 * gyors, logikus, modern felület
 * *sötét* téma (az e-Kréta app fejlesztő(i)ről elnevezve)
 * "színes főoldal"
-#### Tervezett:
 * értesítések
+* grafikonok
+#### Tervezett:
 * androidos főoldal-widgetek
 * iOS verzió publikálása
-* hibajavítások
 * fordítás idegen nyelvekre
-* grafikonok
 * *a szivacs törli a krétát* (egy gomb, ami letörli a krétát :D)
 
 ##### Amíg a tervezett funkciókat hozzá nem adom, ajánlott a régi e-Szivacs használata!
