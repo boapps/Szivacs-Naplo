@@ -167,7 +167,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text("e-Szivacs 2"),
+              title: new Text("Statisztikák"),
               actions: <Widget>[
                 new FlatButton(
                   onPressed: () {

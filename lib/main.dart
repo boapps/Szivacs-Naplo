@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert' show utf8, json;
 import 'dart:io';
 
@@ -7,7 +6,6 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'PageRouteBuilder.dart';
 import 'Datas/Institution.dart';
@@ -83,12 +81,10 @@ void main() async {
       BackgroundFetch.configure(BackgroundFetchConfig(
         minimumFetchInterval: integer,
         stopOnTerminate: false,
-        forceReload: true,
+        forceReload: false,
         enableHeadless: true,
         startOnBoot: true,
-      ), () {
-        backgroundFetchHeadlessTask();
-      });
+      ), backgroundFetchHeadlessTask);
     });
 
     //isNew = prefs.getBool("new") ?? true; //isNew = (users.length!=0);

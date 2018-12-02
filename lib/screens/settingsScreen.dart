@@ -100,12 +100,10 @@ class SettingsScreenState extends State<SettingsScreen> {
     BackgroundFetch.configure(BackgroundFetchConfig(
       minimumFetchInterval: _refreshNotification,
       stopOnTerminate: false,
-      forceReload: true,
+      forceReload: false,
       enableHeadless: true,
       startOnBoot: true,
-    ), () {
-      backgroundFetchHeadlessTask();
-    });
+    ), backgroundFetchHeadlessTask);
     if (!mounted) return;
   }
 
@@ -140,12 +138,10 @@ class SettingsScreenState extends State<SettingsScreen> {
     BackgroundFetch.configure(BackgroundFetchConfig(
       minimumFetchInterval: _refreshNotification,
       stopOnTerminate: false,
-      forceReload: true,
+      forceReload: false,
       enableHeadless: true,
       startOnBoot: true,
-    ), () {
-      backgroundFetchHeadlessTask();
-    });
+    ), backgroundFetchHeadlessTask);
   }
 
   void _isNotificationChange(bool value) {

@@ -6,10 +6,8 @@ import '../Datas/Note.dart';
 import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/NotesHelper.dart';
-//import '../Helpers/AverageHelper.dart';
-//import '../Helpers/EvaluationHelper.dart';
-import '../Utils/AccountManager.dart';
 import '../globals.dart' as globals;
+import '../Helpers/rich_text_view.dart';
 
 void main() {
   runApp(new MaterialApp(home: new NotesScreen()));
@@ -161,7 +159,7 @@ class NotesScreenState extends State<NotesScreen> {
         new ListTile(
 //      leading: new Text(selectedNotes[index].numericValue.toString(), textScaleFactor: 2.0,),
           title: new Text(selectedNotes[index].date.substring(0,10) + (selectedNotes[index].teacher!=null ? (" - " + selectedNotes[index].teacher):""), style: TextStyle(fontSize: 20.0),),
-          subtitle: new Text(selectedNotes[index].content, style: TextStyle(fontSize: 17.0),),
+          subtitle: new RichTextView(text: selectedNotes[index].content),
           isThreeLine: true,
 //      trailing: new Text(),
           onTap: () {evalDialog(index);},
