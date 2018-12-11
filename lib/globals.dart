@@ -10,7 +10,7 @@ List avers;
 Map<String, List<Absence>> absents;
 List searchres;
 List jsonres;
-List<User> users;
+List<User> users = new List<User>();
 bool multiAccount;
 User selectedUser;
 String selectedSchoolCode = "";
