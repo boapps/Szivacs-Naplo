@@ -151,6 +151,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
+    print(HtmlUnescape().convert(selectedNotes[index].text.toString()));
     return new Column(
       children: <Widget>[
         new ListTile(

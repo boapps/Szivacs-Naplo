@@ -337,9 +337,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             child: new Text(
               evals[index].numericValue.toString(),
               textScaleFactor: 2.0,
-              style: TextStyle(color: evals[index].weight != "100%"
-                  ? Colors.redAccent
-                  : null),
+              style: TextStyle(color: evals[index].color),
             ),
             padding: EdgeInsets.only(left: 8.0),
           ),

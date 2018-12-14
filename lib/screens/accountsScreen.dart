@@ -140,11 +140,6 @@ class AccountsScreenState extends State<AccountsScreen> {
               title: new Text("Fiókok"),
               actions: <Widget>[
               ],
-              /* bottom: new PreferredSize(
-              child: new LinearProgressIndicator(
-                value: 0.7,
-              ),
-              preferredSize: null),*/
             ),
             body: new Container(
               child: new Center(

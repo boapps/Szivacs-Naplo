@@ -19,8 +19,6 @@ class HomeworkHelper {
     evaluationsMap.forEach((Map<String, dynamic> e) {
       Homework average = Homework.fromJson(e);
       average.owner = e["user"];
-      print(average.subject);
-      print(average.text);
       homeworks.add(average);
     });
     homeworks
@@ -110,16 +108,18 @@ class HomeworkHelper {
           print(homeworkString);
 
           //saveEvaluations(homeworkString, user);
-
+          String ctargy = d["Subject"];
           List<dynamic> evaluationsMapUser = json.decode(homeworkString);
-          for (dynamic d in evaluationsMapUser)
-            hwmapuser.add(d as Map<String, dynamic>);
+          for (dynamic d in evaluationsMapUser) {
+            Map<String, String> lessonProperty = <String, String>{
+              "subject": ctargy
+            };
 
-          Map<String, String> lessonProperty = <String, String>{
-            "subject": d["Subject"]
-          };
-          hwmapuser
-              .forEach((Map<String, dynamic> e) => e.addAll(lessonProperty));
+            (d as Map<String, dynamic>).addAll(lessonProperty);
+            hwmapuser.add(d as Map<String, dynamic>);
+          }
+          //hwmapuser
+          //    .forEach((Map<String, dynamic> e) => e.addAll(lessonProperty));
 
           print(hwmapuser);
         }

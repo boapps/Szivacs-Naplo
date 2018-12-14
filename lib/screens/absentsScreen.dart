@@ -260,7 +260,10 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     child: new Row(
       children: <Widget>[
         new Icon(iconifyState(state), color: colorifyState(state),),
-        new Text(thisAbsence[0].startTime.substring(0,10)),
+        new Container(
+          padding: EdgeInsets.all(10),
+          child: new Text(thisAbsence[0].startTime.substring(0,10).replaceAll("-", ". ") + ". (" + thisAbsence.length.toString() + " db)"),
+        ),
       ],
     ),
   );
@@ -286,50 +289,52 @@ class AbsentDialog extends StatefulWidget {
 
 class AbsentDialogState extends State<AbsentDialog> {
   int prnt = 0;
+  int ossz = 0;
 
-  User selectedUser;
   List<User> users;
   Map<String, List<Absence>> absents = new Map();
 
   void initSelectedUser() async {
-    users = await AccountManager().getUsers().then((List value) {
       absents = globals.absents;
 
+      print(absents.length);
+      print(globals.absents.length);
+      ossz = 0;
+      prnt = 0;
+
       setState(() {
-        prnt = 0;
-        selectedUser = users[0];
-        AbsentsScreenState().absents.forEach((String key, List<Absence> value) {
+        absents.forEach((String key, List<Absence> value) {
           if (value[0].justificationType == "Parental" &&
-              value[0].owner == selectedUser)
+              value[0].owner.id == globals.selectedUser.id) {
             prnt++;
+
+          }
+          if (value[0].owner.id == globals.selectedUser.id){
+            print(value[0].mode);
+            for (Absence a in value)
+              ossz++;
+          }
+
         });
       });
-    });
+
+      print(ossz.toString());
   }
 
-  void _onSelect(User user) async {
-    selectedUser = user;
-    prnt = 0;
-    absents = globals.absents;
-    absents.forEach((String key, List<Absence> value) {
-      if (value[0].justificationType == "Parental" &&
-          (value[0].owner.id == selectedUser.id))
-        prnt++;
-    });
-
-    setState(() {
-      prnt;
-      print(prnt);
-    });
+  @override
+  void initState() {
+    super.initState();
+    initSelectedUser();
   }
 
-
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return new SimpleDialog(
         title: new Text("Statisztikák"),
         contentPadding: const EdgeInsets.all(10.0),
         children: <Widget>[
-          new Text("Szülői igazolás: " + prnt.toString(),
+          new Text("Szülői igazolás: " + prnt.toString() + " db",
+            style: TextStyle(fontSize: 20.0),),
+          new Text("Összes hiányzás: " + ossz.toString() + " óra",
             style: TextStyle(fontSize: 20.0),),
         ]
     );

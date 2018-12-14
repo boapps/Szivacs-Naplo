@@ -291,7 +291,17 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
             ? Colors.red
             : null),),
       subtitle: new Text(lessonsWeek.monday[index].theme),
-      trailing: new Text(lessonsWeek.monday[index].room),
+
+
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+    new Text(lessonsWeek.monday[index].room),
+    new Text(lessonsWeek.monday[index].start.hour.toString().padLeft(2, "0") + ":" +
+    lessonsWeek.monday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.monday[index].end.hour.toString().padLeft(2, "0") + ":" +
+        lessonsWeek.monday[index].end.minute.toString().padLeft(2, "0")),
+    ],
+      ) ,
       onTap: () {
         _lessonDialog(lessonsWeek.monday[index]);
       },
@@ -306,8 +316,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               ? Colors.red
               : null)),
       subtitle: new Text(lessonsWeek.tuesday[index].theme),
-      trailing: new Text(lessonsWeek.tuesday[index].room),
-      onTap: () {
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new Text(lessonsWeek.tuesday[index].room),
+          new Text(lessonsWeek.tuesday[index].start.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.tuesday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.tuesday[index].end.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.tuesday[index].end.minute.toString().padLeft(2, "0")),
+        ],
+      ) ,      onTap: () {
         _lessonDialog(lessonsWeek.tuesday[index]);
       },
     );
@@ -321,8 +338,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               ? Colors.red
               : null)),
       subtitle: new Text(lessonsWeek.wednesday[index].theme),
-      trailing: new Text(lessonsWeek.wednesday[index].room),
-      onTap: () {
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new Text(lessonsWeek.wednesday[index].room),
+          new Text(lessonsWeek.wednesday[index].start.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.wednesday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.wednesday[index].end.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.wednesday[index].end.minute.toString().padLeft(2, "0")),
+        ],
+      ) ,      onTap: () {
         _lessonDialog(lessonsWeek.wednesday[index]);
       },
     );
@@ -336,8 +360,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               ? Colors.red
               : null)),
       subtitle: new Text(lessonsWeek.thursday[index].theme),
-      trailing: new Text(lessonsWeek.thursday[index].room),
-      onTap: () {
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new Text(lessonsWeek.thursday[index].room),
+          new Text(lessonsWeek.thursday[index].start.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.thursday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.thursday[index].end.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.thursday[index].end.minute.toString().padLeft(2, "0")),
+        ],
+      ) ,      onTap: () {
         _lessonDialog(lessonsWeek.thursday[index]);
       },
     );
@@ -351,8 +382,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               ? Colors.red
               : null)),
       subtitle: new Text(lessonsWeek.friday[index].theme),
-      trailing: new Text(lessonsWeek.friday[index].room),
-      onTap: () {
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new Text(lessonsWeek.friday[index].room),
+          new Text(lessonsWeek.friday[index].start.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.friday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.friday[index].end.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.friday[index].end.minute.toString().padLeft(2, "0")),
+        ],
+      ) ,      onTap: () {
         _lessonDialog(lessonsWeek.friday[index]);
       },
     );
@@ -366,8 +404,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               ? Colors.red
               : null)),
       subtitle: new Text(lessonsWeek.saturday[index].theme),
-      trailing: new Text(lessonsWeek.saturday[index].room),
-      onTap: () {
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new Text(lessonsWeek.saturday[index].room),
+          new Text(lessonsWeek.saturday[index].start.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.saturday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.saturday[index].end.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.saturday[index].end.minute.toString().padLeft(2, "0")),
+        ],
+      ) ,      onTap: () {
         _lessonDialog(lessonsWeek.saturday[index]);
       },
     );
@@ -381,8 +426,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               ? Colors.red
               : null)),
       subtitle: new Text(lessonsWeek.sunday[index].theme),
-      trailing: new Text(lessonsWeek.sunday[index].room),
-      onTap: () {
+      trailing: new Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new Text(lessonsWeek.sunday[index].room),
+          new Text(lessonsWeek.sunday[index].start.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.sunday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.sunday[index].end.hour.toString().padLeft(2, "0") + ":" +
+              lessonsWeek.sunday[index].end.minute.toString().padLeft(2, "0")),
+        ],
+      ) ,      onTap: () {
         _lessonDialog(lessonsWeek.sunday[index]);
       },
     );
@@ -437,7 +489,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                 lesson.depTeacher != ""
                     ? new Text("helyettesítő tanár: " + lesson.depTeacher)
                     : new Container(),
-                lesson.theme != ""
+                (lesson.theme != "" && lesson.theme!= null)
                     ? new Text("téma: " + lesson.theme)
                     : new Container(),
 

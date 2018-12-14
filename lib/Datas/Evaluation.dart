@@ -1,4 +1,5 @@
 import 'User.dart';
+import 'package:flutter/material.dart';
 
 class Evaluation {
   int _id;
@@ -124,5 +125,24 @@ class Evaluation {
     _id = value;
   }
 
+  Color get color {
+    switch(weight){
+      case "100%":
+        return null;
+        break;
+      case "200%":
+        return Colors.redAccent;
+        break;
+      case "300%":
+        return Colors.blueAccent;
+        break;
+      case "400%":
+        return Colors.green;
+        break;
+      default:
+        return null;
+        break;
+    }
+  }
 
 }

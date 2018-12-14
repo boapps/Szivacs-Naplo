@@ -159,12 +159,15 @@ class NotesScreenState extends State<NotesScreen> {
         new ListTile(
 //      leading: new Text(selectedNotes[index].numericValue.toString(), textScaleFactor: 2.0,),
           title: new Text(selectedNotes[index].date.substring(0,10) + (selectedNotes[index].teacher!=null ? (" - " + selectedNotes[index].teacher):""), style: TextStyle(fontSize: 20.0),),
-          subtitle: new RichTextView(text: selectedNotes[index].content),
+          subtitle: new Container(
+            padding: EdgeInsets.all(5),
+    child: new RichTextView(text: selectedNotes[index].content),
+    ),
           isThreeLine: true,
 //      trailing: new Text(),
           onTap: () {evalDialog(index);},
         ),
-        new Divider(height: 5.0,),
+        new Divider(height: 10.0,),
       ],
     );
   }
