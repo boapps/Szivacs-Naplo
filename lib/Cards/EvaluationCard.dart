@@ -13,12 +13,15 @@ class EvaluationCard extends StatelessWidget {
   String typeName;
   bool showPadding;
 
+  BuildContext context;
+
   Future<bool> get isColor async {
     return await SettingsHelper().getColoredMainPage();
   }
 
-  EvaluationCard(Evaluation evaluation, bool isColor){
+  EvaluationCard(Evaluation evaluation, bool isColor, BuildContext context){
     this.evaluation = evaluation;
+    this.context = context;
 //    fColor = Colors.white70;
 //    bColor = Colors.black87;
     if (isColor) {
@@ -121,39 +124,62 @@ class EvaluationCard extends StatelessWidget {
   @override
   Key get key => new Key(getDate());
 
+  void openDialog() {
+    _evaluationDialog(evaluation);
+  }
+
+  Future<Null> _evaluationDialog(Evaluation evaluation) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  evaluation.theme != ""
+                      ? new Text("téma: " + evaluation.theme)
+                      : new Container(),
+                  new Text("tanár: " + evaluation.teacher),
+                  new Text("idő: " + evaluation.date.substring(0, 11)
+                      .replaceAll("-", '. ')
+                      .replaceAll("T", ". ")),
+                  new Text("mód: " + evaluation.mode),
+                  new Text("naplózás ideje: " +
+                      evaluation.creationDate.substring(0, 16).replaceAll(
+                          "-", ". ").replaceAll("T", ". ")),
+                  new Text("súly: " + evaluation.weight),
+                  new Text("érték: " + evaluation.value),
+                  new Text("határ: " + evaluation.range),
+                ],
+              ),
+            ),
+          ],
+          title: Text(evaluation.subject + " " + evaluation.value, ),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        );
+        },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  new Card(
+    return new GestureDetector(
+      onTap: openDialog,
+       child: new Card(
       color: bColor,
       child: new Column(
         children: <Widget>[
 
           new Container(
-            /*child: new Row(
-              children: <Widget>[
-                new Container(
-                  child: new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0)),
-                  padding: EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
-                ),
-                new Container(
-//                  width: 200.0,
-                  child: new Column(
-                  children: <Widget>[
-                    new Text(evaluation.subject, style: new TextStyle(color: fColor, fontSize: 18.0)),
-                    new Text(evaluation.theme, style: new TextStyle(color: fColor, fontSize: 18.0)),
-                    new Text(evaluation.teacher, style: new TextStyle(color: fColor, fontSize: 15.0),),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                ),
-                ),
-                new Expanded(
-                         child: new Container(
-                              child: new Text(evaluation.date.substring(0, 10), style: new TextStyle(color: fColor, fontSize: 15.0,),),
-                            alignment: Alignment(1.0, -1.0),
-                          ),
-                ),
-                ],
-            ),*/
             child: new ListTile(
               title: new Text(evaluation.subject, style: new TextStyle(color: fColor, fontSize: 18.0, fontWeight: FontWeight.bold)),
               leading: new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
@@ -164,8 +190,6 @@ class EvaluationCard extends StatelessWidget {
                     new Text(evaluation.teacher, style: new TextStyle(color: fColor, fontSize: 15.0),),
                   ],
               ),
-//              trailing: new Text(evaluation.date.substring(0, 10), style: new TextStyle(color: fColor, fontSize: 15.0,),),
-
             ),
             margin: EdgeInsets.all(10.0),
           ),
@@ -173,23 +197,33 @@ class EvaluationCard extends StatelessWidget {
             child: new Text(evaluation.date.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: fColor)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-          ):new Container(),
+          ) : new Container(),
           showPadding ? new Container(
             color: Colors.white,
           child: new Padding(
               padding: new EdgeInsets.all(7.0),
               child: new Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   new Divider(),
-
-
                   new Padding(
                     padding: new EdgeInsets.all(7.0),
                     child: new Icon(typeIcon,  color: Colors.black87),
                   ),
+                  new Flexible(child:
+                  new Container(child:
                   new Padding(
                     padding: new EdgeInsets.all(7.0),
-                    child: new Text(typeName,style: new TextStyle(fontSize: 18.0, color: Colors.black87),),
+                    child: new Text(
+                      typeName,
+                      style: new TextStyle(fontSize: 18.0, color: Colors.black87),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                    alignment: Alignment(-1, 0),
+                  ),
                   ),
                   globals.multiAccount ?  new Expanded(
                     child: new Container(
@@ -199,16 +233,23 @@ class EvaluationCard extends StatelessWidget {
                   ):new Container(),
                   !globals.multiAccount ? new Expanded(
                       child: new Container(
-                        child: new Text(evaluation.date.substring(0, 10), style: new TextStyle(fontSize: 18.0, color: Colors.black87)),
+                        child: new Text(
+                          evaluation.date.substring(0, 10).replaceAll("-", ". ") + ". ",
+                          style: new TextStyle(fontSize: 18.0, color: Colors.black87),
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
+                          textAlign: TextAlign.end,
+                        ),
                         alignment: Alignment(1.0, 0.0),
-                      )):new Container(),
-
+                      ),
+                  ):new Container(),
                 ],
               ),
           )
           ):new Container()
         ],
       ),
+        ),
     );
   }
 }

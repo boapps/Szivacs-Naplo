@@ -229,7 +229,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         color: colorifyState(absence.justificationState)),
     title: new Text(absence.subject),
     subtitle: new Text(absence.teacher),
-    trailing: new Text(absence.startTime.substring(0,10)),
+    trailing: new Text(absence.startTime.substring(0,10).replaceAll("-", ". ") + ". "),
     onTap: () {
       absenceDialog(absence);
     },

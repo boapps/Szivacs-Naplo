@@ -7,6 +7,7 @@ import '../Datas/Evaluation.dart';
 import '../Helpers/AverageHelper.dart';
 import '../Helpers/EvaluationHelper.dart';
 import 'package:charts_flutter/flutter.dart';
+import "dart:math";
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -27,6 +28,14 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   List<Evaluation> evals = new List();
   String avrString = "Átlag: ";
   String classAvrString = "Osztályátlag: ";
+  int db1 = 0;
+  int db2 = 0;
+  int db3 = 0;
+  int db4 = 0;
+  int db5 = 0;
+  double allAverage;
+  double allMedian;
+  int allModusz;
 
   @override
   void initState() {
@@ -41,6 +50,69 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     evals = await EvaluationHelper().getEvaluationsOffline();
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
     _onSelect(averages[0]);
+    for (Evaluation e in evals)
+      switch(e.numericValue){
+        case 1:
+          db1++;
+          break;
+        case 2:
+          db2++;
+          break;
+        case 3:
+          db3++;
+          break;
+        case 4:
+          db4++;
+          break;
+        case 5:
+          db5++;
+          break;
+      }
+    allAverage = getAllAverages();
+    allMedian = getMedian();
+    allModusz = getModusz();
+    if (allMedian==null)
+      allMedian = 0;
+    if (allAverage==null)
+      allAverage = 0;
+    if (allModusz==null)
+      allModusz = 0;
+  }
+
+  double getAllAverages() {
+    double sum = 0;
+    double n = 0;
+    for (Evaluation e in evals) {
+      double multiplier = 1;
+      try {
+        multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
+      } catch (e) {
+        print(e);
+      }
+
+      sum += e.numericValue * multiplier;
+      n += multiplier;
+    }
+    return sum / n;
+  }
+
+  double getMedian() {
+    List<int> jegyek = new List();
+    for (Evaluation e in evals)
+      jegyek.add(e.numericValue);
+    jegyek.sort();
+    if (!jegyek.length.isEven)
+      return jegyek[((jegyek.length+1)/2).round()]/1;
+    return (jegyek[(jegyek.length/2).round()]+jegyek[(jegyek.length/2+1).round()])/2;
+  }
+
+  int getModusz(){
+    int max = 0;
+    List<int> dbk = [db1, db2, db3, db4, db5];
+    for (int n in dbk)
+      if (n > max)
+        max = n;
+    return dbk.indexOf(max)+1;
   }
 
   void _initStats() async {
@@ -53,6 +125,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         avrString = selectedAverage.value.toString();
         classAvrString = selectedAverage.classValue.toString();
         print(averages);
+
       });
     });
   }
@@ -75,7 +148,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       ];
     });
 
-    for (Evaluation e in evals) {
+    for (Evaluation e in evals.reversed) {
       print(e.subject);
       print(average.subject);
       if (average.subject == e.subject) {
@@ -109,18 +182,18 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void callback() {
     setState(() {
       data.clear();
-      int sum = 0;
-      int n = 0;
+      double sum = 0;
+      double n = 0;
       for (Evaluation e in globals.currentEvals) {
         double multiplier = 1;
         try {
-          multiplier = int.parse(e.weight.replaceAll("%", "")) / 100;
+          multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
         } catch (e) {
           print(e);
         }
 
-        sum += e.numericValue * multiplier.toInt();
-        n += multiplier.toInt();
+        sum += e.numericValue * multiplier;
+        n += multiplier;
 
         setState(() {
           data.add(new TimeAverage(
@@ -146,6 +219,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     });
   }
 
+  int currentBody = 0;
+  Widget body0;
+  Widget body1;
+
   @override
   Widget build(BuildContext context) {
     series = [
@@ -158,6 +235,157 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         data: data,
       ),
     ];
+    
+    body1 = new SingleChildScrollView(child: new Center(
+      child: new Container(
+        margin: EdgeInsets.all(10),
+        child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                new Text("1-es osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(db1.toString() + " db", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+
+            Row(
+              children: <Widget>[
+                new Text("2-es osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(db2.toString() + " db", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Row(
+              children: <Widget>[
+                new Text("3-as osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(db3.toString() + " db", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Row(
+              children: <Widget>[
+                new Text("4-es osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(db4.toString() + " db", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Row(
+              children: <Widget>[
+                new Text("5-ös osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(db5.toString() + " db", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            new Divider(),
+            Row(
+              children: <Widget>[
+                new Text("Összes jegy átlaga: ", style: TextStyle(fontSize: 21),),
+                new Text(allAverage != null ? allAverage.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Row(
+              children: <Widget>[
+                new Text("Összes jegy mediánja: ", style: TextStyle(fontSize: 21),),
+                new Text(allMedian != null ? allMedian.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Row(
+              children: <Widget>[
+                new Text("Összes jegy módusza: ", style: TextStyle(fontSize: 21),),
+                new Text(allModusz != null ? allModusz.toString():"...", style: TextStyle(fontSize: 21),),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+
+          ],
+      ),
+      ),
+    ),
+    );
+    
+    body0 = new Stack(
+        children: <Widget>[
+          new Column(
+            children: <Widget>[
+              new Container(
+                child: selectedAverage != null
+                    ? new PopupMenuButton(
+                  itemBuilder: (BuildContext context) {
+                    print(averages);
+                    return averages.map((Average average) {
+                      return new PopupMenuItem<Average>(
+                          value: average,
+                          child: new Row(
+                            children: <Widget>[
+                              new Text(average.subject),
+                            ],
+                          ));
+                    }).toList();
+                  },
+                  child: new Container(
+                      child: new Row(
+                        children: <Widget>[
+                          new Text(
+                            selectedAverage.subject,
+                            style: new TextStyle(
+                                color: null, fontSize: 23.0),
+                          ),
+                          new Icon(
+                            Icons.arrow_drop_down,
+                            color: null,
+                          ),
+                        ],
+                        mainAxisSize: MainAxisSize.min,
+                      )),
+                  onSelected: _onSelect,
+                )
+                    : new Container(),
+                alignment: Alignment(0, 0),
+                margin: EdgeInsets.all(5),
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text("Átlag: "),
+                  new Text(
+                    avrString,
+                    style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  //new Text(" Osztályátlag: "),
+                  //new Text(classAvrString, style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),),
+                ],
+              ),
+              new Container(
+                child: new SizedBox(
+                  child: new TimeSeriesChart(
+                    series,
+                    animate: true,
+                    primaryMeasureAxis: NumericAxisSpec(
+                      showAxisLine: true,
+                    ),
+                  ),
+                  height: 200,
+                ),
+              ),
+              new Flexible(child:
+              new Container(
+                child: new ListView.builder(
+                  itemBuilder: _itemBuilder,
+                  itemCount: globals.currentEvals.length,
+                  shrinkWrap: true,
+                ),
+              ),
+              ),
+            ],
+          ),
+        ]);
+
 
     return new WillPopScope(
         onWillPop: () {
@@ -165,11 +393,25 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           Navigator.pushReplacementNamed(context, "/main");
         },
         child: Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: currentBody,
+              items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.insert_chart),
+                title: new Text("Átlagok"),
+              ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.info),
+                title: new Text("Adatok"),
+              ),
+            ],
+            onTap: switchToScreen,
+            ),
             drawer: GDrawer(),
             appBar: new AppBar(
               title: new Text("Statisztikák"),
               actions: <Widget>[
-                new FlatButton(
+                currentBody==0 ? new FlatButton(
                   onPressed: () {
                     return showDialog(
                           barrierDismissible: true,
@@ -184,7 +426,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     Icons.add,
                     color: Colors.white,
                   ),
-                )
+                ):new Container(),
               ],
             ),
             floatingActionButtonLocation:
@@ -193,81 +435,14 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 //              new BottomNavigationBarItem(icon: new Icon(Icons.sync),title: new Text("asd")),
 //              new BottomNavigationBarItem(icon: new Icon(Icons.sync),title: new Text("asd")),
 //    ]),
-            body: new Stack(children: <Widget>[
-              new Column(
-                children: <Widget>[
-                  new Container(
-                    child: selectedAverage != null
-                        ? new PopupMenuButton(
-                            itemBuilder: (BuildContext context) {
-                              print(averages);
-                              return averages.map((Average average) {
-                                return new PopupMenuItem<Average>(
-                                    value: average,
-                                    child: new Row(
-                                      children: <Widget>[
-                                        new Text(average.subject),
-                                      ],
-                                    ));
-                              }).toList();
-                            },
-                            child: new Container(
-                                child: new Row(
-                              children: <Widget>[
-                                new Text(
-                                  selectedAverage.subject,
-                                  style: new TextStyle(
-                                      color: null, fontSize: 23.0),
-                                ),
-                                new Icon(
-                                  Icons.arrow_drop_down,
-                                  color: null,
-                                ),
-                              ],
-                              mainAxisSize: MainAxisSize.min,
-                            )),
-                            onSelected: _onSelect,
-                          )
-                        : new Container(),
-                    alignment: Alignment(0, 0),
-                    margin: EdgeInsets.all(5),
-                  ),
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Text("Átlag: "),
-                      new Text(
-                        avrString,
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      //new Text(" Osztályátlag: "),
-                      //new Text(classAvrString, style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),),
-                    ],
-                  ),
-                  new Container(
-                    child: new SizedBox(
-                      child: new TimeSeriesChart(
-                        series,
-                        animate: true,
-                        primaryMeasureAxis: NumericAxisSpec(
-                          showAxisLine: true,
-                        ),
-                      ),
-                      height: 200,
-                    ),
-                  ),
-                  new Container(
-                    child: new ListView.builder(
-                      itemBuilder: _itemBuilder,
-                      itemCount: globals.currentEvals.length,
-                    ),
-                    height: 250,
-                  ),
-                ],
-              ),
-            ])));
+            body: currentBody==0 ? body0:body1));
+  }
+
+  void switchToScreen(int n) {
+    print(n);
+    setState(() {
+      currentBody = n;
+    });
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
@@ -292,7 +467,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               children: <Widget>[
                 new Column(
                   children: <Widget>[
-                    new Text(globals.currentEvals[index].date.substring(0, 10)),
+                    new Text(globals.currentEvals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
                     globals.multiAccount
                         ? new Text(
                             globals.currentEvals[index].owner.name,
@@ -406,6 +581,12 @@ class GradeDialogState extends State<GradeDialog> {
   var jegy = 1;
   bool isTZ = false;
 
+  String weight = "200";
+
+  void onChanged(String text) {
+    weight = text;
+  }
+
   Widget build(BuildContext context) {
     return new SimpleDialog(
       contentPadding: EdgeInsets.all(0),
@@ -509,6 +690,21 @@ class GradeDialogState extends State<GradeDialog> {
                 },
                 activeColor: Colors.blueAccent,
               ),
+              new Container(
+                width: 60,
+                child: new TextField(
+                  maxLines: 1,
+                  onChanged: onChanged,
+                  autocorrect: false,
+                  autofocus: isTZ,
+                  decoration: InputDecoration(
+                    suffix: Text("%"),
+                    hintText: "200"
+                  ),
+                  keyboardAppearance: Brightness.dark,
+                  enabled: isTZ,
+                ),
+              ),
             ],
           ),
         ),
@@ -525,7 +721,7 @@ class GradeDialogState extends State<GradeDialog> {
                   globals.selectedAverage.subject,
                   globals.selectedAverage.subjectCategory,
                   "Hamis",
-                  isTZ ? "200%" : "100%",
+                  isTZ ? (weight+"%") : "100%",
                   jegy.toString(),
                   jegy,
                   "",

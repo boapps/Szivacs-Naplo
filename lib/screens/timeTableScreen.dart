@@ -11,6 +11,7 @@ import '../Utils/AccountManager.dart';
 import '../Utils/Saver.dart';
 import '../main.dart';
 import '../globals.dart' as globals;
+import '../Utils/ModdedTabs.dart' as MT;
 
 void main() {
   runApp(new MaterialApp(home: new TimeTableScreen()));
@@ -28,6 +29,8 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
   DateTime startDateText;
   Week lessonsWeek;
 
+  int tabLength = 7;
+
   int relativeWeek = 0;
 
   void _initWeek() async {
@@ -39,6 +42,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
 
   void nextWeek() async {
     relativeWeek++;
+    _tabController.animateTo(0);
     DateTime startDate = new DateTime.now();
     startDate = startDate.add(
         new Duration(days: (-1 * startDate.weekday + 1 + 7 * relativeWeek)));
@@ -50,6 +54,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
   }
 
   void previousWeek() async {
+    _tabController.animateTo(0);
     relativeWeek--;
     DateTime startDate = new DateTime.now();
     startDate = startDate.add(
@@ -83,8 +88,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
     _initWeek();
     setState(() {lessonsWeek;});
 
-    _tabController = new TabController(vsync: this, length: 7);
-    _tabController.animateTo(new DateTime.now().weekday - 1);
+    _tabController = new TabController(vsync: this, length: 7, initialIndex: new DateTime.now().weekday - 1);
 
   }
 
@@ -110,7 +114,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
           },
 
         child: new DefaultTabController(
-          length: 7,
+          length: tabLength,
           child: new Scaffold(
               drawer: GDrawer(),
             appBar: new AppBar(
@@ -118,96 +122,31 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               actions: <Widget>[
               ],
 //              bottom: ,
-              title: new Text("Órarend " + (("(" + startDateText.month.toString() + ". " + startDateText.day.toString() + ". - " + startDateText.add(new Duration(days: 7)).month.toString() + ". " + startDateText.add(new Duration(days: 7)).day.toString() + ".)")??"")),
+              title: new Text("Órarend " + (("(" + startDateText.month.toString() + ". " + startDateText.day.toString() + ". - " + startDateText.add(new Duration(days: 6)).month.toString() + ". " + startDateText.add(new Duration(days: 6)).day.toString() + ".)")??"")),
             ),
             body: new Column(
               children: <Widget>[
                 new Expanded(
                   child: new TabBarView(
                     controller: _tabController,
-                    children: (lessonsWeek != null) ? <Widget>[
-                      lessonsWeek.monday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderMonday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.monday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-
-                      lessonsWeek.tuesday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderTuesday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.tuesday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-
-
-                      lessonsWeek.wednesday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderWednesday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.wednesday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-
-
-                      lessonsWeek.thursday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderThursday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.thursday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-
-
-                      lessonsWeek.friday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderFriday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.friday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-
-
-                      lessonsWeek.saturday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderSaturday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.saturday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-
-
-                      lessonsWeek.sunday.isNotEmpty ? new ListView.builder(
-                        itemBuilder: _itemBuilderSunday,
-                        itemCount: lessonsWeek!=null ? lessonsWeek.sunday.length:0,
-                      )
-                          :
-                      new Container(
-                        child: new Center(
-                          child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
-                        ),
-                      ),
-                    ]:<Widget>[
+                    children: (lessonsWeek != null) ?
+                        lessonsWeek.dayList().map((List<Lesson> lessonList){
+                          print("lessonList.length");
+                          print(lessonList.length);
+                          return lessonList.isNotEmpty ? new ListView.builder(
+                            itemBuilder: (BuildContext context, int index){
+                              return _itemBuilderLessonList(context, index, lessonList);
+                              },
+                            itemCount: lessonsWeek!=null ? lessonList.length:0,
+                          )
+                              :
+                          new Container(
+                            child: new Center(
+                              child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
+                            ),
+                          );
+                        }).toList()
+                        :<Widget>[
                       new Container(child: new Center(child: new CircularProgressIndicator()), height: 20.0, width: 20.0),
                       new Container(child: new Center(child: new CircularProgressIndicator()), height: 20.0, width: 20.0),
                       new Container(child: new Center(child: new CircularProgressIndicator()), height: 20.0, width: 20.0),
@@ -226,28 +165,35 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                     data: Theme.of(context).copyWith(accentColor: Colors.white),
                     child: */
                 new Container(
-                      height: 48.0,
+                      height: 54.0,
 //                      alignment: Alignment.center,
+                color: Colors.blue,
                       child: new Row(
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           new IconButton(
                             tooltip: 'előző hét',
-                            icon: const Icon(Icons.skip_previous),
+                            icon: const Icon(Icons.skip_previous, size: 20,color: Colors.white,),
                             onPressed: () {
                               previousWeek();
                             },
                           ),
                           new IconButton(
                             tooltip: 'előző nap',
-                            icon: const Icon(Icons.keyboard_arrow_left),
+                            icon: const Icon(Icons.keyboard_arrow_left, size: 20,color: Colors.white,),
                             onPressed: () {
                               _nextPage(-1);
                             },
                           ),
-                          new TabPageSelector(controller: _tabController),
+                          new MT.TabPageSelector(
+                            controller: _tabController,
+                            indicatorSize: 26,
+                            selectedColor: Colors.black54,
+                            days: lessonsWeek.dayStrings(),
+                          ),
                           new IconButton(
-                            icon: const Icon(Icons.keyboard_arrow_right),
+                            icon: const Icon(Icons.keyboard_arrow_right, size: 20,color: Colors.white,),
                             tooltip: 'következő nap',
                             onPressed: () {
                               setState(() {
@@ -256,7 +202,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                             },
                           ),
                           new IconButton(
-                            icon: const Icon(Icons.skip_next),
+                            icon: const Icon(Icons.skip_next, size: 20,color: Colors.white,),
                             tooltip: 'következő hét',
                             onPressed: () {
                               setState(() {
@@ -282,163 +228,32 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
     );
   }
 
-  Widget _itemBuilderMonday(BuildContext context, int index) {
+  Widget _itemBuilderLessonList(BuildContext context, int index, List<Lesson> lessonList) {
     return new ListTile(
-      leading: new Text(lessonsWeek.monday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.monday[index].subject +
-          (lessonsWeek.monday[index].state == "Missed" ? " (Elmarad)" : ""),
-        style: TextStyle(color: lessonsWeek.monday[index].state == "Missed"
+      leading: new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,),
+      title: new Text(lessonList[index].subject +
+          (lessonList[index].state == "Missed" ? " (Elmarad)" : ""),
+        style: TextStyle(color: lessonList[index].state == "Missed"
             ? Colors.red
             : null),),
-      subtitle: new Text(lessonsWeek.monday[index].theme),
+      subtitle: new Text(lessonList[index].theme),
 
 
       trailing: new Column(
         crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-    new Text(lessonsWeek.monday[index].room),
-    new Text(lessonsWeek.monday[index].start.hour.toString().padLeft(2, "0") + ":" +
-    lessonsWeek.monday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.monday[index].end.hour.toString().padLeft(2, "0") + ":" +
-        lessonsWeek.monday[index].end.minute.toString().padLeft(2, "0")),
+    new Text(lessonList[index].room),
+    new Text(lessonList[index].start.hour.toString().padLeft(2, "0") + ":" +
+        lessonList[index].start.minute.toString().padLeft(2, "0") + "-" + lessonList[index].end.hour.toString().padLeft(2, "0") + ":" +
+        lessonList[index].end.minute.toString().padLeft(2, "0")),
     ],
       ) ,
       onTap: () {
-        _lessonDialog(lessonsWeek.monday[index]);
+        _lessonDialog(lessonList[index]);
       },
     );
   }
-  Widget _itemBuilderTuesday(BuildContext context, int index) {
-    return new ListTile(
-      leading: new Text(lessonsWeek.tuesday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.tuesday[index].subject +
-          (lessonsWeek.tuesday[index].state == "Missed" ? " (Elmarad)" : ""),
-          style: TextStyle(color: lessonsWeek.tuesday[index].state == "Missed"
-              ? Colors.red
-              : null)),
-      subtitle: new Text(lessonsWeek.tuesday[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Text(lessonsWeek.tuesday[index].room),
-          new Text(lessonsWeek.tuesday[index].start.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.tuesday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.tuesday[index].end.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.tuesday[index].end.minute.toString().padLeft(2, "0")),
-        ],
-      ) ,      onTap: () {
-        _lessonDialog(lessonsWeek.tuesday[index]);
-      },
-    );
-  }
-  Widget _itemBuilderWednesday(BuildContext context, int index) {
-    return new ListTile(
-      leading: new Text(lessonsWeek.wednesday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.wednesday[index].subject +
-          (lessonsWeek.wednesday[index].state == "Missed" ? " (Elmarad)" : ""),
-          style: TextStyle(color: lessonsWeek.wednesday[index].state == "Missed"
-              ? Colors.red
-              : null)),
-      subtitle: new Text(lessonsWeek.wednesday[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Text(lessonsWeek.wednesday[index].room),
-          new Text(lessonsWeek.wednesday[index].start.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.wednesday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.wednesday[index].end.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.wednesday[index].end.minute.toString().padLeft(2, "0")),
-        ],
-      ) ,      onTap: () {
-        _lessonDialog(lessonsWeek.wednesday[index]);
-      },
-    );
-  }
-  Widget _itemBuilderThursday(BuildContext context, int index) {
-    return new ListTile(
-      leading: new Text(lessonsWeek.thursday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.thursday[index].subject +
-          (lessonsWeek.thursday[index].state == "Missed" ? " (Elmarad)" : ""),
-          style: TextStyle(color: lessonsWeek.thursday[index].state == "Missed"
-              ? Colors.red
-              : null)),
-      subtitle: new Text(lessonsWeek.thursday[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Text(lessonsWeek.thursday[index].room),
-          new Text(lessonsWeek.thursday[index].start.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.thursday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.thursday[index].end.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.thursday[index].end.minute.toString().padLeft(2, "0")),
-        ],
-      ) ,      onTap: () {
-        _lessonDialog(lessonsWeek.thursday[index]);
-      },
-    );
-  }
-  Widget _itemBuilderFriday(BuildContext context, int index) {
-    return new ListTile(
-      leading: new Text(lessonsWeek.friday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.friday[index].subject +
-          (lessonsWeek.friday[index].state == "Missed" ? " (Elmarad)" : ""),
-          style: TextStyle(color: lessonsWeek.friday[index].state == "Missed"
-              ? Colors.red
-              : null)),
-      subtitle: new Text(lessonsWeek.friday[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Text(lessonsWeek.friday[index].room),
-          new Text(lessonsWeek.friday[index].start.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.friday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.friday[index].end.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.friday[index].end.minute.toString().padLeft(2, "0")),
-        ],
-      ) ,      onTap: () {
-        _lessonDialog(lessonsWeek.friday[index]);
-      },
-    );
-  }
-  Widget _itemBuilderSaturday(BuildContext context, int index) {
-    return new ListTile(
-      leading: new Text(lessonsWeek.saturday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.saturday[index].subject +
-          (lessonsWeek.saturday[index].state == "Missed" ? " (Elmarad)" : ""),
-          style: TextStyle(color: lessonsWeek.saturday[index].state == "Missed"
-              ? Colors.red
-              : null)),
-      subtitle: new Text(lessonsWeek.saturday[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Text(lessonsWeek.saturday[index].room),
-          new Text(lessonsWeek.saturday[index].start.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.saturday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.saturday[index].end.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.saturday[index].end.minute.toString().padLeft(2, "0")),
-        ],
-      ) ,      onTap: () {
-        _lessonDialog(lessonsWeek.saturday[index]);
-      },
-    );
-  }
-  Widget _itemBuilderSunday(BuildContext context, int index) {
-    return new ListTile(
-      leading: new Text(lessonsWeek.sunday[index].count.toString(), textScaleFactor: 2.0,),
-      title: new Text(lessonsWeek.sunday[index].subject +
-          (lessonsWeek.sunday[index].state == "Missed" ? " (Elmarad)" : ""),
-          style: TextStyle(color: lessonsWeek.sunday[index].state == "Missed"
-              ? Colors.red
-              : null)),
-      subtitle: new Text(lessonsWeek.sunday[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Text(lessonsWeek.sunday[index].room),
-          new Text(lessonsWeek.sunday[index].start.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.sunday[index].start.minute.toString().padLeft(2, "0") + "-" + lessonsWeek.sunday[index].end.hour.toString().padLeft(2, "0") + ":" +
-              lessonsWeek.sunday[index].end.minute.toString().padLeft(2, "0")),
-        ],
-      ) ,      onTap: () {
-        _lessonDialog(lessonsWeek.sunday[index]);
-      },
-    );
-  }
+
   Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
     if (selectedUser==null)
       selectedUser = (await AccountManager().getUsers())[0];
@@ -582,6 +397,45 @@ class Week {
   List<Lesson> saturday;
   List<Lesson> sunday;
   DateTime startDay;
+
+
+  List<List<Lesson>> dayList(){
+    List<List<Lesson>> days = new List();
+    if (monday.isNotEmpty)
+      days.add(monday);
+    if (tuesday.isNotEmpty)
+      days.add(tuesday);
+    if (wednesday.isNotEmpty)
+      days.add(wednesday);
+    if (thursday.isNotEmpty)
+      days.add(thursday);
+    if (friday.isNotEmpty)
+      days.add(friday);
+    if (saturday.isNotEmpty)
+      days.add(saturday);
+    if (sunday.isNotEmpty)
+      days.add(sunday);
+    return days;
+  }
+
+  List<String> dayStrings(){
+    List<String> days = new List();
+    if (monday.isNotEmpty)
+      days.add("H");
+    if (tuesday.isNotEmpty)
+      days.add("K");
+    if (wednesday.isNotEmpty)
+      days.add("Sz");
+    if (thursday.isNotEmpty)
+      days.add("Cs");
+    if (friday.isNotEmpty)
+      days.add("P");
+    if (saturday.isNotEmpty)
+      days.add("Sz");
+    if (sunday.isNotEmpty)
+      days.add("V");
+    return days;
+  }
 
   Week(this.monday, this.tuesday, this.wednesday, this.thursday, this.friday,
       this.saturday, this.sunday, this.startDay);

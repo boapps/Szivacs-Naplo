@@ -275,15 +275,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                   leading: new Icon(
                       IconData(0xf6fb, fontFamily: "Material Design Icons")),
                 ),
-                ListTile(
-                  title: new Text("Changelog (még nem működik)",
-                    style: TextStyle(
-                        fontSize: 20.0
-                    ),
-                  ),
-                  leading: new Icon(
-                      IconData(0xf2da, fontFamily: "Material Design Icons")),
-                ),
                 new ListTile(
                   leading: new Icon(Icons.info),
                   title: new Text("Infó"),

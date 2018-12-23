@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import '../Datas/Note.dart';
 import '../globals.dart' as globals;
+import '../Helpers/rich_text_view.dart';
 
 class NoteCard extends StatelessWidget {
   Note note;
+  BuildContext context;
 
-  NoteCard(Note note){
+  NoteCard(Note note, BuildContext context){
     this.note = note;
+    this.context = context;
   }
 
   String getDate(){
@@ -15,10 +18,41 @@ class NoteCard extends StatelessWidget {
   @override
   Key get key => new Key(getDate());
 
+  void openDialog() {
+    _noteDialog(note);
+  }
+
+  Future<Null> _noteDialog(Note note) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            new SingleChildScrollView(
+              child: new RichTextView(text: note.content),
+            ),
+          ],
+          title: Text(note.title, ),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!note.isEvent)
-    return new Card(
+    return new GestureDetector(
+      onTap: openDialog,
+      child: new Card(
       color: Colors.lightBlue,
       child: new Column(
         children: <Widget>[
@@ -46,22 +80,13 @@ class NoteCard extends StatelessWidget {
           new Container(
               color: Colors.blue,
               child: new Padding(
-                padding: new EdgeInsets.all(7.0),
+                padding: new EdgeInsets.all(10.0),
                 child: new Row(
                   children: <Widget>[
                     new Divider(),
-
-                    new Padding(
-                      padding: new EdgeInsets.all(7.0),
-                      child: new Icon(Icons.share, color: Colors.white,),
-                    ),
-                    new Padding(
-                      padding: new EdgeInsets.all(7.0),
-                      child: new Text('Share',style: new TextStyle(fontSize: 18.0, color: Colors.white),),
-                    ),
                     !globals.multiAccount ? new Expanded(
                         child: new Container(
-                          child: new Text(note.date.substring(0, 10), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                          child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 
@@ -75,12 +100,15 @@ class NoteCard extends StatelessWidget {
                   ],
                 ),
               )
-          )
+          ),
         ],
+      ),
       ),
     );
     else
-    return new Card(
+    return new GestureDetector(
+        onTap: openDialog,
+        child: Card(
       color: Colors.lightBlue,
       child: new Column(
         children: <Widget>[
@@ -115,7 +143,7 @@ class NoteCard extends StatelessWidget {
                     ),
                     !globals.multiAccount ? new Expanded(
                         child: new Container(
-                          child: new Text(note.date.substring(0, 10), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                          child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 
@@ -131,6 +159,7 @@ class NoteCard extends StatelessWidget {
           )
         ],
       ),
+        ),
     );
 
 

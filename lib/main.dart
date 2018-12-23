@@ -194,6 +194,7 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
                   color: Colors.white,
                   size: 40.0,
                 ),
+
               ),
             ),
             padding: EdgeInsets.only(bottom: 32.0),

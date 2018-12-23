@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../Utils/Saver.dart';
+import 'dart:convert' show utf8, json;
 
 import '../Cards/AbsenceCard.dart';
 import '../Cards/EvaluationCard.dart';
 import '../Cards/NoteCard.dart';
+import '../Cards/LessonCard.dart';
 import '../Datas/Absence.dart';
 import '../Datas/Evaluation.dart';
 import '../Datas/Note.dart';
@@ -16,6 +19,8 @@ import '../Helpers/EvaluationHelper.dart';
 import '../Helpers/NotesHelper.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import '../Helpers/SettingsHelper.dart';
+import '../Datas/Lesson.dart';
+import '../Helpers/RequestHelper.dart';
 import '../Datas/User.dart';
 import '../Helpers/PushNotificationHelper.dart';
 import '../main.dart';
@@ -33,7 +38,9 @@ class MainScreenState extends State<MainScreen> {
 
 
   Map<String, List<Absence>> absents = new Map();
+  List <Lesson> lessons = new List();
   bool isColor;
+  DateTime startDate = DateTime.now();
 
   bool hasOfflineLoaded = false;
   bool hasLoaded = false;
@@ -69,11 +76,18 @@ class MainScreenState extends State<MainScreen> {
 
 
     for (String s in absents.keys.toList())
-      widgets.add(new AbsenceCard(absents[s]));
+      widgets.add(new AbsenceCard(absents[s], context));
     for (Evaluation e in evals /*.sublist(0, SHOW_ITEMS)*/)
-      widgets.add(new EvaluationCard(e, isColor));
+      widgets.add(new EvaluationCard(e, isColor, context));
     for (Note n in notes)
-      widgets.add(new NoteCard(n));
+      widgets.add(new NoteCard(n, context));
+    bool rem = false;
+    for (Lesson l in lessons)
+      if (l.start.isAfter(DateTime.now()))
+        rem = true;
+
+    if (lessons.length > 0 && rem)
+      widgets.add(new LessonCard(lessons));
 
     widgets.sort((Widget a, Widget b){
       return b.key.toString().compareTo(a.key.toString());
@@ -146,6 +160,47 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 
+  Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to) async {
+
+    List<dynamic> ttMap = await readTimetable(from.year.toString()+"-"+from.month.toString()+"-"+from.day.toString()+"_"+to.year.toString()+"-"+to.month.toString()+"-"+to.day.toString(), globals.selectedUser);
+    List<Lesson> lessons = new List();
+    try {
+      for (dynamic d in ttMap){
+        lessons.add(Lesson.fromJson(d));
+      }
+    } catch (e) {
+      print(e);
+    }
+    return lessons;
+  }
+
+  Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
+    String instCode = globals.selectedUser.schoolCode; //suli kódja
+    userName = globals.selectedUser.username;
+    password = globals.selectedUser.password;
+    String jsonBody = "institute_code=" +
+        instCode +
+        "&userName=" +
+        userName +
+        "&password=" +
+        password +
+        "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
+    Map<String, dynamic> bearerMap =
+    json.decode((await RequestHelper().getBearer(jsonBody, instCode)).body);
+    String code = bearerMap.values.toList()[0];
+    String timetableString = (await RequestHelper().getTimeTable(from.toIso8601String().substring(0, 10), to.toIso8601String().substring(0, 10), code, instCode)).body;
+    print(timetableString);
+    List<dynamic> ttMap =
+    json.decode(timetableString);
+    saveTimetable(timetableString, from.year.toString()+"-"+from.month.toString()+"-"+from.day.toString()+"_"+to.year.toString()+"-"+to.month.toString()+"-"+to.day.toString(), globals.selectedUser);
+    List<Lesson> lessons = new List();
+    for (dynamic d in ttMap){
+      lessons.add(Lesson.fromJson(d));
+      print("add");
+    }
+    return lessons;
+  }
+
   Future<Null> _onRefresh() async {
     setState(() {
       hasLoaded = false;
@@ -154,6 +209,12 @@ class MainScreenState extends State<MainScreen> {
     absents = await AbsentHelper().getAbsents();
     notes = await NotesHelper().getNotes();
     evals = await EvaluationHelper().getEvaluations();
+
+    startDate = DateTime.now();
+    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+    lessons = await getLessons(startDate, startDate.add(Duration(days: 7)));
+
+    print("tt:" + lessons.length.toString());
 
     Completer<Null> completer = new Completer<Null>();
     if (mounted) {
@@ -172,6 +233,11 @@ class MainScreenState extends State<MainScreen> {
     absents = await AbsentHelper().getAbsentsOffline();
     notes = await NotesHelper().getNotesOffline();
     evals = await EvaluationHelper().getEvaluationsOffline();
+    startDate = DateTime.now();
+    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+    lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+
+    print("tt:" + lessons.length.toString());
 
     Completer<Null> completer = new Completer<Null>();
     if (mounted)

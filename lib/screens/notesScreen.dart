@@ -117,6 +117,7 @@ class NotesScreenState extends State<NotesScreen> {
         )
         );
   }
+
   Future<Null> _onRefresh() async {
     setState(() {
       hasLoaded = false;
@@ -158,7 +159,7 @@ class NotesScreenState extends State<NotesScreen> {
       children: <Widget>[
         new ListTile(
 //      leading: new Text(selectedNotes[index].numericValue.toString(), textScaleFactor: 2.0,),
-          title: new Text(selectedNotes[index].date.substring(0,10) + (selectedNotes[index].teacher!=null ? (" - " + selectedNotes[index].teacher):""), style: TextStyle(fontSize: 20.0),),
+          title: new Text(selectedNotes[index].date.substring(0,10).replaceAll("-", ". ") + ". " + (selectedNotes[index].teacher!=null ? (" - " + selectedNotes[index].teacher):""), style: TextStyle(fontSize: 20.0),),
           subtitle: new Container(
             padding: EdgeInsets.all(5),
     child: new RichTextView(text: selectedNotes[index].content),

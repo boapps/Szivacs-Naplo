@@ -282,10 +282,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     return completer.future;
   }
 
-  void evalDialog(int index) {
-    evalDialog(index);
-  }
-
   Future<Null> _evaluationDialog(Evaluation evaluation) async {
     return showDialog<Null>(
       context: context,
@@ -345,7 +341,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           subtitle: new Text(evals[index].theme),
           trailing: new Column(
             children: <Widget>[
-              new Text(evals[index].date.substring(0, 10)),
+              new Text(evals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
             ],
           ),
           onTap: () {
