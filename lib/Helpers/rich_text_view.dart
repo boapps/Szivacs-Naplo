@@ -12,7 +12,12 @@ class LinkTextSpan extends TextSpan {
             style: style,
             text: text ?? url,
             recognizer: new TapGestureRecognizer()
-              ..onTap = () => launcher.launch(url));
+              ..onTap = () {
+              if (url.contains("http://") || url.contains("https://"))
+                launcher.launch(url);
+              else
+                launcher.launch("http://" + url);
+            });
 }
 
 class RichTextView extends StatelessWidget {
