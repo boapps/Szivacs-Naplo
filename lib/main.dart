@@ -133,7 +133,7 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
     super.initState();
 
     controller = AnimationController(
-        duration: const Duration(milliseconds: 3000), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween(begin: 0.0, end: 255.0).animate(controller)
       ..addListener(() {
         setState(() {
@@ -141,8 +141,8 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
           // the state that has changed here is the animation object’s value
         });
       });
-    animationFAB = CurvedAnimation(curve: Curves.easeInOut, parent: controller);
-    animationFAB.addListener(() => this.setState(() {}));
+    //animationFAB = CurvedAnimation(curve: Curves.easeInOut, parent: controller);
+    //animationFAB.addListener(() => this.setState(() {}));
     controller.forward();
   }
 
@@ -153,26 +153,30 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
             child: new Container(
       child: Column(
         children: <Widget>[
-          new Container(
-            child: new Row(
-              children: <Widget>[
-                new Text(
-                  "e-Szivacs",
-                  style: TextStyle(
-                      fontSize: 40.0,
-                      color: Color.fromARGB(animation.value.toInt(), 0, 0, 0)),
-                ),
-                new Text(
-                  " 2",
-                  style: TextStyle(
-                      color:
-                          Color.fromARGB(animation.value.toInt(), 68, 138, 255),
-                      fontSize: 40.0),
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
+          new AspectRatio(
+              aspectRatio: 50,
+            child: new Container(
+              child: new Row(
+
+                children: <Widget>[
+                  new Text(
+                    "e-Szivacs",
+                    style: TextStyle(
+                        fontSize: 40.0,
+                        color: Color.fromARGB(animation.value.toInt(), 0, 0, 0)),
+                  ),
+                  new Text(
+                    " 2",
+                    style: TextStyle(
+                        color:
+                        Color.fromARGB(animation.value.toInt(), 68, 138, 255),
+                        fontSize: 40.0),
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              //padding: EdgeInsets.only(bottom: animationFAB.value * 400),
             ),
-            padding: EdgeInsets.only(bottom: animationFAB.value * 400),
           ),
           new Container(
             child: AnimatedOpacity(
@@ -197,10 +201,9 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
 
               ),
             ),
-            padding: EdgeInsets.only(bottom: 32.0),
-          )
+          ),
         ],
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       ),
     )));
   }
@@ -218,16 +221,7 @@ class WelcomeAcceptState extends StatelessWidget {
         body: new Center(
             child: new Column(
       children: <Widget>[
-        new Container(
-          child: new Text(
-              "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
-//                '"Zsombor egy gyökér"\n     - Úgy kb. mindenki',
-            style: TextStyle(
-              fontSize: 21.0,
-            ),
-          ),
-          padding: EdgeInsets.all(30.0),
-        ),
+
         new Container(
           child: new FloatingActionButton(
             onPressed: () {
@@ -243,9 +237,25 @@ class WelcomeAcceptState extends StatelessWidget {
             ),
             backgroundColor: Color.fromARGB(255, 68, 138, 255),
           ),
-          padding: EdgeInsets.only(bottom: 32.0),
-        )
+          padding: EdgeInsets.all(18.0),
+        ),
+        new Expanded(child:
+        new Container(
+          alignment: Alignment(0, 0),
+          child: new SingleChildScrollView(
+            child: new Text(
+              "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
+              style: TextStyle(
+                fontSize: 21.0,
+              ),
+            ),
+            padding: EdgeInsets.all(40),
+          ),
+        ),
+        ),
+
       ],
+      verticalDirection: VerticalDirection.up,
       mainAxisAlignment: MainAxisAlignment.end,
     )));
   }
@@ -503,7 +513,7 @@ class LoginScreenState extends State<LoginScreen> {
     initJson();
 
     return new WillPopScope(
-//        onWillPop: _onWillPop,
+        onWillPop: (){},
         child: Scaffold(
 //            appBar: new AppBar(
 //              title: new Text("e-Szivacs 2.0"),
