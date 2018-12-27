@@ -37,8 +37,9 @@ class EvaluationHelper {
     evals.clear();
     if (evaluationsMap!=null)
       for (int n = 0; n < evaluationsMap.length; n++) {
-        if (evaluationsMap[n]["Form"] != "Deportment" &&
-            evaluationsMap[n]["Form"] != "Diligence")
+
+        //if (evaluationsMap[n]["Form"] != "Deportment" &&
+            //evaluationsMap[n]["Form"] != "Diligence")
               evals.add(new Evaluation.fromJson(evaluationsMap[n]));
       }
     evals.sort((Evaluation a, Evaluation b) => b.date.compareTo(a.date));

@@ -38,6 +38,10 @@ class Evaluation {
     this._date = json ["Date"];
     this._creationDate = json ["CreatingTime"];
     this._theme = json ["Theme"];
+    if (form=="Deportment")
+      this.subject="Magatartás";
+    if (form=="Diligence")
+      this.subject="Szorgalom";
     owner = json ["user"];
   }
 
