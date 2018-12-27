@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:url_launcher/url_launcher.dart' as launcher;
+import 'package:flutter_linkify/flutter_linkify.dart';
+
 import '../Datas/Note.dart';
 import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/NotesHelper.dart';
 import '../globals.dart' as globals;
-import '../Helpers/rich_text_view.dart';
 
 void main() {
   runApp(new MaterialApp(home: new NotesScreen()));
@@ -162,7 +164,13 @@ class NotesScreenState extends State<NotesScreen> {
           title: new Text(selectedNotes[index].date.substring(0,10).replaceAll("-", ". ") + ". " + (selectedNotes[index].teacher!=null ? (" - " + selectedNotes[index].teacher):""), style: TextStyle(fontSize: 20.0),),
           subtitle: new Container(
             padding: EdgeInsets.all(5),
-    child: new RichTextView(text: selectedNotes[index].content),
+    child: Linkify(
+      text: selectedNotes[index].content,
+      onOpen: (String url) {
+        launcher.launch(url);
+      },
+    ),
+    //child: new RichTextView(text: selectedNotes[index].content),
     ),
           isThreeLine: true,
 //      trailing: new Text(),

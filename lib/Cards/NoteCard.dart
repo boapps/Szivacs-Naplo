@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import '../Datas/Note.dart';
 import '../globals.dart' as globals;
-import '../Helpers/rich_text_view.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class NoteCard extends StatelessWidget {
   Note note;
@@ -30,7 +31,10 @@ class NoteCard extends StatelessWidget {
         return new SimpleDialog(
           children: <Widget>[
             new SingleChildScrollView(
-              child: new RichTextView(text: note.content),
+              child: new Linkify(
+                  text: note.content,
+                  onOpen: (String url) {launcher.launch(url);},
+              ),
             ),
           ],
           title: Text(note.title, ),

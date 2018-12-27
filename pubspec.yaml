@@ -17,6 +17,7 @@ dependencies:
   dynamic_theme:
     git:
       url: git://github.com/Norbert515/dynamic_theme.git
+  flutter_linkify: ^1.0.3
   flutter:
     sdk: flutter
 
