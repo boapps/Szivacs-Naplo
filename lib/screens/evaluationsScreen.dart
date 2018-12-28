@@ -186,12 +186,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
         break;
       case 1:
-        evals.sort((a, b) => a.owner.name.compareTo(b.owner.name));
-        break;
-      case 2:
         evals.sort((a, b) => a.numericValue.compareTo(b.numericValue));
         break;
-      case 3:
+      case 2:
         evals.sort((a, b) => a.subject.compareTo(b.subject));
         break;
     }
@@ -212,19 +209,12 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           break;
         case 1:
           evals.sort((a, b) {
-            if (a.owner.name == b.owner.name)
-              return b.creationDate.compareTo(a.creationDate);
-            return a.owner.name.compareTo(b.owner.name);
-          });
-          break;
-        case 2:
-          evals.sort((a, b) {
             if (a.numericValue == b.numericValue)
               return b.creationDate.compareTo(a.creationDate);
             return a.numericValue.compareTo(b.numericValue);
           });
           break;
-        case 3:
+        case 2:
           evals.sort((a, b) {
             if (a.subject == b.subject)
               return b.creationDate.compareTo(a.creationDate);
@@ -253,19 +243,12 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         break;
       case 1:
         evals.sort((a, b) {
-          if (a.owner.name == b.owner.name)
-            return b.creationDate.compareTo(a.creationDate);
-          return a.owner.name.compareTo(b.owner.name);
-        });
-        break;
-      case 2:
-        evals.sort((a, b) {
           if (a.numericValue == b.numericValue)
             return b.creationDate.compareTo(a.creationDate);
           return a.numericValue.compareTo(b.numericValue);
         });
         break;
-      case 3:
+      case 2:
         evals.sort((a, b) {
           if (a.subject == b.subject)
             return b.creationDate.compareTo(a.creationDate);
@@ -455,7 +438,7 @@ class SortDialog extends StatefulWidget {
 
 class SortDialogState extends State<SortDialog> {
 
-  List<String> sorba = ["idő", "tanuló (név)", "jegy", "tárgy"];
+  List<String> sorba = ["idő", "jegy", "tárgy"];
   int selected = 0;
 
   void _onSelect(String sel) {
