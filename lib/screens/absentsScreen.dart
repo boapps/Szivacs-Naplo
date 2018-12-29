@@ -8,6 +8,7 @@ import '../Helpers/AbsentHelper.dart';
 import '../Utils/AccountManager.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
+
 void main() {
   runApp(new MaterialApp(home: new AbsentsScreen()));
 }
@@ -17,19 +18,20 @@ class AbsentsScreen extends StatefulWidget {
   AbsentsScreenState createState() => new AbsentsScreenState();
 }
 
-
 class AbsentsScreenState extends State<AbsentsScreen> {
   Map<String, List<Absence>> absents = new Map();
 
-  User selectedUser;
   List<User> users;
+  User selectedUser;
+
+  bool hasLoaded = false;
+  bool hasOfflineLoaded = false;
 
   void initSelectedUser() async {
     setState(() {
       selectedUser = globals.selectedUser;
     });
   }
-
 
   @override
   void initState() {
@@ -38,12 +40,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     setState(() {
       _getOffline();
       _onRefresh();
-
     });
   }
-
-  bool hasOfflineLoaded = false;
-  bool hasLoaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,57 +52,48 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         },
         child: Scaffold(
             drawer: GDrawer(),
-        appBar: new AppBar(
-          title: new Text("Hiányzások / Késések"),
-          actions: <Widget>[
-            new IconButton(icon: new Icon(Icons.info), onPressed: () {
-              return showDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (BuildContext context) {
-                  return new AbsentDialog();
-                },
-              ) ??
-                  false;
-            }
-            )
-
-          ],
-         /* bottom: new PreferredSize(
-              child: new LinearProgressIndicator(
-                value: 0.7,
-              ),
-              preferredSize: null),*/
-        ),
-        body: new Container(
-              child:
-              hasOfflineLoaded ? new Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: new RefreshIndicator(
-                        child: new ListView.builder(
-                          itemBuilder: _itemBuilder,
-                          itemCount: absents.length,
-                    ),
-
-                        onRefresh: _onRefresh),
-                  ) :
-                  new Center(child: new CircularProgressIndicator())
-
-         )
-        )
-        );
+            appBar: new AppBar(
+              title: new Text("Hiányzások / Késések"),
+              actions: <Widget>[
+                new IconButton(
+                    icon: new Icon(Icons.info),
+                    onPressed: () {
+                      return showDialog(
+                            barrierDismissible: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return new AbsentDialog();
+                            },
+                          ) ??
+                          false;
+                    })
+              ],
+            ),
+            body: new Container(
+                child: hasOfflineLoaded
+                    ? new Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: new RefreshIndicator(
+                            child: new ListView.builder(
+                              itemBuilder: _itemBuilder,
+                              itemCount: absents.length,
+                            ),
+                            onRefresh: _onRefresh),
+                      )
+                    : new Center(child: new CircularProgressIndicator()))));
   }
 
   Future<Null> _onRefresh() async {
     setState(() {
       hasLoaded = false;
     });
-    Completer<Null> completer = new Completer<Null>();
-    absents = await AbsentHelper().getAbsents();
 
+    Completer<Null> completer = new Completer<Null>();
+
+    absents = await AbsentHelper().getAbsents();
     absents.removeWhere((String s, List<Absence> a) =>
-    a[0].owner.id != globals.selectedUser.id);
+        a[0].owner.id != globals.selectedUser.id);
 
     globals.absents = absents;
 
@@ -113,6 +102,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         hasLoaded = true;
         completer.complete();
       });
+
     return completer.future;
   }
 
@@ -120,11 +110,12 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     setState(() {
       hasOfflineLoaded = false;
     });
-    Completer<Null> completer = new Completer<Null>();
-    absents = await AbsentHelper().getAbsentsOffline();
 
+    Completer<Null> completer = new Completer<Null>();
+
+    absents = await AbsentHelper().getAbsentsOffline();
     absents.removeWhere((String s, List<Absence> a) =>
-    a[0].owner.id != globals.selectedUser.id);
+        a[0].owner.id != globals.selectedUser.id);
 
     globals.absents = absents;
 
@@ -133,14 +124,11 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         hasOfflineLoaded = true;
         completer.complete();
       });
+
     return completer.future;
   }
 
-  void absenceDialog(Absence absence) {
-    _lessonDialog(absence);
-  }
-
-  Future<Null> _lessonDialog(Absence absence) async {
+  Future<Null> absenceDialog(Absence absence) async {
     return showDialog<Null>(
       context: context,
       barrierDismissible: true, // user must tap button!
@@ -153,11 +141,14 @@ class AbsentsScreenState extends State<AbsentsScreen> {
                 new Text("mód: " + absence.modeName),
                 new Text("tárgy: " + absence.subject),
                 new Text("tanár: " + absence.teacher),
-                new Text("hiányzás ideje: " + absence.startTime.substring(0, 11)
-                    .replaceAll("-", '. ')
-                    .replaceAll("T", ". ")),
+                new Text("hiányzás ideje: " +
+                    absence.startTime
+                        .substring(0, 11)
+                        .replaceAll("-", '. ')
+                        .replaceAll("T", ". ")),
                 new Text("naplózás ideje: " +
-                    absence.creationTime.substring(0, 16)
+                    absence.creationTime
+                        .substring(0, 16)
                         .replaceAll("-", ". ")
                         .replaceAll("T", ". ")),
                 new Text(
@@ -165,7 +156,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
                 new Text("igazolás módja: " + absence.justificationTypeName),
                 absence.delayMinutes != 0
                     ? new Text(
-                    "késés mértéke: " + absence.delayMinutes.toString())
+                        "késés mértéke: " + absence.delayMinutes.toString())
                     : new Container(),
               ],
             ),
@@ -183,8 +174,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     );
   }
 
-  IconData iconifyState(String state){
-    switch (state){
+  IconData iconifyState(String state) {
+    switch (state) {
       case "UnJustified":
         return Icons.clear;
         break;
@@ -199,8 +190,9 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         break;
     }
   }
-  Color colorifyState(String state){
-    switch (state){
+
+  Color colorifyState(String state) {
+    switch (state) {
       case "UnJustified":
         return Colors.red;
         break;
@@ -217,58 +209,66 @@ class AbsentsScreenState extends State<AbsentsScreen> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-//    return new ExpansionPanel(headerBuilder: null, body: null);
+    List<Widget> children = new List();
+    List<Absence> thisAbsence = absents[absents.keys.toList()[index]];
 
-  List<Widget> children = new List();
+    bool unjust = false;
+    bool just = false;
+    bool bejust = false;
 
-  List<Absence> thisAbsence = absents[absents.keys.toList()[index]];
+    for (Absence absence in thisAbsence)
+      children.add(new ListTile(
+        leading: new Icon(absence.delayMinutes == 0 ? iconifyState(absence.justificationState) : (Icons.watch_later),
+            color: colorifyState(absence.justificationState)),
+        title: new Text(absence.subject),
+        subtitle: new Text(absence.teacher),
+        trailing: new Text(
+            absence.startTime.substring(0, 10).replaceAll("-", ". ") + ". "),
+        onTap: () {
+          absenceDialog(absence);
+        },
+      ));
 
-  for (Absence absence in thisAbsence)
-  children.add(new ListTile(
-    leading: new Icon(iconifyState(absence.justificationState),
-        color: colorifyState(absence.justificationState)),
-    title: new Text(absence.subject),
-    subtitle: new Text(absence.teacher),
-    trailing: new Text(absence.startTime.substring(0,10).replaceAll("-", ". ") + ". "),
-    onTap: () {
-      absenceDialog(absence);
-    },
-  ));
+    for (Absence absence in thisAbsence) {
+      if (absence.justificationState == "UnJustified")
+        unjust = true;
+      else if (absence.justificationState == "Justified")
+        just = true;
+      else if (absence.justificationState == "BeJustified") bejust = true;
+    }
 
-  bool unjust = false;
-  bool just = false;
-  bool bejust = false;
+    String state = "";
+    if (unjust && !just && !bejust)
+      state = "UnJustified";
+    else if (!unjust && just && !bejust)
+      state = "Justified";
+    else if (!unjust && !just && bejust) state = "BeJustified";
 
-  for (Absence absence in thisAbsence){
-    if (absence.justificationState == "UnJustified")
-      unjust = true;
-    else if (absence.justificationState == "Justified")
-      just = true;
-    else if (absence.justificationState == "BeJustified")
-      bejust = true;
-  }
+    Widget title = new Container(
+      child: new Row(
+        children: <Widget>[
+          new Icon(
+            iconifyState(state),
+            color: colorifyState(state),
+          ),
+          new Container(
+            padding: EdgeInsets.all(10),
+            child: new Text(thisAbsence[0]
+                    .startTime
+                    .substring(0, 10)
+                    .replaceAll("-", ". ") +
+                ". (" +
+                thisAbsence.length.toString() +
+                " db)"),
+          ),
+        ],
+      ),
+    );
 
-  String state = "";
-  if (unjust&&!just&&!bejust)
-    state="UnJustified";
-  else if (!unjust&&just&&!bejust)
-    state="Justified";
-  else if (!unjust&&!just&&bejust)
-    state="BeJustified";
-
-  Widget title = new Container(
-    child: new Row(
-      children: <Widget>[
-        new Icon(iconifyState(state), color: colorifyState(state),),
-        new Container(
-          padding: EdgeInsets.all(10),
-          child: new Text(thisAbsence[0].startTime.substring(0,10).replaceAll("-", ". ") + ". (" + thisAbsence.length.toString() + " db)"),
-        ),
-      ],
-    ),
-  );
-
-  return new ExpansionTile(title: title, children: children,);
+    return new ExpansionTile(
+      title: title,
+      children: children,
+    );
   }
 
   @override
@@ -277,10 +277,9 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     absents.clear();
     super.dispose();
   }
-  }
+}
 
 class AbsentDialog extends StatefulWidget {
-//  List newList;
   const AbsentDialog();
 
   @override
@@ -290,35 +289,33 @@ class AbsentDialog extends StatefulWidget {
 class AbsentDialogState extends State<AbsentDialog> {
   int prnt = 0;
   int ossz = 0;
+  int delayMins = 0;
 
   List<User> users;
   Map<String, List<Absence>> absents = new Map();
 
   void initSelectedUser() async {
-      absents = globals.absents;
+    absents = globals.absents;
+    ossz = 0;
+    prnt = 0;
+    delayMins = 0;
 
-      print(absents.length);
-      print(globals.absents.length);
-      ossz = 0;
-      prnt = 0;
-
-      setState(() {
-        absents.forEach((String key, List<Absence> value) {
-          if (value[0].justificationType == "Parental" &&
-              value[0].owner.id == globals.selectedUser.id) {
-            prnt++;
-
-          }
-          if (value[0].owner.id == globals.selectedUser.id){
-            print(value[0].mode);
-            for (Absence a in value)
+    setState(() {
+      absents.forEach((String key, List<Absence> value) {
+        if (value[0].justificationType == "Parental" &&
+            value[0].owner.id == globals.selectedUser.id) {
+          prnt++;
+        }
+        if (value[0].owner.id == globals.selectedUser.id) {
+          print(value[0].mode);
+          for (Absence a in value)
+            if (a.delayMinutes == 0)
               ossz++;
-          }
-
-        });
+            else
+              delayMins += a.delayMinutes;
+        }
       });
-
-      print(ossz.toString());
+    });
   }
 
   @override
@@ -327,16 +324,23 @@ class AbsentDialogState extends State<AbsentDialog> {
     initSelectedUser();
   }
 
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return new SimpleDialog(
         title: new Text("Statisztikák"),
-        contentPadding: const EdgeInsets.all(10.0),
+        contentPadding: const EdgeInsets.all(5.0),
         children: <Widget>[
-          new Text("Szülői igazolás: " + prnt.toString() + " db",
-            style: TextStyle(fontSize: 20.0),),
-          new Text("Összes hiányzás: " + ossz.toString() + " óra",
-            style: TextStyle(fontSize: 20.0),),
-        ]
-    );
+          new Text(
+            "Szülői igazolás: " + prnt.toString() + " db",
+            style: TextStyle(fontSize: 16.0),
+          ),
+          new Text(
+            "Összes hiányzás (nincs benne a késés): " + ossz.toString() + " óra",
+            style: TextStyle(fontSize: 16.0),
+          ),
+          new Text(
+            "Összes késés: " + delayMins.toString() + " perc",
+            style: TextStyle(fontSize: 16.0),
+          ),
+        ]);
   }
 }
