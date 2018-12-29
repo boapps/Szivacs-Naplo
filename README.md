@@ -26,3 +26,9 @@ Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért ír
 * Flutter kiegészítők:
   * [dynamic_theme](https://github.com/Norbert515/dynamic_theme) - a sötét témához
   * [Fluro](https://github.com/theyakka/fluro)
+  * [Flutter Launcher Icons](https://github.com/fluttercommunity/flutter_launcher_icons)
+  * [charts_flutter](https://github.com/google/charts)
+  * [Flutter Local Notifications Plugin](https://github.com/MaikuB/flutter_local_notifications)
+  * [flutter_html_view](https://github.com/PonnamKarthik/FlutterHtmlView)
+  * [html_unescape](https://github.com/filiph/html_unescape)
+  * [background_fetch](https://github.com/transistorsoft/flutter_background_fetch)
