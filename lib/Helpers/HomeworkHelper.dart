@@ -9,12 +9,12 @@ import '../Utils/Saver.dart';
 import 'RequestHelper.dart';
 
 class HomeworkHelper {
-  Future<List<Homework>> getHomeworks() async {
+  Future<List<Homework>> getHomeworks(int time) async {
     List<Map<String, dynamic>> evaluationsMap =
         new List<Map<String, dynamic>>();
     List<Homework> homeworks = new List<Homework>();
 
-    evaluationsMap = await getHomeworkList();
+    evaluationsMap = await getHomeworkList(time);
     homeworks.clear();
     evaluationsMap.forEach((Map<String, dynamic> e) {
       Homework average = Homework.fromJson(e);
@@ -27,7 +27,7 @@ class HomeworkHelper {
     return homeworks;
   }
 
-  Future<List<Homework>> getHomeworksOffline() async {
+  Future<List<Homework>> getHomeworksOffline(int time) async {
     List<Map<String, dynamic>> evaluationsMap =
         new List<Map<String, dynamic>>();
     List<Homework> homeworks = new List<Homework>();
@@ -52,7 +52,7 @@ class HomeworkHelper {
     return homeworks;
   }
 
-  Future<List<Map<String, dynamic>>> getHomeworkList() async {
+  Future<List<Map<String, dynamic>>> getHomeworkList(int time) async {
     List<Map<String, dynamic>> homeworkMap = new List<Map<String, dynamic>>();
     List<User> users = await AccountManager().getUsers();
 
@@ -75,10 +75,8 @@ class HomeworkHelper {
       String code = bearerMap.values.toList()[0];
 
       DateTime startDate = new DateTime.now();
-      startDate =
-          startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
-      DateTime from = startDate.subtract(new Duration(days: 27));
-      DateTime to = startDate.add(new Duration(days: 30));
+      DateTime from = startDate.subtract(new Duration(days: time));
+      DateTime to = startDate;
 
       String timetableString = (await RequestHelper().getTimeTable(
               from.toIso8601String().substring(0, 10),
