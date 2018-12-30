@@ -15,6 +15,8 @@ class EvaluationCard extends StatelessWidget {
 
   BuildContext context;
 
+  String textShort;
+
   Future<bool> get isColor async {
     return await SettingsHelper().getColoredMainPage();
   }
@@ -22,10 +24,35 @@ class EvaluationCard extends StatelessWidget {
   EvaluationCard(Evaluation evaluation, bool isColor, BuildContext context){
     this.evaluation = evaluation;
     this.context = context;
-//    fColor = Colors.white70;
-//    bColor = Colors.black87;
+
+    bool hastype = true;
+
     if (isColor) {
       switch (evaluation.numericValue) {
+        case 0:
+          switch(evaluation.value){
+            case "Példás":
+              textShort = ":D";
+              bColor = Colors.green; //dce775
+              fColor = Colors.white;
+              break;
+            case "Jó":
+              textShort = ":)";
+              bColor = Color.fromARGB(255, 255, 241, 118); //dce775
+              fColor = Colors.white;
+              break;
+            case "Változó":
+              textShort = ":/";
+              bColor = Colors.brown; //dce775
+              fColor = Colors.white;
+              break;
+            case "Hanyag":
+              textShort = ":(";
+              bColor = Colors.red; //dce775
+              fColor = Colors.white;
+              break;
+          }
+          break;
         case 1:
           bColor = Colors.red;
           fColor = Colors.white;
@@ -53,7 +80,7 @@ class EvaluationCard extends StatelessWidget {
           break;
       }
     }
-    bool hastype = true;
+
     switch(evaluation.mode) {
       case "Írásbeli témazáró dolgozat":
         typeIcon=Icons.widgets;
@@ -115,7 +142,7 @@ class EvaluationCard extends StatelessWidget {
         break;
     }
 
-    showPadding = globals.multiAccount||hastype;
+    showPadding = globals.multiAccount || hastype;
   }
 
   String getDate(){
@@ -172,6 +199,7 @@ class EvaluationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return new GestureDetector(
       onTap: openDialog,
        child: new Card(
@@ -181,12 +209,13 @@ class EvaluationCard extends StatelessWidget {
 
           new Container(
             child: new ListTile(
-              title: new Text(evaluation.subject, style: new TextStyle(color: fColor, fontSize: 18.0, fontWeight: FontWeight.bold)),
-              leading: new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
+              title: evaluation.subject != null ? new Text(evaluation.subject, style: new TextStyle(color: fColor, fontSize: 18.0, fontWeight: FontWeight.bold)) : new Container(),
+              leading: (evaluation.numericValue != 0 && textShort == null) ? new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)):
+              new Text(textShort, style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
               subtitle: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text(evaluation.theme, style: new TextStyle(color: fColor, fontSize: 18.0)),
+                    evaluation.theme != null ? new Text(evaluation.theme, style: new TextStyle(color: fColor, fontSize: 18.0)) : Container(),
                     new Text(evaluation.teacher, style: new TextStyle(color: fColor, fontSize: 15.0),),
                   ],
               ),
@@ -215,8 +244,13 @@ class EvaluationCard extends StatelessWidget {
                   new Container(child:
                   new Padding(
                     padding: new EdgeInsets.all(7.0),
-                    child: new Text(
+                    child: typeName != null ? new Text(
                       typeName,
+                      style: new TextStyle(fontSize: 18.0, color: Colors.black87),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ) : new Text(
+                      evaluation.value,
                       style: new TextStyle(fontSize: 18.0, color: Colors.black87),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

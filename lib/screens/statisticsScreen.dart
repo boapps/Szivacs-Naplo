@@ -49,6 +49,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void initEvals() async {
     evals = await EvaluationHelper().getEvaluationsOffline();
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
+    evals.removeWhere((Evaluation e) => e.numericValue == 0);
     _onSelect(averages[0]);
     for (Evaluation e in evals)
       switch(e.numericValue){
@@ -80,20 +81,24 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   double getAllAverages() {
+
     double sum = 0;
     double n = 0;
     for (Evaluation e in evals) {
-      double multiplier = 1;
-      try {
-        multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
-      } catch (e) {
-        print(e);
-      }
+      if (e.numericValue!=0) {
+        double multiplier = 1;
+        try {
+          multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
+        } catch (e) {
+          print(e);
+        }
 
-      sum += e.numericValue * multiplier;
-      n += multiplier;
+        sum += e.numericValue * multiplier;
+        n += multiplier;
+      }
     }
     return sum / n;
+
   }
 
   double getMedian() {
@@ -149,31 +154,33 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     });
 
     for (Evaluation e in evals.reversed) {
-      print(e.subject);
-      print(average.subject);
-      if (average.subject == e.subject) {
-        globals.currentEvals.add(e);
-        print(e.date);
-        print(e.date.substring(5, 7));
-        setState(() {
-          data.add(new TimeAverage(
-              new DateTime(
-                  int.parse(e.date.substring(0, 4)),
-                  int.parse(e.date.substring(5, 7)),
-                  int.parse(e.date.substring(8, 10))),
-              e.numericValue));
-          print(data);
-          series = [
-            new Series(
-              displayName: "asd",
-              id: "averages",
-              colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
-              domainFn: (TimeAverage sales, _) => sales.time,
-              measureFn: (TimeAverage sales, _) => sales.sales,
-              data: data,
-            ),
-          ];
-        });
+      if (e.numericValue != 0) {
+        print(e.subject);
+        print(average.subject);
+        if (average.subject == e.subject) {
+          globals.currentEvals.add(e);
+          print(e.date);
+          print(e.date.substring(5, 7));
+          setState(() {
+            data.add(new TimeAverage(
+                new DateTime(
+                    int.parse(e.date.substring(0, 4)),
+                    int.parse(e.date.substring(5, 7)),
+                    int.parse(e.date.substring(8, 10))),
+                e.numericValue));
+            print(data);
+            series = [
+              new Series(
+                displayName: "asd",
+                id: "averages",
+                colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+                domainFn: (TimeAverage sales, _) => sales.time,
+                measureFn: (TimeAverage sales, _) => sales.sales,
+                data: data,
+              ),
+            ];
+          });
+        }
       }
     }
     avrString = average.value.toString();
@@ -185,36 +192,38 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       double sum = 0;
       double n = 0;
       for (Evaluation e in globals.currentEvals) {
-        double multiplier = 1;
-        try {
-          multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
-        } catch (e) {
-          print(e);
+        if (e.numericValue != 0) {
+          double multiplier = 1;
+          try {
+            multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
+          } catch (e) {
+            print(e);
+          }
+
+          sum += e.numericValue * multiplier;
+          n += multiplier;
+
+          setState(() {
+            data.add(new TimeAverage(
+                new DateTime(
+                    int.parse(e.date.substring(0, 4)),
+                    int.parse(e.date.substring(5, 7)),
+                    int.parse(e.date.substring(8, 10))),
+                e.numericValue));
+            print(data);
+            series = [
+              new Series(
+                displayName: "asd",
+                id: "averages",
+                colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+                domainFn: (TimeAverage sales, _) => sales.time,
+                measureFn: (TimeAverage sales, _) => sales.sales,
+                data: data,
+              ),
+            ];
+          });
+          avrString = (sum / n).toStringAsFixed(2);
         }
-
-        sum += e.numericValue * multiplier;
-        n += multiplier;
-
-        setState(() {
-          data.add(new TimeAverage(
-              new DateTime(
-                  int.parse(e.date.substring(0, 4)),
-                  int.parse(e.date.substring(5, 7)),
-                  int.parse(e.date.substring(8, 10))),
-              e.numericValue));
-          print(data);
-          series = [
-            new Series(
-              displayName: "asd",
-              id: "averages",
-              colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
-              domainFn: (TimeAverage sales, _) => sales.time,
-              measureFn: (TimeAverage sales, _) => sales.sales,
-              data: data,
-            ),
-          ];
-        });
-        avrString = (sum / n).toStringAsFixed(2);
       }
     });
   }

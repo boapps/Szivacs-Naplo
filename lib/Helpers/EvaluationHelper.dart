@@ -15,7 +15,7 @@ class EvaluationHelper {
 
     evaluationsMap = await getEvaluationlist();
       evals.clear();
-      evaluationsMap.forEach((Map<String,dynamic> e) { if (e["Form"]!="Deportment"&&e["Form"]!="Diligence"){evals.add(Evaluation.fromJson(e));}});
+      evaluationsMap.forEach((Map<String,dynamic> e) {evals.add(Evaluation.fromJson(e));});
     evals.sort((Evaluation a, Evaluation b) => b.date.compareTo(a.date));
 
     return evals;

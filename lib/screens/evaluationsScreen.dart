@@ -51,49 +51,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     });
   }
 
-  Widget _averageBuilder(BuildContext context) {
-    List<Widget> widgets = new List();
-    initSelectedUser;
-    selectedUser = users[0];
-    /*widgets.add(new PopupMenuButton<User>(
-      icon: new Icon(Icons.person),
-      /*child: new Container(
-        child: new Row(
-          children: <Widget>[
-            new Text(selectedUser.name, style: new TextStyle(color: Colors.black, fontSize: 17.0),),
-            new Icon(Icons.arrow_drop_down, color: Colors.black,),
-          ],
-        ),
-        padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-      ),*/
-      onSelected: _onSelect,
-      itemBuilder: (BuildContext context) {
-        return users.map((User user) {
-          return new PopupMenuItem<User>(
-            value: user,
-            child: new Text(user.name),
-          );
-        }).toList();
-      },
-    )
-    );*/
-
-    for (Average average in avers)
-      widgets.add(new ListTile(
-        title: new Text(average.subject),
-        subtitle: new Text(average.value.toString()),
-        trailing: new Text(
-          average.owner.name,
-          style: TextStyle(color: average.owner.color),
-        ),
-      ));
-
-    return new SimpleDialog(
-      title: new Text("Átlag"),
-      children: widgets,
-    );
-  }
-
   Future<bool> showAverages() {
     return showDialog(
           barrierDismissible: true,
@@ -275,18 +232,18 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                evaluation.theme != ""
+                evaluation.theme != "" && evaluation.theme != null
                     ? new Text("téma: " + evaluation.theme)
                     : new Container(),
                 new Text("tanár: " + evaluation.teacher),
                 new Text("idő: " + evaluation.date.substring(0, 11)
                     .replaceAll("-", '. ')
                     .replaceAll("T", ". ")),
-                new Text("mód: " + evaluation.mode),
+                evaluation.mode != null ? new Text("mód: " + evaluation.mode) : new Container(),
                 new Text("naplózás ideje: " +
                     evaluation.creationDate.substring(0, 16).replaceAll(
                         "-", ". ").replaceAll("T", ". ")),
-                new Text("súly: " + evaluation.weight),
+                evaluation.weight != null ? new Text("súly: " + evaluation.weight) : new Container(),
                 new Text("érték: " + evaluation.value),
                 new Text("határ: " + evaluation.range),
               ],
@@ -306,6 +263,24 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
+
+    String textShort;
+
+    switch(evals[index].value){
+      case "Példás":
+        textShort = ":D";
+        break;
+      case "Jó":
+        textShort = ":)";
+        break;
+      case "Változó":
+        textShort = ":/";
+        break;
+      case "Hanyag":
+        textShort = ":(";
+        break;
+    }
+
     return new Column(
       children: <Widget>[
         new Divider(
@@ -314,14 +289,15 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         new ListTile(
           leading: new Container(
             child: new Text(
-              evals[index].numericValue.toString(),
+              evals[index].numericValue != 0 ?
+              evals[index].numericValue.toString() : textShort ?? "?",
               textScaleFactor: 2.0,
               style: TextStyle(color: evals[index].color),
             ),
             padding: EdgeInsets.only(left: 8.0),
           ),
           title: new Text(evals[index].subject),
-          subtitle: new Text(evals[index].theme),
+          subtitle: new Text(evals[index].theme ?? evals[index].value),
           trailing: new Column(
             children: <Widget>[
               new Text(evals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
@@ -482,6 +458,4 @@ class SortDialogState extends State<SortDialog> {
       ],
     );
   }
-
-
 }

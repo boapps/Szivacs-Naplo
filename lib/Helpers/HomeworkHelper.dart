@@ -116,8 +116,6 @@ class HomeworkHelper {
             (d as Map<String, dynamic>).addAll(lessonProperty);
             hwmapuser.add(d as Map<String, dynamic>);
           }
-          //hwmapuser
-          //    .forEach((Map<String, dynamic> e) => e.addAll(lessonProperty));
 
           print(hwmapuser);
         }
