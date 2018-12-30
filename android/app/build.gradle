@@ -31,8 +31,8 @@ android {
         applicationId "io.github.boapps.meSzivacs"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 2016
-        versionName "2.0.16"
+        versionCode 2017
+        versionName "2.0.17"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
