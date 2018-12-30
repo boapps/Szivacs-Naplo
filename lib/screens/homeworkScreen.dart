@@ -7,9 +7,6 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/HomeworkHelper.dart';
 
-//import '../Helpers/AverageHelper.dart';
-//import '../Helpers/EvaluationHelper.dart';
-import '../Utils/AccountManager.dart';
 import '../globals.dart' as globals;
 import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:html_unescape/html_unescape.dart';
@@ -234,6 +231,7 @@ class TimeSelectDialogState extends State<TimeSelectDialog> {
     setState(() {
       selected = idok.indexOf(sel);
       globals.ido = selected;
+      //todo: ezt meg kéne jegyeztetni
     });
   }
 

@@ -235,17 +235,17 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                 evaluation.theme != "" && evaluation.theme != null
                     ? new Text("téma: " + evaluation.theme)
                     : new Container(),
-                new Text("tanár: " + evaluation.teacher),
-                new Text("idő: " + evaluation.date.substring(0, 11)
+                evaluation.teacher != null ? new Text("tanár: " + evaluation.teacher) : new Container(),
+                evaluation.date != null ? new Text("idő: " + evaluation.date.substring(0, 11)
                     .replaceAll("-", '. ')
-                    .replaceAll("T", ". ")),
+                    .replaceAll("T", ". ")) : new Container(),
                 evaluation.mode != null ? new Text("mód: " + evaluation.mode) : new Container(),
-                new Text("naplózás ideje: " +
+                evaluation.creationDate != null ? new Text("naplózás ideje: " +
                     evaluation.creationDate.substring(0, 16).replaceAll(
-                        "-", ". ").replaceAll("T", ". ")),
+                        "-", ". ").replaceAll("T", ". ")) : new Container(),
                 evaluation.weight != null ? new Text("súly: " + evaluation.weight) : new Container(),
-                new Text("érték: " + evaluation.value),
-                new Text("határ: " + evaluation.range),
+                evaluation.value != null ? new Text("érték: " + evaluation.value) : new Container(),
+                evaluation.range != null ? new Text("határ: " + evaluation.range) : new Container(),
               ],
             ),
           ),

@@ -168,17 +168,17 @@ class EvaluationCard extends StatelessWidget {
                   evaluation.theme != ""
                       ? new Text("téma: " + evaluation.theme)
                       : new Container(),
-                  new Text("tanár: " + evaluation.teacher),
-                  new Text("idő: " + evaluation.date.substring(0, 11)
+                  evaluation.teacher != null ? new Text("tanár: " + evaluation.teacher) : new Container(),
+                  evaluation.date != null ? new Text("idő: " + evaluation.date.substring(0, 11)
                       .replaceAll("-", '. ')
-                      .replaceAll("T", ". ")),
-                  new Text("mód: " + evaluation.mode),
-                  new Text("naplózás ideje: " +
+                      .replaceAll("T", ". ")) : new Container(),
+                  evaluation.mode != null ? new Text("mód: " + evaluation.mode) : new Container(),
+                  evaluation.creationDate != null ? new Text("naplózás ideje: " +
                       evaluation.creationDate.substring(0, 16).replaceAll(
-                          "-", ". ").replaceAll("T", ". ")),
-                  new Text("súly: " + evaluation.weight),
-                  new Text("érték: " + evaluation.value),
-                  new Text("határ: " + evaluation.range),
+                          "-", ". ").replaceAll("T", ". ")) : new Container(),
+                  evaluation.weight != null ? new Text("súly: " + evaluation.weight) : new Container(),
+                  evaluation.value != null ? new Text("érték: " + evaluation.value) : new Container(),
+                  evaluation.range != null ? new Text("határ: " + evaluation.range) : new Container(),
                 ],
               ),
             ),
