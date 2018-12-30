@@ -165,7 +165,7 @@ class EvaluationCard extends StatelessWidget {
             new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  evaluation.theme != ""
+                  evaluation.theme != "" && evaluation.theme != null
                       ? new Text("téma: " + evaluation.theme)
                       : new Container(),
                   evaluation.teacher != null ? new Text("tanár: " + evaluation.teacher) : new Container(),
@@ -183,7 +183,7 @@ class EvaluationCard extends StatelessWidget {
               ),
             ),
           ],
-          title: Text(evaluation.subject + " " + evaluation.value, ),
+          title: (evaluation.subject != null && evaluation.value != null) ? Text(evaluation.subject + " " + evaluation.value, ) : new Container(),
           contentPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             side: BorderSide(
