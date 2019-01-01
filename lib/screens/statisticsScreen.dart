@@ -477,13 +477,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 new Column(
                   children: <Widget>[
                     new Text(globals.currentEvals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
-                    globals.multiAccount
-                        ? new Text(
-                            globals.currentEvals[index].owner.name,
-                            style: new TextStyle(
-                                color: globals.currentEvals[index].owner.color),
-                          )
-                        : new Text(""),
                   ],
                 ),
                 globals.currentEvals[index].mode == "Hamis"
