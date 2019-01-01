@@ -30,28 +30,7 @@ class EvaluationCard extends StatelessWidget {
     if (isColor) {
       switch (evaluation.numericValue) {
         case 0:
-          switch(evaluation.value){
-            case "Példás":
-              textShort = ":D";
-              bColor = Colors.green; //dce775
-              fColor = Colors.white;
-              break;
-            case "Jó":
-              textShort = ":)";
-              bColor = Color.fromARGB(255, 255, 241, 118); //dce775
-              fColor = Colors.white;
-              break;
-            case "Változó":
-              textShort = ":/";
-              bColor = Colors.brown; //dce775
-              fColor = Colors.white;
-              break;
-            case "Hanyag":
-              textShort = ":(";
-              bColor = Colors.red; //dce775
-              fColor = Colors.white;
-              break;
-          }
+
           break;
         case 1:
           bColor = Colors.red;
@@ -85,6 +64,10 @@ class EvaluationCard extends StatelessWidget {
       case "Írásbeli témazáró dolgozat":
         typeIcon=Icons.widgets;
         typeName="TZ";
+        break;
+      case "Témazáró":
+        typeIcon=Icons.widgets;
+        typeName="témazáró";
         break;
       case "Írásbeli röpdolgozat":
         typeIcon=Icons.border_color;
@@ -200,6 +183,29 @@ class EvaluationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    switch(evaluation.value){
+      case "Példás":
+        textShort = ":D";
+        bColor = Colors.green; //dce775
+        fColor = Colors.white;
+        break;
+      case "Jó":
+        textShort = ":)";
+        bColor = Color.fromARGB(255, 255, 241, 118); //dce775
+        fColor = Colors.white;
+        break;
+      case "Változó":
+        textShort = ":/";
+        bColor = Colors.brown; //dce775
+        fColor = Colors.white;
+        break;
+      case "Hanyag":
+        textShort = ":(";
+        bColor = Colors.red; //dce775
+        fColor = Colors.white;
+        break;
+    }
+
     return new GestureDetector(
       onTap: openDialog,
        child: new Card(
@@ -210,8 +216,9 @@ class EvaluationCard extends StatelessWidget {
           new Container(
             child: new ListTile(
               title: evaluation.subject != null ? new Text(evaluation.subject, style: new TextStyle(color: fColor, fontSize: 18.0, fontWeight: FontWeight.bold)) : new Container(),
-              leading: (evaluation.numericValue != 0 && textShort == null) ? new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)):
-              new Text(textShort, style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
+              leading: (evaluation.numericValue != 0 && textShort == null) ?
+                new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)):
+                new Text(textShort ?? "", style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
               subtitle: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[

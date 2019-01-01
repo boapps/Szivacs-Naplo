@@ -37,7 +37,7 @@ class NoteCard extends StatelessWidget {
               ),
             ),
           ],
-          title: Text(note.title, ),
+          title: Text(note.title ?? "", ),
           contentPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -132,19 +132,10 @@ class NoteCard extends StatelessWidget {
           new Container(
               color: Colors.blue,
               child: new Padding(
-                padding: new EdgeInsets.all(7.0),
+                padding: new EdgeInsets.all(10.0),
                 child: new Row(
                   children: <Widget>[
                     new Divider(),
-
-                    new Padding(
-                      padding: new EdgeInsets.all(7.0),
-                      child: new Icon(Icons.share, color: Colors.white,),
-                    ),
-                    new Padding(
-                      padding: new EdgeInsets.all(7.0),
-                      child: new Text('Share',style: new TextStyle(fontSize: 18.0, color: Colors.white),),
-                    ),
                     !globals.multiAccount ? new Expanded(
                         child: new Container(
                           child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
