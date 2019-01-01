@@ -93,7 +93,7 @@ class AbsentHelper {
       String code = bearerMap.values.toList()[0];
 
       String evaluationsString = (await RequestHelper().getEvaluations(
-          code, instCode)).body;
+          code, instCode));
       saveEvaluations(evaluationsString, user);
       Map<String, dynamic> evaluationsMap = json.decode(evaluationsString);
 

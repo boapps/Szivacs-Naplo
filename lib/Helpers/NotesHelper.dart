@@ -77,10 +77,9 @@ class NotesHelper {
 
       String code = bearerMap.values.toList()[0];
 
-      String eventsString = (await RequestHelper().getEvents(code, instCode))
-          .body;
+      String eventsString = (await RequestHelper().getEvents(code, instCode));
       String evaluationsString = (await RequestHelper().getEvaluations(
-          code, instCode)).body;
+          code, instCode));
       saveEvaluations(evaluationsString, user);
       saveEvents(eventsString, user);
 

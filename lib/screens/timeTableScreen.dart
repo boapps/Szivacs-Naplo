@@ -270,7 +270,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
     Map<String, dynamic> bearerMap =
     json.decode((await RequestHelper().getBearer(jsonBody, instCode)).body);
     String code = bearerMap.values.toList()[0];
-    String timetableString = (await RequestHelper().getTimeTable(from.toIso8601String().substring(0, 10), to.toIso8601String().substring(0, 10), code, instCode)).body;
+    String timetableString = (await RequestHelper().getTimeTable(from.toIso8601String().substring(0, 10), to.toIso8601String().substring(0, 10), code, instCode));
     List<dynamic> ttMap =
     json.decode(timetableString);
     saveTimetable(timetableString, from.year.toString()+"-"+from.month.toString()+"-"+from.day.toString()+"_"+to.year.toString()+"-"+to.month.toString()+"-"+to.day.toString(), selectedUser);

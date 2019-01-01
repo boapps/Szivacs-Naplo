@@ -69,7 +69,7 @@ class EvaluationHelper {
       String code = bearerMap.values.toList()[0];
 
       String evaluationsString =
-          (await RequestHelper().getEvaluations(code, instCode)).body;
+      (await RequestHelper().getEvaluations(code, instCode));
       saveEvaluations(evaluationsString, user);
 
       Map<String, dynamic> evaluationsMapUser = json.decode(evaluationsString);

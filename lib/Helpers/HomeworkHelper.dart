@@ -82,8 +82,7 @@ class HomeworkHelper {
               from.toIso8601String().substring(0, 10),
               to.toIso8601String().substring(0, 10),
               code,
-              instCode))
-          .body;
+              instCode));
       List<dynamic> ttMap = json.decode(timetableString);
       //saveTimetable(timetableString, from.year.toString()+"-"+from.month.toString()+"-"+from.day.toString()+"_"+to.year.toString()+"-"+to.month.toString()+"-"+to.day.toString(), user);
       List<Lesson> lessons = new List();
@@ -95,13 +94,11 @@ class HomeworkHelper {
           print("has homework");
 
           String homeworkString = (await RequestHelper()
-                  .getHomework(code, instCode, d["TeacherHomeworkId"]))
-              .body;
+                  .getHomework(code, instCode, d["TeacherHomeworkId"]));
           if (homeworkString == "[]")
             homeworkString = "[" +
                 (await RequestHelper().getHomeworkByTeacher(
-                        code, instCode, d["TeacherHomeworkId"]))
-                    .body +
+                        code, instCode, d["TeacherHomeworkId"])) +
                 "]";
           print(homeworkString);
 

@@ -110,6 +110,13 @@ packages:
       url: "git://github.com/Norbert515/dynamic_theme.git"
     source: git
     version: "1.0.0"
+  executor:
+    dependency: transitive
+    description:
+      name: executor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.2"
   fluro:
     dependency: "direct main"
     description:
@@ -183,6 +190,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.11.3+17"
+  http_client:
+    dependency: "direct main"
+    description:
+      name: http_client
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   http_parser:
     dependency: transitive
     description:
@@ -225,13 +239,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
-  native_http_request:
-    dependency: "direct main"
-    description:
-      path: native_http_request
-      relative: true
-    source: path
-    version: "0.0.1"
   path:
     dependency: transitive
     description:
