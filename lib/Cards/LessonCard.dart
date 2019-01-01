@@ -5,27 +5,25 @@ import '../globals.dart' as globals;
 class LessonCard extends StatelessWidget {
   List<Lesson> lessons;
   int db;
+  BuildContext context;
 
-  LessonCard(List<Lesson> lessons){
+  LessonCard(List<Lesson> lessons, BuildContext context) {
     this.lessons = lessons;
+    lessons.removeWhere((Lesson l) => l.start.day != DateTime.now().day);
     db = lessons.length;
-
-    }
+    this.context = context;
+  }
 
   @override
   Key get key => new Key(getDate());
 
-  String getDate(){
+  String getDate() {
     return lessons[0].start.toIso8601String();
   }
 
   Lesson getNext() {
     for (Lesson l in lessons) {
-      print(l.start.compareTo(DateTime.now()));
-      print(l.start.difference(DateTime.now()));
-      print(l.start);
       if (l.start.isAfter(DateTime.now())) {
-        print("köv: " + l.subject);
         return l;
       }
     }
@@ -37,75 +35,117 @@ class LessonCard extends StatelessWidget {
 
   String progress() {
     int n = 0;
-    for (Lesson l in lessons)
-      if (l.start.day == DateTime.now().day)
-        n++;
+    for (Lesson l in lessons) if (l.start.day == DateTime.now().day) n++;
     return getNext().count.toString() + "/" + n.toString();
   }
 
   void openDialog() {
+    _lessonsDialog(lessons);
+  }
 
+  Future<Null> _lessonsDialog(List<Lesson> lessons) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            new SingleChildScrollView(
+              child: new ListBody(
+                children: lessons.map((Lesson l){
+                  return new ListTile(
+                    title: new Text(l.subject, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
+                    enabled: true,
+                    onTap: (){},
+                    subtitle: new Text(l.teacher, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
+                    trailing: new Text(l.room, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
+                  );
+                }).toList()
+              ),
+            ),
+          ],
+          title: Text("Órák"),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: openDialog,
-        child: new Card(
-      child: new Column(
-        children: <Widget>[
-
-          new Container(
-            child: new Row(
-              children: <Widget>[
-                  new Text("Következő óra: ", style: new TextStyle(fontSize: 18.0,),),
-                  new Text(getNext().subject, style: new TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
-                  new Text(", ", style: new TextStyle(fontSize: 18.0, )),
-                  new Text(getDurToNext() + " perc", style: new TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
-                  new Text(" múlva.", style: new TextStyle(fontSize: 18.0, ), softWrap: true,),
-              ],
-            ),
-            padding: EdgeInsets.all(10.0),
-          ),
-          /*
-          globals.multiAccount ? new Container(
-            child: new Text(absence[0].startTime.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: Colors.black)),
-            alignment: Alignment(1.0, -1.0),
-            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-          ) : new Container(),
-*/
-          new Divider(height: 1.0,),
-          new Container(
+      onTap: openDialog,
+      child: new Card(
+        child: new Column(
+          children: <Widget>[
+            new Container(
+              child: Wrap(
+                children: <Widget>[
+                  new Text(
+                    "Következő óra: ",
+                    style: new TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  new Text(getNext().subject,
+                      style: new TextStyle(
+                          fontSize: 18.0, color: Colors.blueAccent)),
+                  new Text(", ",
+                      style: new TextStyle(
+                        fontSize: 18.0,
+                      )),
+                  Container(
+                    padding: EdgeInsets.only(right: 5),
+                    child: new Text(getDurToNext() + " perc",
+                        style: new TextStyle(
+                            fontSize: 18.0, color: Colors.blueAccent)),
+                  ),
+                  new Text(
+                    "múlva.",
+                    style: new TextStyle(
+                      fontSize: 18.0,
+                    ),
+                    softWrap: false,
+                    maxLines: 2,
+                  ),
+                ],
+                alignment: WrapAlignment.start,
+              ),
+              alignment: Alignment(-1, 0),
               padding: EdgeInsets.all(10.0),
-              child: new Padding(
-                padding: new EdgeInsets.all(0.0),
-                child: new Row(
-                  children: <Widget>[
-                    /*
-                    !globals.multiAccount ? new Expanded(
-                      child: new Container(
-                      child: new Text(absence[0].startTime.substring(0, 10), style: new TextStyle(fontSize: 18.0,)),
-                      alignment: Alignment(1.0, 0.0),
-                    )) : new Container(),
-                    globals.multiAccount ? new Expanded(
-                      child: new Container(
-                      child: new Text(absence[0].owner.name, style: new TextStyle(fontSize: 18.0, color: absence[0].owner.color)),
-                      alignment: Alignment(1.0, 0.0),
-                    )) : new Container(),
-*/
-                    new Text(getNext().room, style: new TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
-                    new Expanded(
-                        child: new Container(
-                          child: new Text(progress(), style: new TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
-                          alignment: Alignment(1.0, 0.0),
-                        ))
-                  ],
-                ),
-              )
-          )
-        ],
-      ),
+            ),
+            new Divider(
+              height: 1.0,
+            ),
+            new Container(
+                padding: EdgeInsets.all(10.0),
+                child: new Padding(
+                  padding: new EdgeInsets.all(0.0),
+                  child: new Row(
+                    children: <Widget>[
+                      new Text(getNext().room,
+                          style: new TextStyle(
+                              fontSize: 18.0, color: Colors.blueAccent)),
+                      new Expanded(
+                          child: new Container(
+                        child: new Text(progress(),
+                            style: new TextStyle(
+                                fontSize: 18.0, color: Colors.blueAccent)),
+                        alignment: Alignment(1.0, 0.0),
+                      ))
+                    ],
+                  ),
+                ))
+          ],
         ),
+      ),
     );
   }
 }

@@ -21,8 +21,6 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import '../Helpers/SettingsHelper.dart';
 import '../Datas/Lesson.dart';
 import '../Helpers/RequestHelper.dart';
-import '../Datas/User.dart';
-import '../Helpers/PushNotificationHelper.dart';
 import '../main.dart';
 
 void main() {
@@ -83,11 +81,11 @@ class MainScreenState extends State<MainScreen> {
       widgets.add(new NoteCard(n, context));
     bool rem = false;
     for (Lesson l in lessons)
-      if (l.start.isAfter(DateTime.now()))
+      if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
         rem = true;
 
     if (lessons.length > 0 && rem)
-      widgets.add(new LessonCard(lessons));
+      widgets.add(new LessonCard(lessons, context));
 
     widgets.sort((Widget a, Widget b){
       return b.key.toString().compareTo(a.key.toString());
