@@ -41,43 +41,44 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void initState() {
     setState(() {
       _initStats();
-      initEvals();
     });
     super.initState();
   }
 
   void initEvals() async {
-    evals = await EvaluationHelper().getEvaluationsOffline();
-    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
-    evals.removeWhere((Evaluation e) => e.numericValue == 0);
-    _onSelect(averages[0]);
-    for (Evaluation e in evals)
-      switch(e.numericValue){
-        case 1:
-          db1++;
-          break;
-        case 2:
-          db2++;
-          break;
-        case 3:
-          db3++;
-          break;
-        case 4:
-          db4++;
-          break;
-        case 5:
-          db5++;
-          break;
-      }
-    allAverage = getAllAverages();
-    allMedian = getMedian();
-    allModusz = getModusz();
-    if (allMedian==null)
-      allMedian = 0;
-    if (allAverage==null)
-      allAverage = 0;
-    if (allModusz==null)
-      allModusz = 0;
+    await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> offlineEvals){
+      evals = offlineEvals;
+      evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
+      evals.removeWhere((Evaluation e) => e.numericValue == 0);
+      _onSelect(averages[0]);
+      for (Evaluation e in evals)
+        switch(e.numericValue){
+          case 1:
+            db1++;
+            break;
+          case 2:
+            db2++;
+            break;
+          case 3:
+            db3++;
+            break;
+          case 4:
+            db4++;
+            break;
+          case 5:
+            db5++;
+            break;
+        }
+      allAverage = getAllAverages();
+      allMedian = getMedian();
+      allModusz = getModusz();
+      if (allMedian==null)
+        allMedian = 0;
+      if (allAverage==null)
+        allAverage = 0;
+      if (allModusz==null)
+        allModusz = 0;
+    });
   }
 
   double getAllAverages() {
@@ -130,8 +131,8 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         avrString = selectedAverage.value.toString();
         classAvrString = selectedAverage.classValue.toString();
         print(averages);
-
       });
+      initEvals();
     });
   }
 
