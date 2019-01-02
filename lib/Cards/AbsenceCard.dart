@@ -118,7 +118,9 @@ class AbsenceCard extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
           ),
           globals.multiAccount ? new Container(
-            child: new Text(absence[0].startTime.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: Colors.black)),
+            child: new Text(absence[0].startTime.substring(0, 10)
+                .replaceAll("-", ". ") + ". ", style: new TextStyle(
+                fontSize: 16.0,)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
           ) : new Container(),

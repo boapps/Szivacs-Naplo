@@ -75,7 +75,8 @@ class NoteCard extends StatelessWidget {
           ),
 
           globals.multiAccount ? new Container(
-            child: new Text(note.date.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
+            child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") +
+                ". ", style: new TextStyle(fontSize: 16.0, color: Colors.white)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
           ) : new Container(),

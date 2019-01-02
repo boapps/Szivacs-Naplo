@@ -230,7 +230,9 @@ class EvaluationCard extends StatelessWidget {
             margin: EdgeInsets.all(10.0),
           ),
           !showPadding||globals.multiAccount ? new Container(
-            child: new Text(evaluation.date.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: fColor)),
+            child: new Text(evaluation.date.substring(0, 10)
+                .replaceAll("-", '. ').replaceAll("T", ". ") + ". ",
+                style: new TextStyle(fontSize: 16.0, color: fColor)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
           ) : new Container(),
