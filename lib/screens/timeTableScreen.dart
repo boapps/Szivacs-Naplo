@@ -190,6 +190,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                             controller: _tabController,
                             indicatorSize: 26,
                             selectedColor: Colors.black54,
+                            color: Colors.black26,
                             days: lessonsWeek.dayStrings(),
                           ),
                           new IconButton(

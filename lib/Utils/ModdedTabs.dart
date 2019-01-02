@@ -49,10 +49,11 @@ class TabPageSelectorIndicator extends StatelessWidget {
       width: size,
       height: size,
       margin: const EdgeInsets.all(2.0),
-      color: backgroundColor,
+      //color: backgroundColor,
       child: Center(
         child: Text(day, style: TextStyle(color: Colors.white,),),
       ),
+      decoration: ShapeDecoration(shape: RoundedRectangleBorder(side: BorderSide(),borderRadius: BorderRadius.circular(3),),color: backgroundColor,),
     );
   }
 }
