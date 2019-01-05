@@ -8,11 +8,14 @@ class AbsenceCard extends StatelessWidget {
   String state = "";
   Color color;
   BuildContext context;
+  bool isSingle;
 
-  AbsenceCard(List<Absence> absence, BuildContext context){
+  AbsenceCard(List<Absence> absence, bool isSingle, BuildContext context){
     this.context = context;
     this.absence = absence;
     db = absence.length;
+    
+    this.isSingle = isSingle;
 
     bool unjust = false;
     bool just = false;
@@ -117,7 +120,7 @@ class AbsenceCard extends StatelessWidget {
             ),
             padding: EdgeInsets.all(10.0),
           ),
-          globals.multiAccount ? new Container(
+          !isSingle ? new Container(
             child: new Text(absence[0].startTime.substring(0, 10)
                 .replaceAll("-", ". ") + ". ", style: new TextStyle(
                 fontSize: 16.0,)),
@@ -132,12 +135,12 @@ class AbsenceCard extends StatelessWidget {
                 padding: new EdgeInsets.all(0.0),
                 child: new Row(
                   children: <Widget>[
-                    !globals.multiAccount ? new Expanded(
+                    !!isSingle ? new Expanded(
                       child: new Container(
                       child: new Text(absence[0].startTime.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0,)),
                       alignment: Alignment(1.0, 0.0),
                     )) : new Container(),
-                    globals.multiAccount ? new Expanded(
+                    !isSingle ? new Expanded(
                       child: new Container(
                       child: new Text(absence[0].owner.name, style: new TextStyle(fontSize: 18.0, color: absence[0].owner.color)),
                       alignment: Alignment(1.0, 0.0),

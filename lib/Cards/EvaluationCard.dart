@@ -12,6 +12,7 @@ class EvaluationCard extends StatelessWidget {
   IconData typeIcon;
   String typeName;
   bool showPadding;
+  bool isSingle;
 
   BuildContext context;
 
@@ -21,11 +22,12 @@ class EvaluationCard extends StatelessWidget {
     return await SettingsHelper().getColoredMainPage();
   }
 
-  EvaluationCard(Evaluation evaluation, bool isColor, BuildContext context){
+  EvaluationCard(Evaluation evaluation, bool isColor, bool isSingle, BuildContext context){
     this.evaluation = evaluation;
     this.context = context;
 
     bool hastype = true;
+    this.isSingle = isSingle;
 
     if (isColor) {
       switch (evaluation.numericValue) {
@@ -125,7 +127,7 @@ class EvaluationCard extends StatelessWidget {
         break;
     }
 
-    showPadding = globals.multiAccount || hastype;
+    showPadding = !isSingle || hastype;
   }
 
   String getDate(){
@@ -229,7 +231,7 @@ class EvaluationCard extends StatelessWidget {
             ),
             margin: EdgeInsets.all(10.0),
           ),
-          !showPadding||globals.multiAccount ? new Container(
+          !showPadding||!isSingle ? new Container(
             child: new Text(evaluation.date.substring(0, 10)
                 .replaceAll("-", '. ').replaceAll("T", ". ") + ". ",
                 style: new TextStyle(fontSize: 16.0, color: fColor)),
@@ -268,13 +270,13 @@ class EvaluationCard extends StatelessWidget {
                     alignment: Alignment(-1, 0),
                   ),
                   ),
-                  globals.multiAccount ?  new Expanded(
+                  !isSingle ?  new Expanded(
                     child: new Container(
                       child: new Text(evaluation.owner.name, style: new TextStyle(color: evaluation.owner.color, fontSize: 18.0)),
                       alignment: Alignment(1.0, -1.0),
                     ),
                   ):new Container(),
-                  !globals.multiAccount ? new Expanded(
+                  !!isSingle ? new Expanded(
                       child: new Container(
                         child: new Text(
                           evaluation.date.substring(0, 10).replaceAll("-", ". ") + ". ",

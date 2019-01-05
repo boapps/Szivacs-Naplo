@@ -46,19 +46,14 @@ class MainScreenState extends State<MainScreen> {
   void _initSettings() async {
     DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme() ? Brightness.dark : Brightness.light);
     isColor = await SettingsHelper().getColoredMainPage();
+    globals.isSingle = await SettingsHelper().getSingleUser();
   }
 
   @override
   void initState() {
-//        .then((_) {...use the important variable...});
-
     _initSettings();
-//    isColor = await SettingsHelper().getColoredMainPage();
     super.initState();
-
-
     _initAccountsType();
-//    PushNotificationHelper().enablePushNotification();
     _onRefreshOffline();
     _onRefresh();
   }
@@ -71,14 +66,12 @@ class MainScreenState extends State<MainScreen> {
 
   List<Widget> feedItems(){
     List<Widget> widgets = new List();
-
-
     for (String s in absents.keys.toList())
-      widgets.add(new AbsenceCard(absents[s], context));
-    for (Evaluation e in evals /*.sublist(0, SHOW_ITEMS)*/)
-      widgets.add(new EvaluationCard(e, isColor, context));
+      widgets.add(new AbsenceCard(absents[s], globals.isSingle, context));
+    for (Evaluation e in evals)
+      widgets.add(new EvaluationCard(e, isColor, globals.isSingle, context));
     for (Note n in notes)
-      widgets.add(new NoteCard(n, context));
+      widgets.add(new NoteCard(n, globals.isSingle, context));
     bool rem = false;
     for (Lesson l in lessons)
       if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
@@ -119,8 +112,6 @@ class MainScreenState extends State<MainScreen> {
     ) ?? false;
   }
 
-
-
   List<Evaluation> evals = new List();
   List<Note> notes = new List();
 
@@ -133,13 +124,8 @@ class MainScreenState extends State<MainScreen> {
         appBar: new AppBar(
           title: new Text("e-Szivacs 2"),
           actions: <Widget>[
-
+            //todo search maybe?
           ],
-         /* bottom: new PreferredSize(
-              child: new LinearProgressIndicator(
-                value: 0.7,
-              ),
-              preferredSize: null),*/
         ),
         body: new Container(
             child:
@@ -203,16 +189,24 @@ class MainScreenState extends State<MainScreen> {
     setState(() {
       hasLoaded = false;
     });
+
     hasLoaded = false;
+
     absents = await AbsentHelper().getAbsents();
+    if (globals.isSingle)
+      absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
+
     notes = await NotesHelper().getNotes();
+    if (globals.isSingle)
+      notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
+
     evals = await EvaluationHelper().getEvaluations();
+    if (globals.isSingle)
+      evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id);
 
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
     lessons = await getLessons(startDate, startDate.add(Duration(days: 7)));
-
-    print("tt:" + lessons.length.toString());
 
     Completer<Null> completer = new Completer<Null>();
     if (mounted) {
@@ -228,14 +222,22 @@ class MainScreenState extends State<MainScreen> {
     setState(() {
       hasOfflineLoaded = false;
     });
+
     absents = await AbsentHelper().getAbsentsOffline();
+    if (globals.isSingle)
+      absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
+
     notes = await NotesHelper().getNotesOffline();
+    if (globals.isSingle)
+      notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
+
     evals = await EvaluationHelper().getEvaluationsOffline();
+    if (globals.isSingle)
+      evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id);
+
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
     lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
-
-    print("tt:" + lessons.length.toString());
 
     Completer<Null> completer = new Completer<Null>();
     if (mounted)

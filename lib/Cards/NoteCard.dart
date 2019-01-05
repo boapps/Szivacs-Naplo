@@ -7,9 +7,11 @@ import 'package:url_launcher/url_launcher.dart' as launcher;
 class NoteCard extends StatelessWidget {
   Note note;
   BuildContext context;
+  bool isSingle;
 
-  NoteCard(Note note, BuildContext context){
+  NoteCard(Note note, isSingle, BuildContext context){
     this.note = note;
+    this.isSingle = isSingle;
     this.context = context;
   }
 
@@ -74,7 +76,7 @@ class NoteCard extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
           ),
 
-          globals.multiAccount ? new Container(
+          !isSingle ? new Container(
             child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") +
                 ". ", style: new TextStyle(fontSize: 16.0, color: Colors.white)),
             alignment: Alignment(1.0, -1.0),
@@ -89,13 +91,13 @@ class NoteCard extends StatelessWidget {
                 child: new Row(
                   children: <Widget>[
                     new Divider(),
-                    !globals.multiAccount ? new Expanded(
+                    !!isSingle ? new Expanded(
                         child: new Container(
                           child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 
-                    globals.multiAccount ? new Expanded(
+                    !isSingle ? new Expanded(
                       child: new Container(
                         child: new Text(note.owner.name, style: new TextStyle(color: Colors.white, fontSize: 15.0)),
                         alignment: Alignment(1.0, -1.0),
@@ -123,7 +125,7 @@ class NoteCard extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
           ),
 
-          globals.multiAccount ? new Container(
+          !isSingle ? new Container(
             child: new Text(note.date.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
@@ -137,13 +139,13 @@ class NoteCard extends StatelessWidget {
                 child: new Row(
                   children: <Widget>[
                     new Divider(),
-                    !globals.multiAccount ? new Expanded(
+                    !!isSingle ? new Expanded(
                         child: new Container(
                           child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 
-                    globals.multiAccount ? new Expanded(
+                    !isSingle ? new Expanded(
                       child: new Container(
                         child: new Text(note.owner.name, style: new TextStyle(color: Colors.white, fontSize: 15.0)),
                         alignment: Alignment(1.0, -1.0),

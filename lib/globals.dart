@@ -12,6 +12,7 @@ List searchres;
 List jsonres;
 List<User> users = new List<User>();
 bool multiAccount;
+bool isSingle;
 User selectedUser;
 String selectedSchoolCode = "";
 String selectedSchoolUrl = "";

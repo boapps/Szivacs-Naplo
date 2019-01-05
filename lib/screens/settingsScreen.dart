@@ -73,6 +73,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _isDark;
   bool _isNotification;
   bool _isLogo;
+  bool _isSingleUser;
 
   final List<int> refreshArray = [15, 30, 60, 120, 360];
   int _refreshNotification;
@@ -84,14 +85,9 @@ class SettingsScreenState extends State<SettingsScreen> {
     _isNotification = await SettingsHelper().getNotification();
     _isLogo = await SettingsHelper().getLogo();
     _refreshNotification = await SettingsHelper().getRefreshNotification();
+    _isSingleUser = await SettingsHelper().getSingleUser();
 
-    setState(() {
-      _isColor;
-      _isDark;
-      _isNotification;
-      _isLogo;
-      _refreshNotification;
-    });
+    setState(() {});
 
     initPlatformState();
   }
@@ -171,6 +167,13 @@ class SettingsScreenState extends State<SettingsScreen> {
     DynamicTheme.of(context).setBrightness(value ? Brightness.dark: Brightness.light);
   }
 
+  void _isSingleUserChange(bool value) {
+    setState(() {
+      _isSingleUser = value;
+      SettingsHelper().setSingleUser(_isSingleUser);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -198,6 +201,19 @@ class SettingsScreenState extends State<SettingsScreen> {
                     onChanged: _isColorChange,
                   ),
                   leading: new Icon(IconData(0xf266, fontFamily: "Material Design Icons")),
+                ),
+                ListTile(
+                  title: new Text("Egy felhasználó a főoldalon",
+                    style: TextStyle(
+                        fontSize: 20.0
+                    ),
+                  ),
+                  trailing: new Switch(
+                    activeColor: Colors.blueAccent,
+                    value: _isSingleUser,
+                    onChanged: _isSingleUserChange,
+                  ),
+                  leading: new Icon(Icons.person),
                 ),
                 ListTile(
                   title: new Text("Sötét téma",
