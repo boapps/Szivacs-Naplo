@@ -49,7 +49,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void initEvals() async {
     evals = await EvaluationHelper().getEvaluationsOffline();
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
-    evals.removeWhere((Evaluation e) => e.numericValue == 0);
+    evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-");
     _onSelect(averages[0]);
     for (Evaluation e in evals)
       switch(e.numericValue){
@@ -467,6 +467,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               child: new Text(
                 globals.currentEvals[index].numericValue.toString(),
                 textScaleFactor: 2.0,
+                style: TextStyle(color: globals.currentEvals[index].color)
               ),
               padding: EdgeInsets.only(left: 8.0),
             ),
