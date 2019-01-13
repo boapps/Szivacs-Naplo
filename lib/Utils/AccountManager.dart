@@ -68,8 +68,11 @@ class AccountManager {
 
   void addUser(User user) async{
     List<User> users = await getUsers();
+    for (User u in users)
+      if (u.id == user.id)
+        return;
     users.add(user);
-    globals.users.add(user);
+    globals.users = users;
     saveUsers(users);
   }
 

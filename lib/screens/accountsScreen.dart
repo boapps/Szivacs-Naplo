@@ -4,6 +4,8 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
 import '../Utils/AccountManager.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 
 void main() {
@@ -73,23 +75,23 @@ class AccountsScreenState extends State<AccountsScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text("Biztos?"),
+          title: new Text(AppLocalizations.of(context).sure),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text("Törölni szeretnéd " + user.name + " felhasználót?"),
+                new Text(AppLocalizations.of(context).delete_confirmation(user.name)),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text('nem'),
+              child: new Text(AppLocalizations.of(context).no),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             new FlatButton(
-              child: new Text('igen'),
+              child: new Text(AppLocalizations.of(context).yes),
               onPressed: () {
                 setState(() {
                   AccountManager().removeUser(user);
@@ -137,7 +139,7 @@ class AccountsScreenState extends State<AccountsScreen> {
         child: Scaffold(
           drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text("Fiókok"),
+              title: new Text(AppLocalizations.of(context).accounts),
               actions: <Widget>[
               ],
             ),

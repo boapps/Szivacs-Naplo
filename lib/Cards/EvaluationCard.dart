@@ -3,6 +3,8 @@ import '../Datas/Evaluation.dart';
 import '../globals.dart' as globals;
 import '../Helpers/SettingsHelper.dart';
 import 'dart:async';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 class EvaluationCard extends StatelessWidget {
   Evaluation evaluation;
@@ -151,19 +153,19 @@ class EvaluationCard extends StatelessWidget {
               child: new ListBody(
                 children: <Widget>[
                   evaluation.theme != "" && evaluation.theme != null
-                      ? new Text("téma: " + evaluation.theme)
+                      ? new Text(AppLocalizations.of(context).theme + evaluation.theme)
                       : new Container(),
-                  evaluation.teacher != null ? new Text("tanár: " + evaluation.teacher) : new Container(),
-                  evaluation.date != null ? new Text("idő: " + evaluation.date.substring(0, 11)
+                  evaluation.teacher != null ? new Text(AppLocalizations.of(context).teacher + evaluation.teacher) : new Container(),
+                  evaluation.date != null ? new Text(AppLocalizations.of(context).time + evaluation.date.substring(0, 11)
                       .replaceAll("-", '. ')
                       .replaceAll("T", ". ")) : new Container(),
-                  evaluation.mode != null ? new Text("mód: " + evaluation.mode) : new Container(),
-                  evaluation.creationDate != null ? new Text("naplózás ideje: " +
+                  evaluation.mode != null ? new Text(AppLocalizations.of(context).mode + evaluation.mode) : new Container(),
+                  evaluation.creationDate != null ? new Text(AppLocalizations.of(context).administration_time +
                       evaluation.creationDate.substring(0, 16).replaceAll(
                           "-", ". ").replaceAll("T", ". ")) : new Container(),
-                  evaluation.weight != null ? new Text("súly: " + evaluation.weight) : new Container(),
-                  evaluation.value != null ? new Text("érték: " + evaluation.value) : new Container(),
-                  evaluation.range != null ? new Text("határ: " + evaluation.range) : new Container(),
+                  evaluation.weight != null ? new Text(AppLocalizations.of(context).weight + evaluation.weight) : new Container(),
+                  evaluation.value != null ? new Text(AppLocalizations.of(context).value + evaluation.value) : new Container(),
+                  evaluation.range != null ? new Text(AppLocalizations.of(context).range + evaluation.range) : new Container(),
                 ],
               ),
             ),

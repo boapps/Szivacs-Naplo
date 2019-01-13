@@ -8,6 +8,8 @@ import '../Helpers/AverageHelper.dart';
 import '../Helpers/EvaluationHelper.dart';
 import 'package:charts_flutter/flutter.dart';
 import "dart:math";
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -26,8 +28,8 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   Average selectedAverage;
   final List<Series<TimeAverage, DateTime>> seriesList = new List();
   List<Evaluation> evals = new List();
-  String avrString = "Átlag: ";
-  String classAvrString = "Osztályátlag: ";
+  String avrString = "";
+  String classAvrString = "";
   int db1 = 0;
   int db2 = 0;
   int db3 = 0;
@@ -254,7 +256,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                new Text("1-es osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).grade1, style: TextStyle(fontSize: 21),),
                 new Text(db1.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -262,28 +264,28 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
             Row(
               children: <Widget>[
-                new Text("2-es osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).grade2, style: TextStyle(fontSize: 21),),
                 new Text(db2.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text("3-as osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).grade3, style: TextStyle(fontSize: 21),),
                 new Text(db3.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text("4-es osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).grade4, style: TextStyle(fontSize: 21),),
                 new Text(db4.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text("5-ös osztályzat: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).grade5, style: TextStyle(fontSize: 21),),
                 new Text(db5.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -291,21 +293,21 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             new Divider(),
             Row(
               children: <Widget>[
-                new Text("Összes jegy átlaga: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).all_average, style: TextStyle(fontSize: 21),),
                 new Text(allAverage != null ? allAverage.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text("Összes jegy mediánja: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).all_median, style: TextStyle(fontSize: 21),),
                 new Text(allMedian != null ? allMedian.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text("Összes jegy módusza: ", style: TextStyle(fontSize: 21),),
+                new Text(AppLocalizations.of(context).all_mode, style: TextStyle(fontSize: 21),),
                 new Text(allModusz != null ? allModusz.toString():"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -360,7 +362,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Text("Átlag: "),
+                  new Text(AppLocalizations.of(context).average),
                   new Text(
                     avrString,
                     style: TextStyle(
@@ -408,18 +410,18 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: new Icon(Icons.insert_chart),
-                title: new Text("Átlagok"),
+                title: new Text(AppLocalizations.of(context).averages),
               ),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.info),
-                title: new Text("Adatok"),
+                title: new Text(AppLocalizations.of(context).datas),
               ),
             ],
             onTap: switchToScreen,
             ),
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text("Statisztikák"),
+              title: new Text(AppLocalizations.of(context).statistics),
               actions: <Widget>[
                 currentBody==0 ? new FlatButton(
                   onPressed: () {
@@ -528,29 +530,29 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             child: new ListBody(
               children: <Widget>[
                 evaluation.theme != ""
-                    ? new Text("téma: " + evaluation.theme)
+                    ? new Text(AppLocalizations.of(context).theme + evaluation.theme)
                     : new Container(),
-                new Text("tanár: " + evaluation.teacher),
-                new Text("idő: " +
+                new Text(AppLocalizations.of(context).teacher + evaluation.teacher),
+                new Text(AppLocalizations.of(context).time +
                     evaluation.date
                         .substring(0, 11)
                         .replaceAll("-", '. ')
                         .replaceAll("T", ". ")),
-                new Text("mód: " + evaluation.mode),
-                new Text("naplózás ideje: " +
+                new Text(AppLocalizations.of(context).mode + evaluation.mode),
+                new Text(AppLocalizations.of(context).administration_time +
                     evaluation.creationDate
                         .substring(0, 16)
                         .replaceAll("-", ". ")
                         .replaceAll("T", ". ")),
-                new Text("súly: " + evaluation.weight),
-                new Text("érték: " + evaluation.value),
-                new Text("határ: " + evaluation.range),
+                new Text(AppLocalizations.of(context).weight + evaluation.weight),
+                new Text(AppLocalizations.of(context).value + evaluation.value),
+                new Text(AppLocalizations.of(context).range + evaluation.range),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text('ok'),
+              child: new Text(AppLocalizations.of(context).ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -594,7 +596,7 @@ class GradeDialogState extends State<GradeDialog> {
   Widget build(BuildContext context) {
     return new SimpleDialog(
       contentPadding: EdgeInsets.all(0),
-      title: new Text("Ha kapnék egy..."),
+      title: new Text(AppLocalizations.of(context).if_i_got),
       children: <Widget>[
         Container(
           child: Row(
@@ -750,7 +752,7 @@ class GradeDialogState extends State<GradeDialog> {
             });
           },
           child: new Text(
-            "kész",
+            AppLocalizations.of(context).done,
             style: TextStyle(color: Colors.blueAccent),
           ),
           padding: EdgeInsets.all(10),

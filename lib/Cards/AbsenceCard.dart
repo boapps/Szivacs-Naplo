@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 import '../Datas/Absence.dart';
 import '../globals.dart' as globals;
 
@@ -66,21 +68,23 @@ class AbsenceCard extends StatelessWidget {
             new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  new Text("órák: " + db.toString() + "db"),
+                  new Text(AppLocalizations.of(context).lessons(db)),
                   //new Text("mód: " + absence.modeName),
-                  new Text("hiányzás ideje: " + absence.startTime.substring(0, 11)
+                  new Text(AppLocalizations.of(context).absence_time +
+                      absence.startTime.substring(0, 11)
                       .replaceAll("-", '. ')
                       .replaceAll("T", ". ")),
-                  new Text("naplózás ideje: " +
+                  new Text(AppLocalizations.of(context).administration_time +
                       absence.creationTime.substring(0, 11)
                           .replaceAll("-", ". ")
                           .replaceAll("T", ". ")),
-                  new Text(
-                      "igazolás állapota: " + absence.justificationStateName),
-                  new Text("igazolás módja: " + absence.justificationTypeName),
+                  new Text(AppLocalizations.of(context).justification_state +
+                      absence.justificationStateName),
+                  new Text(AppLocalizations.of(context).justification_mode +
+                      absence.justificationTypeName),
                   absence.delayMinutes != 0
-                      ? new Text(
-                      "késés mértéke: " + absence.delayMinutes.toString())
+                      ? new Text(AppLocalizations.of(context).delay_mins +
+                      absence.delayMinutes.toString())
                       : new Container(),
                 ],
               ),
@@ -111,8 +115,8 @@ class AbsenceCard extends StatelessWidget {
           new Container(
             child: new Row(
               children: <Widget>[
-                  new Text("$db db", style: new TextStyle(fontSize: 18.0, color: color),),
-                  new Text(" hiányzás, ", style: new TextStyle(fontSize: 18.0,)),
+                  new Text("$db db ", style: new TextStyle(fontSize: 18.0, color: color),),
+                  new Text(AppLocalizations.of(context).absence + ", ", style: new TextStyle(fontSize: 18.0,)),
                   new Text(" $state", style: new TextStyle(fontSize: 18.0, color: color)),
                   new Text(". ", style: new TextStyle(fontSize: 18.0,)),
 

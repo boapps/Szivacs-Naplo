@@ -75,7 +75,7 @@ class AbsentHelper {
     List<Map<String, dynamic>> listAbsencesAll = new List<Map<String, dynamic>>();
 
     for (User user in users) {
-      String instCode = user.schoolCode; //suli kódja
+      String instCode = user.schoolCode;
       String userName = user.username;
       String password = user.password;
 

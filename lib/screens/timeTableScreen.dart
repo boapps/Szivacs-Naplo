@@ -12,6 +12,8 @@ import '../Utils/Saver.dart';
 import '../main.dart';
 import '../globals.dart' as globals;
 import '../Utils/ModdedTabs.dart' as MT;
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 void main() {
   runApp(new MaterialApp(home: new TimeTableScreen()));
@@ -122,7 +124,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
               actions: <Widget>[
               ],
 //              bottom: ,
-              title: new Text("Órarend " + (("(" + startDateText.month.toString() + ". " + startDateText.day.toString() + ". - " + startDateText.add(new Duration(days: 6)).month.toString() + ". " + startDateText.add(new Duration(days: 6)).day.toString() + ".)")??"")),
+              title: new Text(AppLocalizations.of(context).timetable + ((" (" + startDateText.month.toString() + ". " + startDateText.day.toString() + ". - " + startDateText.add(new Duration(days: 6)).month.toString() + ". " + startDateText.add(new Duration(days: 6)).day.toString() + ".)")??"")),
             ),
             body: new Column(
               children: <Widget>[
@@ -142,7 +144,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                               :
                           new Container(
                             child: new Center(
-                              child: new Text("Úgy néz ki ezen a napon nincs órád :)"),
+                              child: new Text(AppLocalizations.of(context).no_lessons),
                             ),
                           );
                         }).toList()
@@ -173,14 +175,14 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           new IconButton(
-                            tooltip: 'előző hét',
+                            tooltip: AppLocalizations.of(context).prev_week,
                             icon: const Icon(Icons.skip_previous, size: 20,color: Colors.white,),
                             onPressed: () {
                               previousWeek();
                             },
                           ),
                           new IconButton(
-                            tooltip: 'előző nap',
+                            tooltip: AppLocalizations.of(context).prev_day,
                             icon: const Icon(Icons.keyboard_arrow_left, size: 20,color: Colors.white,),
                             onPressed: () {
                               _nextPage(-1);
@@ -191,11 +193,11 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                             indicatorSize: 26,
                             selectedColor: Colors.black54,
                             color: Colors.black26,
-                            days: lessonsWeek.dayStrings(),
+                            days: lessonsWeek.dayStrings(context),
                           ),
                           new IconButton(
                             icon: const Icon(Icons.keyboard_arrow_right, size: 20,color: Colors.white,),
-                            tooltip: 'következő nap',
+                            tooltip: AppLocalizations.of(context).next_day,
                             onPressed: () {
                               setState(() {
                                 _nextPage(1);
@@ -204,7 +206,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
                           ),
                           new IconButton(
                             icon: const Icon(Icons.skip_next, size: 20,color: Colors.white,),
-                            tooltip: 'következő hét',
+                            tooltip: AppLocalizations.of(context).next_week,
                             onPressed: () {
                               setState(() {
                                 nextWeek();
@@ -233,7 +235,8 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
     return new ListTile(
       leading: new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,),
       title: new Text(lessonList[index].subject +
-          (lessonList[index].state == "Missed" ? " (Elmarad)" : ""),
+          (lessonList[index].state == "Missed" ?
+          " (${AppLocalizations.of(context).missed})" : ""),
         style: TextStyle(color: lessonList[index].state == "Missed"
             ? Colors.red
             : null),),
@@ -258,7 +261,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
   Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
     if (selectedUser==null)
       selectedUser = (await AccountManager().getUsers())[0];
-    String instCode = selectedUser.schoolCode; //suli kódja
+    String instCode = selectedUser.schoolCode;
     userName = selectedUser.username;
     password = selectedUser.password;
     String jsonBody = "institute_code=" +
@@ -292,21 +295,21 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text("terem: " + lesson.room),
-                new Text("tanár: " + lesson.teacher),
-                new Text("osztály: " + lesson.group),
-                new Text("Órakezdés: " +
+                new Text(AppLocalizations.of(context).room + lesson.room),
+                new Text(AppLocalizations.of(context).teacher + lesson.teacher),
+                new Text(AppLocalizations.of(context).group + lesson.group),
+                new Text(AppLocalizations.of(context).lesson_start +
                     lesson.start.hour.toString().padLeft(2, "0") + ":" +
                     lesson.start.minute.toString().padLeft(2, "0")),
-                new Text("Vége: " + lesson.end.hour.toString().padLeft(2, "0") +
+                new Text(AppLocalizations.of(context).lesson_end + lesson.end.hour.toString().padLeft(2, "0") +
                     ":" + lesson.end.minute.toString().padLeft(2, "0")),
                 lesson.state == "Missed" ? new Text(
-                    "állapot: " + lesson.stateName) : new Container(),
+                    AppLocalizations.of(context).state + lesson.stateName) : new Container(),
                 lesson.depTeacher != ""
-                    ? new Text("helyettesítő tanár: " + lesson.depTeacher)
+                    ? new Text(AppLocalizations.of(context).dep_teacher + lesson.depTeacher)
                     : new Container(),
                 (lesson.theme != "" && lesson.theme!= null)
-                    ? new Text("téma: " + lesson.theme)
+                    ? new Text(AppLocalizations.of(context).theme + lesson.theme)
                     : new Container(),
 
 //                new Text("óraszám: " + lesson.oraszam.toString()),
@@ -315,7 +318,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with SingleTickerProvi
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text('ok'),
+              child: new Text(AppLocalizations.of(context).ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -419,22 +422,22 @@ class Week {
     return days;
   }
 
-  List<String> dayStrings(){
+  List<String> dayStrings(BuildContext context){
     List<String> days = new List();
     if (monday.isNotEmpty)
-      days.add("H");
+      days.add(AppLocalizations.of(context).short_monday);
     if (tuesday.isNotEmpty)
-      days.add("K");
+      days.add(AppLocalizations.of(context).short_tuesday);
     if (wednesday.isNotEmpty)
-      days.add("Sz");
+      days.add(AppLocalizations.of(context).short_wednesday);
     if (thursday.isNotEmpty)
-      days.add("Cs");
+      days.add(AppLocalizations.of(context).short_thursday);
     if (friday.isNotEmpty)
-      days.add("P");
+      days.add(AppLocalizations.of(context).short_friday);
     if (saturday.isNotEmpty)
-      days.add("Sz");
+      days.add(AppLocalizations.of(context).short_saturday);
     if (sunday.isNotEmpty)
-      days.add("V");
+      days.add(AppLocalizations.of(context).short_sunday);
     return days;
   }
 

@@ -10,6 +10,8 @@ import '../Helpers/AverageHelper.dart';
 import '../Helpers/EvaluationHelper.dart';
 import '../Utils/AccountManager.dart';
 import '../globals.dart' as globals;
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 void main() {
   runApp(new MaterialApp(home: new EvaluationsScreen()));
@@ -87,7 +89,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text("Jegyek"),
+              title: new Text(AppLocalizations.of(context).evaluations),
               actions: <Widget>[
                 new FlatButton(
                   onPressed: showAverages,
@@ -233,25 +235,25 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             child: new ListBody(
               children: <Widget>[
                 evaluation.theme != "" && evaluation.theme != null
-                    ? new Text("téma: " + evaluation.theme)
+                    ? new Text(AppLocalizations.of(context).theme + evaluation.theme)
                     : new Container(),
-                evaluation.teacher != null ? new Text("tanár: " + evaluation.teacher) : new Container(),
-                evaluation.date != null ? new Text("idő: " + evaluation.date.substring(0, 11)
+                evaluation.teacher != null ? new Text(AppLocalizations.of(context).teacher + evaluation.teacher) : new Container(),
+                evaluation.date != null ? new Text(AppLocalizations.of(context).time + evaluation.date.substring(0, 11)
                     .replaceAll("-", '. ')
                     .replaceAll("T", ". ")) : new Container(),
-                evaluation.mode != null ? new Text("mód: " + evaluation.mode) : new Container(),
-                evaluation.creationDate != null ? new Text("naplózás ideje: " +
+                evaluation.mode != null ? new Text(AppLocalizations.of(context).mode + evaluation.mode) : new Container(),
+                evaluation.creationDate != null ? new Text(AppLocalizations.of(context).administration_time +
                     evaluation.creationDate.substring(0, 16).replaceAll(
                         "-", ". ").replaceAll("T", ". ")) : new Container(),
-                evaluation.weight != null ? new Text("súly: " + evaluation.weight) : new Container(),
-                evaluation.value != null ? new Text("érték: " + evaluation.value) : new Container(),
-                evaluation.range != null ? new Text("határ: " + evaluation.range) : new Container(),
+                evaluation.weight != null ? new Text(AppLocalizations.of(context).weight + evaluation.weight) : new Container(),
+                evaluation.value != null ? new Text(AppLocalizations.of(context).value + evaluation.value) : new Container(),
+                evaluation.range != null ? new Text(AppLocalizations.of(context).range + evaluation.range) : new Container(),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text('ok'),
+              child: new Text(AppLocalizations.of(context).ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -376,7 +378,7 @@ class AverageDialogState extends State<AverageDialog> {
     });
 
     return new SimpleDialog(
-      title: new Text("Átlag"),
+      title: new Text(AppLocalizations.of(context).averages),
       contentPadding: const EdgeInsets.all(10.0),
       children: widgets,
     );
@@ -389,8 +391,6 @@ class AverageDialogState extends State<AverageDialog> {
       title: new Text(currentAvers[index].subject),
       subtitle: new Text(currentAvers[index].value.toString(), style: TextStyle(
           color: currentAvers[index].value < 2 ? Colors.red : null),),
-      trailing: globals.multiAccount ? new Text(currentAvers[index].owner.name,
-          style: TextStyle(color: currentAvers[index].owner.color)):null,
       onTap: () {
 //        setState(() {});
       },
@@ -413,11 +413,9 @@ class SortDialog extends StatefulWidget {
 }
 
 class SortDialogState extends State<SortDialog> {
-
-  List<String> sorba = ["idő", "jegy", "tárgy"];
   int selected = 0;
 
-  void _onSelect(String sel) {
+  void _onSelect(String sel, List<String> sorba) {
     setState(() {
       selected = sorba.indexOf(sel);
       globals.sort = selected;
@@ -425,8 +423,9 @@ class SortDialogState extends State<SortDialog> {
   }
 
   Widget build(BuildContext context) {
+    List<String> sorba = [AppLocalizations.of(context).sort_time, AppLocalizations.of(context).sort_eval, AppLocalizations.of(context).sort_subject];
     return new SimpleDialog(
-      title: new Text("Rendezés"),
+      title: new Text(AppLocalizations.of(context).sort),
       contentPadding: const EdgeInsets.all(10.0),
       children: <Widget>[
         new PopupMenuButton<String>(
@@ -445,7 +444,7 @@ class SortDialogState extends State<SortDialog> {
             ),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
           ),
-          onSelected: _onSelect,
+          onSelected: (String sel) {_onSelect(sel, sorba);},
           itemBuilder: (BuildContext context) {
             return sorba.map((String sor) {
               return new PopupMenuItem<String>(

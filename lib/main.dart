@@ -6,12 +6,14 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'PageRouteBuilder.dart';
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
 import 'Helpers/RequestHelper.dart';
 import 'Helpers/UserInfoHelper.dart';
+import 'Helpers/LocaleHelper.dart';
 import 'Helpers/SettingsHelper.dart';
 import 'Utils/AccountManager.dart';
 import 'globals.dart' as globals;
@@ -46,6 +48,14 @@ class MyApp extends StatelessWidget {
         ),
         themedWidgetBuilder: (context, theme) {
           return new MaterialApp(
+            localizationsDelegates: [
+              AppLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: [Locale("hu"), Locale("en")],
+            onGenerateTitle: (BuildContext context) =>
+            AppLocalizations.of(context).title,
             title: "e-Szivacs 2",
             theme: theme,
             routes: <String, WidgetBuilder>{
@@ -74,6 +84,7 @@ void main() async {
   List<User> users = await AccountManager().getUsers();
   isNew = (users.isEmpty);
   globals.isLogo = await SettingsHelper().getLogo();
+  globals.isSingle = await SettingsHelper().getSingleUser();
 
   if (!isNew) {
     BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);

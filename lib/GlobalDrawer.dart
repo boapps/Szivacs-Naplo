@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'globals.dart';
 import 'Datas/User.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'Helpers/LocaleHelper.dart';
 
 BuildContext ctx;
 
@@ -77,7 +79,7 @@ class GDrawerState extends State<GDrawer> {
                     children: <Widget>[
                       new Container(
                         child: new Text(
-                          "e-Szivacs",
+                          AppLocalizations.of(context).title,
                           style: TextStyle(fontSize: 19.0),
                         ),
 //                      alignment: new Alignment(-1.0, 1.0),
@@ -85,7 +87,7 @@ class GDrawerState extends State<GDrawer> {
                       ),
                       new Container(
                         child: new Text(
-                          "2.0",
+                          AppLocalizations.of(context).version_number,
                           style:
                           TextStyle(fontSize: 19.0, color: Colors.blueAccent),
                         ),
@@ -97,17 +99,17 @@ class GDrawerState extends State<GDrawer> {
                     children: <Widget>[
                       new Container(
                         child: new Text(
-                          "made by:",
+                          AppLocalizations.of(context).made_by,
                           style: TextStyle(
                             fontSize: 19.0,
                           ),
                         ),
 //                      alignment: new Alignment(-1.0, 1.0),
-                        padding: new EdgeInsets.fromLTRB(16.0, 0.0, 5.0, 4.0),
+                        padding: new EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 4.0),
                       ),
                       new Container(
                         child: new Text(
-                          "BoA",
+                          AppLocalizations.of(context).boa,
                           style:
                           TextStyle(fontSize: 19.0, color: Colors.blueAccent),
                         ),
@@ -165,7 +167,7 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.home, color: screen == 0 ? Colors.blueAccent : null,),
-            title: new Text("Főoldal",
+            title: new Text(AppLocalizations.of(context).main_page,
               style: TextStyle(color: screen == 0 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 0;
@@ -176,7 +178,7 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.assignment, color: screen == 1 ? Colors.blueAccent : null,),
-            title: new Text("Jegyek",
+            title: new Text(AppLocalizations.of(context).evaluations,
               style: TextStyle(color: screen == 1 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 1;
@@ -188,7 +190,7 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf520, fontFamily: "Material Design Icons"),
               color: screen == 2 ? Colors.blueAccent : null,),
-            title: new Text("Órarend",
+            title: new Text(AppLocalizations.of(context).timetable,
               style: TextStyle(color: screen == 2 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 2;
@@ -200,7 +202,7 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf2dc, fontFamily: "Material Design Icons"),
               color: screen == 8 ? Colors.blueAccent : null,),
-            title: new Text("Házi feladatok",
+            title: new Text(AppLocalizations.of(context).homeworks,
               style: TextStyle(color: screen == 8 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 8;
@@ -212,7 +214,7 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf0e5, fontFamily: "Material Design Icons"),
               color: screen == 3 ? Colors.blueAccent : null,),
-            title: new Text("Faliújság",
+            title: new Text(AppLocalizations.of(context).notes,
               style: TextStyle(color: screen == 3 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 3;
@@ -223,7 +225,7 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.block, color: screen == 5 ? Colors.blueAccent : null,),
-            title: new Text("Hiányzások / Késések",
+            title: new Text(AppLocalizations.of(context).absent_title,
               style: TextStyle(color: screen == 5 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 5;
@@ -235,7 +237,7 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf127, fontFamily: "Material Design Icons"),
               color: screen == 6 ? Colors.blueAccent : null,),
-            title: new Text("Statisztikák",
+            title: new Text(AppLocalizations.of(context).statistics,
               style: TextStyle(color: screen == 6 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 6;
@@ -246,7 +248,7 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(Icons.supervisor_account,
               color: screen == 4 ? Colors.blueAccent : null,),
-            title: new Text("Fiókok",
+            title: new Text(AppLocalizations.of(context).accounts,
               style: TextStyle(color: screen == 4 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 4;
@@ -257,7 +259,7 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.settings, color: screen == 7 ? Colors.blueAccent : null,),
-            title: new Text("Beállítások",
+            title: new Text(AppLocalizations.of(context).settings,
               style: TextStyle(color: screen == 7 ? Colors.blueAccent : null),),
             onTap: () {
               screen = 7;

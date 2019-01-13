@@ -10,6 +10,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import '../Helpers/EvaluationHelper.dart';
 import '../Datas/Evaluation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 void main() {
   runApp(new MaterialApp(home: new SettingsScreen()));
@@ -184,13 +186,13 @@ class SettingsScreenState extends State<SettingsScreen> {
         child: Scaffold(
           drawer: GDrawer(),
           appBar: new AppBar(
-              title: new Text("Beállítások"),
+              title: new Text(AppLocalizations.of(context).settings),
             ),
           body: new Container(
             child: _isColor != null ? new ListView(
               children: <Widget>[
                 ListTile(
-                  title: new Text("Színes főoldal",
+                  title: new Text(AppLocalizations.of(context).colorful_mainpage,
                     style: TextStyle(
                         fontSize: 20.0
                     ),
@@ -203,7 +205,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   leading: new Icon(IconData(0xf266, fontFamily: "Material Design Icons")),
                 ),
                 ListTile(
-                  title: new Text("Egy felhasználó a főoldalon",
+                  title: new Text(AppLocalizations.of(context).singleuser_mainpage,
                     style: TextStyle(
                         fontSize: 20.0
                     ),
@@ -216,7 +218,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   leading: new Icon(Icons.person),
                 ),
                 ListTile(
-                  title: new Text("Sötét téma",
+                  title: new Text(AppLocalizations.of(context).dark_theme,
                     style: TextStyle(
                         fontSize: 20.0
                     ),
@@ -229,7 +231,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   leading: new Icon(IconData(0xf50e, fontFamily: "Material Design Icons")),
                 ),
                 ListTile(
-                  title: new Text("Értesítés",
+                  title: new Text(AppLocalizations.of(context).notification,
                     style: TextStyle(
                         fontSize: 20.0
                     ),
@@ -244,8 +246,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 _isNotification ? new PopupMenuButton<int>(
                   child: new ListTile(
-                    title: new Text("Szinkronizálás gyakorisága: " +
-                        _refreshNotification.toString() + " perc",
+                    title: new Text(AppLocalizations.of(context).sync_frequency(_refreshNotification),
                       style: TextStyle(
                           fontSize: 20.0
                       ),
@@ -260,15 +261,14 @@ class SettingsScreenState extends State<SettingsScreen> {
                           value: integer,
                           child: new Row(
                             children: <Widget>[
-                              new Text(integer.toString() + " perc"),
+                              new Text(integer.toString() + AppLocalizations.of(context).minute),
                             ],
                           )
                       );
                     }).toList();
                   },
                 ) : new ListTile(
-                  title: new Text("Szinkronizálás gyakorisága: " +
-                      _refreshNotification.toString() + " perc",
+                  title: new Text(AppLocalizations.of(context).sync_frequency(_refreshNotification),
                     style: TextStyle(
                         fontSize: 20.0
                     ),
@@ -278,7 +278,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                       IconData(0xf4e6, fontFamily: "Material Design Icons")),
                 ),
                 ListTile(
-                  title: new Text("Logó a menüben",
+                  title: new Text(AppLocalizations.of(context).logo_menu,
                     style: TextStyle(
                         fontSize: 20.0
                     ),
@@ -293,7 +293,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 new ListTile(
                   leading: new Icon(Icons.info),
-                  title: new Text("Infó"),
+                  title: new Text(AppLocalizations.of(context).info),
                   onTap: () {
                     Navigator.pushNamed(context, "/about");
                   },

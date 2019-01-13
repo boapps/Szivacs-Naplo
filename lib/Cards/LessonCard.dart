@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
 import '../globals.dart' as globals;
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 class LessonCard extends StatelessWidget {
   List<Lesson> lessons;
@@ -89,7 +91,7 @@ class LessonCard extends StatelessWidget {
               child: Wrap(
                 children: <Widget>[
                   new Text(
-                    "Következő óra: ",
+                    AppLocalizations.of(context).next_lesson,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
@@ -103,12 +105,12 @@ class LessonCard extends StatelessWidget {
                       )),
                   Container(
                     padding: EdgeInsets.only(right: 5),
-                    child: new Text(getDurToNext() + " perc",
+                    child: new Text(getDurToNext() + AppLocalizations.of(context).minute,
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
                   new Text(
-                    "múlva.",
+                    AppLocalizations.of(context).later,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),

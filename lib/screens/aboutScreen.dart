@@ -2,11 +2,22 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../GlobalDrawer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../Helpers/LocaleHelper.dart';
 import '../globals.dart' as globals;
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(new MaterialApp(home: new AboutScreen()));
+  runApp(new MaterialApp(
+    home: new AboutScreen(),
+    localizationsDelegates: [
+      AppLocalizationsDelegate(),
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate
+    ],
+    supportedLocales: [Locale("hu"), Locale("en")],
+    onGenerateTitle: (BuildContext context) =>
+    AppLocalizations.of(context).title,
+  ));
 }
 
 class AboutScreen extends StatefulWidget {
@@ -26,7 +37,7 @@ class AboutScreenState extends State<AboutScreen> {
         child: Scaffold(
             drawer: GDrawer(),
         appBar: new AppBar(
-          title: new Text("e-Szivacs 2"),
+          title: new Text(AppLocalizations.of(context).title),
           actions: <Widget>[
           ],
         ),
@@ -38,7 +49,7 @@ class AboutScreenState extends State<AboutScreen> {
                   children: <Widget>[
                     new Container(
                       child: new Text(
-                        'e-Szivacs',
+                        AppLocalizations.of(context).title,
                         style: new TextStyle(fontSize: 28.0,),
                         textAlign: TextAlign.center,
                       ),
@@ -47,10 +58,10 @@ class AboutScreenState extends State<AboutScreen> {
                     new Row(
                       children: <Widget>[
                         new Text(
-                          'verzió: ',
+                          AppLocalizations.of(context).version,
                           style: new TextStyle(fontSize: 22.0, ),
                         ),
-                        new Text(' 2.0',
+                        new Text(AppLocalizations.of(context).version_number,
                           style: new TextStyle(fontSize: 22.0, color: Colors.blue),
                         ),
                       ],
@@ -60,10 +71,10 @@ class AboutScreenState extends State<AboutScreen> {
                       child: new Row(
                         children: <Widget>[
                           new Text(
-                            'készítette: ',
+                            AppLocalizations.of(context).made_by,
                             style: new TextStyle(fontSize: 22.0, ),
                           ),
-                          new Text(' BoA',
+                          new Text(AppLocalizations.of(context).boa,
                             style: new TextStyle(fontSize: 22.0, color: Colors.blue),
                           ),
                         ],
@@ -73,11 +84,11 @@ class AboutScreenState extends State<AboutScreen> {
                     new Row(
                       children: <Widget>[
                         new Text(
-                          'made with: ',
+                          AppLocalizations.of(context).made_with,
 //                                    style: Theme.of(context).textTheme.title,
                           style: new TextStyle(fontSize: 22.0, ),
                         ),
-                        new Text(' Flutter',
+                        new Text(AppLocalizations.of(context).flutter,
                           style: new TextStyle(fontSize: 22.0, color: Colors.blue),
                         ),
                       ],
@@ -91,7 +102,7 @@ class AboutScreenState extends State<AboutScreen> {
                               padding: EdgeInsets.all(5.0),
                             ),
                             new Text(
-                              "YouTube", style: new TextStyle(color: Colors.red, fontSize: 20.0,),
+                              AppLocalizations.of(context).youtube, style: new TextStyle(color: Colors.red, fontSize: 20.0,),
                             ),
                           ],
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +116,7 @@ class AboutScreenState extends State<AboutScreen> {
                               padding: EdgeInsets.all(5.0),
                             ),
                             new Text(
-                              "Telegram", style: new TextStyle(color: Colors.blue, fontSize: 20.0,),
+                              AppLocalizations.of(context).telegram, style: new TextStyle(color: Colors.blue, fontSize: 20.0,),
                             ),
                           ],
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +130,7 @@ class AboutScreenState extends State<AboutScreen> {
                               padding: EdgeInsets.all(5.0),
                             ),
                             new Text(
-                              "eSzivacs@gmail.com",
+                              AppLocalizations.of(context).email,
                               style: new TextStyle(
                                 color: Colors.red,
                                 fontSize: 20.0,),
@@ -136,7 +147,7 @@ class AboutScreenState extends State<AboutScreen> {
                               padding: EdgeInsets.all(5.0),
                             ),
                             new Text(
-                              "GitHub", style: new TextStyle(fontSize: 20.0,),
+                              AppLocalizations.of(context).github, style: new TextStyle(fontSize: 20.0,),
                             ),
                           ],
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +163,7 @@ class AboutScreenState extends State<AboutScreen> {
                               padding: EdgeInsets.all(5.0),
                             ),
                             new Text(
-                              "Instagram", style: new TextStyle(
+                              AppLocalizations.of(context).instagram, style: new TextStyle(
                               color: Colors.pink, fontSize: 20.0,),
                             ),
                           ],

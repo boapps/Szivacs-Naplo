@@ -23,8 +23,14 @@ import '../Datas/Lesson.dart';
 import '../Helpers/RequestHelper.dart';
 import '../main.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
+
 void main() {
-  runApp(new MaterialApp(home: new MainScreen()));
+  runApp(new MaterialApp(
+    home: new MainScreen(),
+
+  ));
 }
 
 class MainScreen extends StatefulWidget {
@@ -94,18 +100,18 @@ class MainScreenState extends State<MainScreen> {
     return showDialog(
       context: context,
       child: new AlertDialog(
-        title: new Text('Biztos?'),
-        content: new Text('Be akarod zárni az alkalmazást?'),
+        title: new Text(AppLocalizations.of(context).sure),
+        content: new Text(AppLocalizations.of(context).confirm_close),
         actions: <Widget>[
           new FlatButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Nem'),
+            child: new Text(AppLocalizations.of(context).no),
           ),
           new FlatButton(
             onPressed: () {
               Navigator.of(context).pop(true);
             },
-            child: new Text('Igen'),
+            child: new Text(AppLocalizations.of(context).yes),
           ),
         ],
       ),
@@ -122,7 +128,7 @@ class MainScreenState extends State<MainScreen> {
         child: Scaffold(
             drawer: GDrawer(),
         appBar: new AppBar(
-          title: new Text("e-Szivacs 2"),
+          title: new Text(AppLocalizations.of(context).title),
           actions: <Widget>[
             //todo search maybe?
           ],
@@ -212,9 +218,12 @@ class MainScreenState extends State<MainScreen> {
     if (mounted) {
       setState(() {
         hasLoaded = true;
+        hasOfflineLoaded = true;
+        print(isColor == null);
         completer.complete();
       });
     }
+
     return completer.future;
   }
 

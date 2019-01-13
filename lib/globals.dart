@@ -20,7 +20,6 @@ String selectedSchoolName = "Válassz";
 int screen = 0;
 int sort = 0;
 int ido = 1;
-List<String> idok = ["nap", "hét", "hónap", "két hónap"];
 List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();

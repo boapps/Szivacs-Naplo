@@ -1,0 +1,595 @@
+{
+  "title": "e-Szivacs",
+  "@title": {
+    "description": "The application title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "title_full": "e-Szivacs 2",
+  "@title_full": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "version": "version: ",
+  "@version": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "version_number": "2.0",
+  "@version_number": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "made_by": "made by: ",
+  "@made_by": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "boa": "BoA",
+  "@boa": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "made_with": "made with: ",
+  "@made_with": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "flutter": "Flutter",
+  "@flutter": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "youtube": "YouTube",
+  "@youtube": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "telegram": "Telegram",
+  "@telegram": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "email": "eSzivacs@gmail.com",
+  "@email": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "github": "GitHub",
+  "@github": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "instagram": "Instagram",
+  "@instagram": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "absent_title": "Absences / Delays",
+  "@absent_title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "mode": "mode: ",
+  "@mode": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "subject": "subject: ",
+  "@subject": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "teacher": "teacher: ",
+  "@teacher": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "absence_time": "absence time: ",
+  "@absence_time": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "administration_time": "time of logging: ",
+  "@administration_time": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "justification_state": "justification status: ",
+  "@justification_state": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "justification_mode": "justification method: ",
+  "@justification_mode": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "delay_mins": "delay time: ",
+  "@delay_mins": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "ok": "ok",
+  "@ok": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "statistics": "Statistics",
+  "@statistics": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "parental_justification": "Parental justification: {amount}",
+  "@parental_justification": {
+    "type": "text",
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "all_absences": "Absence (excluding delay): {amount} hours",
+  "@all_absences": {
+    "type": "text",
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "all_delay": "Total delay: {amount} minutes",
+  "@all_delay": {
+    "type": "text",
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "sure": "Are you sure?",
+  "@sure": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "delete_confirmation": "Would you like to delete user: {name} ?",
+  "@delete_confirmation": {
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "no": "no",
+  "@no": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "yes",
+  "@yes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "accounts": "Accounts",
+  "@accounts": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "evaluations": "Evaluations",
+  "@evaluations": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "theme": "topic: ",
+  "@theme": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "time": "time: ",
+  "@time": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "weight": "weight: ",
+  "@weight": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "value": "value: ",
+  "@value": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "range": "range: ",
+  "@range": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "sort": "Sort",
+  "@sort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "homeworks": "Homeworks",
+  "@homeworks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "homework": "homework",
+  "@homework": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "deadline": "deadline: ",
+  "@deadline": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "uploader": "uploader: ",
+  "@uploader": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "upload_time": "upload time: ",
+  "@upload_time": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirm_close": "Do you want to close the application?",
+  "@confirm_close": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "notes": "Notes",
+  "@notes": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "colorful_mainpage": "Colorful main-page",
+  "@colorful_mainpage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "singleuser_mainpage": "Sigle-user main-page",
+  "@singleuser_mainpage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dark_theme": "Dark theme",
+  "@dark_theme": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "notification": "Notification",
+  "@notification": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "sync_frequency": "Frequency of sync: {mins} min",
+  "@sync_frequency": {
+    "type": "text",
+    "placeholders": {
+      "mins": {}
+    }
+  },
+  "minute": "minutes",
+  "@minute": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "logo_menu": "Logo in the menu",
+  "@logo_menu": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "info": "About",
+  "@info": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "average": "Average: ",
+  "@average": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "class_average": "Class average: ",
+  "@class_average": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grade1": "1 grades:",
+  "@grade1": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grade2": "2 grades:\n",
+  "@grade2": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grade3": "3 grades:\n",
+  "@grade3": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grade4": "4 grades:",
+  "@grade4": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grade5": "5 grades:\n",
+  "@grade5": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "all_average": "Total average: ",
+  "@all_average": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "all_median": "Median of all grades:",
+  "@all_median": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "all_mode": "Mode of all grades:",
+  "@all_mode": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "averages": "Averages",
+  "@averages": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "datas": "Datas",
+  "@datas": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "done": "done",
+  "@done": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "timetable": "Timetable",
+  "@timetable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "no_lessons": "Looks like you have no lessons today :)",
+  "@no_lessons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "prev_week": "previous week",
+  "@prev_week": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "next_week": "next week",
+  "@next_week": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "prev_day": "previous day",
+  "@prev_day": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "next_day": "next day",
+  "@next_day": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "group": "class: ",  
+  "@group": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "room": "room: ",
+  "@room": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "lesson_start": "start of lesson: ",
+  "@lesson_start": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "lesson_end": "end of lesson: ",
+  "@lesson_end": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "state": "state: ",
+  "@state": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dep_teacher": "deputy teacher: ",
+  "@dep_teacher": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "missed": "canceled",
+  "@missed": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_monday": "M",
+  "@short_monday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_tuesday": "Tu",
+  "@short_tuesday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_wednesday": "W",
+  "@short_wednesday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_thursday": "Th",
+  "@short_thursday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_friday": "F",
+  "@short_friday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_saturday": "Sa",
+  "@short_saturday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "short_sunday": "Su",
+  "@short_sunday": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "choose": "choose",
+  "@choose": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "day": "day",
+  "@day": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "week": "week",
+  "@week": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "month": "month",
+  "@month": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "two_months": "two months",
+  "@two_months": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "disclaimer": "This is an unofficial, nonprofit client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n",
+  "@disclaimer": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "choose_username": "Please enter a username!",
+  "@choose_username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "choose_password": "Please enter a password.",
+  "@choose_password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "wrong_pass": "incorrect username or password",
+  "@wrong_pass": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "network_error": "network error",
+  "@network_error": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "username": "username",
+  "@username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "username_hint": "student ID (the 11-digit number)",
+  "@username_hint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "password",
+  "@password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "password_hint": "usually date of birth (e.g.: 2000-01-02)",
+  "@password_hint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "school": "School: ",
+  "@school": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "choose_school_warning": "Choose a school as well",
+  "@choose_school_warning": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "login": "Login",
+  "@login": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "choose_school": "Choose a school:",
+  "@choose_school": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "lessons": "lessons: {db}",
+  "@lessons": {
+    "type": "text",
+    "placeholders": {
+      "db": {}
+    }
+  },
+  "absence": "absences",
+  "@absence": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "next_lesson": "Next lesson: ",
+  "@next_lesson": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "later": "later",
+  "@later": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "main_page": "Mainpage",
+  "@main_page": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "absences_title": "Absences", 
+  "@absences_title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "sort_time": "time", 
+  "@sort_time": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "sort_eval": "grade", 
+  "@sort_eval": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "sort_subject": "subject", 
+  "@sort_subject": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "if_i_got": "What if I got a...",
+  "@if_i_got": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

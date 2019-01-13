@@ -1,16 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../Datas/Absence.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/AbsentHelper.dart';
+import '../Helpers/LocaleHelper.dart';
 import '../Utils/AccountManager.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
 
 void main() {
-  runApp(new MaterialApp(home: new AbsentsScreen()));
+  runApp(
+      new MaterialApp(home: new AbsentsScreen(),
+    localizationsDelegates: [
+      AppLocalizationsDelegate(),
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate
+    ],
+    supportedLocales: [Locale("hu"), Locale("en")],
+    onGenerateTitle: (BuildContext context) =>
+    AppLocalizations.of(context).title,
+  ));
 }
 
 class AbsentsScreen extends StatefulWidget {
@@ -53,7 +65,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text("Hiányzások / Késések"),
+              title: new Text(AppLocalizations.of(context).absent_title),
               actions: <Widget>[
                 new IconButton(
                     icon: new Icon(Icons.info),
@@ -138,25 +150,25 @@ class AbsentsScreenState extends State<AbsentsScreen> {
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text("mód: " + absence.modeName),
-                new Text("tárgy: " + absence.subject),
-                new Text("tanár: " + absence.teacher),
-                new Text("hiányzás ideje: " +
+                new Text(AppLocalizations.of(context).mode + absence.modeName),
+                new Text(AppLocalizations.of(context).subject + absence.subject),
+                new Text(AppLocalizations.of(context).teacher + absence.teacher),
+                new Text(AppLocalizations.of(context).absence_time +
                     absence.startTime
                         .substring(0, 11)
                         .replaceAll("-", '. ')
                         .replaceAll("T", ". ")),
-                new Text("naplózás ideje: " +
+                new Text(AppLocalizations.of(context).administration_time +
                     absence.creationTime
                         .substring(0, 16)
                         .replaceAll("-", ". ")
                         .replaceAll("T", ". ")),
                 new Text(
-                    "igazolás állapota: " + absence.justificationStateName),
-                new Text("igazolás módja: " + absence.justificationTypeName),
+                    AppLocalizations.of(context).justification_state + absence.justificationStateName),
+                new Text(AppLocalizations.of(context).justification_mode + absence.justificationTypeName),
                 absence.delayMinutes != 0
                     ? new Text(
-                        "késés mértéke: " + absence.delayMinutes.toString())
+                    AppLocalizations.of(context).delay_mins + absence.delayMinutes.toString())
                     : new Container(),
               ],
             ),
@@ -326,19 +338,19 @@ class AbsentDialogState extends State<AbsentDialog> {
 
   Widget build(BuildContext context) {
     return new SimpleDialog(
-        title: new Text("Statisztikák"),
+        title: new Text(AppLocalizations.of(context).statistics),
         contentPadding: const EdgeInsets.all(5.0),
         children: <Widget>[
           new Text(
-            "Szülői igazolás: " + prnt.toString() + " db",
+            AppLocalizations.of(context).parental_justification(prnt),
             style: TextStyle(fontSize: 16.0),
           ),
           new Text(
-            "Összes hiányzás (nincs benne a késés): " + ossz.toString() + " óra",
+            AppLocalizations.of(context).all_absences(ossz),
             style: TextStyle(fontSize: 16.0),
           ),
           new Text(
-            "Összes késés: " + delayMins.toString() + " perc",
+            AppLocalizations.of(context).all_delay(delayMins),
             style: TextStyle(fontSize: 16.0),
           ),
         ]);

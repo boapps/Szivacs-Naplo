@@ -10,6 +10,8 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/NotesHelper.dart';
 import '../globals.dart' as globals;
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Helpers/LocaleHelper.dart';
 
 void main() {
   runApp(new MaterialApp(home: new NotesScreen()));
@@ -91,7 +93,7 @@ class NotesScreenState extends State<NotesScreen> {
         child: Scaffold(
             drawer: GDrawer(),
         appBar: new AppBar(
-          title: new Text("Feljegyzések"),
+          title: new Text(AppLocalizations.of(context).notes),
           actions: <Widget>[
           ],
          /* bottom: new PreferredSize(
