@@ -248,7 +248,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "singleuser_mainpage": "Sigle-user main-page",
+  "singleuser_mainpage": "Single-user main-page",
   "@singleuser_mainpage": {
     "type": "text",
     "placeholders": {}
