@@ -18,7 +18,8 @@ class LessonCard extends StatelessWidget {
   Key get key => new Key(getDate());
 
   String getDate() {
-    return lessons[0].start.toIso8601String();
+    //hozzáadunk egy napot, ogy a lista tetején legyen
+    return lessons[0].start.add(new Duration(days: 1)).toIso8601String();
   }
 
   Lesson getNext() {
@@ -36,7 +37,7 @@ class LessonCard extends StatelessWidget {
   String progress() {
     int n = 0;
     for (Lesson l in lessons) if (l.start.day == DateTime.now().day) n++;
-    return getNext().count.toString() + "/" + n.toString();
+    return (lessons.indexWhere((Lesson l) => l.id==getNext().id) + 1).toString() + "/" + n.toString();
   }
 
   void openDialog() {
