@@ -29,6 +29,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   void initState() {
     super.initState();
     initSelectedUser();
+
     _onRefreshOffline();
     _onRefresh();
   }
@@ -176,11 +177,20 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       hasOfflineLoaded = false;
     });
     Completer<Null> completer = new Completer<Null>();
-    avers = await AverageHelper().getAveragesOffline();
-    globals.avers = avers;
 
-    evals = await EvaluationHelper().getEvaluationsOffline();
-    globals.evals = evals;
+    if (globals.avers.length > 0)
+      avers = globals.avers;
+    else {
+      avers = await AverageHelper().getAveragesOffline();
+      globals.avers = avers;
+    }
+
+    if (globals.evals.length > 0)
+      evals = globals.evals;
+    else {
+      evals = await EvaluationHelper().getEvaluationsOffline();
+      globals.evals = evals;
+    }
 
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
 

@@ -104,6 +104,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     Completer<Null> completer = new Completer<Null>();
 
     absents = await AbsentHelper().getAbsents();
+    globals.global_absents = absents;
+
     absents.removeWhere((String s, List<Absence> a) =>
         a[0].owner.id != globals.selectedUser.id);
 
@@ -125,7 +127,13 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    absents = await AbsentHelper().getAbsentsOffline();
+    if (globals.global_absents.length > 0)
+      absents = globals.global_absents;
+    else {
+      absents = await AbsentHelper().getAbsentsOffline();
+      globals.global_absents = absents;
+    }
+
     absents.removeWhere((String s, List<Absence> a) =>
         a[0].owner.id != globals.selectedUser.id);
 

@@ -3,11 +3,12 @@ import 'Datas/User.dart';
 import 'Datas/Absence.dart';
 import 'Datas/Average.dart';
 import 'Datas/Evaluation.dart';
+import 'Datas/Note.dart';
+import 'Datas/Lesson.dart';
 
 bool isLoggedIn = false;
 bool isLogo = true;
 bool isColor = true;
-List avers;
 Map<String, List<Absence>> absents;
 List searchres;
 List jsonres;
@@ -24,5 +25,9 @@ int ido = 1;
 List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();
-List<Evaluation> evals = new List();
 
+List<Evaluation> evals = new List();
+List<Average> avers = new List();
+Map<String, List<Absence>> global_absents = new Map();
+List<Note> notes = new List();
+List <Lesson> lessons = new List();

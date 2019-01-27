@@ -67,6 +67,8 @@ class MainScreenState extends State<MainScreen> {
     for (Note n in notes)
       widgets.add(new NoteCard(n, globals.isSingle, context));
     bool rem = false;
+
+    lessons.removeWhere((Lesson l) => l.state == "Missed");
     for (Lesson l in lessons)
       if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
         rem = true;
@@ -143,10 +145,12 @@ class MainScreenState extends State<MainScreen> {
     });
 
     absents = await AbsentHelper().getAbsents();
+    globals.global_absents = absents;
     if (globals.isSingle)
       absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
 
     notes = await NotesHelper().getNotes();
+    globals.notes = notes;
     if (globals.isSingle)
       notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
 
@@ -159,6 +163,7 @@ class MainScreenState extends State<MainScreen> {
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
     lessons = await getLessons(startDate, startDate.add(Duration(days: 7)));
+    globals.lessons = lessons;
 
     Completer<Null> completer = new Completer<Null>();
 
@@ -179,23 +184,52 @@ class MainScreenState extends State<MainScreen> {
       hasOfflineLoaded = false;
     });
 
-    absents = await AbsentHelper().getAbsentsOffline();
+    if(globals.global_absents.length > 0)
+      absents = globals.global_absents;
+    else {
+      absents = await AbsentHelper().getAbsentsOffline();
+      globals.global_absents = absents;
+    }
     if (globals.isSingle)
       absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
 
-    notes = await NotesHelper().getNotesOffline();
+    if(globals.notes.length > 0)
+      notes = globals.notes;
+    else {
+      notes = await NotesHelper().getNotesOffline();
+      globals.notes = notes;
+    }
     if (globals.isSingle)
       notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
+/*
+    if (globals.avers.length > 0)
+      avers = globals.avers;
+    else {
+      avers = await AverageHelper().getAveragesOffline();
+      globals.avers = avers;
+    }
+*/
+    if (globals.evals.length > 0)
+      evals = globals.evals;
+    else {
+      evals = await EvaluationHelper().getEvaluationsOffline();
+      globals.evals = evals;
+    }
 
-    evals = await EvaluationHelper().getEvaluationsOffline();
-    globals.evals = evals;
     if (globals.isSingle)
       evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
     evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
+
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
 
-    lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+    if (globals.lessons.length > 0)
+      lessons = globals.lessons;
+    else {
+      lessons =
+      await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+      globals.lessons = lessons;
+    }
 
     Completer<Null> completer = new Completer<Null>();
 

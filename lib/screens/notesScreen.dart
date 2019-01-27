@@ -93,8 +93,11 @@ class NotesScreenState extends State<NotesScreen> {
     setState(() {
       hasLoaded = false;
     });
+
     Completer<Null> completer = new Completer<Null>();
     notes = await NotesHelper().getNotes();
+    globals.notes = notes;
+
     refNotes();
     hasLoaded = true;
 
@@ -109,8 +112,16 @@ class NotesScreenState extends State<NotesScreen> {
     setState(() {
       hasOfflineLoaded = false;
     });
+
     Completer<Null> completer = new Completer<Null>();
-    notes = await NotesHelper().getNotesOffline();
+
+    if (globals.notes.length > 0)
+      notes = globals.notes;
+    else {
+      notes = await NotesHelper().getNotesOffline();
+      globals.notes = notes;
+    }
+
     refNotes();
     hasOfflineLoaded = true;
 
