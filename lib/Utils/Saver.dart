@@ -27,8 +27,8 @@ void initEncryption() async {
     //todo ez kriptográfiailag biztonságos??
     Uint8List seed = new Uint8List.fromList(List.filled(32, (rng.nextInt(255))));
     FortunaRandom rnd = new FortunaRandom()..seed(new KeyParameter(seed));
-    await storage.write(key: "encryption", value: String.fromCharCodes(rnd.nextBytes(32))
-    );
+    await storage.write(key: "encryption", value: String.fromCharCodes(rnd.nextBytes(32)));
+    //await storage.write(key: "iv", value: String.fromCharCodes(rnd.nextBytes(16)));
   }
 
   if (await shouldMigrate)
@@ -39,6 +39,10 @@ void initEncryption() async {
 Future<String> get key async {
   return await storage.read(key: "encryption");
 }
+
+//Future<IV> get iv async {
+//  return IV.fromBase64(base64.encode((await storage.read(key: "iv")).codeUnits));
+//}
 
 Future<String> doEncrypt(String text) async {
   Encrypted encrypted = (await encrypter).encrypt(text);
@@ -78,10 +82,6 @@ Future<Map<String, dynamic>> readEvaluations(User user) async {
     String contents = await doDecrypt(await file.readAsString());
 
     Map<String, dynamic> evaluationsMap = json.decode(contents.toString());
-    print("got it !");
-    print("evaluationsMap:");
-    print(evaluationsMap.length);
-    print(evaluationsMap);
 
     return evaluationsMap;
   } catch (e) {

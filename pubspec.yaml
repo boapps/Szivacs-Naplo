@@ -14,7 +14,7 @@ dependencies:
   flutter_secure_storage: ^3.1.2
   pointycastle: ^1.0.0
   encrypt:
-    path: encrypt # git clone -b "v2.0" https://github.com/leocavalcante/encrypt/
+    path: encrypt # "git clone -b "v2.0" https://github.com/leocavalcante/encrypt/" aztán pedig "git revert --no-commit 632eb8c..HEAD"
   charts_flutter: ^0.5.0
   dynamic_theme:
     git:
