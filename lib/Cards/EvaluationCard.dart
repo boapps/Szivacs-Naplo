@@ -210,6 +210,8 @@ class EvaluationCard extends StatelessWidget {
         break;
     }
 
+    bool notNull(Object o) => o != null;
+
     return new GestureDetector(
       onTap: openDialog,
        child: new Card(
@@ -221,7 +223,12 @@ class EvaluationCard extends StatelessWidget {
             child: new ListTile(
               title: evaluation.subject != null ? new Text(evaluation.subject, style: new TextStyle(color: fColor, fontSize: 18.0, fontWeight: FontWeight.bold)) : new Container(),
               leading: (evaluation.numericValue != 0 && textShort == null) ?
-                new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)):
+              new Column(children: <Widget>[
+                new Text(evaluation.numericValue.toString(), style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
+                evaluation.weight != "100%" ? new Text(evaluation.weight??"", style: TextStyle(color: fColor),
+                ) : null,
+              ].where(notNull).toList(),)
+              :
                 new Text(textShort ?? "", style: new TextStyle(color: fColor, fontSize: 40.0, fontWeight: FontWeight.bold)),
               subtitle: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

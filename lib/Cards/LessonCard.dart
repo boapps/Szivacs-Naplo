@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
-import '../globals.dart' as globals;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
 
 class LessonCard extends StatelessWidget {

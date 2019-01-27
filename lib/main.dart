@@ -27,6 +27,7 @@ import 'screens/notesScreen.dart';
 import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
 import 'screens/timeTableScreen.dart';
+import 'Utils/Saver.dart' as Saver;
 
 bool isNew = true;
 
@@ -81,6 +82,8 @@ class MyApp extends StatelessWidget {
 }
 
 void main() async {
+  Saver.initEncryption();
+
   List<User> users = await AccountManager().getUsers();
   isNew = (users.isEmpty);
   globals.isLogo = await SettingsHelper().getLogo();
@@ -97,6 +100,11 @@ void main() async {
         startOnBoot: true,
       ), backgroundFetchHeadlessTask);
     });
+
+    globals.isColor = await SettingsHelper().getColoredMainPage();
+    globals.isSingle = await SettingsHelper().getSingleUser();
+
+    globals.multiAccount = (await Saver.readUsers()).length != 1;
 
     //isNew = prefs.getBool("new") ?? true; //isNew = (users.length!=0);
 
@@ -439,11 +447,11 @@ class LoginScreenState extends State<LoginScreen> {
 
               globals.users.add(user);
 
+              globals.multiAccount = globals.users.length != 1;
+
               globals.selectedUser = user;
 
-//            prefs.setBool("new", false);
               Navigator.pushNamed(context, "/main");
-
             });
           } catch (e) {
             setState(() {
@@ -478,29 +486,6 @@ class LoginScreenState extends State<LoginScreen> {
 
   }
 
-//  Future<bool> _onWillPop() {
-//    return showDialog(
-//          context: context,
-//          child: new AlertDialog(
-//            title: new Text('Biztos?'),
-//            content: new Text('Be akarod zárni az alkalmazást?'),
-//            actions: <Widget>[
-//              new FlatButton(
-//                onPressed: () => Navigator.of(context).pop(false),
-//                child: new Text('Nem'),
-//              ),
-//              new FlatButton(
-//                onPressed: () {
-//                  Navigator.of(context).pop(true);
-//                },
-//                child: new Text('Igen'),
-//              ),
-//            ],
-//          ),
-//        ) ??
-//        false;
-//  }
-
   void showSelectDialog() {
     setState(() {
       myDialogState = new MyDialogState();
@@ -526,9 +511,6 @@ class LoginScreenState extends State<LoginScreen> {
     return new WillPopScope(
         onWillPop: (){},
         child: Scaffold(
-//            appBar: new AppBar(
-//              title: new Text("e-Szivacs 2.0"),
-//            ),
             body: new Container(
                 color: Colors.black87,
                 child: new Center(

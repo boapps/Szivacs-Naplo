@@ -81,6 +81,24 @@ class Evaluation {
     _value = value;
   }
 
+  int get realValue {
+    if (_numericValue != 0)
+      return _numericValue;
+    else {
+      switch (_value) {
+        case "Példás":
+          return 5;
+        case "Jó":
+          return 4;
+        case "Változó":
+          return 3;
+        case "Hanyag":
+          return 2;
+      }
+    }
+    return 0;
+  }
+
   String get weight => _weight;
 
   set weight(String value) {

@@ -12,6 +12,7 @@ import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
+import '../Dialog/TimeSelectDialog.dart';
 
 void main() {
   runApp(new MaterialApp(home: new HomeworkScreen()));
@@ -168,11 +169,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
     homeworks = await HomeworkHelper().getHomeworksOffline(globals.idoAdatok[globals.ido]);
-    homeworks.forEach((h) {
-      print(HtmlUnescape().convert(h.text));
-    });
-    homeworks
-        .sort((Homework a, Homework b) => b.uploadDate.compareTo(a.uploadDate));
+    homeworks.sort((Homework a, Homework b) => b.uploadDate.compareTo(a.uploadDate));
     if (mounted)
       setState(() {
         refHomework();
@@ -183,7 +180,6 @@ class HomeworkScreenState extends State<HomeworkScreen> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    print(HtmlUnescape().convert(selectedHomework[index].text.toString()));
     return new Column(
       children: <Widget>[
         new ListTile(
@@ -216,63 +212,3 @@ class HomeworkScreenState extends State<HomeworkScreen> {
     super.dispose();
   }
 }
-
-class TimeSelectDialog extends StatefulWidget {
-  const TimeSelectDialog();
-
-  @override
-  TimeSelectDialogState createState() => new TimeSelectDialogState();
-}
-
-class TimeSelectDialogState extends State<TimeSelectDialog> {
-
-  int selected = 1;
-
-  void _onSelect(String sel, List<String> idok) {
-    setState(() {
-      selected = idok.indexOf(sel);
-      globals.ido = selected;
-      //todo: ezt meg kéne jegyeztetni
-    });
-  }
-
-  Widget build(BuildContext context) {
-    List<String> idok = [AppLocalizations.of(context).day, AppLocalizations.of(context).week, AppLocalizations.of(context).month, AppLocalizations.of(context).two_months];
-
-    return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).time),
-      contentPadding: const EdgeInsets.all(10.0),
-      children: <Widget>[
-        new PopupMenuButton<String>(
-          child: new Container(
-            child: new Row(
-              children: <Widget>[
-                new Text(
-                  idok[globals.ido],
-                  style: new TextStyle(color: null, fontSize: 17.0),
-                ),
-                new Icon(
-                  Icons.arrow_drop_down,
-                  color: null,
-                ),
-              ],
-            ),
-            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-          ),
-          onSelected: (String sel) {_onSelect(sel, idok);},
-          itemBuilder: (BuildContext context) {
-            return idok.map((String sor) {
-              return new PopupMenuItem<String>(
-                value: sor,
-                child: new Text(sor),
-              );
-            }).toList();
-          },
-        ),
-      ],
-    );
-  }
-
-
-}
-

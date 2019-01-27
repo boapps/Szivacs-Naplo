@@ -7,8 +7,6 @@ import '../Datas/Evaluation.dart';
 import '../Helpers/AverageHelper.dart';
 import '../Helpers/EvaluationHelper.dart';
 import 'package:charts_flutter/flutter.dart';
-import "dart:math";
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
 
 void main() {
@@ -51,7 +49,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void initEvals() async {
     evals = await EvaluationHelper().getEvaluationsOffline();
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
-    evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-");
+    evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-" || e.type != "MidYear");
     _onSelect(averages[0]);
     for (Evaluation e in evals)
       switch(e.numericValue){

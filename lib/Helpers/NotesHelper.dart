@@ -36,6 +36,8 @@ class NotesHelper {
 
     for (User user in users) {
       notesMap = await readEvents(user);
+      print(notesMap);
+      print(evalsMap);
       evalsMap = (await readEvaluations(user))["Notes"];
       if (notesMap!=null) {
         notesMap.addAll(evalsMap);

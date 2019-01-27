@@ -9,8 +9,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import '../Helpers/EvaluationHelper.dart';
+import '../Helpers/AbsentHelper.dart';
+import '../Helpers/NotesHelper.dart';
 import '../Datas/Evaluation.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import '../Datas/Absence.dart';
+import '../Datas/Note.dart';
 import '../Helpers/LocaleHelper.dart';
 
 void main() {
@@ -43,15 +46,71 @@ Future<int> getGrades() async {
       var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
       var platformChannelSpecifics = new NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-      await flutterLocalNotificationsPlugin.show(
+      flutterLocalNotificationsPlugin.show(
           e.id,
-          e.subject + " - " + e.numericValue.toString(),
-          e.owner.name, platformChannelSpecifics,
+          e.subject + " - " + (e.numericValue != 0 ? e.numericValue.toString() : e.value),
+          e.owner.name + ", " + e.theme??"", platformChannelSpecifics,
           payload: e.id.toString());
+    }
+
+
+
+    //todo jegyek változása
+    //todo ha óra elmarad/helyettesítés
+  }
+
+  List<Note> offlineNotes = await NotesHelper()
+      .getNotes();
+  List<Note> notes = await NotesHelper().getNotesOffline();
+
+  for (Note n in notes) {
+    bool exist = false;
+    for (Note o in offlineNotes)
+      if (n.id == o.id)
+        exist = true;
+    if (!exist) {
+      var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+          'notes', 'feljegyzések', 'értesítések a feljegyzésekről',
+          importance: Importance.Max, priority: Priority.High);
+      var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+      var platformChannelSpecifics = new NotificationDetails(
+          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+      flutterLocalNotificationsPlugin.show(
+          n.id,
+          n.title + " - " + n.type,
+          n.content, platformChannelSpecifics,
+          payload: n.id.toString());
     }
   }
 
-  return 0;
+  Map<String, List<Absence>> absences = await AbsentHelper().getAbsents();
+  Map<String, List<Absence>> offlineAbsences = await AbsentHelper().getAbsentsOffline();
+
+  absences.forEach((String s, List<Absence> absenceList){
+    for (Absence a in absenceList) {
+      bool exist = false;
+      offlineAbsences.forEach((String s2, List<Absence> absenceList2){
+        for (Absence o in absenceList2)
+          if (a.id == o.id)
+            exist = true;
+      });
+      if (!exist) {
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'absences', 'mulasztások', 'értesítések a hiányzásokról',
+            importance: Importance.Max, priority: Priority.High);
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        flutterLocalNotificationsPlugin.show(
+            a.id,
+            a.subject + " - " + a.mode,
+            a.owner.name + ", " + (a.delayMinutes != 0 ? a.delayMinutes.toString():""), platformChannelSpecifics,
+            payload: a.id.toString());
+      }
+      }
+  });
+
+      return 0;
 }
 
 void backgroundFetchHeadlessTask() async {
@@ -63,8 +122,6 @@ void backgroundFetchHeadlessTask() async {
   flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  print('[BackgroundFetch] Headless event received.');
-  print("working2");
   await getGrades().then((int finished) {
     BackgroundFetch.finish();
   });

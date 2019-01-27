@@ -98,7 +98,8 @@ class AboutScreenState extends State<AboutScreen> {
                         child: new Row(
                           children: <Widget>[
                             new Container(
-                              child: new Icon(IconData(0xf5c3, fontFamily: "Material Design Icons"), color: Colors.red, size: 20.0,),
+                              child: new Icon(IconData(0xf5c3, fontFamily: "Material Design Icons"),
+                                color: Colors.red, size: 20.0,),
                               padding: EdgeInsets.all(5.0),
                             ),
                             new Text(

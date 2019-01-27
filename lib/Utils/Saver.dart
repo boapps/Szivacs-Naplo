@@ -1,10 +1,58 @@
 import 'dart:async';
-import 'dart:convert' show utf8, json;
+import 'dart:convert' show json, ascii, base64, utf8;
 import 'dart:io';
 
 import '../Datas/User.dart';
+import '../main.dart';
+import 'PlainSaver.dart' as PS;
+import 'AccountManager.dart' ;
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pointycastle/random/fortuna_random.dart';
+import 'package:encrypt/encrypt.dart';
+import 'package:pointycastle/api.dart' show KeyParameter;
+import 'dart:typed_data';
+import 'dart:math';
+
+final storage = new FlutterSecureStorage();
+get encrypter async => new Encrypter(new AES(await key));
+
+var rng = new Random();
+
+void initEncryption() async {
+
+  Map<String, String> allValues = await storage.readAll();
+  if (!allValues.containsKey("encryption")) {
+    //todo ez kriptográfiailag biztonságos??
+    Uint8List seed = new Uint8List.fromList(List.filled(32, (rng.nextInt(255))));
+    FortunaRandom rnd = new FortunaRandom()..seed(new KeyParameter(seed));
+    await storage.write(key: "encryption", value: String.fromCharCodes(rnd.nextBytes(32))
+    );
+  }
+
+  if (await shouldMigrate)
+    migrate();
+}
+
+
+Future<String> get key async {
+  return await storage.read(key: "encryption");
+}
+
+Future<String> doEncrypt(String text) async {
+  Encrypted encrypted = (await encrypter).encrypt(text);
+  return encrypted.base64;
+}
+
+Future<String> doDecrypt(String text) async {
+  try {
+    Encrypted encrypted = Encrypted(base64.decode(text));
+    return (await encrypter).decrypt(encrypted).toString().replaceAll(new RegExp('[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]+'), '');
+  } catch (e) {
+    return "";
+  }
+}
 
 Future<String> get _localFolder async {
   final directory = await getApplicationDocumentsDirectory();
@@ -21,21 +69,24 @@ Future<File> _localEvaluations(User user) async {
 Future<File> saveEvaluations(String evaluationsString, User user) async {
   final file = await _localEvaluations(user);
 
-  // Write the file
-  return file.writeAsString(evaluationsString);
+  return file.writeAsString(await doEncrypt(evaluationsString));
 }
 
 Future<Map<String, dynamic>> readEvaluations(User user) async {
   try {
     final file = await _localEvaluations(user);
-    // Read the file
-    String contents = await file.readAsString();
+    String contents = await doDecrypt(await file.readAsString());
 
-    Map<String, dynamic> evaluationsMap = json.decode(contents);
+    Map<String, dynamic> evaluationsMap = json.decode(contents.toString());
+    print("got it !");
+    print("evaluationsMap:");
+    print(evaluationsMap.length);
+    print(evaluationsMap);
+
     return evaluationsMap;
   } catch (e) {
+    print(e);
     return Map<String, dynamic>();
-    // If we encounter an error, return 0
   }
 }
 
@@ -47,22 +98,81 @@ Future<File> _localEvents(User user) async {
 
 Future<File> saveEvents(String eventsString, User user) async {
   final file = await _localEvents(user);
-
-  // Write the file
-  return file.writeAsString(eventsString);
+  return file.writeAsString(await doEncrypt(eventsString));
 }
 
 Future<List<dynamic>> readEvents(User user) async {
   try {
     final file = await _localEvents(user);
-    // Read the file
-    String contents = await file.readAsString();
+    String contents = await doDecrypt(await file.readAsString());
 
     List<dynamic> eventsMap = json.decode(contents);
     return eventsMap;
   } catch (e) {
-    // If we encounter an error, return 0
+
   }
+}
+
+Future<File> _localHomework(User user) async {
+  final path = await _localFolder;
+  String suffix = user.id.toString();
+  return new File('$path/' + suffix + '_homework.json');
+}
+
+Future<File> saveHomework(String homeworkString, User user) async {
+  final file = await _localHomework(user);
+  return file.writeAsString(await doEncrypt(homeworkString));
+}
+
+Future<List<Map<String, dynamic>>> readHomework(User user) async {
+  try {
+    final file = await _localHomework(user);
+    String contents = await doDecrypt(await file.readAsString());
+
+    List<Map<String, dynamic>> notes = new List();
+    List<dynamic> notesMap = json.decode(contents);
+    for (dynamic note in notesMap)
+      notes.add(note as Map<String, dynamic>);
+
+    return notes;
+  } catch (e) {
+    return new List();
+  }
+}
+
+
+Future<File> _localTimeTable(String time, User user) async {
+  final path = await _localFolder;
+  String suffix = user.id.toString();
+  return new File('$path/timetable_$time-$suffix.json');
+}
+
+Future<File> saveTimetable(String timetableString, String time, User user) async {
+  final file = await _localTimeTable(time, user);
+
+  return file.writeAsString(await doEncrypt(timetableString));
+}
+
+Future<List<dynamic>> readTimetable(String time, User user) async {
+  try {
+    final file = await _localTimeTable(time, user);
+    String contents = await doDecrypt(await file.readAsString());
+
+    List<dynamic> timetableMap = json.decode(contents);
+    return timetableMap;
+  } catch (e) {
+  }
+}
+
+Future<File> get _localSettings async {
+  final path = await _localFolder;
+  return new File('$path/settings.json');
+}
+
+Future<File> saveSettings(String settingsString) async {
+  final file = await _localSettings;
+
+  return file.writeAsString(await doEncrypt(settingsString));
 }
 
 Future<File> _localNotes(User user) async {
@@ -78,98 +188,81 @@ Future<File> saveNotes(String eventsString, User user) async {
   return file.writeAsString(eventsString);
 }
 
-Future<List<dynamic>> readNotes(User user) async {
-  try {
-    final file = await _localNotes(user);
-    // Read the file
-    String contents = await file.readAsString();
+void migrate() async {
+  saveSettings(json.encode(await PS.readSettings()));
 
-    List<dynamic> notesMap = json.decode(contents);
-    return notesMap;
-  } catch (e) {
-    // If we encounter an error, return 0
+  String usrs = await (await _userFile).readAsString();
+  (await _userFile).writeAsString(await doEncrypt(usrs));
+
+  List<User> users = await AccountManager().getUsers();
+
+  for (User u in users){
+    saveEvaluations(json.encode(await PS.readEvaluations(u)), u);
+    saveEvents(json.encode(await PS.readEvents(u)), u);
+    saveHomework(json.encode(await PS.readHomework(u)), u);
   }
+
+  main();
 }
 
-Future<File> _localHomework(User user) async {
+Future<File> get _userFile async {
   final path = await _localFolder;
-  String suffix = user.id.toString();
-  return new File('$path/' + suffix + '_homework.json');
+  return new File('$path/users.json');
 }
 
-Future<File> saveHomework(String homeworkString, User user) async {
-  final file = await _localHomework(user);
-  // Write the file
-  return file.writeAsString(homeworkString);
+Future<File> saveUsers(List<User> users) async {
+  print("save");
+  final file = await _userFile;
+  List<Map<String, dynamic>> userMap = new List();
+  for (User user in users)
+    userMap.add(user.toMap());
+  print(users[0].name);
+  print(await doEncrypt(json.encode(userMap)));
+  return file.writeAsString(await doEncrypt(json.encode(userMap)));
 }
 
-Future<List<Map<String, dynamic>>> readHomework(User user) async {
+Future<List<Map<String, dynamic>>> readUsers() async {
+  List<Map<String, dynamic>> userMap = new List();
+  final file = await _userFile;
+  String contents;
+  List<dynamic> userlist = new List<dynamic>();
   try {
-    final file = await _localHomework(user);
-    // Read the file
-    String contents = await file.readAsString();
-
-    List<Map<String, dynamic>> notes = new List();
-    List<dynamic> notesMap = json.decode(contents);
-    for (dynamic note in notesMap)
-      notes.add(note as Map<String, dynamic>);
-
-    return notes;
-  } catch (e) {
-    // If we encounter an error, return 0
-    return new List();
+    contents = await doDecrypt(await file.readAsString());
+    print(contents);
+    userlist = json.decode(contents);
+  } catch (error) {
+    print(error);
+    contents = "";
   }
+
+  for (dynamic d in userlist)
+    userMap.add(d as Map<String, dynamic>);
+
+  return userMap;
 }
 
-
-Future<File> _localTimeTable(String time, User user) async {
-  final path = await _localFolder;
-  String suffix = user.id.toString();
-  return new File('$path/timetable_$time-$suffix.json');
-}
-
-Future<File> saveTimetable(String timetableString, String time, User user) async {
-  final file = await _localTimeTable(time, user);
-
-  // Write the file
-  return file.writeAsString(timetableString);
-}
-
-Future<List<dynamic>> readTimetable(String time, User user) async {
+Future<bool> get shouldMigrate async {
   try {
-    final file = await _localTimeTable(time, user);
-    // Read the file
-    String contents = await file.readAsString();
-
-    List<dynamic> timetableMap = json.decode(contents);
-    return timetableMap;
+    final file = await _userFile;
+    String contents;
+    contents = file.readAsStringSync();
+    if (contents == "")
+      return false;
+    return (contents.contains("username" ) && contents.contains("password"));
   } catch (e) {
-    // If we encounter an error, return 0
+    print(e);
+    return false;
   }
-}
-
-Future<File> get _localSettings async {
-  final path = await _localFolder;
-  return new File('$path/settings.json');
-}
-
-Future<File> saveSettings(String settingsString) async {
-  final file = await _localSettings;
-
-  // Write the file
-  return file.writeAsString(settingsString);
 }
 
 Future<Map<String, dynamic>> readSettings() async {
   try {
     final file = await _localSettings;
-    // Read the file
     String contents = await file.readAsString();
 
-    Map<String, dynamic> settingsMap = json.decode(contents);
+    Map<String, dynamic> settingsMap = json.decode(await doDecrypt(contents));
     return settingsMap;
   } catch (e) {
     return new Map();
-    // If we encounter an error, return 0
   }
 }

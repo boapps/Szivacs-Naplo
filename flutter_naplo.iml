@@ -15,6 +15,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/native_http_request/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/native_http_request/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/native_http_request/build" />

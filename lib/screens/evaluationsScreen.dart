@@ -9,9 +9,11 @@ import '../GlobalDrawer.dart';
 import '../Helpers/AverageHelper.dart';
 import '../Helpers/EvaluationHelper.dart';
 import '../Utils/AccountManager.dart';
+import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
+import '../Dialog/SortDialog.dart';
+import '../Dialog/AverageDialog.dart';
 
 void main() {
   runApp(new MaterialApp(home: new EvaluationsScreen()));
@@ -33,23 +35,19 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
   List<Evaluation> evals = new List();
   List<Average> avers = new List();
+  List<User> users = new List();
+  Map<String, dynamic> evaluationsMap;
+  Map<String, dynamic> onlyEvaluations;
 
   bool hasOfflineLoaded = false;
   bool hasLoaded = false;
 
   User selectedUser;
-  List<User> users;
 
   void initSelectedUser() async {
     users = await AccountManager().getUsers();
     setState(() {
       selectedUser = users[0];
-    });
-  }
-
-  void _onSelect(User user) async {
-    setState(() {
-      selectedUser = user;
     });
   }
 
@@ -73,10 +71,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       },
     ) ??
         false;
-  }
-
-  void ss() {
-
   }
 
   @override
@@ -104,11 +98,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                   child: new Icon(Icons.sort, color: Colors.white),
                 )
               ],
-              /* bottom: new PreferredSize(
-              child: new LinearProgressIndicator(
-                value: 0.7,
-              ),
-              preferredSize: null),*/
             ),
             body: new Container(
                 child: hasOfflineLoaded
@@ -125,38 +114,36 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Map<String, dynamic> evaluationsMap;
-  Map<String, dynamic> onlyEvaluations;
-
   Future<Null> _onRefresh() async {
     setState(() {
       hasLoaded = false;
     });
+
     Completer<Null> completer = new Completer<Null>();
     avers = await AverageHelper().getAverages();
     globals.avers = avers;
 
     evals = await EvaluationHelper().getEvaluations();
+    globals.evals = evals;
 
-    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
+    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
 
     switch (globals.sort) {
       case 0:
         evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
         break;
       case 1:
-        evals.sort((a, b) => a.numericValue.compareTo(b.numericValue));
+        evals.sort((a, b) => a.realValue.compareTo(b.realValue));
         break;
       case 2:
         evals.sort((a, b) => a.subject.compareTo(b.subject));
         break;
     }
 
+    hasLoaded = true;
+
     if (mounted)
-      setState(() {
-        completer.complete();
-        hasLoaded = true;
-      });
+      setState(() => completer.complete());
     return completer.future;
   }
 
@@ -168,9 +155,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           break;
         case 1:
           evals.sort((a, b) {
-            if (a.numericValue == b.numericValue)
+            if (a.realValue == b.realValue)
               return b.creationDate.compareTo(a.creationDate);
-            return a.numericValue.compareTo(b.numericValue);
+            return a.realValue.compareTo(b.realValue);
           });
           break;
         case 2:
@@ -193,8 +180,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     globals.avers = avers;
 
     evals = await EvaluationHelper().getEvaluationsOffline();
+    globals.evals = evals;
 
-    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
+    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
 
     switch (globals.sort) {
       case 0:
@@ -202,9 +190,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         break;
       case 1:
         evals.sort((a, b) {
-          if (a.numericValue == b.numericValue)
+          if (a.realValue == b.realValue)
             return b.creationDate.compareTo(a.creationDate);
-          return a.numericValue.compareTo(b.numericValue);
+          return a.realValue.compareTo(b.realValue);
         });
         break;
       case 2:
@@ -216,11 +204,10 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         break;
     }
 
+    hasOfflineLoaded = true;
+
     if (mounted)
-      setState(() {
-        completer.complete();
-        hasOfflineLoaded = true;
-      });
+      setState(() => completer.complete());
     return completer.future;
   }
 
@@ -237,17 +224,28 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                 evaluation.theme != "" && evaluation.theme != null
                     ? new Text(AppLocalizations.of(context).theme + evaluation.theme)
                     : new Container(),
-                evaluation.teacher != null ? new Text(AppLocalizations.of(context).teacher + evaluation.teacher) : new Container(),
-                evaluation.date != null ? new Text(AppLocalizations.of(context).time + evaluation.date.substring(0, 11)
-                    .replaceAll("-", '. ')
-                    .replaceAll("T", ". ")) : new Container(),
-                evaluation.mode != null ? new Text(AppLocalizations.of(context).mode + evaluation.mode) : new Container(),
-                evaluation.creationDate != null ? new Text(AppLocalizations.of(context).administration_time +
+                evaluation.teacher != null ? new Text(
+                    AppLocalizations.of(context).teacher + evaluation.teacher)
+                    : new Container(),
+                evaluation.date != null ? new Text(
+                    AppLocalizations.of(context).time + dateToHuman(evaluation))
+                    : new Container(),
+                evaluation.mode != null ? new Text(
+                    AppLocalizations.of(context).mode + evaluation.mode)
+                    : new Container(),
+                evaluation.creationDate != null ? new Text(
+                    AppLocalizations.of(context).administration_time +
                     evaluation.creationDate.substring(0, 16).replaceAll(
                         "-", ". ").replaceAll("T", ". ")) : new Container(),
-                evaluation.weight != null ? new Text(AppLocalizations.of(context).weight + evaluation.weight) : new Container(),
-                evaluation.value != null ? new Text(AppLocalizations.of(context).value + evaluation.value) : new Container(),
-                evaluation.range != null ? new Text(AppLocalizations.of(context).range + evaluation.range) : new Container(),
+                evaluation.weight != null ? new Text(
+                    AppLocalizations.of(context).weight + evaluation.weight)
+                    : new Container(),
+                evaluation.value != null ? new Text(
+                    AppLocalizations.of(context).value + evaluation.value)
+                    : new Container(),
+                evaluation.range != null ? new Text(
+                    AppLocalizations.of(context).range + evaluation.range)
+                    : new Container(),
               ],
             ),
           ),
@@ -315,146 +313,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     evals.clear();
     super.dispose();
-  }
-}
-
-class AverageDialog extends StatefulWidget {
-//  List newList;
-  const AverageDialog();
-
-  @override
-  AverageDialogState createState() => new AverageDialogState();
-}
-
-class AverageDialogState extends State<AverageDialog> {
-  List<Evaluation> evals = new List();
-  List<Average> avers = new List();
-  List<Average> currentAvers = new List();
-
-  User selectedUser;
-  List<User> users;
-
-  void initSelectedUser() async {
-    users = await AccountManager().getUsers();
-    setState(() {
-      selectedUser = users[0];
-    });
-  }
-
-  void _onSelect(User user) async {
-    selectedUser = user;
-
-    setState(() {
-      refWidgets();
-    });
-    }
-
-  List<Widget> widgets = new List();
-
-  Widget build(BuildContext context) {
-    widgets.clear();
-    avers = globals.avers;
-    if (selectedUser==null)
-      selectedUser = globals.selectedUser;
-    users = globals.users;
-
-    setState(() {
-      refWidgets();
-    });
-
-    setState(() {
-      if (currentAvers.isNotEmpty)
-        widgets.add(
-          new Container(
-            child: new ListView.builder(
-                itemBuilder: _itemBuilder, itemCount: currentAvers.length),
-            width: 320.0,
-            height: 400.0,
-          )
-        );
-    });
-
-    return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).averages),
-      contentPadding: const EdgeInsets.all(10.0),
-      children: widgets,
-    );
-  }
-
-  Widget _itemBuilder(BuildContext context, int index) {
-//    return new Text("test");
-
-    return new ListTile(
-      title: new Text(currentAvers[index].subject),
-      subtitle: new Text(currentAvers[index].value.toString(), style: TextStyle(
-          color: currentAvers[index].value < 2 ? Colors.red : null),),
-      onTap: () {
-//        setState(() {});
-      },
-    );
-  }
-
-  void refWidgets() {
-    currentAvers.clear();
-    for (Average average in avers)
-      if (average.owner.id == selectedUser.id) currentAvers.add(average);
-  }
-}
-
-class SortDialog extends StatefulWidget {
-//  List newList;
-  const SortDialog();
-
-  @override
-  SortDialogState createState() => new SortDialogState();
-}
-
-class SortDialogState extends State<SortDialog> {
-  int selected = 0;
-
-  void _onSelect(String sel, List<String> sorba) {
-    setState(() {
-      selected = sorba.indexOf(sel);
-      globals.sort = selected;
-    });
-  }
-
-  Widget build(BuildContext context) {
-    List<String> sorba = [AppLocalizations.of(context).sort_time, AppLocalizations.of(context).sort_eval, AppLocalizations.of(context).sort_subject];
-    return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).sort),
-      contentPadding: const EdgeInsets.all(10.0),
-      children: <Widget>[
-        new PopupMenuButton<String>(
-          child: new Container(
-            child: new Row(
-              children: <Widget>[
-                new Text(
-                  sorba[globals.sort],
-                  style: new TextStyle(color: null, fontSize: 17.0),
-                ),
-                new Icon(
-                  Icons.arrow_drop_down,
-                  color: null,
-                ),
-              ],
-            ),
-            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-          ),
-          onSelected: (String sel) {_onSelect(sel, sorba);},
-          itemBuilder: (BuildContext context) {
-            return sorba.map((String sor) {
-              return new PopupMenuItem<String>(
-                value: sor,
-                child: new Text(sor),
-              );
-            }).toList();
-          },
-        ),
-      ],
-    );
   }
 }

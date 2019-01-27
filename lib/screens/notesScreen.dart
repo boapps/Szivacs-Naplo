@@ -10,7 +10,6 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/NotesHelper.dart';
 import '../globals.dart' as globals;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
 
 void main() {
@@ -29,9 +28,7 @@ class NotesScreenState extends State<NotesScreen> {
     super.initState();
     initSelectedUser();
     _onRefreshOffline();
-//    refNotes();
     _onRefresh();
-//    refNotes();
   }
 
   bool hasOfflineLoaded = false;
@@ -39,9 +36,6 @@ class NotesScreenState extends State<NotesScreen> {
 
   List<Note> notes = new List();
   List<Note> selectedNotes = new List();
-//  List<Evaluation> evals = new List();
-//  List<Average> avers = new List();
-//  List<Average> currentAvers = new List();
 
   User selectedUser;
   List<User> users;
@@ -50,18 +44,6 @@ class NotesScreenState extends State<NotesScreen> {
     setState(() {
       selectedUser = globals.selectedUser;
     });
-  }
-
-  void _onSelect(User user) async {
-    selectedUser = user;
-
-//    setState(() {
-//      refWidgets();
-//      _onRefreshOffline();
-//      _onRefresh();
-      refNotes();
-//    });
-
   }
 
   void refNotes() {
@@ -77,14 +59,6 @@ class NotesScreenState extends State<NotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-//    avers = globals.avers;
-//    selectedUser = globals.selectedUser;
-//    users = globals.users;
-
-//    print(globals.selectedUser);
-//    print(selectedUser.name);
-//    print(avers.length);
-
     return new WillPopScope(
         onWillPop: () {
           globals.screen = 0;
@@ -96,11 +70,6 @@ class NotesScreenState extends State<NotesScreen> {
           title: new Text(AppLocalizations.of(context).notes),
           actions: <Widget>[
           ],
-         /* bottom: new PreferredSize(
-              child: new LinearProgressIndicator(
-                value: 0.7,
-              ),
-              preferredSize: null),*/
         ),
         body: new Container(
               child:
@@ -112,11 +81,9 @@ class NotesScreenState extends State<NotesScreen> {
                           itemBuilder: _itemBuilder,
                           itemCount: selectedNotes.length,
                     ),
-
                         onRefresh: _onRefresh),
                   ) :
                   new Center(child: new CircularProgressIndicator())
-
          )
         )
         );
@@ -128,11 +95,11 @@ class NotesScreenState extends State<NotesScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
     notes = await NotesHelper().getNotes();
-//    notes.removeWhere((Note n)=>n.owner==selectedUser);
     refNotes();
+    hasLoaded = true;
+
     if (mounted)
       setState(() {
-        hasLoaded = true;
         completer.complete();
       });
     return completer.future;
@@ -145,25 +112,24 @@ class NotesScreenState extends State<NotesScreen> {
     Completer<Null> completer = new Completer<Null>();
     notes = await NotesHelper().getNotesOffline();
     refNotes();
-//    notes.removeWhere((Note n)=>n.owner==selectedUser);
+    hasOfflineLoaded = true;
+
     if (mounted)
       setState(() {
-        hasOfflineLoaded = true;
         completer.complete();
       });
     return completer.future;
-  }
-
-  void evalDialog(int index){
-    print("tapped " + index.toString());
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
     return new Column(
       children: <Widget>[
         new ListTile(
-//      leading: new Text(selectedNotes[index].numericValue.toString(), textScaleFactor: 2.0,),
-          title: new Text(selectedNotes[index].date.substring(0,10).replaceAll("-", ". ") + ". " + (selectedNotes[index].teacher!=null ? (" - " + selectedNotes[index].teacher):""), style: TextStyle(fontSize: 20.0),),
+          title: new Text(
+            selectedNotes[index].date.substring(0,10).replaceAll("-", ". ") + ". " +
+                (selectedNotes[index].teacher != null ? (" - " + selectedNotes[index].teacher):""),
+            style: TextStyle(fontSize: 20.0),
+          ),
           subtitle: new Container(
             padding: EdgeInsets.all(5),
     child: Linkify(
@@ -172,11 +138,8 @@ class NotesScreenState extends State<NotesScreen> {
         launcher.launch(url);
       },
     ),
-    //child: new RichTextView(text: selectedNotes[index].content),
     ),
           isThreeLine: true,
-//      trailing: new Text(),
-          onTap: () {evalDialog(index);},
         ),
         new Divider(height: 10.0,),
       ],
@@ -185,7 +148,6 @@ class NotesScreenState extends State<NotesScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     selectedNotes.clear();
     super.dispose();
   }

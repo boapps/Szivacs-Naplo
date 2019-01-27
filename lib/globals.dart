@@ -6,6 +6,7 @@ import 'Datas/Evaluation.dart';
 
 bool isLoggedIn = false;
 bool isLogo = true;
+bool isColor = true;
 List avers;
 Map<String, List<Absence>> absents;
 List searchres;
@@ -23,4 +24,5 @@ int ido = 1;
 List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();
+List<Evaluation> evals = new List();
 

@@ -17,7 +17,7 @@
     <application
         tools:replace="android:label"
         android:name=".Application"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/launcher_icon"
         android:label="e-Szivacs 2.0"
         android:roundIcon="@mipmap/ic_launcher_round"

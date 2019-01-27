@@ -5,7 +5,7 @@ Az e-Szivacs 2: egy multiplatformos kliensalkalmazás az e-Kréta rendszerhez.
 Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
 
 #### Jelenlegi funkciók:
-* megtudod nézni a jegyeidet, hiányzásaidat, órarendedet és a "faliújságot"
+* meg tudod nézni a jegyeidet, hiányzásaidat, órarendedet és a "faliújságot"
 * több fiókkal be tudsz jelentkezni és nem kell átlépegetned egyikből a másikba hanem egyszerre látod az összes jegyet
 * gyors, logikus, modern felület
 * *sötét* téma (az e-Kréta app fejlesztő(i)ről elnevezve)

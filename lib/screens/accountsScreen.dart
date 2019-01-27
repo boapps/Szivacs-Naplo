@@ -4,7 +4,6 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
 import '../Utils/AccountManager.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
 
 
