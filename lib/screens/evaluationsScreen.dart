@@ -34,7 +34,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     _onRefresh();
   }
 
-  List<Evaluation> evals = new List();
+  List<Evaluation> _evals = new List();
   List<Average> avers = new List();
   List<User> users = new List();
   Map<String, dynamic> evaluationsMap;
@@ -108,7 +108,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                         child: new RefreshIndicator(
                             child: new ListView.builder(
                               itemBuilder: _itemBuilder,
-                              itemCount: evals.length,
+                              itemCount: _evals.length,
                             ),
                             onRefresh: _onRefresh),
                       )
@@ -124,20 +124,27 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     avers = await AverageHelper().getAverages();
     globals.avers = avers;
 
-    evals = await EvaluationHelper().getEvaluations();
-    globals.evals = evals;
+    await EvaluationHelper().getEvaluations().then((List<Evaluation> evaluationList) {
+      _evals = evaluationList;
+    });
 
-    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
+    for (Evaluation e in globals.global_evals)
+      print(e.owner.name + " - TOnE - " + e.subject);
+
+    _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
+
+    for (Evaluation e in globals.global_evals)
+      print(e.owner.name + " - TOnU - " + e.subject);
 
     switch (globals.sort) {
       case 0:
-        evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+        _evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
         break;
       case 1:
-        evals.sort((a, b) => a.realValue.compareTo(b.realValue));
+        _evals.sort((a, b) => a.realValue.compareTo(b.realValue));
         break;
       case 2:
-        evals.sort((a, b) => a.subject.compareTo(b.subject));
+        _evals.sort((a, b) => a.subject.compareTo(b.subject));
         break;
     }
 
@@ -152,17 +159,17 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     setState(() {
       switch (globals.sort) {
         case 0:
-          evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+          _evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
           break;
         case 1:
-          evals.sort((a, b) {
+          _evals.sort((a, b) {
             if (a.realValue == b.realValue)
               return b.creationDate.compareTo(a.creationDate);
             return a.realValue.compareTo(b.realValue);
           });
           break;
         case 2:
-          evals.sort((a, b) {
+          _evals.sort((a, b) {
             if (a.subject == b.subject)
               return b.creationDate.compareTo(a.creationDate);
             return a.subject.compareTo(b.subject);
@@ -185,28 +192,36 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       globals.avers = avers;
     }
 
-    if (globals.evals.length > 0)
-      evals = globals.evals;
-    else {
-      evals = await EvaluationHelper().getEvaluationsOffline();
-      globals.evals = evals;
+    if (globals.global_evals.length > 0) {
+      _evals.clear();
+      _evals.addAll(globals.global_evals);
+    } else {
+      await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
+        _evals = evaluationList;
+      });
     }
 
-    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
+    for (Evaluation e in globals.global_evals)
+      print(e.owner.name + " - TOffE - " + e.subject);
+
+    _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
+
+    for (Evaluation e in globals.global_evals)
+      print(e.owner.name + " - TOffU - " + e.subject);
 
     switch (globals.sort) {
       case 0:
-        evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+        _evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
         break;
       case 1:
-        evals.sort((a, b) {
+        _evals.sort((a, b) {
           if (a.realValue == b.realValue)
             return b.creationDate.compareTo(a.creationDate);
           return a.realValue.compareTo(b.realValue);
         });
         break;
       case 2:
-        evals.sort((a, b) {
+        _evals.sort((a, b) {
           if (a.subject == b.subject)
             return b.creationDate.compareTo(a.creationDate);
           return a.subject.compareTo(b.subject);
@@ -276,7 +291,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
     String textShort;
 
-    switch(evals[index].value){
+    switch(_evals[index].value){
       case "Példás":
         textShort = ":D";
         break;
@@ -299,22 +314,22 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         new ListTile(
           leading: new Container(
             child: new Text(
-              evals[index].numericValue != 0 ?
-              evals[index].numericValue.toString() : textShort ?? "?",
+              _evals[index].numericValue != 0 ?
+              _evals[index].numericValue.toString() : textShort ?? "?",
               textScaleFactor: 2.0,
-              style: TextStyle(color: evals[index].color),
+              style: TextStyle(color: _evals[index].color),
             ),
             padding: EdgeInsets.only(left: 8.0),
           ),
-          title: new Text(evals[index].subject),
-          subtitle: new Text(evals[index].theme ?? evals[index].value),
+          title: new Text(_evals[index].subject),
+          subtitle: new Text(_evals[index].theme ?? _evals[index].value),
           trailing: new Column(
             children: <Widget>[
-              new Text(evals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
+              new Text(_evals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
             ],
           ),
           onTap: () {
-            _evaluationDialog(evals[index]);
+            _evaluationDialog(_evals[index]);
           },
         ),
       ],
@@ -323,7 +338,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
   @override
   void dispose() {
-    evals.clear();
     super.dispose();
   }
 }

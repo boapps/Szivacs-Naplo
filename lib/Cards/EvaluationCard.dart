@@ -285,7 +285,7 @@ class EvaluationCard extends StatelessWidget {
                       alignment: Alignment(1.0, -1.0),
                     ),
                   ):new Container(),
-                  !!isSingle ? new Expanded(
+                  isSingle ? new Expanded(
                       child: new Container(
                         child: new Text(
                           evaluation.date.substring(0, 10).replaceAll("-", ". ") + ". ",

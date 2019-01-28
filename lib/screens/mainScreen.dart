@@ -10,6 +10,7 @@ import '../Cards/LessonCard.dart';
 import '../Datas/Absence.dart';
 import '../Datas/Evaluation.dart';
 import '../Datas/Note.dart';
+import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
 import '../Helpers/AbsentHelper.dart';
@@ -18,6 +19,7 @@ import '../Helpers/NotesHelper.dart';
 import '../Helpers/SettingsHelper.dart';
 import '../Datas/Lesson.dart';
 import '../Helpers/TimetableHelper.dart';
+import '../Helpers/RequestHelper.dart';
 
 import '../Helpers/LocaleHelper.dart';
 
@@ -83,7 +85,7 @@ class MainScreenState extends State<MainScreen> {
     if(SHOW_ITEMS > widgets.length)
       SHOW_ITEMS = widgets.length;
 
-    return widgets.sublist(0, SHOW_ITEMS);
+    return widgets;//.sublist(0, SHOW_ITEMS);
   }
 
   Future<bool> _onWillPop() {
@@ -144,21 +146,11 @@ class MainScreenState extends State<MainScreen> {
       hasLoaded = false;
     });
 
-    absents = await AbsentHelper().getAbsents();
-    globals.global_absents = absents;
-    if (globals.isSingle)
-      absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
 
     notes = await NotesHelper().getNotes();
     globals.notes = notes;
     if (globals.isSingle)
       notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
-
-    evals = await EvaluationHelper().getEvaluations();
-    globals.evals = evals;
-    if (globals.isSingle)
-      evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
-    evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
 
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
@@ -166,17 +158,50 @@ class MainScreenState extends State<MainScreen> {
     globals.lessons = lessons;
 
     Completer<Null> completer = new Completer<Null>();
+    refreshStudent().then((bool b){
+      hasLoaded = true;
+      hasOfflineLoaded = true;
 
-    hasLoaded = true;
-    hasOfflineLoaded = true;
+      if (mounted) {
+        setState(() {
+          completer.complete();
+        });
+      }
 
-    if (mounted) {
-      setState(() {
-        completer.complete();
-      });
-    }
+    });
+
 
     return completer.future;
+  }
+
+  Future<bool> refreshStudent() async {
+    evals.clear();
+
+    for (User user in globals.users){
+      String student_string = await RequestHelper().getStudentString(user);
+      print(student_string);
+      evals.addAll(await EvaluationHelper().getEvaluationsFrom(student_string, user));
+      globals.global_evals = evals;
+      if (globals.isSingle)
+        evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
+      evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
+      for (Evaluation e in evals)
+        print(e.owner.name + " - E - " + e.subject);
+
+      absents = await AbsentHelper().getAbsentsFrom(student_string, user);
+      for (List<Absence> l in absents.values.toList())
+        for (Absence a in l)
+          print(a.owner.name + " - A - " + a.subject);
+      globals.global_absents = absents;
+      if (globals.isSingle)
+        absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
+
+
+    }
+
+    evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+
+    return true;
   }
 
   Future<Null> _onRefreshOffline() async {
@@ -209,12 +234,13 @@ class MainScreenState extends State<MainScreen> {
       globals.avers = avers;
     }
 */
-    if (globals.evals.length > 0)
-      evals = globals.evals;
+    if (globals.global_evals.length > 0)
+      evals = globals.global_evals;
     else {
       evals = await EvaluationHelper().getEvaluationsOffline();
-      globals.evals = evals;
+      globals.global_evals = evals;
     }
+    evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
 
     if (globals.isSingle)
       evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );

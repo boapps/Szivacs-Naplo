@@ -16,7 +16,8 @@ import 'dart:typed_data';
 import 'dart:math';
 
 final storage = new FlutterSecureStorage();
-get encrypter async => new Encrypter(new AES(await key));
+get encrypter async => new Encrypter(new AES(await key, iv));
+final iv = IV.fromLength(16);
 
 var rng = new Random();
 

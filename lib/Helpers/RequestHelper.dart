@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:convert' show utf8, json;
 import 'dart:io';
 
-import 'package:http_client/http_client.dart';
+import '../Utils/Saver.dart';
+import '../Datas/User.dart';
 import 'package:http/http.dart' as http;
 
 class RequestHelper {
@@ -77,5 +78,29 @@ class RequestHelper {
     }
   }
 
+  Future<String> getStudentString(User user) async {
+    String instCode = user.schoolCode;
+    String userName = user.username;
+    String password = user.password;
+
+    String jsonBody = "institute_code=" +
+        instCode +
+        "&userName=" +
+        userName +
+        "&password=" +
+        password +
+        "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
+
+    Map<String, dynamic> bearerMap =
+    json.decode((await getBearer(jsonBody, instCode)).body);
+
+    String code = bearerMap.values.toList()[0];
+
+    String evaluationsString =
+    (await getEvaluations(code, instCode));
+    saveEvaluations(evaluationsString, user);
+
+    return evaluationsString;
+  }
 
 }

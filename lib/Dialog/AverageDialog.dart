@@ -36,7 +36,7 @@ class AverageDialogState extends State<AverageDialog> {
   Widget build(BuildContext context) {
     widgets.clear();
     avers = globals.avers;
-    evals = globals.evals;
+    evals = globals.global_evals;
 
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
     evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-");
