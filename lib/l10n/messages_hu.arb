@@ -326,12 +326,12 @@
     "type": "text",
     "placeholders": {}
   },
-  "all_median": "Összes jegy mediánja:",
+  "all_median": "Összes jegy mediánja: ",
   "@all_median": {
     "type": "text",
     "placeholders": {}
   },
-  "all_mode": "Összes jegy módusza:",
+  "all_mode": "Összes jegy módusza: ",
   "@all_mode": {
     "type": "text",
     "placeholders": {}
