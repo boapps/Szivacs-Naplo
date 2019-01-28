@@ -596,5 +596,21 @@
   "@language": {
     "type": "text",
     "placeholders": {}
+  },
+  "halfyear": "half-year",
+  "@halfyear": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "endyear": "end-year",
+  "@endyear": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "quarteryear": "quarter-year",
+  "@quarteryear": {
+    "type": "text",
+    "placeholders": {}
   }
+
 }

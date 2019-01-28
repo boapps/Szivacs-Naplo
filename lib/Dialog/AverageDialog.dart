@@ -25,6 +25,8 @@ class AverageDialogState extends State<AverageDialog> {
 
   bool felevi = false;
 
+  int pageID = 0;
+
   void initSelectedUser() async {
     users = await AccountManager().getUsers();
     setState(() {
@@ -32,6 +34,12 @@ class AverageDialogState extends State<AverageDialog> {
     });
   }
 
+  void onChanged (int change) {
+    pageID = change;
+    setState(() {
+      refWidgets();
+    });
+  }
 
   Widget build(BuildContext context) {
     widgets.clear();
@@ -45,19 +53,13 @@ class AverageDialogState extends State<AverageDialog> {
       selectedUser = globals.selectedUser;
     users = globals.users;
 
+    List<String> avrChoice = [AppLocalizations.of(context).average, AppLocalizations.of(context).halfyear, AppLocalizations.of(context).quarteryear + " (nem működik)", AppLocalizations.of(context).endyear + " (nem működik)"];
+
     widgets.add(
       new Container(
-        child: new Row(
-          children: <Widget>[
-            new Text("Félévi "),
-            new Switch(value: felevi, onChanged: (bool change){
-              felevi = change;
-              setState(() {
-                refWidgets();
-              });
-            })
-          ],
-        ),
+        child: new DropdownButton<int>(items: [0, 1, 2, 3].map((int choice){
+          return DropdownMenuItem<int>(child: Text(avrChoice[choice]), value: choice,);
+        }).toList(), onChanged: onChanged, value: pageID,),
       )
     );
 
@@ -96,19 +98,27 @@ class AverageDialogState extends State<AverageDialog> {
 
   void refWidgets() {
     currentAvers.clear();
-    if (!felevi) {
-      for (Average average in avers)
-        if (average.owner.id == selectedUser.id && average.value >= 1 &&
-            average.value <= 5) currentAvers.add(average);
 
-
-      currentAvers.add(Average("Összes jegy átlaga", "", "", getAllAverages(), 0, 0));
-    } else {
-      for (Evaluation e in evals) {
-        if (e.type == "HalfYear" && e.owner.id == selectedUser.id)
-                currentAvers.add(Average(
-                    e.subject, e.subjectCategory, e.subject, e.numericValue / 1, 0, 0));
-      }
+    switch(pageID){
+      case 0:
+        for (Average average in avers)
+          if (average.owner.id == selectedUser.id && average.value >= 1 &&
+              average.value <= 5) currentAvers.add(average);
+        currentAvers.add(Average("Összes jegy átlaga", "", "", getAllAverages(), 0, 0));
+        break;
+      case 1:
+        for (Evaluation e in evals) {
+          if (e.type == "HalfYear" && e.owner.id == selectedUser.id)
+            currentAvers.add(Average(
+                e.subject, e.subjectCategory, e.subject, e.numericValue / 1, 0, 0));
+        }
+        break;
+      case 2:
+        //todo guess string for this
+        break;
+      case 3:
+        //todo and this
+        break;
     }
   }
 

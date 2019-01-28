@@ -597,5 +597,20 @@
    "@language": {
      "type": "text",
      "placeholders": {}
-   }
+   },
+  "halfyear": "félévi",
+  "@halfyear": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "endyear": "évvégi",
+  "@endyear": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "quarteryear": "negyedéves",
+  "@quarteryear": {
+    "type": "text",
+    "placeholders": {}
+  }
 }

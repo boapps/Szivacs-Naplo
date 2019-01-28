@@ -523,6 +523,18 @@ class AppLocalizations {
     return Intl.message("nyelv", name: "language");
   }
 
+  String get halfyear {
+    return Intl.message("félévi", name: "halfyear");
+  }
+
+  String get endyear {
+    return Intl.message("évvégi", name: "endyear");
+  }
+
+  String get quarteryear {
+    return Intl.message("negyedéves", name: "quarteryear");
+  }
+
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
