@@ -592,5 +592,10 @@
   "@if_i_got": {
     "type": "text",
     "placeholders": {}
-  }
+  },
+   "language": "Nyelv",
+   "@language": {
+     "type": "text",
+     "placeholders": {}
+   }
 }

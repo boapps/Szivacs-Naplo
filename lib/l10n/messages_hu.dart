@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "absence" : MessageLookupByLibrary.simpleMessage("hiányzás"),
     "absence_time" : MessageLookupByLibrary.simpleMessage("hiányzás ideje: "),
+    "absences_title" : MessageLookupByLibrary.simpleMessage("Hiányzások"),
     "absent_title" : MessageLookupByLibrary.simpleMessage("Hiányzások / Késések"),
     "accounts" : MessageLookupByLibrary.simpleMessage("Fiókok"),
     "administration_time" : MessageLookupByLibrary.simpleMessage("naplózás ideje: "),
@@ -79,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "instagram" : MessageLookupByLibrary.simpleMessage("Instagram"),
     "justification_mode" : MessageLookupByLibrary.simpleMessage("igazolás módja: "),
     "justification_state" : MessageLookupByLibrary.simpleMessage("igazolás állapota: "),
+    "language" : MessageLookupByLibrary.simpleMessage("Nyelv"),
     "later" : MessageLookupByLibrary.simpleMessage("múlva"),
     "lesson_end" : MessageLookupByLibrary.simpleMessage("óra vége: "),
     "lesson_start" : MessageLookupByLibrary.simpleMessage("órakezdés: "),

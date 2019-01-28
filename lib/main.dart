@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate
             ],
             supportedLocales: [Locale("hu"), Locale("en")],
+            locale: globals.lang != "auto" ? Locale(globals.lang) : null,
             onGenerateTitle: (BuildContext context) =>
             AppLocalizations.of(context).title,
             title: "e-Szivacs 2",
@@ -88,6 +89,7 @@ void main() async {
   isNew = (users.isEmpty);
   globals.isLogo = await SettingsHelper().getLogo();
   globals.isSingle = await SettingsHelper().getSingleUser();
+  globals.lang = await SettingsHelper().getLang();
 
   if (!isNew) {
     BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);

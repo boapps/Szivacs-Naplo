@@ -104,7 +104,7 @@ class LessonCard extends StatelessWidget {
                       )),
                   Container(
                     padding: EdgeInsets.only(right: 5),
-                    child: new Text(getDurToNext() + AppLocalizations.of(context).minute,
+                    child: new Text(getDurToNext() + " " + AppLocalizations.of(context).minute,
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),

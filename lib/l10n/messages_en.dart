@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "absence" : MessageLookupByLibrary.simpleMessage("absences"),
     "absence_time" : MessageLookupByLibrary.simpleMessage("absence time: "),
+    "absences_title" : MessageLookupByLibrary.simpleMessage("Absences"),
     "absent_title" : MessageLookupByLibrary.simpleMessage("Absences / Delays"),
     "accounts" : MessageLookupByLibrary.simpleMessage("Accounts"),
     "administration_time" : MessageLookupByLibrary.simpleMessage("time of logging: "),
@@ -79,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "instagram" : MessageLookupByLibrary.simpleMessage("Instagram"),
     "justification_mode" : MessageLookupByLibrary.simpleMessage("justification method: "),
     "justification_state" : MessageLookupByLibrary.simpleMessage("justification status: "),
+    "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "later" : MessageLookupByLibrary.simpleMessage("later"),
     "lesson_end" : MessageLookupByLibrary.simpleMessage("end of lesson: "),
     "lesson_start" : MessageLookupByLibrary.simpleMessage("start of lesson: "),

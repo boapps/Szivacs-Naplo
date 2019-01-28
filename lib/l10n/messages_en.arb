@@ -591,5 +591,10 @@
   "@if_i_got": {
     "type": "text",
     "placeholders": {}
+  },
+  "language": "Language",
+  "@language": {
+    "type": "text",
+    "placeholders": {}
   }
 }

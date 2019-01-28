@@ -78,4 +78,12 @@ class SettingsHelper {
   Future<bool> getSingleUser() async {
     return await _getProperty("SingleUser", false);
   }
+
+  void setLang(String lang) {
+    _setPropertyBool("lang", lang);
+  }
+
+  Future<String> getLang() async {
+    return await _getProperty("lang", "auto");
+  }
 }

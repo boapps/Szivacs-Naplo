@@ -15,6 +15,7 @@ import '../Datas/Evaluation.dart';
 import '../Datas/Absence.dart';
 import '../Datas/Note.dart';
 import '../Helpers/LocaleHelper.dart';
+import '../main.dart' as Main;
 
 void main() {
   runApp(new MaterialApp(home: new SettingsScreen()));
@@ -133,6 +134,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _isNotification;
   bool _isLogo;
   bool _isSingleUser;
+  String _lang = "auto";
+  final List<String> _langs = ["auto", "en", "hu"];
 
   final List<int> refreshArray = [15, 30, 60, 120, 360];
   int _refreshNotification;
@@ -145,6 +148,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     _isLogo = await SettingsHelper().getLogo();
     _refreshNotification = await SettingsHelper().getRefreshNotification();
     _isSingleUser = await SettingsHelper().getSingleUser();
+    _lang = await SettingsHelper().getLang();
 
     setState(() {});
 
@@ -181,6 +185,14 @@ class SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       _isLogo = value;
       SettingsHelper().setLogo(_isLogo);
+    });
+  }
+
+  void _setLang(String value) {
+    setState(() {
+      _lang = value;
+      SettingsHelper().setLang(_lang);
+      Main.main();
     });
   }
 
@@ -347,6 +359,18 @@ class SettingsScreenState extends State<SettingsScreen> {
                   ),
                   leading: new Icon(
                       IconData(0xf6fb, fontFamily: "Material Design Icons")),
+                ),
+                ListTile(
+                  title: new Text(AppLocalizations.of(context).language,
+                    style: TextStyle(
+                        fontSize: 20.0
+                    ),
+                  ),
+                  trailing: new Container(child: new DropdownButton<String>(items: _langs.map((String l){
+                    return DropdownMenuItem<String>(child: Text(l, textAlign: TextAlign.end,), value: l,);
+                  }).toList(), onChanged: _setLang,value: _lang,),height: 50, width: 120,alignment: Alignment(1, 0),),
+                  leading: new Icon(
+                      IconData(0xf1e7, fontFamily: "Material Design Icons")),
                 ),
                 new ListTile(
                   leading: new Icon(Icons.info),

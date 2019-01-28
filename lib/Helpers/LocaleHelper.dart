@@ -500,7 +500,7 @@ class AppLocalizations {
   }
 
   String get absences_title {
-    return Intl.message("Hiányzások", name: "main_page");
+    return Intl.message("Hiányzások", name: "absences_title");
   }
 
   String get sort_time {
@@ -517,6 +517,10 @@ class AppLocalizations {
 
   String get if_i_got {
     return Intl.message("Ha kapnék egy...", name: "if_i_got");
+  }
+
+  String get language {
+    return Intl.message("nyelv", name: "language");
   }
 
 }
