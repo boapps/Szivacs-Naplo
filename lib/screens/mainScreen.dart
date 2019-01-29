@@ -53,7 +53,6 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    print("hello world!");
     _initSettings();
     super.initState();
     _onRefreshOffline();
@@ -85,7 +84,7 @@ class MainScreenState extends State<MainScreen> {
     if(SHOW_ITEMS > widgets.length)
       SHOW_ITEMS = widgets.length;
 
-    return widgets;//.sublist(0, SHOW_ITEMS);
+    return widgets.sublist(0, SHOW_ITEMS);
   }
 
   Future<bool> _onWillPop() {
@@ -176,30 +175,25 @@ class MainScreenState extends State<MainScreen> {
 
   Future<bool> refreshStudent() async {
     evals.clear();
+    absents.clear();
 
     for (User user in globals.users){
       String student_string = await RequestHelper().getStudentString(user);
-      print(student_string);
+
       evals.addAll(await EvaluationHelper().getEvaluationsFrom(student_string, user));
-      globals.global_evals = evals;
-      if (globals.isSingle)
-        evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
-      evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
-      for (Evaluation e in evals)
-        print(e.owner.name + " - E - " + e.subject);
-
-      absents = await AbsentHelper().getAbsentsFrom(student_string, user);
-      for (List<Absence> l in absents.values.toList())
-        for (Absence a in l)
-          print(a.owner.name + " - A - " + a.subject);
-      globals.global_absents = absents;
-      if (globals.isSingle)
-        absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
-
-
+      absents.addAll(await AbsentHelper().getAbsentsFrom(student_string, user));
     }
 
-    evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+    globals.global_absents.clear();
+    globals.global_absents.addAll(absents);
+    globals.global_evals.clear();
+    globals.global_evals.addAll(evals);
+
+    evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
+    if (globals.isSingle)
+      absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
+    if (globals.isSingle)
+      evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
 
     return true;
   }
