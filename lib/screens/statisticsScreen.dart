@@ -123,7 +123,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void _initStats() async {
     await AverageHelper().getAveragesOffline().then((List<Average> avrs) {
       setState(() {
-        avrs.removeWhere((Average e) => e.owner.id != globals.selectedUser.id);
+        avrs.removeWhere((Average e) => e.owner.id != globals.selectedUser.id || e.value < 1);
         averages = avrs;
         selectedAverage = averages[0];
         globals.selectedAverage = selectedAverage;
