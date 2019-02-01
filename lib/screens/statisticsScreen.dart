@@ -47,7 +47,20 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void initEvals() async {
-    evals = await EvaluationHelper().getEvaluationsOffline();
+    if (globals.global_evals.length != 0) {
+      evals.clear();
+      evals.addAll(globals.global_evals);
+      if (globals.evals.length == 0) {
+        globals.evals.clear();
+        globals.evals.addAll(globals.global_evals);
+      }
+    } else {
+      await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
+        evals = evaluationList;
+        globals.evals = evaluationList;
+      });
+    }
+
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
     evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-" || e.type != "MidYear");
     _onSelect(averages[0]);
@@ -322,38 +335,20 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           new Column(
             children: <Widget>[
               new Container(
-                child: selectedAverage != null
-                    ? new PopupMenuButton(
-                  itemBuilder: (BuildContext context) {
-                    print(averages);
-                    return averages.map((Average average) {
-                      return new PopupMenuItem<Average>(
+                  child: selectedAverage != null
+                      ? new DropdownButton(
+                    items: averages.map((Average average) {
+                      return new DropdownMenuItem<Average>(
                           value: average,
                           child: new Row(
                             children: <Widget>[
                               new Text(average.subject),
                             ],
                           ));
-                    }).toList();
-                  },
-                  child: new Container(
-                      child: new Row(
-                        children: <Widget>[
-                          new Text(
-                            selectedAverage.subject,
-                            style: new TextStyle(
-                                color: null, fontSize: 23.0),
-                          ),
-                          new Icon(
-                            Icons.arrow_drop_down,
-                            color: null,
-                          ),
-                        ],
-                        mainAxisSize: MainAxisSize.min,
-                      )),
-                  onSelected: _onSelect,
-                )
-                    : new Container(),
+                    }).toList(),
+                    onChanged: _onSelect,
+                    value: selectedAverage,
+                  ) : new Container(),
                 alignment: Alignment(0, 0),
                 margin: EdgeInsets.all(5),
               ),
