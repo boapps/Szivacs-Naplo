@@ -199,10 +199,10 @@ class TimeTableScreenState extends State<TimeTableScreen> with
       leading: new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,),
       title: new Text(lessonList[index].subject +
           (lessonList[index].state == "Missed" ?
-          " (${AppLocalizations.of(context).missed})" : ""),
+          " (${AppLocalizations.of(context).missed})" : "") + (lessonList[index].depTeacher != "" ? " (${lessonList[index].depTeacher})":""),
         style: TextStyle(color: lessonList[index].state == "Missed"
             ? Colors.red
-            : null),),
+            : lessonList[index].depTeacher != "" ? Colors.deepOrange : null),),
       subtitle: new Text(lessonList[index].theme),
       trailing: new Column(
         crossAxisAlignment: CrossAxisAlignment.end,
