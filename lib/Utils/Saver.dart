@@ -46,11 +46,13 @@ Future<String> get key async {
 //}
 
 Future<String> doEncrypt(String text) async {
+  return text;
   Encrypted encrypted = (await encrypter).encrypt(text);
   return encrypted.base64;
 }
 
 Future<String> doDecrypt(String text) async {
+  return text;
   try {
     Encrypted encrypted = Encrypted(base64.decode(text));
     return (await encrypter).decrypt(encrypted).toString().replaceAll(new RegExp('[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]+'), '');
@@ -243,6 +245,7 @@ Future<List<Map<String, dynamic>>> readUsers() async {
 }
 
 Future<bool> get shouldMigrate async {
+  return false;
   try {
     final file = await _userFile;
     String contents;
