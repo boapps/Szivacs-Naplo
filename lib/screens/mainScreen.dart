@@ -169,25 +169,28 @@ class MainScreenState extends State<MainScreen> {
 
     });
 
-
     return completer.future;
   }
 
   Future<bool> refreshStudent() async {
-    evals.clear();
-    absents.clear();
+    evals = new List();
+    absents = new Map();
+    globals.global_evals = new List();
+    globals.global_absents = new Map();
 
     for (User user in globals.users){
       String student_string = await RequestHelper().getStudentString(user);
 
-      evals.addAll(await EvaluationHelper().getEvaluationsFrom(student_string, user));
-      absents.addAll(await AbsentHelper().getAbsentsFrom(student_string, user));
-    }
+      await EvaluationHelper().getEvaluationsFrom(student_string, user).then((List<Evaluation> evs){
+        evals.addAll(evs);
+        globals.global_evals.addAll(evs);
+      });
 
-    globals.global_absents.clear();
-    globals.global_absents.addAll(absents);
-    globals.global_evals.clear();
-    globals.global_evals.addAll(evals);
+      await AbsentHelper().getAbsentsFrom(student_string, user).then((Map<String, List<Absence>> abs){
+        absents.addAll(abs);
+        globals.global_absents.addAll(abs);
+      });
+    }
 
     evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
     if (globals.isSingle)

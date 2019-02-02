@@ -124,17 +124,13 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     avers = await AverageHelper().getAverages();
     globals.avers = avers;
 
+    globals.evals = new List();
     await EvaluationHelper().getEvaluations().then((List<Evaluation> evaluationList) {
       _evals = evaluationList;
+      globals.evals = evaluationList;
     });
 
-    for (Evaluation e in globals.global_evals)
-      print(e.owner.name + " - TOnE - " + e.subject);
-
     _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
-
-    for (Evaluation e in globals.global_evals)
-      print(e.owner.name + " - TOnU - " + e.subject);
 
     switch (globals.sort) {
       case 0:
@@ -192,22 +188,21 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       globals.avers = avers;
     }
 
-    if (globals.global_evals.length > 0) {
+    if (globals.global_evals.length != 0) {
       _evals.clear();
       _evals.addAll(globals.global_evals);
+      if (globals.evals.length == 0) {
+        globals.evals.clear();
+        globals.evals.addAll(globals.global_evals);
+      }
     } else {
       await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
         _evals = evaluationList;
+        globals.evals = evaluationList;
       });
     }
 
-    for (Evaluation e in globals.global_evals)
-      print(e.owner.name + " - TOffE - " + e.subject);
-
     _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
-
-    for (Evaluation e in globals.global_evals)
-      print(e.owner.name + " - TOffU - " + e.subject);
 
     switch (globals.sort) {
       case 0:

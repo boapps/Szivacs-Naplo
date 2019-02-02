@@ -44,7 +44,8 @@ class AverageDialogState extends State<AverageDialog> {
   Widget build(BuildContext context) {
     widgets.clear();
     avers = globals.avers;
-    evals = globals.global_evals;
+    evals.clear();
+    evals.addAll(globals.global_evals);
 
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
     evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-");
@@ -53,7 +54,12 @@ class AverageDialogState extends State<AverageDialog> {
       selectedUser = globals.selectedUser;
     users = globals.users;
 
-    List<String> avrChoice = [AppLocalizations.of(context).average, AppLocalizations.of(context).halfyear, AppLocalizations.of(context).quarteryear + " (nem működik)", AppLocalizations.of(context).endyear + " (nem működik)"];
+    List<String> avrChoice = [
+      AppLocalizations.of(context).average,
+    AppLocalizations.of(context).halfyear,
+    AppLocalizations.of(context).quarteryear + " (${AppLocalizations.of(context).notworking})",
+    AppLocalizations.of(context).endyear + " (${AppLocalizations.of(context).notworking})"
+    ];
 
     widgets.add(
       new Container(
@@ -104,11 +110,11 @@ class AverageDialogState extends State<AverageDialog> {
         for (Average average in avers)
           if (average.owner.id == selectedUser.id && average.value >= 1 &&
               average.value <= 5) currentAvers.add(average);
-        currentAvers.add(Average("Összes jegy átlaga", "", "", getAllAverages(), 0, 0));
+        currentAvers.add(Average(AppLocalizations.of(context).all_average, "", "", getAllAverages(), 0, 0));
         break;
       case 1:
         for (Evaluation e in evals) {
-          if (e.type == "HalfYear" && e.owner.id == selectedUser.id)
+          if (e.type == "HalfYear" )//&& e.owner.id == selectedUser.id)
             currentAvers.add(Average(
                 e.subject, e.subjectCategory, e.subject, e.numericValue / 1, 0, 0));
         }

@@ -27,6 +27,8 @@ List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();
 
+List<Evaluation> evals = new List();
+
 List<Evaluation> global_evals = new List();
 List<Average> avers = new List();
 Map<String, List<Absence>> global_absents = new Map();
