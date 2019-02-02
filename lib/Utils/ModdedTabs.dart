@@ -30,10 +30,13 @@ class TabPageSelectorIndicator extends StatelessWidget {
     @required this.borderColor,
     @required this.size,
     @required this.day,
+    @required this.controller,
+    @required this.index,
   }) : assert(backgroundColor != null), assert(borderColor != null), assert(size != null), super(key: key);
 
   /// The indicator circle's background color.
   final Color backgroundColor;
+  final TabController controller;
 
   final String day;
 
@@ -42,18 +45,22 @@ class TabPageSelectorIndicator extends StatelessWidget {
 
   /// The indicator circle's diameter.
   final double size;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container (
+        child: new FlatButton(onPressed: (){
+          controller.animateTo(index);
+        }, child: Center(
+          child: Text(day, style: TextStyle(color: Colors.white,),),
+    ),
+padding: EdgeInsets.all(0),
+    shape: RoundedRectangleBorder(side: BorderSide(),borderRadius: BorderRadius.circular(3),),color: backgroundColor,
+        ),
+    height: size,
       width: size,
-      height: size,
       margin: const EdgeInsets.all(2.0),
-      //color: backgroundColor,
-      child: Center(
-        child: Text(day, style: TextStyle(color: Colors.white,),),
-      ),
-      decoration: ShapeDecoration(shape: RoundedRectangleBorder(side: BorderSide(),borderRadius: BorderRadius.circular(3),),color: backgroundColor,),
     );
   }
 }
@@ -132,6 +139,8 @@ class TabPageSelector extends StatelessWidget {
       borderColor: selectedColorTween.end,
       size: indicatorSize,
       day: days[tabIndex],
+      controller: controller,
+      index: tabIndex,
     );
   }
 

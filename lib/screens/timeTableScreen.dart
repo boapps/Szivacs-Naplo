@@ -150,6 +150,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                             onPressed: () {
                               previousWeek();
                             },
+                            padding: EdgeInsets.all(0),
                           ),
                           new IconButton(
                             tooltip: AppLocalizations.of(context).prev_day,
@@ -157,10 +158,11 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                             onPressed: () {
                               _nextPage(-1);
                             },
+                            padding: EdgeInsets.all(0),
                           ),
                           new MT.TabPageSelector(
                             controller: _tabController,
-                            indicatorSize: 26,
+                            indicatorSize: 27,
                             selectedColor: Colors.black54,
                             color: Colors.black26,
                             days: lessonsWeek.dayStrings(context),
@@ -173,6 +175,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                                 _nextPage(1);
                               });
                             },
+                            padding: EdgeInsets.all(0),
                           ),
                           new IconButton(
                             icon: const Icon(Icons.skip_next, size: 20,color: Colors.white,),
@@ -182,6 +185,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                                 nextWeek();
                               });
                             },
+                            padding: EdgeInsets.all(0),
                           ),
                         ],
                         crossAxisAlignment: CrossAxisAlignment.center,
