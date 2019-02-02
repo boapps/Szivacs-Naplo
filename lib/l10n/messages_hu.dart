@@ -104,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_lessons" : MessageLookupByLibrary.simpleMessage("Úgy néz ki ezen a napon nincs órád :)"),
     "notes" : MessageLookupByLibrary.simpleMessage("Feljegyzések"),
     "notification" : MessageLookupByLibrary.simpleMessage("Értesítés"),
+    "notworking" : MessageLookupByLibrary.simpleMessage("nem működik"),
     "ok" : MessageLookupByLibrary.simpleMessage("oké"),
     "parental_justification" : m4,
     "password" : MessageLookupByLibrary.simpleMessage("jelszó"),

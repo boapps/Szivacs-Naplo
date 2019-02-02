@@ -104,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_lessons" : MessageLookupByLibrary.simpleMessage("Looks like you have no lessons today :)"),
     "notes" : MessageLookupByLibrary.simpleMessage("Notes"),
     "notification" : MessageLookupByLibrary.simpleMessage("Notification"),
+    "notworking" : MessageLookupByLibrary.simpleMessage("not working"),
     "ok" : MessageLookupByLibrary.simpleMessage("ok"),
     "parental_justification" : m4,
     "password" : MessageLookupByLibrary.simpleMessage("password"),

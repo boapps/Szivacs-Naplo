@@ -612,5 +612,9 @@
   "@quarteryear": {
     "type": "text",
     "placeholders": {}
-  }
-}
+  },
+  "notworking": "nem működik",
+  "@notworking": {
+    "type": "text",
+    "placeholders": {}
+  }}

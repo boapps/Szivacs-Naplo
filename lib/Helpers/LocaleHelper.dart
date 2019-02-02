@@ -535,6 +535,10 @@ class AppLocalizations {
     return Intl.message("negyedéves", name: "quarteryear");
   }
 
+  String get notworking {
+    return Intl.message("nem működik", name: "notworking");
+  }
+
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
