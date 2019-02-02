@@ -539,6 +539,14 @@ class AppLocalizations {
     return Intl.message("nem működik", name: "notworking");
   }
 
+  String get dep {
+    return Intl.message("helyettesítés", name: "dep");
+  }
+
+  String get lesson {
+    return Intl.message("óra", name: "lesson");
+  }
+
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

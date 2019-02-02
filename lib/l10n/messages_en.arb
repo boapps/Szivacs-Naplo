@@ -616,4 +616,15 @@
   "@notworking": {
     "type": "text",
     "placeholders": {}
-  }}
+  },
+  "dep": "substitution",
+  "@dep": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "lesson": "lesson",
+  "@lesson": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

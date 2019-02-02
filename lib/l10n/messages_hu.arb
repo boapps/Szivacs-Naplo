@@ -617,4 +617,15 @@
   "@notworking": {
     "type": "text",
     "placeholders": {}
-  }}
+  },
+  "dep": "helyettesítés",
+  "@dep": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "lesson": "óra",
+  "@lesson": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

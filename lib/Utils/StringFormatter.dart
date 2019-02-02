@@ -26,3 +26,7 @@ String getLessonEndText(Lesson lesson) {
 String dateToHuman(Evaluation grade) {
   return grade.date.substring(0, 11).replaceAll("-", '. ').replaceAll("T", ". ");
 }
+
+String lessonToHuman(Lesson lesson) {
+  return lesson.date.toIso8601String().substring(0, 11).replaceAll("-", '. ').replaceAll("T", ". ");
+}

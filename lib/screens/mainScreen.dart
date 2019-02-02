@@ -7,6 +7,7 @@ import '../Cards/AbsenceCard.dart';
 import '../Cards/EvaluationCard.dart';
 import '../Cards/NoteCard.dart';
 import '../Cards/LessonCard.dart';
+import '../Cards/ChangedLessonCard.dart';
 import '../Datas/Absence.dart';
 import '../Datas/Evaluation.dart';
 import '../Datas/Note.dart';
@@ -68,6 +69,11 @@ class MainScreenState extends State<MainScreen> {
     for (Note n in notes)
       widgets.add(new NoteCard(n, globals.isSingle, context));
     bool rem = false;
+
+    for (Lesson l in lessons.where((Lesson lesson) =>
+    (lesson.state == "Missed" || lesson.depTeacher != "")
+        && lesson.date.isAfter(DateTime.now())))
+      widgets.add(ChangedLessonCard(l, context));
 
     lessons.removeWhere((Lesson l) => l.state == "Missed");
     for (Lesson l in lessons)
