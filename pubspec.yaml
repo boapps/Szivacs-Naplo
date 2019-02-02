@@ -11,10 +11,10 @@ dependencies:
   flutter_html_view: "^0.3.1"
   http_client: ^0.5.0
   flutter_local_notifications: "^0.4.2"
-  flutter_secure_storage: ^3.1.2
-  pointycastle: ^1.0.0
-  encrypt:
-    path: encrypt # "git clone -b "v2.0" https://github.com/leocavalcante/encrypt/"
+  #flutter_secure_storage: ^3.1.2
+  #pointycastle: ^1.0.0
+  #encrypt:
+  #  path: encrypt # "git clone -b "v2.0" https://github.com/leocavalcante/encrypt/"
   charts_flutter: ^0.5.0
   dynamic_theme:
     git:

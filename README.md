@@ -18,8 +18,6 @@ Issuekban vannak
 #### Project felállításához instrukciók:
 * `git clone https://github.com/boapps/e-Szivacs-2`
 * `cd e-Szivacs-2`
-* `git clone -b "v2.0" https://github.com/leocavalcante/encrypt/`
-
 * `flutter build apk --debug` vagy `flutter run`
 
 <a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a>

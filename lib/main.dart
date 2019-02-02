@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
 }
 
 void main() async {
-  Saver.initEncryption();
+  //Saver.initEncryption();
 
   List<User> users = await AccountManager().getUsers();
   isNew = (users.isEmpty);
