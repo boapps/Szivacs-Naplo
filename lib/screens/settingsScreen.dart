@@ -59,7 +59,7 @@ Future<int> getGrades() async {
     //todo jegyek változása
     //todo ha óra elmarad/helyettesítés
   }
-
+/*
   List<Note> offlineNotes = await NotesHelper()
       .getNotes();
   List<Note> notes = await NotesHelper().getNotesOffline();
@@ -110,7 +110,7 @@ Future<int> getGrades() async {
       }
       }
   });
-
+*/
       return 0;
 }
 
