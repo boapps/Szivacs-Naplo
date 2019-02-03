@@ -41,28 +41,31 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void initState() {
     setState(() {
       _initStats();
-      initEvals();
     });
     super.initState();
   }
 
   void initEvals() async {
-    if (globals.global_evals.length != 0) {
-      evals.clear();
-      evals.addAll(globals.global_evals);
-      if (globals.evals.length == 0) {
-        globals.evals.clear();
-        globals.evals.addAll(globals.global_evals);
+
+    if (globals.evals.length == 0) {
+      globals.evals.addAll(globals.global_evals);
+      if (globals.global_evals.length != 0) {
+        evals.clear();
+        evals.addAll(globals.global_evals);
+      } else {
+        await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
+          evals = evaluationList;
+          globals.evals = evaluationList;
+        });
       }
     } else {
-      await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
-        evals = evaluationList;
-        globals.evals = evaluationList;
-      });
+      evals.clear();
+      evals.addAll(globals.evals);
     }
 
     evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
     evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-" || e.type != "MidYear");
+
     _onSelect(averages[0]);
     for (Evaluation e in evals)
       switch(e.numericValue){
@@ -145,6 +148,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         print(averages);
 
       });
+      initEvals();
     });
   }
 

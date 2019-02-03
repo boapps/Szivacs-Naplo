@@ -177,6 +177,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   void _isColorChange(bool value) {
     setState(() {
       _isColor = value;
+      globals.isColor = value;
       SettingsHelper().setColoredMainPage(_isColor);
     });
   }
@@ -184,6 +185,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   void _isLogoChange(bool value) {
     setState(() {
       _isLogo = value;
+      globals.isLogo = value;
       SettingsHelper().setLogo(_isLogo);
     });
   }
@@ -241,6 +243,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   void _isSingleUserChange(bool value) {
     setState(() {
       _isSingleUser = value;
+      globals.isSingle = value;
       SettingsHelper().setSingleUser(_isSingleUser);
     });
   }
@@ -380,8 +383,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                   },
                 ),
               ],
+              padding: EdgeInsets.all(10),
             ):new Container(),
-            padding: EdgeInsets.all(10.0),
           ),
       )
     );

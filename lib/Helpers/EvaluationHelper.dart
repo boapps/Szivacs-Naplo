@@ -4,6 +4,7 @@ import '../Datas/Evaluation.dart';
 import '../Datas/User.dart';
 import '../Utils/AccountManager.dart';
 import '../Utils/Saver.dart';
+import '../globals.dart' as globals;
 import 'RequestHelper.dart';
 
 

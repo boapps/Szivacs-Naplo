@@ -178,6 +178,7 @@ class MainScreenState extends State<MainScreen> {
     return completer.future;
   }
 
+
   Future<bool> refreshStudent() async {
     evals = new List();
     absents = new Map();
@@ -237,17 +238,21 @@ class MainScreenState extends State<MainScreen> {
       globals.avers = avers;
     }
 */
-    if (globals.global_evals.length > 0)
-      evals = globals.global_evals;
-    else {
+    if (globals.global_evals.length > 0) {
+      evals.clear();
+      evals.addAll(globals.global_evals);
+    } else {
+      globals.global_evals.clear();
       evals = await EvaluationHelper().getEvaluationsOffline();
-      globals.global_evals = evals;
+      globals.global_evals.addAll(evals);
     }
     evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
 
     if (globals.isSingle)
       evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
     evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
+
+    evals.removeWhere((Evaluation e) => evals.where((Evaluation f) => f.id == e.id).length > 1 );
 
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));

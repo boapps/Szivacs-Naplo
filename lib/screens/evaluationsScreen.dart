@@ -188,18 +188,20 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       globals.avers = avers;
     }
 
-    if (globals.global_evals.length != 0) {
-      _evals.clear();
-      _evals.addAll(globals.global_evals);
-      if (globals.evals.length == 0) {
-        globals.evals.clear();
-        globals.evals.addAll(globals.global_evals);
+    if (globals.evals.length == 0) {
+      globals.evals.addAll(globals.global_evals);
+      if (globals.global_evals.length != 0) {
+        _evals.clear();
+        _evals.addAll(globals.global_evals);
+      } else {
+        await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
+          _evals = evaluationList;
+          globals.evals = evaluationList;
+        });
       }
     } else {
-      await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
-        _evals = evaluationList;
-        globals.evals = evaluationList;
-      });
+      _evals.clear();
+      _evals.addAll(globals.evals);
     }
 
     _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
@@ -334,5 +336,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   @override
   void dispose() {
     super.dispose();
+    EvaluationsScreenState().deactivate();
   }
 }
