@@ -23,6 +23,7 @@ import '../Helpers/TimetableHelper.dart';
 import '../Helpers/RequestHelper.dart';
 
 import '../Helpers/LocaleHelper.dart';
+import '../Helpers/DataHelper.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -180,30 +181,16 @@ class MainScreenState extends State<MainScreen> {
 
 
   Future<bool> refreshStudent() async {
-    evals = new List();
-    absents = new Map();
-    globals.global_evals = new List();
-    globals.global_absents = new Map();
+    refreshOnline();
 
-    for (User user in globals.users){
-      String student_string = await RequestHelper().getStudentString(user);
 
-      await EvaluationHelper().getEvaluationsFrom(student_string, user).then((List<Evaluation> evs){
-        evals.addAll(evs);
-        globals.global_evals.addAll(evs);
-      });
-
-      await AbsentHelper().getAbsentsFrom(student_string, user).then((Map<String, List<Absence>> abs){
-        absents.addAll(abs);
-        globals.global_absents.addAll(abs);
-      });
+    if (globals.isSingle) {
+      absents = absentsSingle;
+      evals = normalEvalsSingle;
+    } else {
+      absents = globals.global_absents;
+      evals = normalEvals;
     }
-
-    evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
-    if (globals.isSingle)
-      absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
-    if (globals.isSingle)
-      evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
 
     return true;
   }
@@ -213,23 +200,27 @@ class MainScreenState extends State<MainScreen> {
       hasOfflineLoaded = false;
     });
 
-    if(globals.global_absents.length > 0)
-      absents = globals.global_absents;
-    else {
-      absents = await AbsentHelper().getAbsentsOffline();
-      globals.global_absents = absents;
-    }
-    if (globals.isSingle)
-      absents.removeWhere((String s, List<Absence> absence) => absence[0].owner.id != globals.selectedUser.id);
+    await refreshOffline().then((void a) async {
+      print("data: ");
+      print(globals.global_evals);
+      print(globals.global_absents);
 
-    if(globals.notes.length > 0)
-      notes = globals.notes;
-    else {
-      notes = await NotesHelper().getNotesOffline();
-      globals.notes = notes;
-    }
-    if (globals.isSingle)
-      notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
+      if (globals.isSingle) {
+        absents = absentsSingle;
+        evals = normalEvalsSingle;
+      } else {
+        absents = globals.global_absents;
+        evals = normalEvals;
+      }
+
+      if(globals.notes.length > 0)
+        notes = globals.notes;
+      else {
+        notes = await NotesHelper().getNotesOffline();
+        globals.notes = notes;
+      }
+      if (globals.isSingle)
+        notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
 /*
     if (globals.avers.length > 0)
       avers = globals.avers;
@@ -238,40 +229,31 @@ class MainScreenState extends State<MainScreen> {
       globals.avers = avers;
     }
 */
-    if (globals.global_evals.length > 0) {
-      evals.clear();
-      evals.addAll(globals.global_evals);
-    } else {
-      globals.global_evals.clear();
-      evals = await EvaluationHelper().getEvaluationsOffline();
-      globals.global_evals.addAll(evals);
-    }
-    evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
 
-    if (globals.isSingle)
-      evals.removeWhere((Evaluation evaluation) => evaluation.owner.id != globals.selectedUser.id || evaluation.type != "MidYear" );
-    evals.removeWhere((Evaluation evaluation) => evaluation.type != "MidYear" );
 
-    evals.removeWhere((Evaluation e) => evals.where((Evaluation f) => f.id == e.id).length > 1 );
+      evals.removeWhere((Evaluation e) => evals.where((Evaluation f) => f.id == e.id).length > 1 );
 
-    startDate = DateTime.now();
-    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+      startDate = DateTime.now();
+      startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
 
-    if (globals.lessons.length > 0)
-      lessons = globals.lessons;
-    else {
-      lessons =
-      await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
-      globals.lessons = lessons;
-    }
+      if (globals.lessons.length > 0)
+        lessons = globals.lessons;
+      else {
+        lessons =
+            await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+        globals.lessons = lessons;
+      }
 
-    Completer<Null> completer = new Completer<Null>();
+      Completer<Null> completer = new Completer<Null>();
 
-    hasOfflineLoaded = true;
+      hasOfflineLoaded = true;
 
-    if (mounted)
-      setState(() => completer.complete());
-    return completer.future;
+      if (mounted)
+        setState(() => completer.complete());
+      return completer.future;
+    });
+
+
   }
 
   @override
