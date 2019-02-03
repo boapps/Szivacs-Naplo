@@ -12,6 +12,7 @@ import '../Utils/AccountManager.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import '../Helpers/LocaleHelper.dart';
+import '../Helpers/DataHelper.dart';
 import '../Dialog/SortDialog.dart';
 import '../Dialog/AverageDialog.dart';
 
@@ -124,13 +125,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     avers = await AverageHelper().getAverages();
     globals.avers = avers;
 
-    globals.evals = new List();
-    await EvaluationHelper().getEvaluations().then((List<Evaluation> evaluationList) {
-      _evals = evaluationList;
-      globals.evals = evaluationList;
-    });
+    refreshOnline();
 
-    _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
+    _evals = normalEvalsSingle;
 
     switch (globals.sort) {
       case 0:
@@ -188,23 +185,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       globals.avers = avers;
     }
 
-    if (globals.evals.length == 0) {
-      globals.evals.addAll(globals.global_evals);
-      if (globals.global_evals.length != 0) {
-        _evals.clear();
-        _evals.addAll(globals.global_evals);
-      } else {
-        await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
-          _evals = evaluationList;
-          globals.evals = evaluationList;
-        });
-      }
-    } else {
-      _evals.clear();
-      _evals.addAll(globals.evals);
-    }
+    refreshOffline();
 
-    _evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id || e.type != "MidYear");
+    _evals = normalEvalsSingle;
 
     switch (globals.sort) {
       case 0:
