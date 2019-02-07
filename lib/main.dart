@@ -28,6 +28,7 @@ import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
 import 'screens/timeTableScreen.dart';
 import 'Utils/Saver.dart' as Saver;
+import 'Datas/Account.dart';
 
 bool isNew = true;
 
@@ -83,8 +84,6 @@ class MyApp extends StatelessWidget {
 }
 
 void main() async {
-  //Saver.initEncryption();
-
   List<User> users = await AccountManager().getUsers();
   isNew = (users.isEmpty);
   globals.isLogo = await SettingsHelper().getLogo();
@@ -105,38 +104,16 @@ void main() async {
 
     globals.isColor = await SettingsHelper().getColoredMainPage();
     globals.isSingle = await SettingsHelper().getSingleUser();
-
     globals.multiAccount = (await Saver.readUsers()).length != 1;
-
-    //isNew = prefs.getBool("new") ?? true; //isNew = (users.length!=0);
-
     globals.users = users;
+    globals.accounts = List();
+    for (User user in users)
+      globals.accounts.add(Account(user));
+    globals.selectedAccount = globals.accounts[0];
     globals.selectedUser = users[0];
   }
 
   runApp(MyApp());
-/*
-      new MaterialApp(
-    home: isNew ? new LogoApp() : MainScreen(),
-    title: "e-Szivacs 2",
-    routes: <String, WidgetBuilder>{
-      '/main': (_) => new MainScreen(),
-      '/accept': (_) => new WelcomeAcceptState(),
-      '/login': (_) => new LoginScreen(),
-      '/about': (_) => new AboutScreen(),
-      '/timetable': (_) => new TimeTableScreen(),
-      '/evaluations': (_) => new EvaluationsScreen(),
-      '/notes': (_) => new NotesScreen(),
-      '/absents': (_) => new AbsentsScreen(),
-      '/accounts': (_) => new AccountsScreen(),
-      '/settings': (_) => new SettingsScreen(),
-    },
-
-    theme: ThemeData(
-      brightness: Brightness.dark,
-      fontFamily: 'Quicksand',
-    ),
-  ));*/
 }
 
 class LogoApp extends StatefulWidget {
@@ -159,11 +136,8 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
       ..addListener(() {
         setState(() {
           if (animation.value == 255) _visibility = true;
-          // the state that has changed here is the animation object’s value
         });
       });
-    //animationFAB = CurvedAnimation(curve: Curves.easeInOut, parent: controller);
-    //animationFAB.addListener(() => this.setState(() {}));
     controller.forward();
   }
 
@@ -178,7 +152,6 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
               aspectRatio: 50,
             child: new Container(
               child: new Row(
-
                 children: <Widget>[
                   new Text(
                     "e-Szivacs",
@@ -196,16 +169,12 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
-              //padding: EdgeInsets.only(bottom: animationFAB.value * 400),
             ),
           ),
           new Container(
             child: AnimatedOpacity(
-              // If the Widget should be visible, animate to 1.0 (fully visible). If
-              // the Widget should be hidden, animate to 0.0 (invisible).
               opacity: _visibility ? 1.0 : 0.0,
               duration: Duration(milliseconds: 500),
-              // The green box needs to be the child of the AnimatedOpacity
               child: new FloatingActionButton(
                 onPressed: () {
                   Navigator.push(
@@ -219,7 +188,6 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
                   color: Colors.white,
                   size: 40.0,
                 ),
-
               ),
             ),
           ),

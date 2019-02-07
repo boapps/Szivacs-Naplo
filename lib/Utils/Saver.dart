@@ -79,6 +79,16 @@ Future<File> saveEvaluations(String evaluationsString, User user) async {
   return file.writeAsString(await doEncrypt(evaluationsString));
 }
 
+Future<String> readStudent(User user) async {
+  try {
+    final file = await _localEvaluations(user);
+    String contents = await doDecrypt(await file.readAsString());
+    return contents;
+  } catch (e) {
+    print(e);
+  }
+}
+
 Future<Map<String, dynamic>> readEvaluations(User user) async {
   try {
     final file = await _localEvaluations(user);
@@ -102,6 +112,16 @@ Future<File> _localEvents(User user) async {
 Future<File> saveEvents(String eventsString, User user) async {
   final file = await _localEvents(user);
   return file.writeAsString(await doEncrypt(eventsString));
+}
+
+Future<String> readEventsString(User user) async {
+  try {
+    final file = await _localEvents(user);
+    String contents = await doDecrypt(await file.readAsString());
+    return contents;
+  } catch (e) {
+    print(e);
+  }
 }
 
 Future<List<dynamic>> readEvents(User user) async {
@@ -176,19 +196,6 @@ Future<File> saveSettings(String settingsString) async {
   final file = await _localSettings;
 
   return file.writeAsString(await doEncrypt(settingsString));
-}
-
-Future<File> _localNotes(User user) async {
-  final path = await _localFolder;
-  String suffix = user.id.toString();
-  return new File('$path/notes.json');
-}
-
-Future<File> saveNotes(String eventsString, User user) async {
-  final file = await _localNotes(user);
-
-  // Write the file
-  return file.writeAsString(eventsString);
 }
 
 void migrate() async {

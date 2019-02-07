@@ -1,47 +1,30 @@
 import 'dart:async';
-import 'dart:convert' show utf8, json;
 import '../Datas/Evaluation.dart';
+import '../Datas/Account.dart';
 import '../Datas/Absence.dart';
-import '../Datas/User.dart';
-import '../Utils/AccountManager.dart';
-import '../Utils/Saver.dart';
 import '../globals.dart' as globals;
-import 'RequestHelper.dart';
-import '../Helpers/AbsentHelper.dart';
-import '../Helpers/EvaluationHelper.dart';
-
-
 
 void refreshOnline() async {
-  List<Evaluation> global_evals = new List();
-  Map<String, List<Absence>> global_absents = new Map();
-
-  for (User user in globals.users){
-    String student_string = await RequestHelper().getStudentString(user);
-    await EvaluationHelper().getEvaluationsFrom(student_string, user).then((List<Evaluation> evs){
-      global_evals.addAll(evs);
-    });
-    await AbsentHelper().getAbsentsFrom(student_string, user).then((Map<String, List<Absence>> abs){
-      global_absents.addAll(abs);
-    });
+  globals.global_evals.clear();
+  globals.global_absents.clear();
+  for (Account account in globals.accounts) {
+    print(account.user.name);
+    await account.refreshEvaluations(false, false);
+    await account.refreshAbsents(false, false);
+    globals.global_evals.addAll(account.evaluations);
+    globals.global_absents.addAll(account.absents);
   }
-
-  globals.global_evals = global_evals;
-  globals.global_absents = global_absents;
 }
 
 Future<void> refreshOffline() async {
-  List<Evaluation> global_evals = new List();
-  Map<String, List<Absence>> global_absents = new Map();
-
-  print(globals.global_evals.length);
-  print(globals.global_evals);
-
-    global_evals = await EvaluationHelper().getEvaluationsOffline();
-    global_absents = await AbsentHelper().getAbsentsOffline();
-
-  globals.global_evals = global_evals;
-  globals.global_absents = global_absents;
+  globals.global_evals.clear();
+  globals.global_absents.clear();
+  for (Account account in globals.accounts) {
+    await account.refreshEvaluations(false, true);
+    await account.refreshAbsents(false, true);
+    globals.global_evals.addAll(account.evaluations);
+    globals.global_absents.addAll(account.absents);
+  }
 }
 
 List<Evaluation> get normalEvals => globals.global_evals.where((Evaluation e) => e.type == "MidYear").toList();

@@ -6,13 +6,10 @@ import '../Datas/Average.dart';
 import '../Datas/Evaluation.dart';
 import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
-import '../Helpers/AverageHelper.dart';
-import '../Helpers/EvaluationHelper.dart';
 import '../Utils/AccountManager.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import '../Helpers/LocaleHelper.dart';
-import '../Helpers/DataHelper.dart';
 import '../Dialog/SortDialog.dart';
 import '../Dialog/AverageDialog.dart';
 
@@ -29,31 +26,20 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   @override
   void initState() {
     super.initState();
-    initSelectedUser();
-
     _onRefreshOffline();
     _onRefresh();
   }
 
-  List<Evaluation> _evals = new List();
-  List<Average> avers = new List();
+  List<Evaluation> _evaluations = new List();
+  List<Average> averages = new List();
   List<User> users = new List();
-  Map<String, dynamic> evaluationsMap;
-  Map<String, dynamic> onlyEvaluations;
 
   bool hasOfflineLoaded = false;
   bool hasLoaded = false;
 
   User selectedUser;
 
-  void initSelectedUser() async {
-    users = await AccountManager().getUsers();
-    setState(() {
-      selectedUser = users[0];
-    });
-  }
-
-  Future<bool> showAverages() {
+  Future<bool> showAveragesDialog() {
     return showDialog(
           barrierDismissible: true,
           context: context,
@@ -64,7 +50,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         false;
   }
 
-  Future<bool> sort() {
+  Future<bool> showSortDialog() {
     return showDialog(
       barrierDismissible: true,
       context: context,
@@ -88,12 +74,12 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
               title: new Text(AppLocalizations.of(context).evaluations),
               actions: <Widget>[
                 new FlatButton(
-                  onPressed: showAverages,
+                  onPressed: showAveragesDialog,
                   child: new Icon(Icons.assessment, color: Colors.white),
                 ),
                 new FlatButton(
                   onPressed: () {
-                    sort().then((b) {
+                    showSortDialog().then((b) {
                       refreshOffline();
                     });
                   },
@@ -109,7 +95,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                         child: new RefreshIndicator(
                             child: new ListView.builder(
                               itemBuilder: _itemBuilder,
-                              itemCount: _evals.length,
+                              itemCount: _evaluations.length,
                             ),
                             onRefresh: _onRefresh),
                       )
@@ -122,22 +108,22 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     });
 
     Completer<Null> completer = new Completer<Null>();
-    avers = await AverageHelper().getAverages();
-    globals.avers = avers;
 
-    refreshOnline();
+    globals.selectedAccount.refreshAverages(false, false);
+    globals.selectedAccount.refreshEvaluations(true, false);
 
-    _evals = normalEvalsSingle;
+    averages = globals.selectedAccount.averages;
+    _evaluations = globals.selectedAccount.midyearEvaluations;
 
     switch (globals.sort) {
       case 0:
-        _evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+        _evaluations.sort((a, b) => b.creationDate.compareTo(a.creationDate));
         break;
       case 1:
-        _evals.sort((a, b) => a.realValue.compareTo(b.realValue));
+        _evaluations.sort((a, b) => a.realValue.compareTo(b.realValue));
         break;
       case 2:
-        _evals.sort((a, b) => a.subject.compareTo(b.subject));
+        _evaluations.sort((a, b) => a.subject.compareTo(b.subject));
         break;
     }
 
@@ -152,17 +138,17 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     setState(() {
       switch (globals.sort) {
         case 0:
-          _evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+          _evaluations.sort((a, b) => b.creationDate.compareTo(a.creationDate));
           break;
         case 1:
-          _evals.sort((a, b) {
+          _evaluations.sort((a, b) {
             if (a.realValue == b.realValue)
               return b.creationDate.compareTo(a.creationDate);
             return a.realValue.compareTo(b.realValue);
           });
           break;
         case 2:
-          _evals.sort((a, b) {
+          _evaluations.sort((a, b) {
             if (a.subject == b.subject)
               return b.creationDate.compareTo(a.creationDate);
             return a.subject.compareTo(b.subject);
@@ -178,30 +164,25 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
 
-    if (globals.avers.length > 0)
-      avers = globals.avers;
-    else {
-      avers = await AverageHelper().getAveragesOffline();
-      globals.avers = avers;
-    }
+    globals.selectedAccount.refreshAverages(false, true);
+    globals.selectedAccount.refreshEvaluations(false, true);
 
-    refreshOffline();
-
-    _evals = normalEvalsSingle;
+    averages = globals.selectedAccount.averages;
+    _evaluations = globals.selectedAccount.midyearEvaluations;
 
     switch (globals.sort) {
       case 0:
-        _evals.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+        _evaluations.sort((a, b) => b.creationDate.compareTo(a.creationDate));
         break;
       case 1:
-        _evals.sort((a, b) {
+        _evaluations.sort((a, b) {
           if (a.realValue == b.realValue)
             return b.creationDate.compareTo(a.creationDate);
           return a.realValue.compareTo(b.realValue);
         });
         break;
       case 2:
-        _evals.sort((a, b) {
+        _evaluations.sort((a, b) {
           if (a.subject == b.subject)
             return b.creationDate.compareTo(a.creationDate);
           return a.subject.compareTo(b.subject);
@@ -271,7 +252,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
     String textShort;
 
-    switch(_evals[index].value){
+    switch(_evaluations[index].value){
       case "Példás":
         textShort = ":D";
         break;
@@ -294,22 +275,22 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         new ListTile(
           leading: new Container(
             child: new Text(
-              _evals[index].numericValue != 0 ?
-              _evals[index].numericValue.toString() : textShort ?? "?",
+              _evaluations[index].numericValue != 0 ?
+              _evaluations[index].numericValue.toString() : textShort ?? "?",
               textScaleFactor: 2.0,
-              style: TextStyle(color: _evals[index].color),
+              style: TextStyle(color: _evaluations[index].color),
             ),
             padding: EdgeInsets.only(left: 8.0),
           ),
-          title: new Text(_evals[index].subject),
-          subtitle: new Text(_evals[index].theme ?? _evals[index].value),
+          title: new Text(_evaluations[index].subject),
+          subtitle: new Text(_evaluations[index].theme ?? _evaluations[index].value),
           trailing: new Column(
             children: <Widget>[
-              new Text(_evals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
+              new Text(_evaluations[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
             ],
           ),
           onTap: () {
-            _evaluationDialog(_evals[index]);
+            _evaluationDialog(_evaluations[index]);
           },
         ),
       ],

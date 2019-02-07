@@ -53,10 +53,6 @@ class RequestHelper {
       getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/Event",
       accessToken, schoolCode);
 
-  Future<String> getNotes(String accessToken, String schoolCode) =>
-      getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/Event",
-      accessToken, schoolCode);
-
   Future<String> getTimeTable(
       String from, String to, String accessToken, String schoolCode) =>
       getStuffFromUrl("https://" +
@@ -101,6 +97,29 @@ class RequestHelper {
     saveEvaluations(evaluationsString, user);
 
     return evaluationsString;
+  }
+
+  Future<String> getEventsString(User user) async {
+    String instCode = user.schoolCode;
+    String userName = user.username;
+    String password = user.password;
+
+    String jsonBody = "institute_code=" +
+        instCode +
+        "&userName=" +
+        userName +
+        "&password=" +
+        password +
+        "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
+
+    Map<String, dynamic> bearerMap =
+    json.decode((await getBearer(jsonBody, instCode)).body);
+
+    String code = bearerMap.values.toList()[0];
+
+    String eventsString = await getEvents(code, instCode);
+
+    return eventsString;
   }
 
 }

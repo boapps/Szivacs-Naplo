@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'globals.dart';
+import 'Datas/Account.dart';
 import 'Datas/User.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Helpers/LocaleHelper.dart';
 
 BuildContext ctx;
@@ -26,6 +26,8 @@ class GDrawerState extends State<GDrawer> {
   void _onSelect(User user) async {
     setState(() {
       selectedUser = user;
+      selectedAccount = accounts.firstWhere(
+              (Account account) => account.user.id == user.id);
     });
     switch (screen) {
       case 0:

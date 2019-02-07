@@ -11,19 +11,14 @@ import '../Cards/ChangedLessonCard.dart';
 import '../Datas/Absence.dart';
 import '../Datas/Evaluation.dart';
 import '../Datas/Note.dart';
-import '../Datas/User.dart';
+import '../Datas/Account.dart';
 import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
-import '../Helpers/AbsentHelper.dart';
-import '../Helpers/EvaluationHelper.dart';
-import '../Helpers/NotesHelper.dart';
 import '../Helpers/SettingsHelper.dart';
 import '../Datas/Lesson.dart';
 import '../Helpers/TimetableHelper.dart';
-import '../Helpers/RequestHelper.dart';
 
 import '../Helpers/LocaleHelper.dart';
-import '../Helpers/DataHelper.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -37,10 +32,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  List<Evaluation> evals = new List();
+  List<Evaluation> evaluations = new List();
   Map<String, List<Absence>> absents = new Map();
   List<Note> notes = new List();
-  List <Lesson> lessons = new List();
+  List<Lesson> lessons = new List();
 
   DateTime startDate = DateTime.now();
 
@@ -50,7 +45,9 @@ class MainScreenState extends State<MainScreen> {
   int SHOW_ITEMS = 50;
 
   void _initSettings() async {
-    DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme() ? Brightness.dark : Brightness.light);
+    DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme()
+        ? Brightness.dark
+        : Brightness.light);
   }
 
   @override
@@ -61,59 +58,56 @@ class MainScreenState extends State<MainScreen> {
     _onRefresh();
   }
 
-  List<Widget> feedItems(){
+  List<Widget> feedItems() {
     List<Widget> widgets = new List();
-    for (String s in absents.keys.toList())
-      widgets.add(new AbsenceCard(absents[s], globals.isSingle, context));
-    for (Evaluation e in evals)
-      widgets.add(new EvaluationCard(e, globals.isColor, globals.isSingle, context));
-    for (Note n in notes)
-      widgets.add(new NoteCard(n, globals.isSingle, context));
+    for (String day in absents.keys.toList())
+      widgets.add(new AbsenceCard(absents[day], globals.isSingle, context));
+    for (Evaluation evaluation in evaluations)
+      widgets.add(
+          new EvaluationCard(evaluation, globals.isColor, globals.isSingle, context));
+    for (Note note in notes)
+      widgets.add(new NoteCard(note, globals.isSingle, context));
     bool rem = false;
 
     for (Lesson l in lessons.where((Lesson lesson) =>
-    (lesson.state == "Missed" || lesson.depTeacher != "")
-        && lesson.date.isAfter(DateTime.now())))
+        (lesson.state == "Missed" || lesson.depTeacher != "") &&
+        lesson.date.isAfter(DateTime.now())))
       widgets.add(ChangedLessonCard(l, context));
-
     lessons.removeWhere((Lesson l) => l.state == "Missed");
     for (Lesson l in lessons)
       if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
         rem = true;
-
     if (lessons.length > 0 && rem)
       widgets.add(new LessonCard(lessons, context));
-
-    widgets.sort((Widget a, Widget b){
+    widgets.sort((Widget a, Widget b) {
       return b.key.toString().compareTo(a.key.toString());
     });
 
-    if(SHOW_ITEMS > widgets.length)
-      SHOW_ITEMS = widgets.length;
-
+    if (SHOW_ITEMS > widgets.length) SHOW_ITEMS = widgets.length;
     return widgets.sublist(0, SHOW_ITEMS);
   }
 
   Future<bool> _onWillPop() {
     return showDialog(
-      context: context,
-      child: new AlertDialog(
-        title: new Text(AppLocalizations.of(context).sure),
-        content: new Text(AppLocalizations.of(context).confirm_close),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text(AppLocalizations.of(context).no),
+          context: context,
+          child: new AlertDialog(
+            title: new Text(AppLocalizations.of(context).sure),
+            content: new Text(AppLocalizations.of(context).confirm_close),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text(AppLocalizations.of(context).no),
+              ),
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: new Text(AppLocalizations.of(context).yes),
+              ),
+            ],
           ),
-          new FlatButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: new Text(AppLocalizations.of(context).yes),
-          ),
-        ],
-      ),
-    ) ?? false;
+        ) ??
+        false;
   }
 
   @override
@@ -122,41 +116,50 @@ class MainScreenState extends State<MainScreen> {
         onWillPop: _onWillPop,
         child: Scaffold(
             drawer: GDrawer(),
-        appBar: new AppBar(
-          title: new Text(AppLocalizations.of(context).title),
-          actions: <Widget>[
-            //todo search maybe?
-          ],
-        ),
-        body: new Container(
-            child:
-            hasOfflineLoaded && globals.isColor != null ? new Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: new RefreshIndicator(
-                  child: new ListView(
-                    children: feedItems(),
-                  ),
-                  onRefresh: _onRefresh),
-            ) :
-            new Center(child: new CircularProgressIndicator())
-        )
-        )
-    );
+            appBar: new AppBar(
+              title: new Text(AppLocalizations.of(context).title),
+              actions: <Widget>[
+                //todo search maybe?
+              ],
+            ),
+            body: new Container(
+                child: hasOfflineLoaded && globals.isColor != null
+                    ? new Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: new RefreshIndicator(
+                            child: new ListView(
+                              children: feedItems(),
+                            ),
+                            onRefresh: _onRefresh),
+                      )
+                    : new Center(child: new CircularProgressIndicator()))));
   }
 
   Future<Null> _onRefresh() async {
-    //todo a lot of optimization
-
+    List<Evaluation> tempEvals = new List();
+    Map<String, List<Absence>> tempAbsents = new Map();
+    List<Note> tempNotes = new List();
     setState(() {
       hasLoaded = false;
     });
 
+    //todo singleuser
+    for (Account account in globals.accounts) {
+      print(account.user.name);
+      await account.refreshEvaluations(false, false);
+      tempEvals.addAll(account.evaluations);
 
-    notes = await NotesHelper().getNotes();
-    globals.notes = notes;
-    if (globals.isSingle)
-      notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
+      await account.refreshAbsents(false, false);
+      tempAbsents.addAll(account.absents);
+
+      await account.refreshNotes(false, false);
+      tempNotes.addAll(account.notes);
+    }
+
+    evaluations = tempEvals;
+    absents = tempAbsents;
+    notes = tempNotes;
 
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
@@ -164,96 +167,54 @@ class MainScreenState extends State<MainScreen> {
     globals.lessons = lessons;
 
     Completer<Null> completer = new Completer<Null>();
-    refreshStudent().then((bool b){
-      hasLoaded = true;
-      hasOfflineLoaded = true;
-
-      if (mounted) {
-        setState(() {
-          completer.complete();
-        });
-      }
-
-    });
-
+    hasLoaded = true;
+    hasOfflineLoaded = true;
+    if (mounted) {
+      setState(() {
+        completer.complete();
+      });
+    }
     return completer.future;
   }
 
-
-  Future<bool> refreshStudent() async {
-    refreshOnline();
-
-
-    if (globals.isSingle) {
-      absents = absentsSingle;
-      evals = normalEvalsSingle;
-    } else {
-      absents = globals.global_absents;
-      evals = normalEvals;
-    }
-
-    return true;
-  }
-
   Future<Null> _onRefreshOffline() async {
+    List<Evaluation> tempEvals = new List();
+    Map<String, List<Absence>> tempAbsents = new Map();
+    List<Note> tempNotes = new List();
     setState(() {
       hasOfflineLoaded = false;
     });
 
-    await refreshOffline().then((void a) async {
-      print("data: ");
-      print(globals.global_evals);
-      print(globals.global_absents);
+    //todo singleuser
+    for (Account account in globals.accounts) {
+      await account.refreshEvaluations(false, true);
+      tempEvals.addAll(account.evaluations);
 
-      if (globals.isSingle) {
-        absents = absentsSingle;
-        evals = normalEvalsSingle;
-      } else {
-        absents = globals.global_absents;
-        evals = normalEvals;
-      }
+      await account.refreshAbsents(false, true);
+      tempAbsents.addAll(account.absents);
 
-      if(globals.notes.length > 0)
-        notes = globals.notes;
-      else {
-        notes = await NotesHelper().getNotesOffline();
-        globals.notes = notes;
-      }
-      if (globals.isSingle)
-        notes.removeWhere((Note note) => note.owner.id != globals.selectedUser.id);
-/*
-    if (globals.avers.length > 0)
-      avers = globals.avers;
-    else {
-      avers = await AverageHelper().getAveragesOffline();
-      globals.avers = avers;
+      await account.refreshNotes(false, true);
+      tempNotes.addAll(account.notes);
     }
-*/
 
+    evaluations = tempEvals;
+    absents = tempAbsents;
+    notes = tempNotes;
 
-      evals.removeWhere((Evaluation e) => evals.where((Evaluation f) => f.id == e.id).length > 1 );
+    startDate = DateTime.now();
+    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+    if (globals.lessons.length > 0)
+      lessons = globals.lessons;
+    else {
+      lessons =
+          await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+      globals.lessons = lessons;
+    }
 
-      startDate = DateTime.now();
-      startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
-
-      if (globals.lessons.length > 0)
-        lessons = globals.lessons;
-      else {
-        lessons =
-            await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
-        globals.lessons = lessons;
-      }
-
-      Completer<Null> completer = new Completer<Null>();
-
-      hasOfflineLoaded = true;
-
-      if (mounted)
-        setState(() => completer.complete());
-      return completer.future;
-    });
-
-
+    Completer<Null> completer = new Completer<Null>();
+    hasOfflineLoaded = true;
+    if (mounted) setState(() => completer.complete());
+    return completer.future;
   }
 
   @override

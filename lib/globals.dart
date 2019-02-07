@@ -5,6 +5,7 @@ import 'Datas/Average.dart';
 import 'Datas/Evaluation.dart';
 import 'Datas/Note.dart';
 import 'Datas/Lesson.dart';
+import 'Datas/Account.dart';
 
 bool isLoggedIn = false;
 bool isLogo = true;
@@ -26,6 +27,9 @@ int ido = 1;
 List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();
+
+List<Account> accounts = new List();
+Account selectedAccount;
 
 List<Evaluation> evals = new List();
 

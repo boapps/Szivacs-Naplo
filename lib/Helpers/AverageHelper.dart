@@ -26,6 +26,20 @@ class AverageHelper {
     return avers;
   }
 
+  Future<List<Average>> getAveragesFrom(String studentString, User user) async {
+    List<Average> averageList = new List<Average>();
+
+    Map<String, dynamic> studentMap = json.decode(studentString);
+
+    List<Map<String, dynamic>> jsonAverageList = new List<Map<String, dynamic>>();
+    for (dynamic jsonAverage in studentMap["SubjectAverages"])
+      jsonAverageList.add(jsonAverage as Map<String, dynamic>);
+
+    jsonAverageList.forEach((Map<String,dynamic> jsonAverage) {averageList.add(Average.fromJson(jsonAverage));});
+
+    return averageList;
+  }
+
   Future<List<Average>> getAveragesOffline() async {
     List<Map<String, dynamic>> evaluationsMap = new List<Map<String, dynamic>>();
     List<Average> avers = new List<Average>();
@@ -50,6 +64,7 @@ class AverageHelper {
 
     return avers;
   }
+
   Future <List<Map<String, dynamic>>> getEvaluationlist() async{
     List<Map<String, dynamic>> evaluationsMap = new List<Map<String, dynamic>>();
     List<User> users = await AccountManager().getUsers();
