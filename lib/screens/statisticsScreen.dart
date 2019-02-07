@@ -4,8 +4,6 @@ import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
 import '../Datas/Average.dart';
 import '../Datas/Evaluation.dart';
-import '../Helpers/AverageHelper.dart';
-import '../Helpers/EvaluationHelper.dart';
 import 'package:charts_flutter/flutter.dart';
 import '../Helpers/LocaleHelper.dart';
 
@@ -17,9 +15,9 @@ class StatisticsScreen extends StatefulWidget {
   @override
   StatisticsScreenState createState() => new StatisticsScreenState();
 }
-
+//todo refactor this file
 List<Average> averages = new List();
-List<TimeAverage> data = new List();
+List<TimeAverage> timeData = new List();
 var series;
 
 class StatisticsScreenState extends State<StatisticsScreen> {
@@ -35,7 +33,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   int db5 = 0;
   double allAverage;
   double allMedian;
-  int allModusz;
+  int allMode;
 
   @override
   void initState() {
@@ -46,26 +44,11 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void initEvals() async {
-
-    if (globals.evals.length == 0) {
-      globals.evals.addAll(globals.global_evals);
-      if (globals.global_evals.length != 0) {
-        evals.clear();
-        evals.addAll(globals.global_evals);
-      } else {
-        await EvaluationHelper().getEvaluationsOffline().then((List<Evaluation> evaluationList) {
-          evals = evaluationList;
-          globals.evals = evaluationList;
-        });
-      }
-    } else {
-      evals.clear();
-      evals.addAll(globals.evals);
-    }
-
-    evals.removeWhere((Evaluation e) => e.owner.id != globals.selectedUser.id);
-    evals.removeWhere((Evaluation e) => e.numericValue == 0 || e.mode=="Na" || e.weight == null || e.weight == "-" || e.type != "MidYear");
-
+    await globals.selectedAccount.refreshEvaluations(false, true);
+    evals = globals.selectedAccount.evaluations;
+    evals.removeWhere((Evaluation evaluation) => evaluation.numericValue == 0 || 
+        evaluation.mode=="Na" || evaluation.weight == null || 
+        evaluation.weight == "-" || !evaluation.isMidYear());
     _onSelect(averages[0]);
     for (Evaluation e in evals)
       switch(e.numericValue){
@@ -87,17 +70,16 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       }
     allAverage = getAllAverages();
     allMedian = getMedian();
-    allModusz = getModusz();
+    allMode = getModusz();
     if (allMedian==null)
       allMedian = 0;
     if (allAverage==null)
       allAverage = 0;
-    if (allModusz==null)
-      allModusz = 0;
+    if (allMode==null)
+      allMode = 0;
   }
 
   double getAllAverages() {
-
     double sum = 0;
     double n = 0;
     for (Evaluation e in evals) {
@@ -108,7 +90,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         } catch (e) {
           print(e);
         }
-
         sum += e.numericValue * multiplier;
         n += multiplier;
       }
@@ -137,19 +118,17 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void _initStats() async {
-    await AverageHelper().getAveragesOffline().then((List<Average> avrs) {
-      setState(() {
-        avrs.removeWhere((Average e) => e.owner.id != globals.selectedUser.id || e.value < 1);
-        averages = avrs;
-        selectedAverage = averages[0];
-        globals.selectedAverage = selectedAverage;
-        avrString = selectedAverage.value.toString();
-        classAvrString = selectedAverage.classValue.toString();
-        print(averages);
-
-      });
-      initEvals();
+    await globals.selectedAccount.refreshAverages(false, true);
+    setState(() {
+      averages = globals.selectedAccount.averages;
+      averages.removeWhere((Average average) => average.value < 1);
+      selectedAverage = averages[0];
+      globals.selectedAverage = selectedAverage;
+      avrString = selectedAverage.value.toString();
+      classAvrString = selectedAverage.classValue.toString();
     });
+
+    initEvals();
   }
 
   void _onSelect(Average average) async {
@@ -157,7 +136,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       selectedAverage = average;
       globals.selectedAverage = selectedAverage;
       globals.currentEvals.clear();
-      data.clear();
+      timeData.clear();
       series = [
         new Series(
           displayName: "asd",
@@ -165,7 +144,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
           domainFn: (TimeAverage sales, _) => sales.time,
           measureFn: (TimeAverage sales, _) => sales.sales,
-          data: data,
+          data: timeData,
         ),
       ];
     });
@@ -179,13 +158,13 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           print(e.date);
           print(e.date.indexOf("-"));
           setState(() {
-            data.add(new TimeAverage(
+            timeData.add(new TimeAverage(
                 new DateTime(
                     int.parse(e.date.substring(0, e.date.indexOf("-"))),
                     int.parse(e.date.substring(e.date.indexOf("-") + 1, e.date.indexOf("-", e.date.indexOf("-") + 1))),
                     int.parse(e.date.substring(e.date.indexOf("-", e.date.indexOf("-") + 1) + 1, 10))),
                 e.numericValue));
-            print(data);
+            print(timeData);
             series = [
               new Series(
                 displayName: "asd",
@@ -193,7 +172,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
                 domainFn: (TimeAverage sales, _) => sales.time,
                 measureFn: (TimeAverage sales, _) => sales.sales,
-                data: data,
+                data: timeData,
               ),
             ];
           });
@@ -205,7 +184,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
   void callback() {
     setState(() {
-      data.clear();
+      timeData.clear();
       double sum = 0;
       double n = 0;
       for (Evaluation e in globals.currentEvals) {
@@ -222,13 +201,13 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
           setState(() {
             print(e.date.indexOf("-"));
-            data.add(new TimeAverage(
+            timeData.add(new TimeAverage(
                 new DateTime(
                     int.parse(e.date.substring(0, e.date.indexOf("-"))),
                     int.parse(e.date.substring(e.date.indexOf("-") + 1, e.date.indexOf("-", e.date.indexOf("-") + 1))),
                     int.parse(e.date.substring(e.date.indexOf("-", e.date.indexOf("-") + 1) + 1, 10))),
                 e.numericValue));
-            print(data);
+            print(timeData);
             series = [
               new Series(
                 displayName: "asd",
@@ -236,7 +215,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
                 domainFn: (TimeAverage sales, _) => sales.time,
                 measureFn: (TimeAverage sales, _) => sales.sales,
-                data: data,
+                data: timeData,
               ),
             ];
           });
@@ -259,7 +238,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
         domainFn: (TimeAverage sales, _) => sales.time,
         measureFn: (TimeAverage sales, _) => sales.sales,
-        data: data,
+        data: timeData,
       ),
     ];
 
@@ -323,7 +302,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             Row(
               children: <Widget>[
                 new Text(AppLocalizations.of(context).all_mode, style: TextStyle(fontSize: 21),),
-                new Text(allModusz != null ? allModusz.toString():"...", style: TextStyle(fontSize: 21),),
+                new Text(allMode != null ? allMode.toString():"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
@@ -366,8 +345,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                         color: Colors.blueAccent,
                         fontWeight: FontWeight.bold),
                   ),
-                  //new Text(" Osztályátlag: "),
-                  //new Text(classAvrString, style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),),
                 ],
               ),
               new Container(
@@ -440,10 +417,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
-//            bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
-//              new BottomNavigationBarItem(icon: new Icon(Icons.sync),title: new Text("asd")),
-//              new BottomNavigationBarItem(icon: new Icon(Icons.sync),title: new Text("asd")),
-//    ]),
             body: currentBody==0 ? body0:body1));
   }
 
@@ -570,10 +543,7 @@ class TimeAverage {
 
 class GradeDialog extends StatefulWidget {
   Function callback;
-
-//  List newList;
   GradeDialog(this.callback);
-
   @override
   GradeDialogState createState() => new GradeDialogState();
 }

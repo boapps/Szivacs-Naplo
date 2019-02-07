@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../Datas/Lesson.dart';
 import '../Helpers/LocaleHelper.dart';
 
@@ -13,7 +12,6 @@ class Week {
   List<Lesson> saturday;
   List<Lesson> sunday;
   DateTime startDay;
-
 
   List<List<Lesson>> dayList(){
     List<List<Lesson>> days = new List();

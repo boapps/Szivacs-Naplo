@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../globals.dart' as globals;
+
 class User {
   int id;
   String username;
@@ -27,6 +29,8 @@ class User {
     parentId = json["parentId"];
   }
 
+  bool isSelected() => id == globals.selectedUser.id;
+
   Map<String, dynamic> toMap() {
     var userMap = {
       "id": id,
@@ -39,8 +43,6 @@ class User {
       "parentName": parentName,
       "parentId": parentId,
     };
-
     return userMap;
   }
-
 }

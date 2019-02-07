@@ -1,6 +1,9 @@
 import 'User.dart';
 
 class Absence {
+  // constants:
+  static const PARENTAL = "Parental";
+
   int id;
   String type;
   String typeName;
@@ -19,43 +22,42 @@ class Absence {
   String justificationTypeName;
   User owner;
 
-  Absence(this.id, this.type, this.typeName, this.mode, this.modeName,
-      this.subject, this.subjectName, this.delayMinutes, this.teacher,
-      this.startTime, this.creationTime, this.lessonNumber,
-      this.justificationState, this.justificationStateName,
-      this.justificationType, this.justificationTypeName);
+  Absence(
+      this.id,
+      this.type,
+      this.typeName,
+      this.mode,
+      this.modeName,
+      this.subject,
+      this.subjectName,
+      this.delayMinutes,
+      this.teacher,
+      this.startTime,
+      this.creationTime,
+      this.lessonNumber,
+      this.justificationState,
+      this.justificationStateName,
+      this.justificationType,
+      this.justificationTypeName);
 
-  Absence.fromJson(Map json){
-  this.id = json["AbsenceId"];
-  this.type = json["Type"];
-  this.typeName = json["TypeName"];
-  this.mode = json["Mode"];
-  this.modeName = json["ModeName"];
-  this.subject = json["Subject"];
-  this.subjectName = json["SubjectCategoryName"];
-  this.delayMinutes = json["DelayTimeMinutes"];
-  this.teacher = json["Teacher"];
-  this.startTime = json["LessonStartTime"];
-  this.lessonNumber = json["NumberOfLessons"];
-  this.creationTime = json["CreatingTime"];
-  this.justificationState = json["JustificationState"];
-  this.justificationStateName = json["JustificationStateName"];
-  this.justificationType = json["JustificationType"];
-  this.justificationTypeName = json["JustificationTypeName"];
-/*
-  print("\n");
-  print(type);
-  print(typeName);
-  print(mode);
-  print(modeName);
-  print(startTime);
-  print(delayMinutes);
-  print(justificationState);
-  print(justificationStateName);*/
-    //print(justificationType);
-    //print(justificationTypeName);
+  bool isParental() => justificationType == PARENTAL;
 
+  Absence.fromJson(Map json) {
+    id = json["AbsenceId"];
+    type = json["Type"];
+    typeName = json["TypeName"];
+    mode = json["Mode"];
+    modeName = json["ModeName"];
+    subject = json["Subject"];
+    subjectName = json["SubjectCategoryName"];
+    delayMinutes = json["DelayTimeMinutes"];
+    teacher = json["Teacher"];
+    startTime = json["LessonStartTime"];
+    lessonNumber = json["NumberOfLessons"];
+    creationTime = json["CreatingTime"];
+    justificationState = json["JustificationState"];
+    justificationStateName = json["JustificationStateName"];
+    justificationType = json["JustificationType"];
+    justificationTypeName = json["JustificationTypeName"];
   }
-
-
 }

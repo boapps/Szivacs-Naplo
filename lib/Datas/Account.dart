@@ -65,5 +65,6 @@ class Account {
     averages = await AverageHelper().getAveragesFrom(_studentString, user);
   }
 
-  List<Evaluation> get midyearEvaluations => evaluations.where((Evaluation e) => e.type == "MidYear").toList();
+  List<Evaluation> get midyearEvaluations => evaluations.where(
+          (Evaluation evaluation) => evaluation.isMidYear()).toList();
 }

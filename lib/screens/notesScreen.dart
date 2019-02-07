@@ -1,14 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter_linkify/flutter_linkify.dart';
-
 import '../Datas/Note.dart';
-import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
-import '../Helpers/NotesHelper.dart';
 import '../globals.dart' as globals;
 import '../Helpers/LocaleHelper.dart';
 
@@ -22,11 +17,9 @@ class NotesScreen extends StatefulWidget {
 }
 
 class NotesScreenState extends State<NotesScreen> {
-
   @override
   void initState() {
     super.initState();
-    initSelectedUser();
     _onRefreshOffline();
     _onRefresh();
   }
@@ -35,27 +28,6 @@ class NotesScreenState extends State<NotesScreen> {
   bool hasLoaded = false;
 
   List<Note> notes = new List();
-  List<Note> selectedNotes = new List();
-
-  User selectedUser;
-  List<User> users;
-
-  void initSelectedUser() async {
-    setState(() {
-      selectedUser = globals.selectedUser;
-    });
-  }
-
-  void refNotes() {
-      selectedNotes.clear();
-      for (Note n in notes) {
-        if (n.owner.id == selectedUser.id) {
-          setState(() {
-            selectedNotes.add(n);
-          });
-        }
-      }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,41 +38,35 @@ class NotesScreenState extends State<NotesScreen> {
         },
         child: Scaffold(
             drawer: GDrawer(),
-        appBar: new AppBar(
-          title: new Text(AppLocalizations.of(context).notes),
-          actions: <Widget>[
-          ],
-        ),
-        body: new Container(
-              child:
-              hasOfflineLoaded ? new Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: new RefreshIndicator(
-                        child: new ListView.builder(
-                          itemBuilder: _itemBuilder,
-                          itemCount: selectedNotes.length,
-                    ),
-                        onRefresh: _onRefresh),
-                  ) :
-                  new Center(child: new CircularProgressIndicator())
-         )
-        )
-        );
+            appBar: new AppBar(
+              title: new Text(AppLocalizations.of(context).notes),
+              actions: <Widget>[],
+            ),
+            body: new Container(
+                child: hasOfflineLoaded
+                    ? new Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: new RefreshIndicator(
+                            child: new ListView.builder(
+                              itemBuilder: _itemBuilder,
+                              itemCount: notes.length,
+                            ),
+                            onRefresh: _onRefresh),
+                      )
+                    : new Center(child: new CircularProgressIndicator()))));
   }
 
   Future<Null> _onRefresh() async {
     setState(() {
       hasLoaded = false;
     });
-
     Completer<Null> completer = new Completer<Null>();
-    notes = await NotesHelper().getNotes();
-    globals.notes = notes;
 
-    refNotes();
+    globals.selectedAccount.refreshNotes(false, false);
+    notes = globals.selectedAccount.notes;
+
     hasLoaded = true;
-
     if (mounted)
       setState(() {
         completer.complete();
@@ -112,19 +78,12 @@ class NotesScreenState extends State<NotesScreen> {
     setState(() {
       hasOfflineLoaded = false;
     });
-
     Completer<Null> completer = new Completer<Null>();
 
-    if (globals.notes.length > 0)
-      notes = globals.notes;
-    else {
-      notes = await NotesHelper().getNotesOffline();
-      globals.notes = notes;
-    }
+    globals.selectedAccount.refreshNotes(false, true);
+    notes = globals.selectedAccount.notes;
 
-    refNotes();
     hasOfflineLoaded = true;
-
     if (mounted)
       setState(() {
         completer.complete();
@@ -137,29 +96,33 @@ class NotesScreenState extends State<NotesScreen> {
       children: <Widget>[
         new ListTile(
           title: new Text(
-            selectedNotes[index].date.substring(0,10).replaceAll("-", ". ") + ". " +
-                (selectedNotes[index].teacher != null ? (" - " + selectedNotes[index].teacher):""),
+            notes[index].date.substring(0, 10).replaceAll("-", ". ") +
+                ". " +
+                (notes[index].teacher != null
+                    ? (" - " + notes[index].teacher)
+                    : ""),
             style: TextStyle(fontSize: 20.0),
           ),
           subtitle: new Container(
             padding: EdgeInsets.all(5),
-    child: Linkify(
-      text: selectedNotes[index].content,
-      onOpen: (String url) {
-        launcher.launch(url);
-      },
-    ),
-    ),
+            child: Linkify(
+              text: notes[index].content,
+              onOpen: (String url) {
+                launcher.launch(url);
+              },
+            ),
+          ),
           isThreeLine: true,
         ),
-        new Divider(height: 10.0,),
+        new Divider(
+          height: 10.0,
+        ),
       ],
     );
   }
 
   @override
   void dispose() {
-    selectedNotes.clear();
     super.dispose();
   }
-  }
+}

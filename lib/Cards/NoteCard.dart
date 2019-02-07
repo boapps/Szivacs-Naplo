@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import '../Datas/Note.dart';
-import '../globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class NoteCard extends StatelessWidget {

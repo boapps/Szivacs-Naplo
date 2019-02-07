@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../Datas/Absence.dart';
-import '../globals.dart' as globals;
 
 class AbsenceCard extends StatelessWidget {
   List<Absence> absence;
-  int db = 0;
+  int numOfAbsences = 0;
   String state = "";
   Color color;
   BuildContext context;
@@ -15,7 +13,7 @@ class AbsenceCard extends StatelessWidget {
   AbsenceCard(List<Absence> absence, bool isSingle, BuildContext context){
     this.context = context;
     this.absence = absence;
-    db = absence.length;
+    numOfAbsences = absence.length;
     
     this.isSingle = isSingle;
 
@@ -68,7 +66,7 @@ class AbsenceCard extends StatelessWidget {
             new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  new Text(AppLocalizations.of(context).lessons(db)),
+                  new Text(AppLocalizations.of(context).lessons(numOfAbsences)),
                   //new Text("mód: " + absence.modeName),
                   new Text(AppLocalizations.of(context).absence_time +
                       absence.startTime.substring(0, 11)
@@ -115,7 +113,7 @@ class AbsenceCard extends StatelessWidget {
           new Container(
             child: new Row(
               children: <Widget>[
-                  new Text("$db db ", style: new TextStyle(fontSize: 18.0, color: color),),
+                  new Text("$numOfAbsences db ", style: new TextStyle(fontSize: 18.0, color: color),),
                   new Text(AppLocalizations.of(context).absence + ", ", style: new TextStyle(fontSize: 18.0,)),
                   new Text(" $state", style: new TextStyle(fontSize: 18.0, color: color)),
                   new Text(". ", style: new TextStyle(fontSize: 18.0,)),

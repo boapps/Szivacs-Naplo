@@ -503,15 +503,15 @@ class AppLocalizations {
     return Intl.message("Hiányzások", name: "absences_title");
   }
 
-  String get sort_time {
+  String get sort_by_time {
     return Intl.message("idő", name: "sort_time");
   }
 
-  String get sort_eval {
+  String get sort_by_eval {
     return Intl.message("jegy", name: "sort_eval");
   }
 
-  String get sort_subject {
+  String get sort_by_subject {
     return Intl.message("tárgy", name: "sort_subject");
   }
 

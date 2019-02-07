@@ -20,6 +20,4 @@ class Average {
     classValue = json["ClassValue"];
     difference = json["Difference"];
   }
-
-
 }

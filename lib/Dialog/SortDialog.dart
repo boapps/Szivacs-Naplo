@@ -11,20 +11,20 @@ class SortDialog extends StatefulWidget {
 }
 
 class SortDialogState extends State<SortDialog> {
-  int selected = 0;
+  int selectedSortOption = 0;
 
-  void _onSelect(String sel, List<String> sorba) {
+  void _onSelect(String selected, List<String> sortOptionList) {
     setState(() {
-      selected = sorba.indexOf(sel);
-      globals.sort = selected;
+      selectedSortOption = sortOptionList.indexOf(selected);
+      globals.sort = selectedSortOption;
     });
   }
 
   Widget build(BuildContext context) {
-    List<String> sorba = [
-      AppLocalizations.of(context).sort_time,
-      AppLocalizations.of(context).sort_eval,
-      AppLocalizations.of(context).sort_subject
+    List<String> sortOptionList = [
+      AppLocalizations.of(context).sort_by_time,
+      AppLocalizations.of(context).sort_by_eval,
+      AppLocalizations.of(context).sort_by_subject
     ];
 
     return new SimpleDialog(
@@ -36,7 +36,7 @@ class SortDialogState extends State<SortDialog> {
             child: new Row(
               children: <Widget>[
                 new Text(
-                  sorba[globals.sort],
+                  sortOptionList[globals.sort],
                   style: new TextStyle(color: null, fontSize: 17.0),
                 ),
                 new Icon(
@@ -47,9 +47,9 @@ class SortDialogState extends State<SortDialog> {
             ),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
           ),
-          onSelected: (String sel) {_onSelect(sel, sorba);},
+          onSelected: (String selected) {_onSelect(selected, sortOptionList);},
           itemBuilder: (BuildContext context) {
-            return sorba.map((String sor) {
+            return sortOptionList.map((String sor) {
               return new PopupMenuItem<String>(
                 value: sor,
                 child: new Text(sor),

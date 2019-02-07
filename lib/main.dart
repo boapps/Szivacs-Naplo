@@ -44,7 +44,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           primaryColor: Colors.blue[700],
           accentColor: Colors.blueAccent,
-//          primarySwatch: Color.fromARGB(255, 25, 117, 208),
           brightness: brightness,
           fontFamily: 'Quicksand',
         ),
@@ -210,7 +209,6 @@ class WelcomeAcceptState extends StatelessWidget {
         body: new Center(
             child: new Column(
       children: <Widget>[
-
         new Container(
           child: new FloatingActionButton(
             onPressed: () {
@@ -242,7 +240,6 @@ class WelcomeAcceptState extends StatelessWidget {
           ),
         ),
         ),
-
       ],
       verticalDirection: VerticalDirection.up,
       mainAxisAlignment: MainAxisAlignment.end,

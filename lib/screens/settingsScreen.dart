@@ -8,12 +8,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
-import '../Helpers/EvaluationHelper.dart';
-import '../Helpers/AbsentHelper.dart';
-import '../Helpers/NotesHelper.dart';
 import '../Datas/Evaluation.dart';
-import '../Datas/Absence.dart';
-import '../Datas/Note.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../main.dart' as Main;
 
@@ -31,9 +26,10 @@ class SettingsScreen extends StatefulWidget {
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
 Future<int> getGrades() async {
-  List<Evaluation> offlineEvals = await EvaluationHelper()
-      .getEvaluationsOffline();
-  List<Evaluation> evals = await EvaluationHelper().getEvaluations();
+  await globals.selectedAccount.refreshEvaluations(true, false);
+  List<Evaluation> offlineEvals = globals.selectedAccount.evaluations;
+  await globals.selectedAccount.refreshEvaluations(true, true);
+  List<Evaluation> evals = globals.selectedAccount.evaluations;
 
   for (Evaluation e in evals) {
     bool exist = false;
@@ -53,8 +49,6 @@ Future<int> getGrades() async {
           e.owner.name + ", " + e.theme??"", platformChannelSpecifics,
           payload: e.id.toString());
     }
-
-
 
     //todo jegyek változása
     //todo ha óra elmarad/helyettesítés
@@ -135,7 +129,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _isLogo;
   bool _isSingleUser;
   String _lang = "auto";
-  final List<String> _langs = ["auto", "en", "hu"];
+  static const List<String> LANG_LIST = ["auto", "en", "hu"];
 
   final List<int> refreshArray = [15, 30, 60, 120, 360];
   int _refreshNotification;
@@ -151,7 +145,6 @@ class SettingsScreenState extends State<SettingsScreen> {
     _lang = await SettingsHelper().getLang();
 
     setState(() {});
-
     initPlatformState();
   }
 
@@ -369,7 +362,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                         fontSize: 20.0
                     ),
                   ),
-                  trailing: new Container(child: new DropdownButton<String>(items: _langs.map((String l){
+                  trailing: new Container(child: new DropdownButton<String>(items: LANG_LIST.map((String l){
                     return DropdownMenuItem<String>(child: Text(l, textAlign: TextAlign.end,), value: l,);
                   }).toList(), onChanged: _setLang,value: _lang,),height: 50, width: 120,alignment: Alignment(1, 0),),
                   leading: new Icon(

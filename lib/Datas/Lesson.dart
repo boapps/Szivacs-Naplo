@@ -1,7 +1,6 @@
 class Lesson {
   int id;
   int count;
-  int oraszam;
   DateTime date;
   DateTime start;
   DateTime end;
@@ -22,7 +21,6 @@ class Lesson {
   Lesson(
       this.id,
       this.count,
-      this.oraszam,
       this.date,
       this.start,
       this.end,
@@ -41,25 +39,24 @@ class Lesson {
       this.calendarOraType);
 
   Lesson.fromJson(Map json) {
-    this.id = json["LessonId"];
-    this.count = json["Count"];
-    this.oraszam = 0;
-    this.date = DateTime.parse(json["Date"]);
-    this.start = DateTime.parse(json["StartTime"]);
-    this.end = DateTime.parse(json["EndTime"]);
-    this.subject = json["Subject"];
-    this.subjectName = json["SubjectCategoryName"];
-    this.room = json["ClassRoom"];
-    this.group = json["ClassGroup"];
-    this.teacher = json["Teacher"];
-    this.depTeacher = json["DeputyTeacher"];
-    this.state = json["State"];
-    this.stateName = json["StateName"];
-    this.presence = json["PresenceType"];
-    this.presenceName = json["PresenceTypeName"];
-    this.theme = json["Theme"];
-    this.homework = json["Homework"];
-    this.calendarOraType = json["CalendarOraType"];
+    id = json["LessonId"];
+    count = json["Count"];
+    date = DateTime.parse(json["Date"]);
+    start = DateTime.parse(json["StartTime"]);
+    end = DateTime.parse(json["EndTime"]);
+    subject = json["Subject"];
+    subjectName = json["SubjectCategoryName"];
+    room = json["ClassRoom"];
+    group = json["ClassGroup"];
+    teacher = json["Teacher"];
+    depTeacher = json["DeputyTeacher"];
+    state = json["State"];
+    stateName = json["StateName"];
+    presence = json["PresenceType"];
+    presenceName = json["PresenceTypeName"];
+    theme = json["Theme"];
+    homework = json["Homework"];
+    calendarOraType = json["CalendarOraType"];
 
     if (theme == null)
       theme = "";

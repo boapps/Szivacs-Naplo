@@ -6,6 +6,4 @@ class Institution {
   String city;
 
   Institution(this.id, this.name, this.code, this.url, this.city);
-
-
 }

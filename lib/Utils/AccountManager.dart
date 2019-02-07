@@ -1,17 +1,11 @@
 import 'dart:async';
 import 'dart:core';
-import 'dart:convert' show utf8, json;
-import 'dart:io';
 import '../globals.dart' as globals;
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import '../Utils/Saver.dart';
-
 import '../Datas/User.dart';
 
 class AccountManager {
-
-
   Future<List<User>> getUsers() async {
     List<Map<String, dynamic>> usersJson = await readUsers();
     List<User> users = new List();
@@ -24,10 +18,8 @@ class AccountManager {
       cit.moveNext();
       u.color = cit.current;
     }
-
     return users;
   }
-
 
   void addUser(User user) async{
     try {
@@ -47,7 +39,6 @@ class AccountManager {
   }
 
   void removeUser(User user) async{
-
     List<User> users = await getUsers();
     List<User> newUsers = new List();
     for (User u in users)

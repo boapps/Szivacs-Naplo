@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
-
 import '../globals.dart' as globals;
 import '../Helpers/LocaleHelper.dart';
 
-
-
 class TimeSelectDialog extends StatefulWidget {
   const TimeSelectDialog();
-
   @override
   TimeSelectDialogState createState() => new TimeSelectDialogState();
 }
 
 class TimeSelectDialogState extends State<TimeSelectDialog> {
-
-  int selected = 1;
+  int selectedTime = 1;
 
   void _onSelect(String sel, List<String> idok) {
     setState(() {
-      selected = idok.indexOf(sel);
-      globals.ido = selected;
+      selectedTime = idok.indexOf(sel);
+      globals.selectedTimeForHomework = selectedTime;
       //todo: ezt meg kéne jegyeztetni
     });
   }
 
   Widget build(BuildContext context) {
-    List<String> idok = [AppLocalizations.of(context).day, AppLocalizations.of(context).week, AppLocalizations.of(context).month, AppLocalizations.of(context).two_months];
+    List<String> timeOptionList = [AppLocalizations.of(context).day, AppLocalizations.of(context).week, AppLocalizations.of(context).month, AppLocalizations.of(context).two_months];
 
     return new SimpleDialog(
       title: new Text(AppLocalizations.of(context).time),
@@ -36,7 +31,7 @@ class TimeSelectDialogState extends State<TimeSelectDialog> {
             child: new Row(
               children: <Widget>[
                 new Text(
-                  idok[globals.ido],
+                  timeOptionList[globals.selectedTimeForHomework],
                   style: new TextStyle(color: null, fontSize: 17.0),
                 ),
                 new Icon(
@@ -47,9 +42,9 @@ class TimeSelectDialogState extends State<TimeSelectDialog> {
             ),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
           ),
-          onSelected: (String sel) {_onSelect(sel, idok);},
+          onSelected: (String selected) {_onSelect(selected, timeOptionList);},
           itemBuilder: (BuildContext context) {
-            return idok.map((String sor) {
+            return timeOptionList.map((String sor) {
               return new PopupMenuItem<String>(
                 value: sor,
                 child: new Text(sor),

@@ -144,19 +144,28 @@ class MainScreenState extends State<MainScreen> {
       hasLoaded = false;
     });
 
-    //todo singleuser
-    for (Account account in globals.accounts) {
-      print(account.user.name);
-      await account.refreshEvaluations(false, false);
-      tempEvals.addAll(account.evaluations);
+    if (globals.isSingle){
+      await globals.selectedAccount.refreshEvaluations(true, false);
+      tempEvals.addAll(globals.selectedAccount.evaluations);
 
-      await account.refreshAbsents(false, false);
-      tempAbsents.addAll(account.absents);
+      await globals.selectedAccount.refreshAbsents(false, false);
+      tempAbsents.addAll(globals.selectedAccount.absents);
 
-      await account.refreshNotes(false, false);
-      tempNotes.addAll(account.notes);
+      await globals.selectedAccount.refreshNotes(false, false);
+      tempNotes.addAll(globals.selectedAccount.notes);
+    } else {
+      for (Account account in globals.accounts) {
+        print(account.user.name);
+        await account.refreshEvaluations(true, false);
+        tempEvals.addAll(account.evaluations);
+
+        await account.refreshAbsents(false, false);
+        tempAbsents.addAll(account.absents);
+
+        await account.refreshNotes(false, false);
+        tempNotes.addAll(account.notes);
+      }
     }
-
     evaluations = tempEvals;
     absents = tempAbsents;
     notes = tempNotes;

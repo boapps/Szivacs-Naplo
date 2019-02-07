@@ -2,6 +2,10 @@ import 'User.dart';
 import 'package:flutter/material.dart';
 
 class Evaluation {
+  // constatnts:
+  static const String HALF_YEAR = "HalfYear";
+  static const String MID_YEAR = "MidYear";
+
   int _id;
   String _form;
   String _range;
@@ -44,6 +48,9 @@ class Evaluation {
       this.subject="Szorgalom";
     owner = json ["user"];
   }
+
+  bool isMidYear() => type == MID_YEAR;
+  bool isHalfYear() => type == HALF_YEAR;
 
   String get theme => _theme;
 

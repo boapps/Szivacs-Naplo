@@ -1,4 +1,3 @@
-//todo kártya elmaradt/helyettesített órákhoz
 import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
 import '../Utils/StringFormatter.dart';
@@ -20,7 +19,7 @@ class ChangedLessonCard extends StatelessWidget {
     return lesson.start.toIso8601String();
   }
 
-  bool get dep => lesson.depTeacher.isNotEmpty;
+  bool get isSubstitution => lesson.depTeacher.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +31,14 @@ class ChangedLessonCard extends StatelessWidget {
             new Container(
               child: Wrap(
                 children: <Widget>[
-                  new Text((dep ? AppLocalizations().dep : AppLocalizations().missed) + ": ",
+                  new Text((isSubstitution ? AppLocalizations().dep : AppLocalizations().missed) + ": ",
                       style: new TextStyle(
                           fontSize: 18.0, )),
                   new Text(lesson.subject,
                       style: new TextStyle(
                         fontSize: 18.0, color: Colors.blueAccent
                       )),
-                  dep ? new Text(lesson.depTeacher, style: new TextStyle(
+                  isSubstitution ? new Text(lesson.depTeacher, style: new TextStyle(
                       fontSize: 18.0, color: Colors.green
                   )):null,
                 ].where((Widget w)=>w!=null).toList(),

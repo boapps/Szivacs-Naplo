@@ -6,7 +6,6 @@ import '../Datas/Average.dart';
 import '../Datas/Evaluation.dart';
 import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
-import '../Utils/AccountManager.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import '../Helpers/LocaleHelper.dart';

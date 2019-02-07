@@ -25,23 +25,23 @@ class Homework {
       this.uploadDate,
       this.deadline,
       this.isStudentHomeworkEnabled,
-      this.owner); //todo figure out what this does
+      this.owner);
 
   Homework.fromJson(Map json) {
-    this.id = json["Id"];
-    this.classGroup = json["OsztalyCsoport"];
-    this.subject = json["Tantargy"];
-    if (this.subject == null) this.subject = json["subject"];
-    this.uploader = json["Rogzito"];
-    if (this.uploader == null) this.uploader = json["TanuloNev"];
-    this.byTeacher = json["IsTanarRogzitette"];
-    this.lessonCount = json["Oraszam"];
-    this.lessonId = json["TanitasiOraId"];
-    this.text = json["Szoveg"];
-    if (this.text == null) this.text = json["FeladatSzovege"];
-    this.uploadDate = json["FeladasDatuma"];
-    this.deadline = json["Hatarido"];
-    //this.isStudentHomeworkEnabled = json["IsTanuloHaziFeladatEnabled"] as String;
-    this.owner = json["user"];
+    id = json["Id"];
+    classGroup = json["OsztalyCsoport"];
+    subject = json["Tantargy"];
+    if (subject == null) subject = json["subject"];
+    uploader = json["Rogzito"];
+    if (uploader == null) uploader = json["TanuloNev"];
+    byTeacher = json["IsTanarRogzitette"];
+    lessonCount = json["Oraszam"];
+    lessonId = json["TanitasiOraId"];
+    text = json["Szoveg"];
+    if (text == null) text = json["FeladatSzovege"];
+    uploadDate = json["FeladasDatuma"];
+    deadline = json["Hatarido"];
+    //isStudentHomeworkEnabled = json["IsTanuloHaziFeladatEnabled"] as String;
+    owner = json["user"];
   }
 }

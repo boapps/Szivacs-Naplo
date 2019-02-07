@@ -94,7 +94,7 @@ class AboutScreenState extends State<AboutScreen> {
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
-                    new FlatButton(onPressed: _launchYTURL,
+                    new FlatButton(onPressed: _launchYoutubeURL,
                         child: new Row(
                           children: <Widget>[
                             new Container(
@@ -109,7 +109,7 @@ class AboutScreenState extends State<AboutScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                         ),
                     ),
-                    new FlatButton(onPressed: _launchTelURL,
+                    new FlatButton(onPressed: _launchTelegramURL,
                         child: new Row(
                           children: <Widget>[
                             new Container(
@@ -154,7 +154,7 @@ class AboutScreenState extends State<AboutScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                         )
                     ),
-                    new FlatButton(onPressed: _launchIGURL,
+                    new FlatButton(onPressed: _launchInstagramURL,
                         child: new Row(
                           children: <Widget>[
                             new Container(
@@ -179,7 +179,7 @@ class AboutScreenState extends State<AboutScreen> {
     );
   }
 
-  _launchYTURL() async {
+  _launchYoutubeURL() async {
     const url = 'https://www.youtube.com/channel/UC1V9Sdq4RlYjzZEkB9bzwrA';
     if (await canLaunch(url)) {
       await launch(url);
@@ -187,7 +187,7 @@ class AboutScreenState extends State<AboutScreen> {
       throw 'Could not launch $url';
     }
   }
-  _launchTelURL() async {
+  _launchTelegramURL() async {
     const url = 'https://t.me/eSzivacs';
     if (await canLaunch(url)) {
       await launch(url);
@@ -212,7 +212,7 @@ class AboutScreenState extends State<AboutScreen> {
     }
   }
 
-  _launchIGURL() async {
+  _launchInstagramURL() async {
     const url = 'https://www.instagram.com/e_szivacs/';
     if (await canLaunch(url)) {
       await launch(url);

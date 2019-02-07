@@ -10,7 +10,6 @@ import '../Helpers/HomeworkHelper.dart';
 import '../globals.dart' as globals;
 import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../Dialog/TimeSelectDialog.dart';
 
@@ -151,7 +150,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
       hasLoaded = false;
     });
     Completer<Null> completer = new Completer<Null>();
-    homeworks = await HomeworkHelper().getHomeworks(globals.idoAdatok[globals.ido]);
+    homeworks = await HomeworkHelper().getHomeworks(globals.idoAdatok[globals.selectedTimeForHomework]);
     homeworks
         .sort((Homework a, Homework b) => b.uploadDate.compareTo(a.uploadDate));
     setState(() {
@@ -168,7 +167,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
       hasOfflineLoaded = false;
     });
     Completer<Null> completer = new Completer<Null>();
-    homeworks = await HomeworkHelper().getHomeworksOffline(globals.idoAdatok[globals.ido]);
+    homeworks = await HomeworkHelper().getHomeworksOffline(globals.idoAdatok[globals.selectedTimeForHomework]);
     homeworks.sort((Homework a, Homework b) => b.uploadDate.compareTo(a.uploadDate));
     if (mounted)
       setState(() {
