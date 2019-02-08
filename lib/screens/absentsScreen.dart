@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../Datas/Absence.dart';
 import '../GlobalDrawer.dart';
-import '../Helpers/AbsentHelper.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
@@ -103,13 +102,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    absents = await AbsentHelper().getAbsents();
-    globals.global_absents = absents;
-
-    absents.removeWhere((String s, List<Absence> a) =>
-        a[0].owner.id != globals.selectedUser.id);
-
-    globals.absents = absents;
+    await globals.selectedAccount.refreshAbsents(false, false);
+    absents = globals.selectedAccount.absents;
 
     if (mounted)
       setState(() {
@@ -127,17 +121,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    if (globals.global_absents.length > 0)
-      absents = globals.global_absents;
-    else {
-      absents = await AbsentHelper().getAbsentsOffline();
-      globals.global_absents = absents;
-    }
-
-    absents.removeWhere((String s, List<Absence> a) =>
-        a[0].owner.id != globals.selectedUser.id);
-
-    globals.absents = absents;
+    await globals.selectedAccount.refreshAbsents(false, true);
+    absents = globals.selectedAccount.absents;
 
     if (mounted)
       setState(() {
@@ -196,13 +181,13 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
   IconData iconifyState(String state) {
     switch (state) {
-      case "UnJustified":
+      case Absence.UNJUSTIFIED:
         return Icons.clear;
         break;
-      case "Justified":
+      case Absence.JUSTIFIED:
         return Icons.check;
         break;
-      case "BeJustified":
+      case Absence.BE_JUSTIFIED:
         return Icons.person;
         break;
       default:
@@ -213,13 +198,13 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
   Color colorifyState(String state) {
     switch (state) {
-      case "UnJustified":
+      case Absence.UNJUSTIFIED:
         return Colors.red;
         break;
-      case "Justified":
+      case Absence.JUSTIFIED:
         return Colors.green;
         break;
-      case "BeJustified":
+      case Absence.BE_JUSTIFIED:
         return Colors.blue;
         break;
       default:
@@ -250,19 +235,15 @@ class AbsentsScreenState extends State<AbsentsScreen> {
       ));
 
     for (Absence absence in thisAbsence) {
-      if (absence.justificationState == "UnJustified")
-        unjust = true;
-      else if (absence.justificationState == "Justified")
-        just = true;
-      else if (absence.justificationState == "BeJustified") bejust = true;
+      if (absence.isUnjustified()) unjust = true;
+      else if (absence.isJustified()) just = true;
+      else if (absence.isBeJustified()) bejust = true;
     }
 
     String state = "";
-    if (unjust && !just && !bejust)
-      state = "UnJustified";
-    else if (!unjust && just && !bejust)
-      state = "Justified";
-    else if (!unjust && !just && bejust) state = "BeJustified";
+    if (unjust && !just && !bejust) state = Absence.UNJUSTIFIED;
+    else if (!unjust && just && !bejust) state = Absence.JUSTIFIED;
+    else if (!unjust && !just && bejust) state = Absence.BE_JUSTIFIED;
 
     Widget title = new Container(
       child: new Row(
@@ -294,7 +275,6 @@ class AbsentsScreenState extends State<AbsentsScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    absents.clear();
     super.dispose();
   }
 }

@@ -20,7 +20,7 @@ User selectedUser;
 String lang = "";
 String selectedSchoolCode = "";
 String selectedSchoolUrl = "";
-String selectedSchoolName = "Válassz";
+String selectedSchoolName;
 int screen = 0;
 int sort = 0;
 int selectedTimeForHomework = 1;

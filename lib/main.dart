@@ -82,6 +82,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// todo refactor this and separate the 3 screens here
+
 void main() async {
   List<User> users = await AccountManager().getUsers();
   isNew = (users.isEmpty);
@@ -153,13 +155,12 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
               child: new Row(
                 children: <Widget>[
                   new Text(
-                    "e-Szivacs",
+                    AppLocalizations.of(context).title,
                     style: TextStyle(
                         fontSize: 40.0,
                         color: Color.fromARGB(animation.value.toInt(), 0, 0, 0)),
                   ),
-                  new Text(
-                    " 2",
+                  new Text(" " + AppLocalizations.of(context).version_number,
                     style: TextStyle(
                         color:
                         Color.fromARGB(animation.value.toInt(), 68, 138, 255),
@@ -204,7 +205,7 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
 
 class WelcomeAcceptState extends StatelessWidget {
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return new Scaffold(
         body: new Center(
             child: new Column(
@@ -213,7 +214,7 @@ class WelcomeAcceptState extends StatelessWidget {
           child: new FloatingActionButton(
             onPressed: () {
               Navigator.push(
-                ctxt,
+                context,
                 SlideLeftRoute(widget: LoginScreen()),
               );
             },
@@ -230,8 +231,7 @@ class WelcomeAcceptState extends StatelessWidget {
         new Container(
           alignment: Alignment(0, 0),
           child: new SingleChildScrollView(
-            child: new Text(
-              "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
+            child: new Text(AppLocalizations.of(context).disclaimer,
               style: TextStyle(
                 fontSize: 21.0,
               ),
@@ -303,7 +303,7 @@ String userError;
 String passwordError;
 bool schoolSelected = true;
 
-double kbSize = null;
+double kbSize;
 
 bool isDialog = false;
 
@@ -318,7 +318,6 @@ class LoginScreenState extends State<LoginScreen> {
     loggingIn = false;
     super.initState();
   }
-
 
   void initJson() async {
     final String data =
@@ -358,7 +357,7 @@ class LoginScreenState extends State<LoginScreen> {
         http.Response bearerResp;
         String code;
         if (userName == "") {
-          userError = "Kérlek add meg a felhasználónevedet!";
+          userError = AppLocalizations.of(context).choose_username;
           setState(() {
             loggingIn = false;
           });
@@ -366,7 +365,7 @@ class LoginScreenState extends State<LoginScreen> {
           setState(() {
             loggingIn = false;
           });
-          passwordError = "Kérlek add meg a jelszavadat!";
+          passwordError = AppLocalizations.of(context).choose_password;
         } else if (globals.selectedSchoolUrl == "") {
           setState(() {
             loggingIn = false;
@@ -416,6 +415,11 @@ class LoginScreenState extends State<LoginScreen> {
 
               globals.multiAccount = globals.users.length != 1;
 
+              globals.accounts = List();
+              for (User user in globals.users)
+                globals.accounts.add(Account(user));
+              globals.selectedAccount = globals.accounts.firstWhere(
+                      (Account account) => account.user.id == user.id);
               globals.selectedUser = user;
 
               Navigator.pushNamed(context, "/main");
@@ -502,13 +506,13 @@ class LoginScreenState extends State<LoginScreen> {
                                   controller: userNameController,
                                   decoration: InputDecoration(
                                     prefixIcon: new Icon(Icons.person),
-                                    hintText: "felhasználónév",
+                                    hintText: AppLocalizations.of(context).username,
                                     hintStyle: TextStyle(color: Colors.white30),
                                     errorText: userError,
                                     fillColor: Color.fromARGB(40, 20, 20, 30),
                                     filled: true,
                                     helperText: helpSwitch
-                                        ? "oktatási azonosító 11-jegyű diákigazolványszám"
+                                        ? AppLocalizations.of(context).username_hint
                                         : null,
                                     helperStyle:
                                         TextStyle(color: Colors.white30),
@@ -545,12 +549,12 @@ class LoginScreenState extends State<LoginScreen> {
                               decoration: InputDecoration(
                                 prefixIcon: new Icon(Icons.https),
                                 hintStyle: TextStyle(color: Colors.white30),
-                                hintText: "jelszó",
+                                hintText: AppLocalizations.of(context).password,
                                 errorText: passwordError,
                                 fillColor: Color.fromARGB(40, 20, 20, 30),
                                 filled: true,
                                 helperText: helpSwitch
-                                    ? "általában a születési dátum(pl.: 2000-01-02)"
+                                    ? AppLocalizations.of(context).password_hint
                                     : null,
                                 helperStyle: TextStyle(color: Colors.white30),
                                 contentPadding:
@@ -588,7 +592,7 @@ class LoginScreenState extends State<LoginScreen> {
                         child: new Row(
                           children: <Widget>[
                             new Text(
-                              "Iskola: ",
+                              AppLocalizations.of(context).school,
                               style: new TextStyle(
                                   fontSize: 21.0, color: Colors.white30),
                             ),
@@ -596,12 +600,10 @@ class LoginScreenState extends State<LoginScreen> {
                               child: new FlatButton(
                                 onPressed: (){
                                   showSelectDialog();
-                                  setState(() {
-                                    globals.selectedSchoolName;
-                                  });
+                                  setState(() {});
                                 },
                                 child: new Text(
-                                  globals.selectedSchoolName,
+                                  globals.selectedSchoolName??AppLocalizations.of(context).choose,
                                   style: new TextStyle(
                                       fontSize: 21.0, color: Colors.blue),
                                 ),
@@ -612,7 +614,7 @@ class LoginScreenState extends State<LoginScreen> {
                       ),
                       !schoolSelected
                           ? new Text(
-                              "Válassz egy iskolát is",
+                        AppLocalizations.of(context).choose_school_warning,
                               style: new TextStyle(color: Colors.red),
                             )
                           : new Container()
@@ -628,7 +630,7 @@ class LoginScreenState extends State<LoginScreen> {
                           } : null,
                           disabledColor: Colors.blueGrey.shade800,
                           disabledTextColor: Colors.blueGrey,
-                          child: new Text("Bejelentkezés"),
+                          child: new Text(AppLocalizations.of(context).login),
                           color: Colors.blue, //#2196F3
                           textColor: Colors.white,
                         )),
@@ -686,7 +688,7 @@ class MyDialogState extends State<MyDialog> {
 
   Widget build(BuildContext context) {
     return new SimpleDialog(
-      title: new Text("Válassz iskolát:"),
+      title: new Text(AppLocalizations.of(context).choose_school),
       contentPadding: const EdgeInsets.all(10.0),
       children: <Widget>[
         new Container(

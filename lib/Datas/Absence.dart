@@ -4,6 +4,10 @@ class Absence {
   // constants:
   static const PARENTAL = "Parental";
 
+  static const JUSTIFIED = "Justified";
+  static const BE_JUSTIFIED = "BeJustified";
+  static const UNJUSTIFIED = "UnJustified";
+
   int id;
   String type;
   String typeName;
@@ -41,6 +45,10 @@ class Absence {
       this.justificationTypeName);
 
   bool isParental() => justificationType == PARENTAL;
+
+  bool isJustified() => justificationState == JUSTIFIED;
+  bool isBeJustified() => justificationState == BE_JUSTIFIED;
+  bool isUnjustified() => justificationState == UNJUSTIFIED;
 
   Absence.fromJson(Map json) {
     id = json["AbsenceId"];

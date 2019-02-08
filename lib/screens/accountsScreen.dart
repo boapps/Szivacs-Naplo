@@ -42,6 +42,8 @@ class AccountsScreenState extends State<AccountsScreen> {
 
   void _getListWidgets() async {
     users = await AccountManager().getUsers();
+    if (users.isEmpty)
+      Navigator.pushNamed(context, "/login");
     accountListWidgets = new List();
     for (User u in users) {
       setState(() {
@@ -92,12 +94,11 @@ class AccountsScreenState extends State<AccountsScreen> {
             new FlatButton(
               child: new Text(AppLocalizations.of(context).yes),
               onPressed: () {
+                AccountManager().removeUser(user);
                 setState(() {
-                  AccountManager().removeUser(user);
                   _getUserList();
                   _getListWidgets();
                   Navigator.of(context).pop();
-
                 });
               },
             ),
@@ -113,9 +114,11 @@ class AccountsScreenState extends State<AccountsScreen> {
     for (User u in users)
       widgetsList.add(
         new ListTile(
-          trailing: new FlatButton(onPressed: () {
+          trailing: new FlatButton(onPressed: () async {
+            await _removeUserDialog(u);
             setState(() {
-              _removeUserDialog(u);
+              _getUserList();
+              _getListWidgets();
             });
           },
           child: new Icon(Icons.close, color: Colors.red,)),

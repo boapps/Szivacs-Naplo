@@ -226,8 +226,8 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   int currentBody = 0;
-  Widget body0;
-  Widget body1;
+  Widget averageBody;
+  Widget dataBody;
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +242,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       ),
     ];
 
-    body1 = new SingleChildScrollView(child: new Center(
+    dataBody = new SingleChildScrollView(child: new Center(
       child: new Container(
         margin: EdgeInsets.all(10),
         child: new Column(
@@ -313,7 +313,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     ),
     );
 
-    body0 = new Stack(
+    averageBody = new Stack(
         children: <Widget>[
           new Column(
             children: <Widget>[
@@ -417,7 +417,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
-            body: currentBody==0 ? body0:body1));
+            body: currentBody==0 ? averageBody:dataBody));
   }
 
   void switchToScreen(int n) {
@@ -549,14 +549,14 @@ class GradeDialog extends StatefulWidget {
 }
 
 class GradeDialogState extends State<GradeDialog> {
-  List<int> jegyek = [1, 2, 3, 4, 5];
+  static const List<int> GRADES = [1, 2, 3, 4, 5];
 
   var jegy = 1;
   bool isTZ = false;
 
   String weight = "200";
 
-  void onChanged(String text) {
+  void _onWeightInput(String text) {
     weight = text;
   }
 
@@ -667,7 +667,7 @@ class GradeDialogState extends State<GradeDialog> {
                 width: 60,
                 child: new TextField(
                   maxLines: 1,
-                  onChanged: onChanged,
+                  onChanged: _onWeightInput,
                   autocorrect: false,
                   autofocus: isTZ,
                   decoration: InputDecoration(

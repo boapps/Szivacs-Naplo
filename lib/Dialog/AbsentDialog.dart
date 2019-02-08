@@ -20,7 +20,7 @@ class AbsentDialogState extends State<AbsentDialog> {
   Map<String, List<Absence>> absents = new Map();
 
   void initSelectedUser() async {
-    absents = globals.absents;
+    absents = globals.selectedAccount.absents;
     sumOfAllAbsences = 0;
     sumOfParentalAbsences = 0;
     sumOfDelayMinutes = 0;

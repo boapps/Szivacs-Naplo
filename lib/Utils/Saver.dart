@@ -89,20 +89,6 @@ Future<String> readStudent(User user) async {
   }
 }
 
-Future<Map<String, dynamic>> readEvaluations(User user) async {
-  try {
-    final file = await _localEvaluations(user);
-    String contents = await doDecrypt(await file.readAsString());
-
-    Map<String, dynamic> evaluationsMap = json.decode(contents.toString());
-
-    return evaluationsMap;
-  } catch (e) {
-    print(e);
-    return Map<String, dynamic>();
-  }
-}
-
 Future<File> _localEvents(User user) async {
   final path = await _localFolder;
   String suffix = user.id.toString();
@@ -121,18 +107,6 @@ Future<String> readEventsString(User user) async {
     return contents;
   } catch (e) {
     print(e);
-  }
-}
-
-Future<List<dynamic>> readEvents(User user) async {
-  try {
-    final file = await _localEvents(user);
-    String contents = await doDecrypt(await file.readAsString());
-
-    List<dynamic> eventsMap = json.decode(contents);
-    return eventsMap;
-  } catch (e) {
-
   }
 }
 
@@ -226,8 +200,6 @@ Future<File> saveUsers(List<User> users) async {
   List<Map<String, dynamic>> userMap = new List();
   for (User user in users)
     userMap.add(user.toMap());
-  print(users[0].name);
-  print(await doEncrypt(json.encode(userMap)));
   return file.writeAsString(await doEncrypt(json.encode(userMap)));
 }
 
