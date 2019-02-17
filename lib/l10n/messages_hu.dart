@@ -149,7 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "username_hint" : MessageLookupByLibrary.simpleMessage("oktatási azonosító 11-jegyű diákigazolványszám"),
     "value" : MessageLookupByLibrary.simpleMessage("érték: "),
     "version" : MessageLookupByLibrary.simpleMessage("verzió: "),
-    "version_number" : MessageLookupByLibrary.simpleMessage("2.0"),
+    "version_number" : MessageLookupByLibrary.simpleMessage("2.1.1"),
     "week" : MessageLookupByLibrary.simpleMessage("hét"),
     "weight" : MessageLookupByLibrary.simpleMessage("súly: "),
     "wrong_pass" : MessageLookupByLibrary.simpleMessage("hibás felasználónév vagy jelszó"),

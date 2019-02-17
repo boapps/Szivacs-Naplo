@@ -149,7 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "username_hint" : MessageLookupByLibrary.simpleMessage("student ID (the 11-digit number)"),
     "value" : MessageLookupByLibrary.simpleMessage("value: "),
     "version" : MessageLookupByLibrary.simpleMessage("version: "),
-    "version_number" : MessageLookupByLibrary.simpleMessage("2.0"),
+    "version_number" : MessageLookupByLibrary.simpleMessage("2.1.1"),
     "week" : MessageLookupByLibrary.simpleMessage("week"),
     "weight" : MessageLookupByLibrary.simpleMessage("weight: "),
     "wrong_pass" : MessageLookupByLibrary.simpleMessage("incorrect username or password"),
