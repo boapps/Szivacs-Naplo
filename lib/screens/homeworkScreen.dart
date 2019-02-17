@@ -7,10 +7,11 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/HomeworkHelper.dart';
 
+import 'package:html_unescape/html_unescape.dart';
 import '../globals.dart' as globals;
-import 'package:flutter_html_view/flutter_html_view.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../Dialog/TimeSelectDialog.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 void main() {
   runApp(new MaterialApp(home: new HomeworkScreen()));
@@ -117,7 +118,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(homework.subject + AppLocalizations.of(context).homework),
+          title: new Text(homework.subject + " " + AppLocalizations.of(context).homework),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
@@ -129,6 +130,9 @@ class HomeworkScreenState extends State<HomeworkScreen> {
                         .substring(0, 16)
                         .replaceAll("-", '. ')
                         .replaceAll("T", ". ")),
+                new Divider(height: 4.0,),
+                Container(padding: EdgeInsets.only(top: 10),),
+                new Html( data: HtmlUnescape().convert(homework.text)),
               ],
             ),
           ),
@@ -189,9 +193,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
                     : (" - " + selectedHomework[index].subject)),
             style: TextStyle(fontSize: 20.0),
           ),
-          subtitle: new HtmlView(
-            data: selectedHomework[index].text.toString(),
-          ),
+          subtitle: new Html( data: HtmlUnescape().convert(selectedHomework[index].text)),
           isThreeLine: true,
           onTap: () {
             homeworksDialog(homeworks[index]);
