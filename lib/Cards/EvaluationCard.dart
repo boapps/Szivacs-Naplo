@@ -249,7 +249,7 @@ class EvaluationCard extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
           ) : new Container(),
           showPadding ? new Container(
-            color: Colors.white,
+            color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
           child: new Padding(
               padding: new EdgeInsets.all(7.0),
               child: new Row(
@@ -259,7 +259,7 @@ class EvaluationCard extends StatelessWidget {
                   new Divider(),
                   new Padding(
                     padding: new EdgeInsets.all(7.0),
-                    child: new Icon(typeIcon,  color: Colors.black87),
+                    child: new Icon(typeIcon,  color: globals.isDark ? Colors.white : Colors.black87),
                   ),
                   new Flexible(child:
                   new Container(child:
@@ -267,12 +267,12 @@ class EvaluationCard extends StatelessWidget {
                     padding: new EdgeInsets.all(7.0),
                     child: typeName != null ? new Text(
                       typeName,
-                      style: new TextStyle(fontSize: 18.0, color: Colors.black87),
+                      style: new TextStyle(fontSize: 18.0, color: globals.isDark ? Colors.white : Colors.black87),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ) : new Text(
                       evaluation.value,
-                      style: new TextStyle(fontSize: 18.0, color: Colors.black87),
+                      style: new TextStyle(fontSize: 18.0, color: globals.isDark ? Colors.white : Colors.black87),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
@@ -290,7 +290,7 @@ class EvaluationCard extends StatelessWidget {
                       child: new Container(
                         child: new Text(
                           evaluation.date.substring(0, 10).replaceAll("-", ". ") + ". ",
-                          style: new TextStyle(fontSize: 18.0, color: Colors.black87),
+                          style: new TextStyle(fontSize: 18.0, color: globals.isDark ? Colors.white : Colors.black87),
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           textAlign: TextAlign.end,

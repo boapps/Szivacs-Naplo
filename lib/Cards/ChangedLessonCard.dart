@@ -58,12 +58,12 @@ class ChangedLessonCard extends StatelessWidget {
                     children: <Widget>[
                       new Text(lesson.count.toString() + ". " + AppLocalizations().lesson,
                           style: new TextStyle(
-                              fontSize: 18.0, color: Colors.blueAccent)),
+                              fontSize: 18.0,)),
                       new Expanded(
                           child: new Container(
                             child: new Text(lessonToHuman(lesson),
                                 style: new TextStyle(
-                                    fontSize: 18.0, color: Colors.blueAccent)),
+                                    fontSize: 18.0,)),
                             alignment: Alignment(1.0, 0.0),
                           ))
                     ],

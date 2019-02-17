@@ -65,6 +65,8 @@ class GDrawerState extends State<GDrawer> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Drawer(
+      child: new Container(
+        color: isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white70,
       child: new ListView(
         children: <Widget>[
           isLogo ? new Container(
@@ -271,6 +273,7 @@ class GDrawerState extends State<GDrawer> {
             },
           ),
         ],
+      ),
       ),
     );
   }

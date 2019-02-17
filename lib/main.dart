@@ -40,13 +40,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new DynamicTheme(
         defaultBrightness: Brightness.light,
-        data: (brightness) => new ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.blue[700],
-          accentColor: Colors.blueAccent,
-          brightness: brightness,
-          fontFamily: 'Quicksand',
-        ),
+        data: (brightness) {
+          print(brightness.index);
+          globals.isDark = brightness.index == 0;
+          return new ThemeData(
+            primarySwatch: Colors.blue,
+            accentColor: Colors.blueAccent,
+            brightness: brightness,
+            primaryColorLight: Colors.blue[700],
+            scaffoldBackgroundColor: brightness.index == 0 ? Color.fromARGB(255, 36, 36, 36) : null,
+            dialogBackgroundColor: brightness.index == 0 ? globals.isAmoled ? Colors.black : Color.fromARGB(255, 36, 36, 36) : null,
+            primaryColorDark: Color.fromARGB(255, 25, 25, 25),
+            cardColor: brightness.index == 0 ? Color.fromARGB(255, 25, 25, 25) : null,
+            fontFamily: 'Quicksand',
+          );
+        },
         themedWidgetBuilder: (context, theme) {
           return new MaterialApp(
             localizationsDelegates: [

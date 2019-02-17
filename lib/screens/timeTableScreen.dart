@@ -103,6 +103,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
           child: new Scaffold(
               drawer: GDrawer(),
             appBar: new AppBar(
+              backgroundColor: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blue[700],
               title: new Text(AppLocalizations.of(context).timetable +
                   getTimetableText(startDateText)),
             ),

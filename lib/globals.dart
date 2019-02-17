@@ -33,6 +33,9 @@ Account selectedAccount;
 
 List<Evaluation> evals = new List();
 
+bool isDark = false;
+bool isAmoled = false;
+
 List<Evaluation> global_evals = new List();
 List<Average> avers = new List();
 Map<String, List<Absence>> global_absents = new Map();
