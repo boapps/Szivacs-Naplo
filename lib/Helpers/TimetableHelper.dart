@@ -52,6 +52,7 @@ Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
       to.toIso8601String().substring(0, 10),
       code, instCode
   );
+
   List<dynamic> ttMap = json.decode(timetableString);
   saveTimetable(timetableString,
       from.year.toString() + "-" + from.month.toString() + "-" +

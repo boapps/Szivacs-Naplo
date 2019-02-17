@@ -1,14 +1,13 @@
-import 'dart:convert' show utf8, json;
+import 'dart:convert' show json;
 import 'dart:io';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'PageRouteBuilder.dart';
+
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
 import 'Helpers/RequestHelper.dart';
@@ -22,6 +21,7 @@ import 'screens/aboutScreen.dart';
 import 'screens/absentsScreen.dart';
 import 'screens/evaluationsScreen.dart';
 import 'screens/homeworkScreen.dart';
+import 'screens/LogoApp.dart';
 import 'screens/mainScreen.dart';
 import 'screens/notesScreen.dart';
 import 'screens/settingsScreen.dart';
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
             theme: theme,
             routes: <String, WidgetBuilder>{
               '/main': (_) => new MainScreen(),
-              '/accept': (_) => new WelcomeAcceptState(),
+              '/accept': (_) => new AcceptTermsState(),
               '/login': (_) => new LoginScreen(),
               '/about': (_) => new AboutScreen(),
               '/timetable': (_) => new TimeTableScreen(),
@@ -115,136 +115,6 @@ void main() async {
   }
 
   runApp(MyApp());
-}
-
-class LogoApp extends StatefulWidget {
-  _LogoAppState createState() => _LogoAppState();
-}
-
-class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
-  Animation<double> animationFAB;
-  Animation<double> animation;
-  AnimationController controller;
-
-  bool _visibility = false;
-
-  initState() {
-    super.initState();
-
-    controller = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
-    animation = Tween(begin: 0.0, end: 255.0).animate(controller)
-      ..addListener(() {
-        setState(() {
-          if (animation.value == 255) _visibility = true;
-        });
-      });
-    controller.forward();
-  }
-
-  @override
-  Widget build(BuildContext ctxt) {
-    return new Scaffold(
-        body: new Center(
-            child: new Container(
-      child: Column(
-        children: <Widget>[
-          new AspectRatio(
-              aspectRatio: 50,
-            child: new Container(
-              child: new Row(
-                children: <Widget>[
-                  new Text(
-                    AppLocalizations.of(context).title,
-                    style: TextStyle(
-                        fontSize: 40.0,
-                        color: Color.fromARGB(animation.value.toInt(), 0, 0, 0)),
-                  ),
-                  new Text(" " + AppLocalizations.of(context).version_number,
-                    style: TextStyle(
-                        color:
-                        Color.fromARGB(animation.value.toInt(), 68, 138, 255),
-                        fontSize: 40.0),
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ),
-          ),
-          new Container(
-            child: AnimatedOpacity(
-              opacity: _visibility ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 500),
-              child: new FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(widget: WelcomeAcceptState()),
-                  );
-                },
-                backgroundColor: Color.fromARGB(255, 68, 138, 255),
-                child: new Icon(
-                  Icons.navigate_next,
-                  color: Colors.white,
-                  size: 40.0,
-                ),
-              ),
-            ),
-          ),
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      ),
-    )));
-  }
-
-  dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-}
-
-class WelcomeAcceptState extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        body: new Center(
-            child: new Column(
-      children: <Widget>[
-        new Container(
-          child: new FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                SlideLeftRoute(widget: LoginScreen()),
-              );
-            },
-            child: new Icon(
-              Icons.check,
-              color: Colors.white,
-              size: 32.0,
-            ),
-            backgroundColor: Color.fromARGB(255, 68, 138, 255),
-          ),
-          padding: EdgeInsets.all(18.0),
-        ),
-        new Expanded(child:
-        new Container(
-          alignment: Alignment(0, 0),
-          child: new SingleChildScrollView(
-            child: new Text(AppLocalizations.of(context).disclaimer,
-              style: TextStyle(
-                fontSize: 21.0,
-              ),
-            ),
-            padding: EdgeInsets.all(40),
-          ),
-        ),
-        ),
-      ],
-      verticalDirection: VerticalDirection.up,
-      mainAxisAlignment: MainAxisAlignment.end,
-    )));
-  }
 }
 
 LoginScreenState loginScreenState = new LoginScreenState();

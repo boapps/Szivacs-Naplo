@@ -9,7 +9,6 @@ import '../Helpers/HomeworkHelper.dart';
 
 import '../globals.dart' as globals;
 import 'package:flutter_html_view/flutter_html_view.dart';
-import 'package:html_unescape/html_unescape.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../Dialog/TimeSelectDialog.dart';
 
@@ -190,7 +189,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
             style: TextStyle(fontSize: 20.0),
           ),
           subtitle: new HtmlView(
-            data: HtmlUnescape().convert(selectedHomework[index].text.toString()),
+            data: selectedHomework[index].text.toString(),
           ),
           isThreeLine: true,
           onTap: () {

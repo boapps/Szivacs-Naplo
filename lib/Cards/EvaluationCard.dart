@@ -196,7 +196,7 @@ class EvaluationCard extends StatelessWidget {
       case "Jó":
         textShort = ":)";
         bColor = Color.fromARGB(255, 255, 241, 118); //dce775
-        fColor = Colors.white;
+        fColor = Colors.black;
         break;
       case "Változó":
         textShort = ":/";
@@ -233,6 +233,7 @@ class EvaluationCard extends StatelessWidget {
               subtitle: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    evaluation.isText() ? new Text(evaluation.value) : new Container(),
                     evaluation.theme != null ? new Text(evaluation.theme, style: new TextStyle(color: fColor, fontSize: 18.0)) : Container(),
                     new Text(evaluation.teacher, style: new TextStyle(color: fColor, fontSize: 15.0),),
                   ],

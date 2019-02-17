@@ -73,12 +73,12 @@ class MainScreenState extends State<MainScreen> {
         (lesson.state == "Missed" || lesson.depTeacher != "") &&
         lesson.date.isAfter(DateTime.now())))
       widgets.add(ChangedLessonCard(l, context));
-    lessons.removeWhere((Lesson l) => l.state == "Missed");
-    for (Lesson l in lessons)
+    List realLessons = lessons.where((Lesson l) => l.state != "Missed").toList();
+    for (Lesson l in realLessons)
       if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
         rem = true;
-    if (lessons.length > 0 && rem)
-      widgets.add(new LessonCard(lessons, context));
+    if (realLessons.length > 0 && rem)
+      widgets.add(new LessonCard(realLessons, context));
     widgets.sort((Widget a, Widget b) {
       return b.key.toString().compareTo(a.key.toString());
     });
@@ -145,35 +145,67 @@ class MainScreenState extends State<MainScreen> {
     });
 
     if (globals.isSingle){
-      await globals.selectedAccount.refreshEvaluations(true, false);
-      tempEvals.addAll(globals.selectedAccount.evaluations);
+      try {
+        await globals.selectedAccount.refreshEvaluations(true, false);
+        tempEvals.addAll(globals.selectedAccount.evaluations);
+      } catch (exception) {
+        print(exception);
+      }
 
-      await globals.selectedAccount.refreshAbsents(false, false);
-      tempAbsents.addAll(globals.selectedAccount.absents);
+      try {
+        await globals.selectedAccount.refreshAbsents(false, false);
+        tempAbsents.addAll(globals.selectedAccount.absents);
+      } catch (exception) {
+        print(exception);
+      }
 
-      await globals.selectedAccount.refreshNotes(false, false);
-      tempNotes.addAll(globals.selectedAccount.notes);
+      try {
+        await globals.selectedAccount.refreshNotes(false, false);
+        tempNotes.addAll(globals.selectedAccount.notes);
+      } catch (exception) {
+        print(exception);
+      }
     } else {
       for (Account account in globals.accounts) {
-        print(account.user.name);
-        await account.refreshEvaluations(true, false);
-        tempEvals.addAll(account.evaluations);
+        try {
+          await account.refreshEvaluations(true, false);
+          tempEvals.addAll(account.evaluations);
+        } catch (exception) {
+          print(exception);
+        }
 
-        await account.refreshAbsents(false, false);
-        tempAbsents.addAll(account.absents);
+        try {
+          await account.refreshAbsents(false, false);
+          tempAbsents.addAll(account.absents);
+        } catch (exception) {
+          print(exception);
+        }
 
-        await account.refreshNotes(false, false);
-        tempNotes.addAll(account.notes);
+        try {
+          await account.refreshNotes(false, false);
+          tempNotes.addAll(account.notes);
+        } catch (exception) {
+          print(exception);
+        }
       }
     }
-    evaluations = tempEvals;
-    absents = tempAbsents;
-    notes = tempNotes;
+    if (tempEvals.length > 0)
+      evaluations = tempEvals;
+    if (tempAbsents.length > 0)
+      absents = tempAbsents;
+    if (tempNotes.length > 0)
+      notes = tempNotes;
 
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
-    lessons = await getLessons(startDate, startDate.add(Duration(days: 7)));
-    globals.lessons = lessons;
+    try {
+      lessons = await getLessons(startDate, startDate.add(Duration(days: 7)));
+    } catch (exception) {
+      print(exception);
+    }
+
+    if (lessons.length > 0)
+      globals.lessons = lessons;
 
     Completer<Null> completer = new Completer<Null>();
     hasLoaded = true;
@@ -196,29 +228,52 @@ class MainScreenState extends State<MainScreen> {
 
     //todo singleuser
     for (Account account in globals.accounts) {
-      await account.refreshEvaluations(false, true);
-      tempEvals.addAll(account.evaluations);
+      try {
+        await account.refreshEvaluations(false, true);
+        tempEvals.addAll(account.evaluations);
+      } catch (exception) {
+        print(exception);
+      }
 
-      await account.refreshAbsents(false, true);
-      tempAbsents.addAll(account.absents);
+      try {
+        await account.refreshAbsents(false, true);
+        tempAbsents.addAll(account.absents);
+      } catch (exception) {
+        print(exception);
+      }
 
-      await account.refreshNotes(false, true);
-      tempNotes.addAll(account.notes);
+      try {
+        await account.refreshNotes(false, true);
+        tempNotes.addAll(account.notes);
+      } catch (exception) {
+        print(exception);
+      }
     }
 
-    evaluations = tempEvals;
-    absents = tempAbsents;
-    notes = tempNotes;
+    if (tempEvals.length > 0)
+      evaluations = tempEvals;
+    if (tempAbsents.length > 0)
+      absents = tempAbsents;
+    if (tempNotes.length > 0)
+      notes = tempNotes;
 
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
-    if (globals.lessons.length > 0)
-      lessons = globals.lessons;
-    else {
-      lessons =
-          await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
-      globals.lessons = lessons;
+
+    if (globals.lessons.length > 0) {
+      print("true");
+      lessons.addAll(globals.lessons);
+    } else {
+      print("false");
+      try {
+        lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+      } catch (exception) {
+        print(exception);
+      }
+      if (lessons.length > 0)
+        globals.lessons.addAll(lessons);
     }
+    print(lessons.length);
 
     Completer<Null> completer = new Completer<Null>();
     hasOfflineLoaded = true;

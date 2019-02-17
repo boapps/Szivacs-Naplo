@@ -18020,7 +18020,7 @@
   {
     "InstituteId": 1644,
     "InstituteCode": "klik201026005",
-    "Name": "Móri Radnóti Miklós Általános Iskola Pusztavámi Tagiskolája",
+    "Name": "Pusztavámi Német Nemzetiségi Általános Iskola",
     "Url": "https://klik201026005.e-kreta.hu",
     "City": "Pusztavám",
     "AdvertisingUrl": "",
@@ -40628,6 +40628,149 @@
     "Name": "Répcelaki Móra Ferenc Általános Iskola és Alapfokú Művészeti Iskola Uraiújfalui Tagiskolája",
     "Url": "https://klik036675004.e-kreta.hu",
     "City": "Uraiújfalu",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4048,
+    "InstituteCode": "szlovak-sujhely",
+    "Name": "Magyar-Szlovák Két Tanítási Nyelvű Nemzetiségi Általános Iskola és Kollégium",
+    "Url": "https://szlovak-sujhely.e-kreta.hu",
+    "City": "Sátoraljaújhely",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4049,
+    "InstituteCode": "elbronco",
+    "Name": "El Bronco Lovas Szakközépiskola és Kollégium\r\n",
+    "Url": "https://elbronco.e-kreta.hu\r\n",
+    "City": "Izsák",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4050,
+    "InstituteCode": "bemutato-kk",
+    "Name": "Bemutató Rendszer - KK",
+    "Url": "https://bemutato-kk.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4052,
+    "InstituteCode": "bemutato-nszfh",
+    "Name": "Bemutató Rendszer - NSZFH",
+    "Url": "https://bemutato-nszfh.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4053,
+    "InstituteCode": "bemutato-hoi",
+    "Name": "Bemutató Rendszer - HOI",
+    "Url": "https://bemutato-hoi.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4054,
+    "InstituteCode": "bemutato-azure",
+    "Name": "Bemutató Rendszer - AZURE",
+    "Url": "https://bemutato-azure.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4055,
+    "InstituteCode": "support-farkas",
+    "Name": "Terméktámogatás Farkas",
+    "Url": "https://support-farkas.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4056,
+    "InstituteCode": "support-mecsei",
+    "Name": "Terméktámogatás Mécsei",
+    "Url": "https://support-mecsei.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4057,
+    "InstituteCode": "support-heni",
+    "Name": "Terméktámogatás Heni",
+    "Url": "https://support-heni.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4058,
+    "InstituteCode": "support-pukszler",
+    "Name": "Terméktámogatás Pukszler",
+    "Url": "https://support-pukszler.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4059,
+    "InstituteCode": "support-szabol",
+    "Name": "Terméktámogatás Szabol",
+    "Url": "https://support-szabol.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4060,
+    "InstituteCode": "support-turai",
+    "Name": "Terméktámogatás Turai",
+    "Url": "https://support-turai.e-kreta.hu/\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4061,
+    "InstituteCode": "bemutato-virag",
+    "Name": "Terméktámogatás Virág",
+    "Url": "https://bemutato-virag.e-kreta.hu/\r\n",
+    "City": "Budapest",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
       "JustificationFeatureEnabled": "false"

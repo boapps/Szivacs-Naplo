@@ -2,9 +2,10 @@ import 'User.dart';
 import 'package:flutter/material.dart';
 
 class Evaluation {
-  // constatnts:
+  // constants:
   static const String HALF_YEAR = "HalfYear";
   static const String MID_YEAR = "MidYear";
+  static const String TEXT = "Text";
 
   int _id;
   String _form;
@@ -51,6 +52,7 @@ class Evaluation {
 
   bool isMidYear() => type == MID_YEAR;
   bool isHalfYear() => type == HALF_YEAR;
+  bool isText() => form == TEXT;
 
   String get theme => _theme;
 

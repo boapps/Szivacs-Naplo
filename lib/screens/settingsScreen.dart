@@ -10,6 +10,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import '../Datas/Evaluation.dart';
 import '../Helpers/LocaleHelper.dart';
+import '../Utils/AccountManager.dart';
+import '../Datas/User.dart';
+import '../Datas/Account.dart';
 import '../main.dart' as Main;
 
 void main() {
@@ -26,33 +29,40 @@ class SettingsScreen extends StatefulWidget {
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
 Future<int> getGrades() async {
-  await globals.selectedAccount.refreshEvaluations(true, false);
-  List<Evaluation> offlineEvals = globals.selectedAccount.evaluations;
-  await globals.selectedAccount.refreshEvaluations(true, true);
-  List<Evaluation> evals = globals.selectedAccount.evaluations;
+  List<User> users = await AccountManager().getUsers();
+  globals.accounts = List();
+  for (User user in users)
+    globals.accounts.add(Account(user));
 
-  for (Evaluation e in evals) {
-    bool exist = false;
-    for (Evaluation o in offlineEvals)
-      if (e.id == o.id)
-        exist = true;
-    if (!exist) {
-      var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-          'evaluations', 'jegyek', 'értesítések a jegyekről',
-          importance: Importance.Max, priority: Priority.High);
-      var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-      var platformChannelSpecifics = new NotificationDetails(
-          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-      flutterLocalNotificationsPlugin.show(
-          e.id,
-          e.subject + " - " + (e.numericValue != 0 ? e.numericValue.toString() : e.value),
-          e.owner.name + ", " + e.theme??"", platformChannelSpecifics,
-          payload: e.id.toString());
+  for (Account account in globals.accounts) {
+    await account.refreshEvaluations(true, false);
+    List<Evaluation> offlineEvals = account.evaluations;
+    await account.refreshEvaluations(true, true);
+    List<Evaluation> evals = account.evaluations;
+
+    for (Evaluation e in evals) {
+      bool exist = false;
+      for (Evaluation o in offlineEvals)
+        if (e.id == o.id)
+          exist = true;
+      if (!exist) {
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'evaluations', 'jegyek', 'értesítések a jegyekről',
+            importance: Importance.Max, priority: Priority.High);
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        flutterLocalNotificationsPlugin.show(
+            e.id,
+            e.subject + " - " +
+                (e.numericValue != 0 ? e.numericValue.toString() : e.value),
+            e.owner.name + ", " + e.theme ?? "", platformChannelSpecifics,
+            payload: e.id.toString());
+      }
+
+      //todo jegyek változása
+      //todo ha óra elmarad/helyettesítés
     }
-
-    //todo jegyek változása
-    //todo ha óra elmarad/helyettesítés
-  }
 /*
   List<Note> offlineNotes = await NotesHelper()
       .getNotes();
@@ -105,6 +115,7 @@ Future<int> getGrades() async {
       }
   });
 */
+  }
       return 0;
 }
 

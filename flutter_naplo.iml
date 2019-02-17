@@ -15,6 +15,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/encrypt/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/encrypt/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/encrypt/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_string_encryption/build" />
