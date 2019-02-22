@@ -96,25 +96,31 @@ class NotesScreenState extends State<NotesScreen> {
     return new Column(
       children: <Widget>[
         new ListTile(
-          title: new Text(
-            notes[index].date.substring(0, 10).replaceAll("-", ". ") +
-                ". " +
-                (notes[index].teacher != null
-                    ? (" - " + notes[index].teacher)
-                    : ""),
-            style: TextStyle(fontSize: 20.0),
-          ),
-          subtitle: new Container(
+          title: notes[index].title != null && notes[index].title != "" ? new Text(notes[index].title) : null,
+          subtitle: new Column(children: <Widget>[
+            new Container(
             padding: EdgeInsets.all(5),
             child: Linkify(
+              style: TextStyle(fontSize: 16),
               text: notes[index].content,
               onOpen: (String url) {
                 launcher.launch(url);
               },
             ),
           ),
+            new Container(
+              child: new Text(notes[index].date.substring(0, 10).replaceAll("-", ". ")),
+              alignment: Alignment(1, -1),
+            ),
+            notes[index].teacher != null ? new Container(
+              child: new Text(notes[index].teacher),
+              alignment: Alignment(1, -1),
+            ) : new Container(),
+    ]
+          ),
           isThreeLine: true,
         ),
+
         new Divider(
           height: 10.0,
         ),
