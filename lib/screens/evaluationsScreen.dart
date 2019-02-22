@@ -267,8 +267,32 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         break;
     }
 
+    Widget sep = new Container();
+
+    switch (globals.sort) {
+      case 0:
+        break;
+      case 1:
+        print(_evaluations[index].value.length);
+        if (index == 0) {
+          if (_evaluations[index].value.length < 16)
+            sep = new Text(_evaluations[index].value);
+        }
+        else if (_evaluations[index].value != _evaluations[index-1].value && _evaluations[index].value.length < 16)
+          sep = new Text(_evaluations[index].value);
+        break;
+      case 2:
+        if (index == 0)
+          sep = new Text(_evaluations[index].subject);
+        else if (_evaluations[index].subject != _evaluations[index-1].subject)
+          sep = new Text(_evaluations[index].subject);
+        break;
+    }
+
+
     return new Column(
       children: <Widget>[
+        sep,
         new Divider(
           height: index != 0 ? 2.0 : 0.0,
         ),
