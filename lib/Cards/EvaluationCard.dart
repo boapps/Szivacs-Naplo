@@ -152,25 +152,17 @@ class EvaluationCard extends StatelessWidget {
             new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  evaluation.theme != "" && evaluation.theme != null
-                      ? new Text(AppLocalizations.of(context).theme + evaluation.theme)
-                      : new Container(),
-                  evaluation.teacher != null ? new Text(AppLocalizations.of(context).teacher + evaluation.teacher) : new Container(),
-                  evaluation.date != null ? new Text(AppLocalizations.of(context).time + evaluation.date.substring(0, 11)
-                      .replaceAll("-", '. ')
-                      .replaceAll("T", ". ")) : new Container(),
-                  evaluation.mode != null ? new Text(AppLocalizations.of(context).mode + evaluation.mode) : new Container(),
-                  evaluation.creationDate != null ? new Text(AppLocalizations.of(context).administration_time +
-                      evaluation.creationDate.substring(0, 16).replaceAll(
-                          "-", ". ").replaceAll("T", ". ")) : new Container(),
-                  evaluation.weight != null ? new Text(AppLocalizations.of(context).weight + evaluation.weight) : new Container(),
-                  evaluation.value != null ? new Text(AppLocalizations.of(context).value + evaluation.value) : new Container(),
-                  evaluation.range != null ? new Text(AppLocalizations.of(context).range + evaluation.range) : new Container(),
+                  evaluation.value != null ? new Container(child: new Text(evaluation.value, style: TextStyle(fontSize: 21),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 3),) : new Container(),
+                  evaluation.weight != "" && evaluation.weight != "100%" && evaluation.weight != null ? new Container(child: new Text(evaluation.weight, style:TextStyle(fontSize: 16, fontWeight: FontWeight.bold),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 3),) : new Container(),
+                  evaluation.theme != "" && evaluation.theme != null ? new Container(child: new Text(evaluation.theme, style:TextStyle(fontSize: 16),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 3),) : new Container(),
+                  evaluation.mode != "" && evaluation.mode != null ? new Container(child: new Text(evaluation.mode, style:TextStyle(fontSize: 16),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 8),) : new Container(),
+                  evaluation.creationDate != null ? new Container(child: Text(evaluation.creationDate.substring(0, 16).replaceAll("-", ". ").replaceAll("T", ". ")), alignment: Alignment(1, -1),padding: EdgeInsets.only(top: 16),) : new Container(),
+                  evaluation.teacher != null ? new Container(child: Text(evaluation.teacher), alignment: Alignment(1, -1),) : new Container(),
                 ],
               ),
             ),
           ],
-          title: (evaluation.subject != null && evaluation.value != null) ? Text(evaluation.subject + " " + evaluation.value, ) : new Container(),
+          title: (evaluation.subject != null) ? Text(evaluation.subject) : new Container(),
           contentPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             side: BorderSide(
