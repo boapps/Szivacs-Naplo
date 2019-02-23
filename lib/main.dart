@@ -29,6 +29,7 @@ import 'screens/statisticsScreen.dart';
 import 'screens/timeTableScreen.dart';
 import 'Utils/Saver.dart' as Saver;
 import 'Datas/Account.dart';
+import 'package:package_info/package_info.dart';
 
 bool isNew = true;
 
@@ -93,6 +94,8 @@ class MyApp extends StatelessWidget {
 // todo refactor this and separate the 3 screens here
 
 void main() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  globals.version = packageInfo.version;
   List<User> users = await AccountManager().getUsers();
   isNew = (users.isEmpty);
   globals.isLogo = await SettingsHelper().getLogo();

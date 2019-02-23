@@ -62,7 +62,7 @@ class AboutScreenState extends State<AboutScreen> {
                           AppLocalizations.of(context).version,
                           style: new TextStyle(fontSize: 22.0, ),
                         ),
-                        new Text(AppLocalizations.of(context).version_number,
+                        new Text(globals.version,
                           style: new TextStyle(fontSize: 22.0, color: Colors.blue),
                         ),
                       ],

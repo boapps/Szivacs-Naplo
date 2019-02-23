@@ -7,6 +7,7 @@ import 'Datas/Note.dart';
 import 'Datas/Lesson.dart';
 import 'Datas/Account.dart';
 
+String version;
 bool isLoggedIn = false;
 bool isLogo = true;
 bool isColor = true;

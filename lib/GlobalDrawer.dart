@@ -3,6 +3,7 @@ import 'globals.dart';
 import 'Datas/Account.dart';
 import 'Datas/User.dart';
 import 'Helpers/LocaleHelper.dart';
+import 'package:package_info/package_info.dart';
 
 BuildContext ctx;
 
@@ -75,7 +76,6 @@ class GDrawerState extends State<GDrawer> {
                 children: <Widget>[
                   Image.asset(
                     "assets/icon.png",
-//                  alignment: new Alignment(-1.0, 1.0),
                     height: 120.0,
                     width: 120.0,
                   ),
@@ -86,16 +86,14 @@ class GDrawerState extends State<GDrawer> {
                           AppLocalizations.of(context).title,
                           style: TextStyle(fontSize: 19.0),
                         ),
-//                      alignment: new Alignment(-1.0, 1.0),
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 5.0, 0.0),
                       ),
                       new Container(
                         child: new Text(
-                          AppLocalizations.of(context).version_number,
+                          version,
                           style:
                           TextStyle(fontSize: 19.0, color: Colors.blueAccent),
                         ),
-//                      alignment: new Alignment(-1.0, 1.0),
                       ),
                     ],
                   ),
@@ -108,7 +106,6 @@ class GDrawerState extends State<GDrawer> {
                             fontSize: 19.0,
                           ),
                         ),
-//                      alignment: new Alignment(-1.0, 1.0),
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 4.0),
                       ),
                       new Container(
@@ -117,7 +114,6 @@ class GDrawerState extends State<GDrawer> {
                           style:
                           TextStyle(fontSize: 19.0, color: Colors.blueAccent),
                         ),
-//                      alignment: new Alignment(-1.0, 1.0),
                         padding: new EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 4.0),
                       ),
                     ],
@@ -269,7 +265,6 @@ class GDrawerState extends State<GDrawer> {
               screen = 7;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/settings");
-//            Navigator.pushNamed(context, "/about");
             },
           ),
         ],
