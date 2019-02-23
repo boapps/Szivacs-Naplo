@@ -34,17 +34,6 @@ Issuekban vannak
   * [html_unescape](https://github.com/filiph/html_unescape)
   * [background_fetch](https://github.com/transistorsoft/flutter_background_fetch)
 
-### Licenc:
-Copyright (c) 2019, boapps
-Minden jog fenntartva.
-
-A forrás és bináris formában való újraterjesztés és használat, módosításokkal vagy anélkül is engedélyezett, feltéve, hogy a következő feltételek teljesülnek:
-
-1. A forráskód újraterjesztésénél kötelező alkalmazni a fenti copyright felhívást, az itt található feltételeket és a következőkben olvasható korlátozott felelősségi nyilatkozatot.
-2. A bináris formában való újraterjesztés esetén a binárishoz adott dokumentációban és/vagy egyéb anyagban kötelező idézni a fenti copyright felhívást, az itt található feltételeket és a következőkben olvasható korlátozott felelősségi nyilatkozatot.
-
-EZT A SZOFTVERT A(Z) boapps ÉS A KÖZREMŰKÖDŐK "AHOGY VAN" SZOLGÁLTATJÁK ÉS MINDEN NYÍLT VAGY BURKOLT GARANCIAJOGOT VISSZAUTASÍTANAK VELE KAPCSOLATBAN - BELEÉRTVE DE NEM KIZÁRÓLAGOSAN KORLÁTOZVA AZ ELADHATÓSÁGRA, VAGY EGY ADOTT CÉLRA VALÓ ALKALMAZHATÓSÁGRA VONATKOZÓ GARANCIÁT. A boapps ÉS A KÖZREMŰKÖDŐK NEM VONHATÓK SEMMILYEN SZINTŰ FELELŐSSÉGRE -, MELYET AKÁR SZERZŐDÉSBEN RENDEZETT, VAGY SZERZŐDÉSEN KÍVÜLI FELELŐSSÉGVISZONY ALAPJÁN ÁLLAPÍTANÁNAK MEG (BELEÉRTVE A HANYAGSÁG VAGY MÁS MIATT KIALAKULÓ VISZONYT IS), SEMMILYEN A SZOFTVER HASZNÁLATÁBÓL EREDŐ ESEMÉNY KAPCSÁN MELY KÖZVETLEN, KÖZVETETT, VÉLETLENSZERŰ, KÜLÖNLEGES, PÉLDÁTLAN VAGY SZÜKSÉGSZERŰEN BEKÖVETKEZŐ KÁRHOZ VEZET (BELEÉRTVE A KÁROK KÖZÉ DE NEM KIZÁRÓLAGOSAN KORLÁTOZVA AZT A HELYETTESÍTŐ TERMÉKEK VAGY SZOLGÁLTATÁSOK BESZERZÉSÉRE, ÜZEMKIESÉSRE, ADATVESZTÉSRE, ELMARADT HASZONRA, VAGY ÜZLETMENET MEGSZAKADÁSÁRA) MÉG AKKOR SEM HA A KÁROSODÁS LEHETŐSÉGE ELŐRE LÁTHATÓ VOLT.
-
 ### Eredeti (angol nyelvű) licenc:
 BSD 2-Clause License
 
