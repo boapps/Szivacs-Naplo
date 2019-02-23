@@ -34,7 +34,7 @@ Issuekban vannak
   * [html_unescape](https://github.com/filiph/html_unescape)
   * [background_fetch](https://github.com/transistorsoft/flutter_background_fetch)
 
-### Eredeti (angol nyelvű) licenc:
+### Licenc:
 BSD 2-Clause License
 
 Copyright (c) 2019, boapps
