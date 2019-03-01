@@ -626,5 +626,41 @@
   "@lesson": {
     "type": "text",
     "placeholders": {}
+  },
+  "blue": "blue",
+  "@blue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "red": "red",
+  "@red": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "green": "green",
+  "@green": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "yellow": "yellow",
+  "@yellow": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "orange": "orange",
+  "@orange": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grey": "grey",
+  "@grey": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "color": "Color",
+  "@color": {
+    "type": "text",
+    "placeholders": {}
   }
+
 }

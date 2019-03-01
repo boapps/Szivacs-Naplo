@@ -28,6 +28,7 @@ int selectedTimeForHomework = 1;
 List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();
+int themeID = 0;
 
 List<Account> accounts = new List();
 Account selectedAccount;

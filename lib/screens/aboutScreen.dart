@@ -37,7 +37,6 @@ class AboutScreenState extends State<AboutScreen> {
         child: Scaffold(
             drawer: GDrawer(),
         appBar: new AppBar(
-          backgroundColor: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blue[700],
           title: new Text(AppLocalizations.of(context).title),
           actions: <Widget>[
           ],
@@ -63,7 +62,7 @@ class AboutScreenState extends State<AboutScreen> {
                           style: new TextStyle(fontSize: 22.0, ),
                         ),
                         new Text(globals.version,
-                          style: new TextStyle(fontSize: 22.0, color: Colors.blue),
+                          style: new TextStyle(fontSize: 22.0, color: Theme.of(context).accentColor),
                         ),
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +75,7 @@ class AboutScreenState extends State<AboutScreen> {
                             style: new TextStyle(fontSize: 22.0, ),
                           ),
                           new Text(AppLocalizations.of(context).boa,
-                            style: new TextStyle(fontSize: 22.0, color: Colors.blue),
+                            style: new TextStyle(fontSize: 22.0, color: Theme.of(context).accentColor),
                           ),
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +89,7 @@ class AboutScreenState extends State<AboutScreen> {
                           style: new TextStyle(fontSize: 22.0, ),
                         ),
                         new Text(AppLocalizations.of(context).flutter,
-                          style: new TextStyle(fontSize: 22.0, color: Colors.blue),
+                          style: new TextStyle(fontSize: 22.0, color: Theme.of(context).accentColor),
                         ),
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,

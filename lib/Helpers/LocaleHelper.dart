@@ -547,6 +547,34 @@ class AppLocalizations {
     return Intl.message("óra", name: "lesson");
   }
 
+  String get blue {
+    return Intl.message("kék", name: "blue");
+  }
+
+  String get red {
+    return Intl.message("piros", name: "red");
+  }
+
+  String get green {
+    return Intl.message("zöld", name: "green");
+  }
+
+  String get yellow {
+    return Intl.message("sárga", name: "yellow");
+  }
+
+  String get orange {
+    return Intl.message("narancssárga", name: "orange");
+  }
+
+  String get grey {
+    return Intl.message("szürke", name: "grey");
+  }
+
+  String get color {
+    return Intl.message("Szín", name: "color");
+  }
+
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

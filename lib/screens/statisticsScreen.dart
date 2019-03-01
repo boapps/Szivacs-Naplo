@@ -342,7 +342,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                   new Text(
                     avrString,
                     style: TextStyle(
-                        color: Colors.blueAccent,
+                        color: Theme.of(context).accentColor,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -578,7 +578,7 @@ class GradeDialogState extends State<GradeDialog> {
                       jegy = value;
                     });
                   },
-                  activeColor: Colors.blueAccent,
+                  activeColor: Theme.of(context).accentColor,
                 ),
                 Radio<int>(
                   value: 2,
@@ -588,7 +588,7 @@ class GradeDialogState extends State<GradeDialog> {
                       jegy = value;
                     });
                   },
-                  activeColor: Colors.blueAccent,
+                  activeColor: Theme.of(context).accentColor,
                 ),
                 Radio<int>(
                   value: 3,
@@ -598,7 +598,7 @@ class GradeDialogState extends State<GradeDialog> {
                       jegy = value;
                     });
                   },
-                  activeColor: Colors.blueAccent,
+                  activeColor: Theme.of(context).accentColor,
                 ),
                 Radio<int>(
                   value: 4,
@@ -608,7 +608,7 @@ class GradeDialogState extends State<GradeDialog> {
                       jegy = value;
                     });
                   },
-                  activeColor: Colors.blueAccent,
+                  activeColor: Theme.of(context).accentColor,
                 ),
                 Radio<int>(
                   value: 5,
@@ -618,7 +618,7 @@ class GradeDialogState extends State<GradeDialog> {
                       jegy = value;
                     });
                   },
-                  activeColor: Colors.blueAccent,
+                  activeColor: Theme.of(context).accentColor,
                 ),
               ]),
           padding: EdgeInsets.only(left: 20, right: 20),
@@ -661,7 +661,7 @@ class GradeDialogState extends State<GradeDialog> {
                     isTZ = value;
                   });
                 },
-                activeColor: Colors.blueAccent,
+                activeColor: Theme.of(context).accentColor,
               ),
               new Container(
                 width: 60,
@@ -720,7 +720,7 @@ class GradeDialogState extends State<GradeDialog> {
           },
           child: new Text(
             AppLocalizations.of(context).done,
-            style: TextStyle(color: Colors.blueAccent),
+            style: TextStyle(color: Theme.of(context).accentColor),
           ),
           padding: EdgeInsets.all(10),
         ),

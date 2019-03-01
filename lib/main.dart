@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'PageRouteBuilder.dart';
 
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
@@ -29,6 +28,7 @@ import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
 import 'screens/timeTableScreen.dart';
 import 'Utils/Saver.dart' as Saver;
+import 'Utils/ColorManager.dart';
 import 'Datas/Account.dart';
 import 'package:package_info/package_info.dart';
 
@@ -42,21 +42,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new DynamicTheme(
         defaultBrightness: Brightness.light,
-        data: (brightness) {
-          print(brightness.index);
-          globals.isDark = brightness.index == 0;
-          return new ThemeData(
-            primarySwatch: Colors.blue,
-            accentColor: Colors.blueAccent,
-            brightness: brightness,
-            primaryColorLight: Colors.blue[700],
-            scaffoldBackgroundColor: brightness.index == 0 ? Color.fromARGB(255, 36, 36, 36) : null,
-            dialogBackgroundColor: brightness.index == 0 ? globals.isAmoled ? Colors.black : Color.fromARGB(255, 36, 36, 36) : null,
-            primaryColorDark: Color.fromARGB(255, 25, 25, 25),
-            cardColor: brightness.index == 0 ? Color.fromARGB(255, 25, 25, 25) : null,
-            fontFamily: 'Quicksand',
-          );
-        },
+        data: (brightness) => ColorManager().getTheme(brightness),
         themedWidgetBuilder: (context, theme) {
           return new MaterialApp(
             localizationsDelegates: [
@@ -116,6 +102,8 @@ void main() async {
       ), backgroundFetchHeadlessTask);
     });
 
+    globals.isDark = await SettingsHelper().getDarkTheme();
+    globals.isAmoled = await SettingsHelper().getAmoled();
     globals.isColor = await SettingsHelper().getColoredMainPage();
     globals.isSingle = await SettingsHelper().getSingleUser();
     globals.multiAccount = (await Saver.readUsers()).length != 1;
@@ -125,6 +113,7 @@ void main() async {
       globals.accounts.add(Account(user));
     globals.selectedAccount = globals.accounts[0];
     globals.selectedUser = users[0];
+    globals.themeID = await SettingsHelper().getTheme();
   }
 
   runApp(MyApp());

@@ -46,6 +46,14 @@ class SettingsHelper {
     return await _getProperty("DarkTheme", false);
   }
 
+  void setAmoled(bool value) {
+    _setPropertyBool("Amoled", value);
+  }
+
+  Future<bool> getAmoled() async {
+    return await _getProperty("Amoled", false);
+  }
+
   void setNotification(bool value) {
     _setPropertyBool("Notification", value);
   }
@@ -85,5 +93,13 @@ class SettingsHelper {
 
   Future<String> getLang() async {
     return await _getProperty("lang", "auto");
+  }
+
+  void setTheme(int theme) {
+    _setPropertyBool("theme", theme);
+  }
+
+  Future<int> getTheme() async {
+    return await _getProperty("theme", 0);
   }
 }

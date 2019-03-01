@@ -63,7 +63,6 @@ class ExportScreenState extends State<ExportScreen> {
         child: Scaffold(
             drawer: GDrawer(),
         appBar: new AppBar(
-          backgroundColor: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blue[700],
           title: new Text(AppLocalizations.of(context).title),
           actions: <Widget>[
           ],

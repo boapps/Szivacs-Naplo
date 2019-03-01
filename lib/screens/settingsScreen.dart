@@ -14,7 +14,7 @@ import '../Utils/AccountManager.dart';
 import '../Datas/User.dart';
 import '../Datas/Account.dart';
 import '../main.dart' as Main;
-
+import '../Utils/ColorManager.dart';
 void main() {
   runApp(new MaterialApp(home: new SettingsScreen()));
   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
@@ -136,6 +136,7 @@ void backgroundFetchHeadlessTask() async {
 class SettingsScreenState extends State<SettingsScreen> {
   bool _isColor;
   bool _isDark;
+  bool _amoled;
   bool _isNotification;
   bool _isLogo;
   bool _isSingleUser;
@@ -144,6 +145,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   final List<int> refreshArray = [15, 30, 60, 120, 360];
   int _refreshNotification;
+  int _theme;
 
   void _initSet() async {
 
@@ -154,6 +156,8 @@ class SettingsScreenState extends State<SettingsScreen> {
     _refreshNotification = await SettingsHelper().getRefreshNotification();
     _isSingleUser = await SettingsHelper().getSingleUser();
     _lang = await SettingsHelper().getLang();
+    _theme = await SettingsHelper().getTheme();
+    _amoled = await SettingsHelper().getAmoled();
 
     setState(() {});
     initPlatformState();
@@ -236,12 +240,31 @@ class SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _isDarkChange(bool value) {
+  void _isDarkChange(bool value) async {
     setState(() {
       _isDark = value;
       SettingsHelper().setDarkTheme(_isDark);
     });
-    DynamicTheme.of(context).setBrightness(value ? Brightness.dark: Brightness.light);
+    globals.isDark = _isDark;
+    await DynamicTheme.of(context).setBrightness(value ? Brightness.dark: Brightness.light);
+  }
+
+  void _setAmoled(bool value) {
+    setState(() {
+      _amoled = value;
+      SettingsHelper().setAmoled(_amoled);
+    });
+    globals.isAmoled = _amoled;
+    DynamicTheme.of(context).setThemeData(ColorManager().getTheme(Theme.of(context).brightness));
+  }
+
+  void _themChange(int value) {
+    setState(() {
+      _theme = value;
+      SettingsHelper().setTheme(_theme);
+    });
+    globals.themeID = _theme;
+    DynamicTheme.of(context).setThemeData(ColorManager().getTheme(Theme.of(context).brightness));
   }
 
   void _isSingleUserChange(bool value) {
@@ -254,6 +277,8 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> themes = [AppLocalizations.of(context).blue, AppLocalizations.of(context).red, AppLocalizations.of(context).green, AppLocalizations.of(context).yellow, AppLocalizations.of(context).orange, AppLocalizations.of(context).grey];
+
     return new WillPopScope(
         onWillPop: () {
           globals.screen = 0;
@@ -262,7 +287,6 @@ class SettingsScreenState extends State<SettingsScreen> {
         child: Scaffold(
           drawer: GDrawer(),
           appBar: new AppBar(
-            backgroundColor: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blue[700],
             title: new Text(AppLocalizations.of(context).settings),
             ),
           body: new Container(
@@ -275,7 +299,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   trailing: new Switch(
-                    activeColor: Colors.blueAccent,
+                    activeColor: Theme.of(context).accentColor,
                     value: _isColor,
                     onChanged: _isColorChange,
                   ),
@@ -288,7 +312,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   trailing: new Switch(
-                    activeColor: Colors.blueAccent,
+                    activeColor: Theme.of(context).accentColor,
                     value: _isSingleUser,
                     onChanged: _isSingleUserChange,
                   ),
@@ -301,12 +325,54 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   trailing: new Switch(
-                    activeColor: Colors.blueAccent,
+                    activeColor: Theme.of(context).accentColor,
                     value: _isDark,
                     onChanged: _isDarkChange,
                   ),
                   leading: new Icon(IconData(0xf50e, fontFamily: "Material Design Icons")),
                 ),
+                ListTile(
+                  title: new Text("Amoled",
+                    style: TextStyle(
+                        fontSize: 20.0
+                    ),
+                  ),
+                  enabled: _isDark,
+                  trailing: new Switch(
+                    activeColor: Theme.of(context).accentColor,
+                    value: _amoled,
+                    onChanged: _isDark ? _setAmoled : null,
+                  ),
+                  leading: new Icon(IconData(0xf301, fontFamily: "Material Design Icons")),
+                ),
+                ListTile(
+                  title: new PopupMenuButton<int>(
+                    child: new ListTile(
+                      contentPadding: EdgeInsets.all(0),
+                      title: new Text(AppLocalizations.of(context).color + ": " + themes[_theme],
+                        style: TextStyle(
+                            fontSize: 20.0
+                        ),
+                      ),
+                    ),
+                    onSelected: _themChange,
+                    itemBuilder: (BuildContext context) {
+                      return [0, 1, 2, 3, 4, 5].map((int integer) {
+                        return new PopupMenuItem<int>(
+                            value: integer,
+                            child: new Row(
+                              children: <Widget>[
+                                new Text(themes[integer]),
+                                new Container(decoration: ShapeDecoration(shape: CircleBorder(), color: ColorManager().getColorSample(integer)),height: 16, width: 16, margin: EdgeInsets.only(left: 4),)
+                              ],
+                            )
+                        );
+                      }).toList();
+                    },
+                  ),
+                  leading: new Icon(Icons.color_lens),
+                ),
+
                 ListTile(
                   title: new Text(AppLocalizations.of(context).notification,
                     style: TextStyle(
@@ -314,7 +380,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   trailing: new Switch(
-                    activeColor: Colors.blueAccent,
+                    activeColor: Theme.of(context).accentColor,
                     value: _isNotification,
                     onChanged: _isNotificationChange,
                   ),
@@ -361,7 +427,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   trailing: new Switch(
-                    activeColor: Colors.blueAccent,
+                    activeColor: Theme.of(context).accentColor,
                     value: _isLogo,
                     onChanged: _isLogoChange,
                   ),

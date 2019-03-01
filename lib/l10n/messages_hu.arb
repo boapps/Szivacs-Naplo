@@ -627,5 +627,41 @@
   "@lesson": {
     "type": "text",
     "placeholders": {}
+  },
+  "blue": "kék",
+  "@blue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "red": "piros",
+  "@red": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "green": "zöld",
+  "@green": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "yellow": "sárga",
+  "@yellow": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "orange": "narancssárga",
+  "@orange": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "grey": "szürke",
+  "@grey": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "color": "Szín",
+  "@color": {
+    "type": "text",
+    "placeholders": {}
   }
+
 }

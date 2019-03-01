@@ -67,7 +67,7 @@ class GDrawerState extends State<GDrawer> {
     // TODO: implement build
     return new Drawer(
       child: new Container(
-        color: isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white70,
+        color: Theme.of(context).scaffoldBackgroundColor,
       child: new ListView(
         children: <Widget>[
           isLogo ? new Container(
@@ -92,7 +92,7 @@ class GDrawerState extends State<GDrawer> {
                         child: new Text(
                           version,
                           style:
-                          TextStyle(fontSize: 19.0, color: Colors.blueAccent),
+                          TextStyle(fontSize: 19.0, color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],
@@ -112,7 +112,7 @@ class GDrawerState extends State<GDrawer> {
                         child: new Text(
                           AppLocalizations.of(context).boa,
                           style:
-                          TextStyle(fontSize: 19.0, color: Colors.blueAccent),
+                          TextStyle(fontSize: 19.0, color: Theme.of(context).accentColor),
                         ),
                         padding: new EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 4.0),
                       ),
@@ -166,9 +166,9 @@ class GDrawerState extends State<GDrawer> {
           ) : new Container(),
           new ListTile(
             leading: new Icon(
-              Icons.home, color: screen == 0 ? Colors.blueAccent : null,),
+              Icons.home, color: screen == 0 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).main_page,
-              style: TextStyle(color: screen == 0 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 0 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 0;
               Navigator.pop(context); // close the drawer
@@ -177,9 +177,9 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(
-              Icons.assignment, color: screen == 1 ? Colors.blueAccent : null,),
+              Icons.assignment, color: screen == 1 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).evaluations,
-              style: TextStyle(color: screen == 1 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 1 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 1;
               Navigator.pop(context); // close the drawer
@@ -189,9 +189,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               IconData(0xf520, fontFamily: "Material Design Icons"),
-              color: screen == 2 ? Colors.blueAccent : null,),
+              color: screen == 2 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).timetable,
-              style: TextStyle(color: screen == 2 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 2 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 2;
               Navigator.pop(context); // close the drawer
@@ -201,9 +201,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               IconData(0xf2dc, fontFamily: "Material Design Icons"),
-              color: screen == 8 ? Colors.blueAccent : null,),
+              color: screen == 8 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).homeworks,
-              style: TextStyle(color: screen == 8 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 8 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 8;
               Navigator.pop(context); // close the drawer
@@ -213,9 +213,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               IconData(0xf0e5, fontFamily: "Material Design Icons"),
-              color: screen == 3 ? Colors.blueAccent : null,),
+              color: screen == 3 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).notes,
-              style: TextStyle(color: screen == 3 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 3 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 3;
               Navigator.pop(context); // close the drawer
@@ -224,9 +224,9 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(
-              Icons.block, color: screen == 5 ? Colors.blueAccent : null,),
+              Icons.block, color: screen == 5 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).absent_title,
-              style: TextStyle(color: screen == 5 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 5 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 5;
               Navigator.pop(context); // close the drawer
@@ -236,9 +236,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               IconData(0xf127, fontFamily: "Material Design Icons"),
-              color: screen == 6 ? Colors.blueAccent : null,),
+              color: screen == 6 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).statistics,
-              style: TextStyle(color: screen == 6 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 6 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 6;
               Navigator.pop(context); // close the drawer
@@ -247,9 +247,9 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(Icons.supervisor_account,
-              color: screen == 4 ? Colors.blueAccent : null,),
+              color: screen == 4 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).accounts,
-              style: TextStyle(color: screen == 4 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 4 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 4;
               Navigator.pop(context); // close the drawer
@@ -258,9 +258,9 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(
-              Icons.settings, color: screen == 7 ? Colors.blueAccent : null,),
+              Icons.settings, color: screen == 7 ? Theme.of(context).accentColor : null,),
             title: new Text(AppLocalizations.of(context).settings,
-              style: TextStyle(color: screen == 7 ? Colors.blueAccent : null),),
+              style: TextStyle(color: screen == 7 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 7;
               Navigator.pop(context); // close the drawer
