@@ -387,6 +387,13 @@ class SettingsScreenState extends State<SettingsScreen> {
                     Navigator.pushNamed(context, "/about");
                   },
                 ),
+                new ListTile(
+                  leading: new Icon(Icons.import_export),
+                  title: new Text("Export"),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/export");
+                  },
+                ),
               ],
               padding: EdgeInsets.all(10),
             ):new Container(),

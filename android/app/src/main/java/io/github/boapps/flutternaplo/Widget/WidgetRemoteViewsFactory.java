@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -42,8 +41,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
         Log.d("AppWidgetId", String.valueOf(appWidgetId));
-
-//        dbhelper = new DBHelper(this.context);
     }
 
     public String loadJSONFromAsset(Context context, String filename) {
@@ -73,9 +70,14 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         }
         return json;
     }
+
     private void updateWidgetListView() {
-        sharedPreferences = context.getSharedPreferences("prefs", Activity.MODE_PRIVATE);
-        user_id = String.valueOf(sharedPreferences.getInt(String.valueOf(appWidgetId), 0));
+        try {
+            sharedPreferences = context.getSharedPreferences("prefs", Activity.MODE_PRIVATE);
+            user_id = String.valueOf(sharedPreferences.getInt(String.valueOf(appWidgetId), 0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Date from = new Date();
         Date to = new Date();
         from.setDate(from.getDate() - from.getDay() + 1);
@@ -86,8 +88,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         lessons = new ArrayList<>();
         try {
             JSONArray jArray = new JSONArray(loadJSONFromAsset(context, String.valueOf(simpleDateFormat.format(from) + "_" + simpleDateFormat.format(to) + "-" + user_id)));
-            System.out.println(jArray);
-            System.out.println(jArray.get(1));
             for (int n = 0; n < jArray.length(); n++) {
                 int id = jArray.getJSONObject(n).getInt("LessonId");
                 int count = jArray.getJSONObject(n).getInt("Count");
@@ -116,47 +116,53 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
             e.printStackTrace();
         }
 
-        ArrayList<Lesson> lessonsm = new ArrayList<>();
-        ArrayList<Lesson> lessonst = new ArrayList<>();
-        ArrayList<Lesson> lessonsw = new ArrayList<>();
-        ArrayList<Lesson> lessonsth = new ArrayList<>();
-        ArrayList<Lesson> lessonsf = new ArrayList<>();
+        ArrayList<Lesson> lessonsm = null;
+        ArrayList<Lesson> lessonst = null;
+        ArrayList<Lesson> lessonsw = null;
+        ArrayList<Lesson> lessonsth = null;
+        ArrayList<Lesson> lessonsf = null;
+        try {
+            lessonsm = new ArrayList<>();
+            lessonst = new ArrayList<>();
+            lessonsw = new ArrayList<>();
+            lessonsth = new ArrayList<>();
+            lessonsf = new ArrayList<>();
 
-        for (Lesson lesson : lessons) {
-            switch (lesson.getDate().getDay()) {
-                case 1:
-                    lessonsm.add(lesson);
-                    break;
-                case 2:
-                    lessonst.add(lesson);
-                    break;
-                case 3:
-                    lessonsw.add(lesson);
-                    break;
-                case 4:
-                    lessonsth.add(lesson);
-                    break;
-                case 5:
-                    lessonsf.add(lesson);
-                    break;
+            for (Lesson lesson : lessons) {
+                switch (lesson.getDate().getDay()) {
+                    case 1:
+                        lessonsm.add(lesson);
+                        break;
+                    case 2:
+                        lessonst.add(lesson);
+                        break;
+                    case 3:
+                        lessonsw.add(lesson);
+                        break;
+                    case 4:
+                        lessonsth.add(lesson);
+                        break;
+                    case 5:
+                        lessonsf.add(lesson);
+                        break;
+                }
             }
-        }
-        Date d = new Date();
-        System.out.println(d.getDay());
-        int day = 1;
-        if (d.getDay() < 6)
-            day = d.getDay();
+            Date d = new Date();
+            int day = 1;
+            if (d.getDay() < 6)
+                day = d.getDay();
 
-        lessonsc.clear();
-        for (Lesson lesson : lessons) {
-            if (lesson.getDate().getDay() == day) {
-                lessonsc.add(lesson);
+            lessonsc.clear();
+            for (Lesson lesson : lessons) {
+                if (lesson.getDate().getDay() == day) {
+                    lessonsc.add(lesson);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         ttweek = new Week(from, lessonsm, lessonst, lessonsw, lessonsth, lessonsf);
-
-
     }
 
     @Override

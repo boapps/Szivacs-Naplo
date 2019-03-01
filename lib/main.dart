@@ -17,6 +17,7 @@ import 'Helpers/SettingsHelper.dart';
 import 'Utils/AccountManager.dart';
 import 'globals.dart' as globals;
 import 'screens/accountsScreen.dart';
+import 'screens/exportScreen.dart';
 import 'screens/aboutScreen.dart';
 import 'screens/absentsScreen.dart';
 import 'screens/evaluationsScreen.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
               '/accounts': (_) => new AccountsScreen(),
               '/settings': (_) => new SettingsScreen(),
               '/statistics': (_) => new StatisticsScreen(),
+              '/export': (_) => new ExportScreen(),
             },
             navigatorKey: navigatorKey,
             home: isNew ? new LogoApp() : MainScreen(),

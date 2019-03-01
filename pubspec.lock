@@ -7,7 +7,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.33.6+1"
+    version: "0.35.3"
   archive:
     dependency: transitive
     description:
@@ -35,7 +35,7 @@ packages:
       name: background_fetch
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1"
+    version: "0.1.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -107,16 +107,16 @@ packages:
       name: dart_style
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.3"
   dynamic_theme:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1b562774acedf8034c8f0a65394161fe48a0fb2d"
+      resolved-ref: "6fac9fe49b3af8cccc892b7231119c21e77f8c0d"
       url: "git://github.com/Norbert515/dynamic_theme.git"
     source: git
-    version: "1.0.0"
+    version: "1.0.1"
   executor:
     dependency: transitive
     description:
@@ -156,7 +156,7 @@ packages:
       name: flutter_linkify
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.0"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -180,7 +180,7 @@ packages:
       name: front_end
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.6+9"
+    version: "0.1.13"
   glob:
     dependency: transitive
     description:
@@ -229,7 +229,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   intl:
     dependency: transitive
     description:
@@ -243,14 +243,14 @@ packages:
       name: intl_translation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.2"
+    version: "0.17.3"
   kernel:
     dependency: transitive
     description:
       name: kernel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.6+9"
+    version: "0.3.13"
   logging:
     dependency: transitive
     description:
@@ -300,6 +300,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.1"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   petitparser:
     dependency: transitive
     description:
@@ -341,7 +348,14 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.5.1+1"
+  simple_permissions:
+    dependency: "direct main"
+    description:
+      name: simple_permissions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.9"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -353,7 +367,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.1"
+    version: "1.5.4"
   stack_trace:
     dependency: transitive
     description:
@@ -381,14 +395,14 @@ packages:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   typed_data:
     dependency: transitive
     description:
@@ -439,5 +453,5 @@ packages:
     source: hosted
     version: "2.1.15"
 sdks:
-  dart: ">=2.1.0-dev.5.0 <3.0.0"
+  dart: ">=2.1.0 <3.0.0"
   flutter: ">=0.5.0 <2.0.0"

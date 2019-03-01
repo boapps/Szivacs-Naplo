@@ -26,7 +26,7 @@ public class AppWidgetConfigure extends Activity {
         String json = null;
         System.out.println(filename);
         try {
-            String yourFilePath = context.getDataDir() + "/app_flutter/" + filename + ".json";
+            String yourFilePath = context.getFilesDir().toString().replace("files", "app_flutter") + "/timetable_" + filename + ".json";
             File yourFile = new File( yourFilePath );
             StringBuilder text = new StringBuilder();
 
