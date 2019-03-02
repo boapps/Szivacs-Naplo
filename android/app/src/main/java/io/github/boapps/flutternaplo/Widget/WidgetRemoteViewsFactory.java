@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import io.github.boapps.flutternaplo.R;
-
+import java.util.Calendar;
 
 /**
  * Created by boa on 21/10/17.
@@ -80,8 +80,19 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         }
         Date from = new Date();
         Date to = new Date();
-        from.setDate(from.getDate() - from.getDay() + 1);
-        to.setDate(from.getDate() + 7);
+        Calendar from_calendar = Calendar.getInstance();
+        from_calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        from_calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        System.out.println(from_calendar.toString());
+        System.out.println(from_calendar.getTime());
+        Calendar to_calendar = Calendar.getInstance();
+        to_calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        to_calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        System.out.println(to_calendar.toString());
+        System.out.println(to_calendar.getTime());
+
+        to = to_calendar.getTime();
+        from = from_calendar.getTime();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
 

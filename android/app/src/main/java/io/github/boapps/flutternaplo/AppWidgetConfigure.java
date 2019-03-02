@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,7 +27,7 @@ public class AppWidgetConfigure extends Activity {
         String json = null;
         System.out.println(filename);
         try {
-            String yourFilePath = context.getFilesDir().toString().replace("files", "app_flutter") + "/timetable_" + filename + ".json";
+            String yourFilePath = context.getFilesDir().toString().replace("files", "app_flutter") + "/" + filename + ".json";
             File yourFile = new File( yourFilePath );
             StringBuilder text = new StringBuilder();
 
