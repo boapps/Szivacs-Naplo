@@ -18,6 +18,8 @@ class Lesson {
   String homework;
   String calendarOraType;
 
+  static const String MISSED = "Missed";
+
   Lesson(
       this.id,
       this.count,
@@ -37,6 +39,9 @@ class Lesson {
       this.theme,
       this.homework,
       this.calendarOraType);
+
+  bool isMissed() => state == MISSED;
+  bool isSubstitution() => depTeacher != "";
 
   Lesson.fromJson(Map json) {
     id = json["LessonId"];
