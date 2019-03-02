@@ -16,7 +16,8 @@ class AccountManager {
     Iterator<Color> cit = colors.iterator;
     for (User u in users) {
       cit.moveNext();
-      u.color = cit.current;
+      if (u.color==null)
+        u.color = cit.current;
     }
     return users;
   }

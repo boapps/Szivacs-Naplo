@@ -4,8 +4,10 @@ import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
 import '../Utils/AccountManager.dart';
+import '../Utils/Saver.dart';
+import '../Datas/Account.dart';
 import '../Helpers/LocaleHelper.dart';
-
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 void main() {
   runApp(new MaterialApp(home: new AccountsScreen()));
@@ -18,6 +20,8 @@ class AccountsScreen extends StatefulWidget {
 }
 
 class AccountsScreenState extends State<AccountsScreen> {
+
+  Color selected;
 
   void addPressed() {
     setState(() {
@@ -35,13 +39,53 @@ class AccountsScreenState extends State<AccountsScreen> {
 
   super.initState();
     setState(() {
-      _getUserList();
-      _getListWidgets();
+      performInitState();
     });
   }
 
+  void performInitState() async {
+    await _getUserList();
+    _getListWidgets();
+  }
+
+  void _openDialog(String title, Widget content, User user) {
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        contentPadding: const EdgeInsets.all(6.0),
+        title: Text(title),
+        content: content,
+        actions: [
+          FlatButton(
+            child: Text(AppLocalizations.of(context).no),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text(AppLocalizations.of(context).ok),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              users[users.indexOf(user)].color = selected;
+              await saveUsers(users);
+              setState(() {
+                globals.users = users;
+                if (globals.selectedUser.id == user.id)
+                  globals.selectedUser.color = selected;
+                for (Account account in globals.accounts)
+                  if (account.user.id == user.id)
+                    account.user.color = selected;
+                _getListWidgets();
+              });
+
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   void _getListWidgets() async {
-    users = await AccountManager().getUsers();
     if (users.isEmpty)
       Navigator.pushNamed(context, "/login");
     accountListWidgets = new List();
@@ -49,12 +93,32 @@ class AccountsScreenState extends State<AccountsScreen> {
       setState(() {
         accountListWidgets.add(
           new ListTile(
-            trailing: new FlatButton(onPressed: () {
-              setState(() {
-                _removeUserDialog(u);
-              });
-            },
-                child: new Icon(Icons.close, color: Colors.red,)),
+            trailing: new Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                new Container(
+                  child: new FlatButton(onPressed: (){
+                    _openDialog(
+                      "Color picker",
+                      MaterialColorPicker(
+                        selectedColor: selected,
+                        onColorChange: (Color c) => selected = c,
+                      ),
+                      u
+                    );
+                  }, child: new Icon(Icons.color_lens, color: u.color, ),),
+                ),
+                new FlatButton(onPressed: () async {
+                  await _removeUserDialog(u);
+                  setState(() {
+                    _getUserList();
+                    _getListWidgets();
+                  });
+                },
+                    child: new Icon(Icons.close, color: Colors.red,),),
+              ],
+            ),
             title: new Text(u.name),
             leading: new Icon(Icons.person_outline),
           ),
@@ -106,27 +170,6 @@ class AccountsScreenState extends State<AccountsScreen> {
         );
       },
     );
-  }
-
-  List<Widget> listItems() {
-    _getUserList();
-    List<Widget> widgetsList = new List();
-    for (User u in users)
-      widgetsList.add(
-        new ListTile(
-          trailing: new FlatButton(onPressed: () async {
-            await _removeUserDialog(u);
-            setState(() {
-              _getUserList();
-              _getListWidgets();
-            });
-          },
-          child: new Icon(Icons.close, color: Colors.red,)),
-          title: new Text(u.name),
-          leading: new Icon(Icons.person_outline),
-        ),
-      );
-    return widgetsList;
   }
 
   List<Widget> accountListWidgets;

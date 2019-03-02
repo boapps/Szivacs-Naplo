@@ -27,6 +27,7 @@ class User {
     schoolName = json["schoolName"];
     parentName = json["parentName"];
     parentId = json["parentId"];
+    color = Color(json["color"]);
   }
 
   bool isSelected() => id == globals.selectedUser.id;
@@ -42,6 +43,7 @@ class User {
       "schoolName": schoolName,
       "parentName": parentName,
       "parentId": parentId,
+      "color": color.value,
     };
     return userMap;
   }

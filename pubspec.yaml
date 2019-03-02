@@ -13,6 +13,7 @@ dependencies:
   flutter_local_notifications: "^0.4.2"
   package_info: ^0.4.0+1
   simple_permissions: "^0.1.2"
+  flutter_material_color_picker: ^0.0.5
   #flutter_secure_storage: ^3.1.2
   #pointycastle: ^1.0.0
   #encrypt:
