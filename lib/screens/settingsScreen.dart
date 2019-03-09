@@ -10,11 +10,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import '../Datas/Evaluation.dart';
 import '../Helpers/LocaleHelper.dart';
+import '../Helpers/TimetableHelper.dart';
+import '../Utils/StringFormatter.dart';
 import '../Utils/AccountManager.dart';
 import '../Datas/User.dart';
 import '../Datas/Account.dart';
+import '../Datas/Note.dart';
+import '../Datas/Lesson.dart';
+import '../Datas/Absence.dart';
 import '../main.dart' as Main;
 import '../Utils/ColorManager.dart';
+
 void main() {
   runApp(new MaterialApp(home: new SettingsScreen()));
   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
@@ -35,10 +41,18 @@ Future<int> getGrades() async {
     globals.accounts.add(Account(user));
 
   for (Account account in globals.accounts) {
-    await account.refreshEvaluations(true, false);
-    List<Evaluation> offlineEvals = account.evaluations;
     await account.refreshEvaluations(true, true);
+    await account.refreshNotes(false, true);
+    await account.refreshAbsents(false, true);
+    List<Evaluation> offlineEvals = account.evaluations;
+    List<Note> offlineNotes = account.notes;
+    Map<String, List<Absence>> offlineAbsences = account.absents;
+    await account.refreshEvaluations(true, false);
+    await account.refreshNotes(false, false);
+    await account.refreshAbsents(false, false);
+    List<Note> notes = account.notes;
     List<Evaluation> evals = account.evaluations;
+    Map<String, List<Absence>> absences = account.absents;
 
     for (Evaluation e in evals) {
       bool exist = false;
@@ -48,7 +62,7 @@ Future<int> getGrades() async {
       if (!exist) {
         var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
             'evaluations', 'jegyek', 'értesítések a jegyekről',
-            importance: Importance.Max, priority: Priority.High);
+            importance: Importance.Max, priority: Priority.High, color: Colors.blue);
         var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
         var platformChannelSpecifics = new NotificationDetails(
             androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
@@ -56,17 +70,14 @@ Future<int> getGrades() async {
             e.id,
             e.subject + " - " +
                 (e.numericValue != 0 ? e.numericValue.toString() : e.value),
-            e.owner.name + ", " + e.theme ?? "", platformChannelSpecifics,
+            e.owner.name + ", " + (e.theme ?? ""), platformChannelSpecifics,
             payload: e.id.toString());
       }
 
       //todo jegyek változása
+      //todo új házik
       //todo ha óra elmarad/helyettesítés
     }
-/*
-  List<Note> offlineNotes = await NotesHelper()
-      .getNotes();
-  List<Note> notes = await NotesHelper().getNotesOffline();
 
   for (Note n in notes) {
     bool exist = false;
@@ -76,7 +87,7 @@ Future<int> getGrades() async {
     if (!exist) {
       var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
           'notes', 'feljegyzések', 'értesítések a feljegyzésekről',
-          importance: Importance.Max, priority: Priority.High);
+          importance: Importance.Max, priority: Priority.High, style: AndroidNotificationStyle.BigText, color: Colors.blue);
       var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
       var platformChannelSpecifics = new NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
@@ -88,9 +99,8 @@ Future<int> getGrades() async {
     }
   }
 
-  Map<String, List<Absence>> absences = await AbsentHelper().getAbsents();
-  Map<String, List<Absence>> offlineAbsences = await AbsentHelper().getAbsentsOffline();
 
+  if(absences!=null)
   absences.forEach((String s, List<Absence> absenceList){
     for (Absence a in absenceList) {
       bool exist = false;
@@ -102,26 +112,57 @@ Future<int> getGrades() async {
       if (!exist) {
         var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
             'absences', 'mulasztások', 'értesítések a hiányzásokról',
-            importance: Importance.Max, priority: Priority.High);
+            importance: Importance.Max, priority: Priority.High, color: Colors.blue, groupKey: account.user.id.toString() + a.type,);
         var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
         var platformChannelSpecifics = new NotificationDetails(
             androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
         flutterLocalNotificationsPlugin.show(
             a.id,
-            a.subject + " - " + a.mode,
-            a.owner.name + ", " + (a.delayMinutes != 0 ? a.delayMinutes.toString():""), platformChannelSpecifics,
-            payload: a.id.toString());
+            a.subject + " " + a.typeName,
+            a.owner.name + (a.delayMinutes != 0 ? (", " + a.delayMinutes.toString() + " perc késés"):""), platformChannelSpecifics,
+            payload: a.id.toString(),);
       }
       }
   });
-*/
+
+    DateTime startDate = new DateTime.now();
+    startDate = startDate.add(
+        new Duration(days: (-1 * startDate.weekday + 1)));
+
+    List<Lesson> lessonsOffline = await getLessonsOffline(startDate, startDate.add(new Duration(days: 7)), account.user);
+    List<Lesson> lessons = await getLessons(startDate, startDate.add(new Duration(days: 7)), account.user);
+    print(lessons);
+    print(lessonsOffline);
+
+    for (Lesson lesson in lessons) {
+      bool exist = false;
+      for (Lesson offlineLesson in lessonsOffline){
+        exist = (lesson.id == offlineLesson.id && ((lesson.isMissed() && !offlineLesson.isMissed()) || (lesson.isSubstitution() && !offlineLesson.isSubstitution())));
+        if (lesson.id == offlineLesson.id)
+          print(" " + (lesson.isMissed() && !offlineLesson.isMissed()).toString() +" "+ lesson.isMissed().toString() +" "+ offlineLesson.isMissed().toString());
+      }
+      if (exist) {
+        print("found one");
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'lessons', 'órák', 'értesítések elmaradt/helyettesített órákról',
+            importance: Importance.Max, priority: Priority.High, style: AndroidNotificationStyle.BigText, color: Colors.blue);
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        flutterLocalNotificationsPlugin.show(
+            lesson.id,
+            lesson.subject + " " + lesson.date.toIso8601String().substring(0, 10) + " (" + dateToWeekDay(lesson.date) + ")",
+            lesson.stateName + " " + lesson.depTeacher, platformChannelSpecifics,
+            payload: lesson.id.toString());
+      }
+    }
   }
       return 0;
 }
 
 void backgroundFetchHeadlessTask() async {
   var initializationSettingsAndroid =
-  new AndroidInitializationSettings('icon');
+  new AndroidInitializationSettings('notification_icon');
   var initializationSettingsIOS = new IOSInitializationSettings();
   var initializationSettings = new InitializationSettings(
       initializationSettingsAndroid, initializationSettingsIOS);

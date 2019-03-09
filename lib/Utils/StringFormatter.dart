@@ -30,3 +30,23 @@ String dateToHuman(Evaluation grade) {
 String lessonToHuman(Lesson lesson) {
   return lesson.date.toIso8601String().substring(0, 11).replaceAll("-", '. ').replaceAll("T", ". ");
 }
+
+String dateToWeekDay(DateTime date){
+  switch(date.weekday){
+    case DateTime.monday:
+      return "Hétfő";
+    case DateTime.tuesday:
+      return "Kedd";
+    case DateTime.wednesday:
+      return "Szerda";
+    case DateTime.thursday:
+      return "Csütörtök";
+    case DateTime.friday:
+      return "Péntek";
+    case DateTime.saturday:
+      return "Szombat";
+    case DateTime.sunday:
+      return "Vasárnap";
+  }
+  return "";
+}

@@ -7,15 +7,15 @@ import '../globals.dart' as globals;
 import '../Datas/Lesson.dart';
 import '../Helpers/RequestHelper.dart';
 import '../main.dart';
+import '../Datas/User.dart';
 
-
-Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to) async {
+Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to, User user) async {
 
   List<dynamic> ttMap = await readTimetable(
       from.year.toString() + "-" + from.month.toString() + "-" +
           from.day.toString() + "_" + to.year.toString() + "-" +
           to.month.toString() + "-" + to.day.toString(),
-      globals.selectedUser
+      user
   );
 
   List<Lesson> lessons = new List();
@@ -31,10 +31,10 @@ Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to) async {
 }
 
 
-Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
-  String instCode = globals.selectedUser.schoolCode;
-  userName = globals.selectedUser.username;
-  password = globals.selectedUser.password;
+Future <List <Lesson>> getLessons(DateTime from, DateTime to, User user) async {
+  String instCode = user.schoolCode;
+  userName = user.username;
+  password = user.password;
 
   String jsonBody =
       "institute_code=" + instCode +
@@ -52,14 +52,19 @@ Future <List <Lesson>> getLessons(DateTime from, DateTime to) async {
       to.toIso8601String().substring(0, 10),
       code, instCode
   );
+  print(from.toIso8601String().substring(0, 10));
+  print(to.toIso8601String().substring(0, 10));
 
   List<dynamic> ttMap = json.decode(timetableString);
   saveTimetable(timetableString,
       from.year.toString() + "-" + from.month.toString() + "-" +
           from.day.toString() + "_" + to.year.toString() + "-" +
           to.month.toString() + "-" + to.day.toString(),
-      globals.selectedUser
+      user
   );
+  print(from.year.toString() + "-" + from.month.toString() + "-" +
+      from.day.toString() + "_" + to.year.toString() + "-" +
+      to.month.toString() + "-" + to.day.toString());
 
   List<Lesson> lessons = new List();
   for (dynamic d in ttMap){

@@ -202,9 +202,9 @@ class TimeTableScreenState extends State<TimeTableScreen> with
     return new ListTile(
       leading: new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,),
       title: new Text(lessonList[index].subject +
-          (lessonList[index].state == "Missed" ?
+          (lessonList[index].isMissed() ?
           " (${AppLocalizations.of(context).missed})" : "") + (lessonList[index].depTeacher != "" ? " (${lessonList[index].depTeacher})":""),
-        style: TextStyle(color: lessonList[index].state == "Missed"
+        style: TextStyle(color: lessonList[index].isMissed()
             ? Colors.red
             : lessonList[index].depTeacher != "" ? Colors.deepOrange : null),),
       subtitle: new Text(lessonList[index].theme),
@@ -238,7 +238,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                     getLessonStartText(lesson)),
                 new Text(AppLocalizations.of(context).lesson_end +
                     getLessonEndText(lesson)),
-                lesson.state == "Missed" ? new Text(
+                lesson.isMissed() ? new Text(
                     AppLocalizations.of(context).state + lesson.stateName)
                     : new Container(),
                 lesson.depTeacher != "" ? new Text(
@@ -266,9 +266,9 @@ class TimeTableScreenState extends State<TimeTableScreen> with
   Future<Week> getWeek(DateTime startDate, bool offline) async {
     List<Lesson> list;
     if (offline)
-      list = await getLessonsOffline(startDate, startDate.add(new Duration(days: 6)));
+      list = await getLessonsOffline(startDate, startDate.add(new Duration(days: 6)), globals.selectedUser);
     else
-      list = await getLessons(startDate, startDate.add(new Duration(days: 6)));
+      list = await getLessons(startDate, startDate.add(new Duration(days: 6)), globals.selectedUser);
 
     List<Lesson> monday = new List();
     List<Lesson> tuesday = new List();

@@ -70,10 +70,10 @@ class MainScreenState extends State<MainScreen> {
     bool rem = false;
 
     for (Lesson l in lessons.where((Lesson lesson) =>
-        (lesson.state == "Missed" || lesson.depTeacher != "") &&
+        (lesson.isMissed() || lesson.depTeacher != "") &&
         lesson.date.isAfter(DateTime.now())))
       widgets.add(ChangedLessonCard(l, context));
-    List realLessons = lessons.where((Lesson l) => l.state != "Missed").toList();
+    List realLessons = lessons.where((Lesson l) => !l.isMissed()).toList();
     for (Lesson l in realLessons)
       if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
         rem = true;
@@ -199,7 +199,7 @@ class MainScreenState extends State<MainScreen> {
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
     try {
-      lessons = await getLessons(startDate, startDate.add(Duration(days: 7)));
+      lessons = await getLessons(startDate, startDate.add(Duration(days: 7)), globals.selectedUser);
     } catch (exception) {
       print(exception);
     }
@@ -266,7 +266,7 @@ class MainScreenState extends State<MainScreen> {
     } else {
       print("false");
       try {
-        lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)));
+        lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)), globals.selectedUser);
       } catch (exception) {
         print(exception);
       }
