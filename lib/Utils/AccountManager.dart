@@ -7,7 +7,12 @@ import '../Datas/User.dart';
 
 class AccountManager {
   Future<List<User>> getUsers() async {
-    List<Map<String, dynamic>> usersJson = await readUsers();
+    List<Map<String, dynamic>> usersJson = new List();
+    try {
+      usersJson = await readUsers();
+    } catch (e) {
+      print(e);
+    }
     List<User> users = new List();
     if (usersJson.isNotEmpty)
       for (Map<String, dynamic> m in usersJson)
@@ -16,7 +21,7 @@ class AccountManager {
     Iterator<Color> cit = colors.iterator;
     for (User u in users) {
       cit.moveNext();
-      if (u.color==null)
+      if (u.color.value == 0)
         u.color = cit.current;
     }
     return users;

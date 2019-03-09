@@ -35,7 +35,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
     private SharedPreferences sharedPreferences;
     private String user_id;
 
-
     public WidgetRemoteViewsFactory(Context context, Intent intent) {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
@@ -78,21 +77,16 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Date from = new Date();
-        Date to = new Date();
+
         Calendar from_calendar = Calendar.getInstance();
         from_calendar.setFirstDayOfWeek(Calendar.MONDAY);
         from_calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        System.out.println(from_calendar.toString());
-        System.out.println(from_calendar.getTime());
         Calendar to_calendar = Calendar.getInstance();
         to_calendar.setFirstDayOfWeek(Calendar.MONDAY);
         to_calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        System.out.println(to_calendar.toString());
-        System.out.println(to_calendar.getTime());
 
-        to = to_calendar.getTime();
-        from = from_calendar.getTime();
+        Date to = to_calendar.getTime();
+        Date from = from_calendar.getTime();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
 

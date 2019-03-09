@@ -43,7 +43,7 @@ class User {
       "schoolName": schoolName,
       "parentName": parentName,
       "parentId": parentId,
-      "color": color.value,
+      "color": color != null ? color.value : 0,
     };
     return userMap;
   }
