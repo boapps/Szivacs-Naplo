@@ -21,6 +21,12 @@ Issuekban vannak
 * `flutter build apk --debug` vagy `flutter run`
 
 <a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a>
+
+#### iOS verzió:
+Az alkalmazás működik iOS-en is, mert Flutterben készült, de az AppStore-ba nem tettem fel, mert akkor a nevem publikussá válna és én azt nem szeretném :P
+
+[hajducsekb](https://github.com/hajducsekb) [legyártott egy .ipa fájlt](https://www.dropbox.com/s/3vzrqagpfhb6g8l/flutter_naplo.ipa?dl=0), amit Cydia Impactorral fel lehet telepíteni. [további infó](https://github.com/boapps/e-Szivacs-2/issues/30)
+
 ##### Felhasznált nyílt forráskódú projectek:
 * [Fira GO](https://github.com/bBoxType/FiraGO) - betűtípus
 * [Flutter](https://github.com/flutter/flutter) - alkalmazásfejlesztési keretrendszer (ezzel csináltam az appot)
