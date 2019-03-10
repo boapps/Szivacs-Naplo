@@ -3,7 +3,6 @@ import 'globals.dart';
 import 'Datas/Account.dart';
 import 'Datas/User.dart';
 import 'Helpers/LocaleHelper.dart';
-import 'package:package_info/package_info.dart';
 
 BuildContext ctx;
 

@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:convert' show utf8, json;
-import 'package:shared_preferences/shared_preferences.dart';
-import '../Datas/Evaluation.dart';
-import '../Utils/Saver.dart';
 import 'RequestHelper.dart';
 
 
@@ -13,17 +10,10 @@ class UserInfoHelper {
 
     evaluationsMap = await _getEvaluationlist(instCode, userName, password);
 
-    print((evaluationsMap.toString() + "end"));
-    print(evaluationsMap.toString().substring(evaluationsMap
-        .toString()
-        .length - 50));
-
-    print("start");
     String StudentId = evaluationsMap["StudentId"].toString();
     if (StudentId == null)
       StudentId = "";
     String StudentName = evaluationsMap["Name"].toString();
-    print("end");
     if (StudentName == null)
       StudentName = "";
 //    String ParentId;

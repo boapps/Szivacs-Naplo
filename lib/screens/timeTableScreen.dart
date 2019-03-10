@@ -160,13 +160,13 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                             },
                             padding: EdgeInsets.all(0),
                           ),
-                          new MT.TabPageSelector(
+                          lessonsWeek != null ? new MT.TabPageSelector(
                             controller: _tabController,
                             indicatorSize: 27,
                             selectedColor: Colors.black54,
                             color: Colors.black26,
                             days: lessonsWeek.dayStrings(context),
-                          ),
+                          ) : new Container(),
                           new IconButton(
                             icon: const Icon(Icons.keyboard_arrow_right, size: 20,color: Colors.white,),
                             tooltip: AppLocalizations.of(context).next_day,

@@ -10,6 +10,7 @@ import '../Helpers/HomeworkHelper.dart';
 import 'package:html_unescape/html_unescape.dart';
 import '../globals.dart' as globals;
 import '../Helpers/LocaleHelper.dart';
+import '../Utils/StringFormatter.dart';
 import '../Dialog/TimeSelectDialog.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -186,16 +187,15 @@ class HomeworkScreenState extends State<HomeworkScreen> {
       children: <Widget>[
         new ListTile(
           title: new Text(
-            selectedHomework[index].uploadDate.substring(0, 10) +
+            selectedHomework[index].uploadDate.substring(0, 10) + " " + dateToWeekDay(DateTime.parse(selectedHomework[index].uploadDate)) +
                 (selectedHomework[index].subject == null
-                    ? ""
-                    : (" - " + selectedHomework[index].subject)),
+                    ? "" : (" - " + selectedHomework[index].subject)),
             style: TextStyle(fontSize: 20.0),
           ),
           subtitle: new Html( data: HtmlUnescape().convert(selectedHomework[index].text)),
           isThreeLine: true,
           onTap: () {
-            homeworksDialog(homeworks[index]);
+            homeworksDialog(selectedHomework[index]);
           },
         ),
         new Divider(

@@ -221,8 +221,6 @@ class LoginScreenState extends State<LoginScreen> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         password = passwordController.text;
         userName = userNameController.text;
-        print(userName);
-        print(password);
         userError = null;
         passwordError = null;
         schoolSelected = true;
@@ -249,7 +247,6 @@ class LoginScreenState extends State<LoginScreen> {
           //bejelentkezés
 
           String instCode = globals.selectedSchoolCode; //suli kódja
-          print(instCode);
           String jsonBody = "institute_code=" +
               instCode +
               "&userName=" +
@@ -257,14 +254,11 @@ class LoginScreenState extends State<LoginScreen> {
               "&password=" +
               password +
               "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-          print(jsonBody);
 
           try {
             bearerResp =
             await RequestHelper().getBearer(jsonBody, instCode);
-            print(bearerResp.body);
             Map<String, dynamic> bearerMap = json.decode(bearerResp.body);
-            print(bearerMap);
             code = bearerMap.values.toList()[0];
 
             Map<String, String> userInfo =
@@ -302,7 +296,6 @@ class LoginScreenState extends State<LoginScreen> {
             });
             print(e);
             setState(() {
-              print(code);
               if (code == "invalid_grant") {
                 passwordError = "hibás felasználónév vagy jelszó";
               } else if (bearerResp.statusCode == 403) {

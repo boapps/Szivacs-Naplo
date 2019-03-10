@@ -68,7 +68,6 @@ class ColorManager {
       background = Colors.black;
     }
 
-    print(brightness.index);
     //globals.isDark = brightness.index == 0;
     return new ThemeData(
       primarySwatch: Colors.blue,

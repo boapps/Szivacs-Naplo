@@ -2,9 +2,6 @@ import 'dart:async';
 import 'dart:convert' show utf8, json;
 import '../Datas/Absence.dart';
 import '../Datas/User.dart';
-import '../Utils/AccountManager.dart';
-import '../Utils/Saver.dart';
-import 'RequestHelper.dart';
 
 class AbsentHelper {
 
@@ -25,12 +22,12 @@ class AbsentHelper {
       });
 
       for (Absence a in absences) {
-        uniqueAbsence.add(a.startTime.substring(0, 10)+a.owner.id.toString());
+        uniqueAbsence.add(a.startTime.toIso8601String() + a.owner.id.toString());
       }
       for (String s in uniqueAbsence){
         List<Absence> theseAbsences = new List();
         for (Absence a in absences)
-          if (a.startTime.substring(0,10)+a.owner.id.toString()==s)
+          if (a.startTime.toIso8601String() + a.owner.id.toString()==s)
             theseAbsences.add(a);
         absents.putIfAbsent(s, () => theseAbsences);
       }

@@ -213,7 +213,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                     AppLocalizations.of(context).teacher + evaluation.teacher)
                     : new Container(),
                 evaluation.date != null ? new Text(
-                    AppLocalizations.of(context).time + dateToHuman(evaluation))
+                    AppLocalizations.of(context).time + dateToHuman(evaluation.date))
                     : new Container(),
                 evaluation.mode != null ? new Text(
                     AppLocalizations.of(context).mode + evaluation.mode)
@@ -272,7 +272,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       case 0:
         break;
       case 1:
-        print(_evaluations[index].value.length);
         if (index == 0) {
           if (_evaluations[index].value.length < 16)
             sep = new Text(_evaluations[index].value);
@@ -287,7 +286,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           sep = new Text(_evaluations[index].subject);
         break;
     }
-
 
     return new Column(
       children: <Widget>[
@@ -309,7 +307,8 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           subtitle: new Text(_evaluations[index].theme ?? _evaluations[index].value),
           trailing: new Column(
             children: <Widget>[
-              new Text(_evaluations[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
+              new Text(dateToHuman(_evaluations[index].date)),
+              new Text(dateToWeekDay(_evaluations[index].date)),
             ],
           ),
           onTap: () {

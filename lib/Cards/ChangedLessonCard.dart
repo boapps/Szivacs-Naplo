@@ -61,7 +61,7 @@ class ChangedLessonCard extends StatelessWidget {
                               fontSize: 18.0,)),
                       new Expanded(
                           child: new Container(
-                            child: new Text(lessonToHuman(lesson),
+                            child: new Text(lessonToHuman(lesson) + dateToWeekDay(lesson.date),
                                 style: new TextStyle(
                                     fontSize: 18.0,)),
                             alignment: Alignment(1.0, 0.0),

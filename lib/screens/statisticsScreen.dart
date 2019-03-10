@@ -6,6 +6,7 @@ import '../Datas/Average.dart';
 import '../Datas/Evaluation.dart';
 import 'package:charts_flutter/flutter.dart';
 import '../Helpers/LocaleHelper.dart';
+import '../Utils/StringFormatter.dart';
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -151,20 +152,12 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
     for (Evaluation e in evals.reversed) {
       if (e.numericValue != 0) {
-        print(e.subject);
-        print(average.subject);
         if (average.subject == e.subject) {
           globals.currentEvals.add(e);
-          print(e.date);
-          print(e.date.indexOf("-"));
           setState(() {
             timeData.add(new TimeAverage(
-                new DateTime(
-                    int.parse(e.date.substring(0, e.date.indexOf("-"))),
-                    int.parse(e.date.substring(e.date.indexOf("-") + 1, e.date.indexOf("-", e.date.indexOf("-") + 1))),
-                    int.parse(e.date.substring(e.date.indexOf("-", e.date.indexOf("-") + 1) + 1, 10))),
+                e.date,
                 e.numericValue));
-            print(timeData);
             series = [
               new Series(
                 displayName: "asd",
@@ -200,14 +193,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           n += multiplier;
 
           setState(() {
-            print(e.date.indexOf("-"));
-            timeData.add(new TimeAverage(
-                new DateTime(
-                    int.parse(e.date.substring(0, e.date.indexOf("-"))),
-                    int.parse(e.date.substring(e.date.indexOf("-") + 1, e.date.indexOf("-", e.date.indexOf("-") + 1))),
-                    int.parse(e.date.substring(e.date.indexOf("-", e.date.indexOf("-") + 1) + 1, 10))),
-                e.numericValue));
-            print(timeData);
+            timeData.add(new TimeAverage(e.date, e.numericValue));
             series = [
               new Series(
                 displayName: "asd",
@@ -421,7 +407,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void switchToScreen(int n) {
-    print(n);
     setState(() {
       currentBody = n;
     });
@@ -450,7 +435,8 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               children: <Widget>[
                 new Column(
                   children: <Widget>[
-                    new Text(globals.currentEvals[index].date.substring(0, 10).replaceAll("-", ". ") + ". "),
+                    new Text(dateToHuman(globals.currentEvals[index].date)),
+                    new Text(dateToWeekDay(globals.currentEvals[index].date)),
                   ],
                 ),
                 globals.currentEvals[index].mode == "Hamis"
@@ -479,7 +465,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             ),
             onTap: () {
               _evaluationDialog(globals.currentEvals[index]);
-              print(globals.currentEvals[index].subject);
             },
           ),
         ],
@@ -504,10 +489,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     : new Container(),
                 new Text(AppLocalizations.of(context).teacher + evaluation.teacher),
                 new Text(AppLocalizations.of(context).time +
-                    evaluation.date
-                        .substring(0, 11)
-                        .replaceAll("-", '. ')
-                        .replaceAll("T", ". ")),
+                    dateToHuman(evaluation.date)),
                 new Text(AppLocalizations.of(context).mode + evaluation.mode),
                 new Text(AppLocalizations.of(context).administration_time +
                     evaluation.creationDate
@@ -683,8 +665,6 @@ class GradeDialogState extends State<GradeDialog> {
         ),
         new FlatButton(
           onPressed: () {
-            print(isTZ);
-            print(jegy);
             setState(() {
               Evaluation falseGrade = new Evaluation(
                   0,
@@ -698,12 +678,7 @@ class GradeDialogState extends State<GradeDialog> {
                   jegy.toString(),
                   jegy,
                   "",
-                  DateTime.now().year.toString() +
-                      "-" +
-                      DateTime.now().month.toString() +
-                      "-" +
-                      DateTime.now().day.toString() +
-                      "    ",
+                  DateTime.now(),
                   DateTime.now().year.toString() +
                       "-" +
                       DateTime.now().month.toString() +
@@ -713,7 +688,6 @@ class GradeDialogState extends State<GradeDialog> {
                   "");
               falseGrade.owner = globals.selectedUser;
               globals.currentEvals.add(falseGrade);
-              print(globals.currentEvals.length);
               this.widget.callback();
               Navigator.pop(context);
             });

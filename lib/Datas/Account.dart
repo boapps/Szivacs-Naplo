@@ -29,7 +29,6 @@ class Account {
       _studentString = await readStudent(user);
     else
       _studentString = await RequestHelper().getStudentString(user);
-    print(_studentString);
   }
 
   Future<void> _refreshEventsString(bool isOffline) async {

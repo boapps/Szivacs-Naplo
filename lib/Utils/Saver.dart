@@ -210,7 +210,6 @@ Future<List<Map<String, dynamic>>> readUsers() async {
   List<dynamic> userlist = new List<dynamic>();
   try {
     contents = await doDecrypt(await file.readAsString());
-    print(contents);
     userlist = json.decode(contents);
   } catch (error) {
     print(error);

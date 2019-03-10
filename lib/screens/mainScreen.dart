@@ -261,10 +261,8 @@ class MainScreenState extends State<MainScreen> {
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
 
     if (globals.lessons.length > 0) {
-      print("true");
       lessons.addAll(globals.lessons);
     } else {
-      print("false");
       try {
         lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)), globals.selectedUser);
       } catch (exception) {
@@ -273,7 +271,6 @@ class MainScreenState extends State<MainScreen> {
       if (lessons.length > 0)
         globals.lessons.addAll(lessons);
     }
-    print(lessons.length);
 
     Completer<Null> completer = new Completer<Null>();
     hasOfflineLoaded = true;

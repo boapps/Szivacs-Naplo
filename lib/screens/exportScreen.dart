@@ -107,11 +107,8 @@ class ExportScreenState extends State<ExportScreen> {
                         case 0:
                           //jegyek
                           String data = await Saver.readStudent(selectedUser);
-                          print(data);
-                          print(path);
                           File file = File(path);
                           SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
-                            print(ps.toString());
                             file.writeAsString(data).then((File f){
                               print("done");
                             });

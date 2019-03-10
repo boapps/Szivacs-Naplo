@@ -3,8 +3,7 @@ import '../Datas/Evaluation.dart';
 import '../globals.dart' as globals;
 import '../Helpers/SettingsHelper.dart';
 import 'dart:async';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import '../Helpers/LocaleHelper.dart';
+import '../Utils/StringFormatter.dart';
 
 class EvaluationCard extends StatelessWidget {
   Evaluation evaluation;
@@ -156,7 +155,7 @@ class EvaluationCard extends StatelessWidget {
                   evaluation.weight != "" && evaluation.weight != "100%" && evaluation.weight != null ? new Container(child: new Text(evaluation.weight, style:TextStyle(fontSize: 16, fontWeight: FontWeight.bold),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 3),) : new Container(),
                   evaluation.theme != "" && evaluation.theme != null ? new Container(child: new Text(evaluation.theme, style:TextStyle(fontSize: 16),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 3),) : new Container(),
                   evaluation.mode != "" && evaluation.mode != null ? new Container(child: new Text(evaluation.mode, style:TextStyle(fontSize: 16),), alignment: Alignment(0, 0), padding: EdgeInsets.only(bottom: 8),) : new Container(),
-                  evaluation.creationDate != null ? new Container(child: Text(evaluation.creationDate.substring(0, 16).replaceAll("-", ". ").replaceAll("T", ". ")), alignment: Alignment(1, -1),padding: EdgeInsets.only(top: 16),) : new Container(),
+                  evaluation.creationDate != null ? new Container(child: Text(evaluation.creationDate.substring(0, 16).replaceAll("-", ". ").replaceAll("T", ". ") + " " + dateToWeekDay(evaluation.date)), alignment: Alignment(1, -1),padding: EdgeInsets.only(top: 16),) : new Container(),
                   evaluation.teacher != null ? new Container(child: Text(evaluation.teacher), alignment: Alignment(1, -1),) : new Container(),
                 ],
               ),
@@ -234,8 +233,7 @@ class EvaluationCard extends StatelessWidget {
             margin: EdgeInsets.all(10.0),
           ),
           !showPadding||!isSingle ? new Container(
-            child: new Text(evaluation.date.substring(0, 10)
-                .replaceAll("-", '. ').replaceAll("T", ". ") + ". ",
+            child: new Text(dateToHuman(evaluation.date) + dateToWeekDay(evaluation.date),
                 style: new TextStyle(fontSize: 16.0, color: fColor)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
@@ -281,7 +279,7 @@ class EvaluationCard extends StatelessWidget {
                   isSingle ? new Expanded(
                       child: new Container(
                         child: new Text(
-                          evaluation.date.substring(0, 10).replaceAll("-", ". ") + ". ",
+                          dateToHuman(evaluation.date) + dateToWeekDay(evaluation.date),
                           style: new TextStyle(fontSize: 18.0, color: globals.isDark ? Colors.white : Colors.black87),
                           maxLines: 1,
                           overflow: TextOverflow.fade,

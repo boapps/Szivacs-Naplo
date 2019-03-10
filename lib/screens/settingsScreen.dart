@@ -99,7 +99,6 @@ Future<int> getGrades() async {
     }
   }
 
-
   if(absences!=null)
   absences.forEach((String s, List<Absence> absenceList){
     for (Absence a in absenceList) {
@@ -131,18 +130,13 @@ Future<int> getGrades() async {
 
     List<Lesson> lessonsOffline = await getLessonsOffline(startDate, startDate.add(new Duration(days: 7)), account.user);
     List<Lesson> lessons = await getLessons(startDate, startDate.add(new Duration(days: 7)), account.user);
-    print(lessons);
-    print(lessonsOffline);
 
     for (Lesson lesson in lessons) {
       bool exist = false;
       for (Lesson offlineLesson in lessonsOffline){
         exist = (lesson.id == offlineLesson.id && ((lesson.isMissed() && !offlineLesson.isMissed()) || (lesson.isSubstitution() && !offlineLesson.isSubstitution())));
-        if (lesson.id == offlineLesson.id)
-          print(" " + (lesson.isMissed() && !offlineLesson.isMissed()).toString() +" "+ lesson.isMissed().toString() +" "+ offlineLesson.isMissed().toString());
       }
       if (exist) {
-        print("found one");
         var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
             'lessons', 'órák', 'értesítések elmaradt/helyettesített órákról',
             importance: Importance.Max, priority: Priority.High, style: AndroidNotificationStyle.BigText, color: Colors.blue);

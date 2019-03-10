@@ -23,8 +23,8 @@ String getLessonEndText(Lesson lesson) {
       lesson.end.minute.toString().padLeft(2, "0");
 }
 
-String dateToHuman(Evaluation grade) {
-  return grade.date.substring(0, 11).replaceAll("-", '. ').replaceAll("T", ". ");
+String dateToHuman(DateTime date) {
+  return date.toIso8601String().substring(0, 11).replaceAll("-", '. ').replaceAll("T", ". ");
 }
 
 String lessonToHuman(Lesson lesson) {

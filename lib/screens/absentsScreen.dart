@@ -9,6 +9,7 @@ import '../Helpers/LocaleHelper.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
 import '../Dialog/AbsentDialog.dart';
+import '../Utils/StringFormatter.dart';
 
 void main() {
   runApp(
@@ -147,15 +148,9 @@ class AbsentsScreenState extends State<AbsentsScreen> {
                 new Text(AppLocalizations.of(context).subject + absence.subject),
                 new Text(AppLocalizations.of(context).teacher + absence.teacher),
                 new Text(AppLocalizations.of(context).absence_time +
-                    absence.startTime
-                        .substring(0, 11)
-                        .replaceAll("-", '. ')
-                        .replaceAll("T", ". ")),
+                    dateToHuman(absence.startTime)),
                 new Text(AppLocalizations.of(context).administration_time +
-                    absence.creationTime
-                        .substring(0, 16)
-                        .replaceAll("-", ". ")
-                        .replaceAll("T", ". ")),
+                    dateToHuman(absence.creationTime)),
                 new Text(
                     AppLocalizations.of(context).justification_state + absence.justificationStateName),
                 new Text(AppLocalizations.of(context).justification_mode + absence.justificationTypeName),
@@ -228,7 +223,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         title: new Text(absence.subject),
         subtitle: new Text(absence.teacher),
         trailing: new Text(
-            absence.startTime.substring(0, 10).replaceAll("-", ". ") + ". "),
+            dateToHuman(absence.startTime)),
         onTap: () {
           absenceDialog(absence);
         },
@@ -254,11 +249,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
           ),
           new Container(
             padding: EdgeInsets.all(10),
-            child: new Text(thisAbsence[0]
-                    .startTime
-                    .substring(0, 10)
-                    .replaceAll("-", ". ") +
-                ". (" +
+            child: new Text(dateToHuman(thisAbsence[0].startTime) + dateToWeekDay(thisAbsence[0].startTime) + " " +
+                "(" +
                 thisAbsence.length.toString() +
                 " db)"),
           ),

@@ -17,8 +17,8 @@ class Absence {
   String subjectName;
   int delayMinutes;
   String teacher;
-  String startTime;
-  String creationTime;
+  DateTime startTime;
+  DateTime creationTime;
   int lessonNumber;
   String justificationState;
   String justificationStateName;
@@ -60,9 +60,9 @@ class Absence {
     subjectName = json["SubjectCategoryName"];
     delayMinutes = json["DelayTimeMinutes"];
     teacher = json["Teacher"];
-    startTime = json["LessonStartTime"];
+    startTime = DateTime.parse(json["LessonStartTime"]);
     lessonNumber = json["NumberOfLessons"];
-    creationTime = json["CreatingTime"];
+    creationTime = DateTime.parse(json["CreatingTime"]);
     justificationState = json["JustificationState"];
     justificationStateName = json["JustificationStateName"];
     justificationType = json["JustificationType"];

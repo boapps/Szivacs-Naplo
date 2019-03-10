@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import '../Datas/Note.dart';
+import '../Utils/StringFormatter.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class NoteCard extends StatelessWidget {
@@ -15,7 +16,7 @@ class NoteCard extends StatelessWidget {
   }
 
   String getDate(){
-    return note.date;
+    return note.date.toIso8601String();
   }
   @override
   Key get key => new Key(getDate());
@@ -76,8 +77,7 @@ class NoteCard extends StatelessWidget {
           ),
 
           !isSingle ? new Container(
-            child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") +
-                ". ", style: new TextStyle(fontSize: 16.0, color: Colors.white)),
+            child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
           ) : new Container(),
@@ -92,7 +92,7 @@ class NoteCard extends StatelessWidget {
                     new Divider(),
                     !!isSingle ? new Expanded(
                         child: new Container(
-                          child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                          child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 
@@ -125,7 +125,7 @@ class NoteCard extends StatelessWidget {
           ),
 
           !isSingle ? new Container(
-            child: new Text(note.date.substring(0, 10), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
+            child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
           ) : new Container(),
@@ -140,7 +140,7 @@ class NoteCard extends StatelessWidget {
                     new Divider(),
                     !!isSingle ? new Expanded(
                         child: new Container(
-                          child: new Text(note.date.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                          child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 

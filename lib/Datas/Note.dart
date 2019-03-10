@@ -6,7 +6,7 @@ class Note {
   String title;
   String content;
   String teacher;
-  String date;
+  DateTime date;
   String creationDate;
   bool isEvent = false;
   User owner;
@@ -20,8 +20,7 @@ class Note {
       isEvent = true;
     } else
       this.id = json["NoteId"];
-    print(id);
-    this.date = json["Date"];
+    this.date = DateTime.parse(json["Date"]);
     this.content = json["Content"];
     this.title = json["Title"];
     this.teacher = json["Teacher"];

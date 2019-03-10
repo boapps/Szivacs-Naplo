@@ -89,9 +89,6 @@ class HomeworkHelper {
 
       for (dynamic d in ttMap) {
         if (d["TeacherHomeworkId"] != null) {
-          print(d);
-          print("has homework");
-
           String homeworkString = (await RequestHelper()
                   .getHomework(code, instCode, d["TeacherHomeworkId"]));
           if (homeworkString == "[]")
@@ -99,7 +96,6 @@ class HomeworkHelper {
                 (await RequestHelper().getHomeworkByTeacher(
                         code, instCode, d["TeacherHomeworkId"])) +
                 "]";
-          print(homeworkString);
 
           //saveEvaluations(homeworkString, user);
           String ctargy = d["Subject"];
@@ -112,13 +108,10 @@ class HomeworkHelper {
             (d as Map<String, dynamic>).addAll(lessonProperty);
             hwmapuser.add(d as Map<String, dynamic>);
           }
-
-          print(hwmapuser);
         }
       }
 
       Map<String, User> userProperty = <String, User>{"user": user};
-      print(json.encode(hwmapuser));
       saveHomework(json.encode(hwmapuser), user);
       hwmapuser.forEach((Map<String, dynamic> e) => e.addAll(userProperty));
       homeworkMap.addAll(hwmapuser);

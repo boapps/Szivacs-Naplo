@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Helpers/LocaleHelper.dart';
 import '../Datas/Absence.dart';
+import '../Utils/StringFormatter.dart';
 
 class AbsenceCard extends StatelessWidget {
   List<Absence> absence;
@@ -49,7 +50,7 @@ class AbsenceCard extends StatelessWidget {
   Key get key => new Key(getDate());
 
   String getDate(){
-    return absence[0].creationTime;
+    return absence[0].creationTime.toIso8601String();
   }
 
   void openDialog() {
@@ -69,13 +70,9 @@ class AbsenceCard extends StatelessWidget {
                   new Text(AppLocalizations.of(context).lessons(numOfAbsences)),
                   //new Text("mód: " + absence.modeName),
                   new Text(AppLocalizations.of(context).absence_time +
-                      absence.startTime.substring(0, 11)
-                      .replaceAll("-", '. ')
-                      .replaceAll("T", ". ")),
+                      dateToHuman(absence.startTime) + dateToWeekDay(absence.startTime)),
                   new Text(AppLocalizations.of(context).administration_time +
-                      absence.creationTime.substring(0, 11)
-                          .replaceAll("-", ". ")
-                          .replaceAll("T", ". ")),
+                      dateToHuman(absence.creationTime) + dateToWeekDay(absence.startTime)),
                   new Text(AppLocalizations.of(context).justification_state +
                       absence.justificationStateName),
                   new Text(AppLocalizations.of(context).justification_mode +
@@ -123,8 +120,8 @@ class AbsenceCard extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
           ),
           !isSingle ? new Container(
-            child: new Text(absence[0].startTime.substring(0, 10)
-                .replaceAll("-", ". ") + ". ", style: new TextStyle(
+            child: new Text(dateToHuman(absence[0].startTime) + dateToWeekDay(absence[0].startTime),
+                style: new TextStyle(
                 fontSize: 16.0,)),
             alignment: Alignment(1.0, -1.0),
             padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
@@ -139,7 +136,7 @@ class AbsenceCard extends StatelessWidget {
                   children: <Widget>[
                     !!isSingle ? new Expanded(
                       child: new Container(
-                      child: new Text(absence[0].startTime.substring(0, 10).replaceAll("-", ". ") + ". ", style: new TextStyle(fontSize: 18.0,)),
+                      child: new Text(dateToHuman(absence[0].startTime) + dateToWeekDay(absence[0].startTime), style: new TextStyle(fontSize: 18.0,)),
                       alignment: Alignment(1.0, 0.0),
                     )) : new Container(),
                     !isSingle ? new Expanded(
@@ -147,7 +144,6 @@ class AbsenceCard extends StatelessWidget {
                       child: new Text(absence[0].owner.name, style: new TextStyle(fontSize: 18.0, color: absence[0].owner.color)),
                       alignment: Alignment(1.0, 0.0),
                     )) : new Container(),
-
                   ],
                 ),
               )
