@@ -27,7 +27,13 @@ class User {
     schoolName = json["schoolName"];
     parentName = json["parentName"];
     parentId = json["parentId"];
-    color = Color(json["color"]);
+    try {
+      color = Color(json["color"]);
+    } catch (e) {
+
+    } finally {
+      color = Color(0);
+    }
   }
 
   bool isSelected() => id == globals.selectedUser.id;
