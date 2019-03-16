@@ -199,7 +199,7 @@ class MainScreenState extends State<MainScreen> {
     startDate = DateTime.now();
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
     try {
-      lessons = await getLessons(startDate, startDate.add(Duration(days: 7)), globals.selectedUser);
+      lessons = await getLessons(startDate, startDate.add(Duration(days: 6)), globals.selectedUser);
     } catch (exception) {
       print(exception);
     }
@@ -264,7 +264,7 @@ class MainScreenState extends State<MainScreen> {
       lessons.addAll(globals.lessons);
     } else {
       try {
-        lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 7)), globals.selectedUser);
+        lessons = await getLessonsOffline(startDate, startDate.add(Duration(days: 6)), globals.selectedUser);
       } catch (exception) {
         print(exception);
       }
