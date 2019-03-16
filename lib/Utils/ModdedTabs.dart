@@ -56,7 +56,7 @@ class TabPageSelectorIndicator extends StatelessWidget {
           child: Text(day, style: TextStyle(color: Colors.white,),),
     ),
 padding: EdgeInsets.all(0),
-    shape: RoundedRectangleBorder(side: BorderSide(),borderRadius: BorderRadius.circular(3),),color: backgroundColor,
+    shape: RoundedRectangleBorder(side: BorderSide(color: borderColor),borderRadius: BorderRadius.circular(3),),color: backgroundColor,
         ),
     height: size,
       width: size,
@@ -109,8 +109,10 @@ class TabPageSelector extends StatelessWidget {
       TabController tabController,
       ColorTween selectedColorTween,
       ColorTween previousColorTween,
+      BuildContext context
       ) {
     Color background;
+    Color borderColor = selectedColorTween.end;
     if (tabController.indexIsChanging) {
       // The selection's animation is animating from previousValue to value.
       final double t = 1.0 - _indexChangeProgress(tabController);
@@ -126,6 +128,7 @@ class TabPageSelector extends StatelessWidget {
       final double offset = tabController.offset;
       if (tabController.index == tabIndex) {
         background = selectedColorTween.lerp(1.0 - offset.abs());
+        borderColor = Theme.of(context).accentColor;
       } else if (tabController.index == tabIndex - 1 && offset > 0.0) {
         background = selectedColorTween.lerp(offset);
       } else if (tabController.index == tabIndex + 1 && offset < 0.0) {
@@ -134,9 +137,10 @@ class TabPageSelector extends StatelessWidget {
         background = selectedColorTween.begin;
       }
     }
+
     return TabPageSelectorIndicator(
       backgroundColor: background,
-      borderColor: selectedColorTween.end,
+      borderColor: borderColor,
       size: indicatorSize,
       day: days[tabIndex],
       controller: controller,
@@ -175,7 +179,7 @@ class TabPageSelector extends StatelessWidget {
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: List<Widget>.generate(days.length, (int tabIndex) {
-              return _buildTabIndicator(tabIndex, tabController, selectedColorTween, previousColorTween);
+              return _buildTabIndicator(tabIndex, tabController, selectedColorTween, previousColorTween, context);
             }).toList(),
           ),
           );
