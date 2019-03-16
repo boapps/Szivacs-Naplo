@@ -57,7 +57,7 @@ class ColorManager {
 
     if (brightness.index == 0) {
       primary = primaryDark;
-      background = Color.fromARGB(255, 36, 36, 36);
+      background = Color.fromARGB(255, 40, 40, 40);
     } else {
       primary = primaryLight;
       background = null;
