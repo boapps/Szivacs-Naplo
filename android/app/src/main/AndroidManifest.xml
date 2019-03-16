@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Widget.WidgetProvider">
+        <receiver android:name=".Widget.WidgetProvider" android:label="Órarend">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
