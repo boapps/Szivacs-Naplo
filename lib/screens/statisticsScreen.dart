@@ -331,6 +331,14 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                         color: Theme.of(context).accentColor,
                         fontWeight: FontWeight.bold),
                   ),
+                  new Container(padding: EdgeInsets.only(left: 10),),
+                  new Text(AppLocalizations.of(context).class_average),
+                  new Text(
+                    selectedAverage.classValue.toString(),
+                    style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               new Container(
