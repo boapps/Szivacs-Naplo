@@ -160,13 +160,22 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                             },
                             padding: EdgeInsets.all(0),
                           ),
-                          lessonsWeek != null ? new MT.TabPageSelector(
-                            controller: _tabController,
-                            indicatorSize: 27,
-                            selectedColor: Colors.black54,
-                            color: Colors.black26,
-                            days: lessonsWeek.dayStrings(context),
-                          ) : new Container(),
+                          new Flexible(
+                            child: new SingleChildScrollView(
+                              child: lessonsWeek != null ? new MT.TabPageSelector(
+                                controller: _tabController,
+                                indicatorSize: 25,
+                                selectedColor: Colors.black54,
+                                color: Colors.black26,
+                                days: lessonsWeek.dayStrings(context),
+                              ) : new Container(),
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.all(0),
+                            ),
+                            //alignment: Alignment(0, 0),
+                            //padding: EdgeInsets.all(0),
+                            //margin: EdgeInsets.all(0),
+                          ),
                           new IconButton(
                             icon: const Icon(Icons.keyboard_arrow_right, size: 20,color: Colors.white,),
                             tooltip: AppLocalizations.of(context).next_day,
@@ -200,7 +209,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
 
   Widget _itemBuilderLessonList(BuildContext context, int index, List<Lesson> lessonList) {
     return new ListTile(
-      leading: new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,),
+      leading: lessonList[index].count >= 0 ? new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,) : new Container(),
       title: new Text(lessonList[index].subject +
           (lessonList[index].isMissed() ?
           " (${AppLocalizations.of(context).missed})" : "") + (lessonList[index].depTeacher != "" ? " (${lessonList[index].depTeacher})":""),
@@ -305,6 +314,15 @@ class TimeTableScreenState extends State<TimeTableScreen> with
         }
       }
     });
-      return new Week(monday, tuesday, wednesday, thursday, friday, saturday, sunday, startDate);
+
+    monday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    tuesday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    wednesday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    thursday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    friday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    saturday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    sunday.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+
+    return new Week(monday, tuesday, wednesday, thursday, friday, saturday, sunday, startDate);
   }
 }

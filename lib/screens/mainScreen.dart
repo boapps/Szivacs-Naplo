@@ -42,7 +42,7 @@ class MainScreenState extends State<MainScreen> {
   bool hasOfflineLoaded = false;
   bool hasLoaded = false;
 
-  int SHOW_ITEMS = 50;
+  int SHOW_ITEMS = 250;
 
   void _initSettings() async {
     DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme()
@@ -203,6 +203,7 @@ class MainScreenState extends State<MainScreen> {
     } catch (exception) {
       print(exception);
     }
+    lessons.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
 
     if (lessons.length > 0)
       globals.lessons = lessons;
@@ -271,6 +272,7 @@ class MainScreenState extends State<MainScreen> {
       if (lessons.length > 0)
         globals.lessons.addAll(lessons);
     }
+    lessons.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
 
     Completer<Null> completer = new Completer<Null>();
     hasOfflineLoaded = true;
