@@ -38,7 +38,7 @@ class ChangedLessonCard extends StatelessWidget {
                       style: new TextStyle(
                         fontSize: 18.0, color: Colors.blueAccent
                       )),
-                  isSubstitution ? new Text(lesson.depTeacher, style: new TextStyle(
+                  isSubstitution ? new Text(" " + lesson.depTeacher, style: new TextStyle(
                       fontSize: 18.0, color: Colors.green
                   )):null,
                 ].where((Widget w)=>w!=null).toList(),
