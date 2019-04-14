@@ -134,7 +134,7 @@ Future<int> getGrades() async {
     for (Lesson lesson in lessons) {
       bool exist = false;
       for (Lesson offlineLesson in lessonsOffline){
-        exist = (lesson.id == offlineLesson.id && ((lesson.isMissed() && !offlineLesson.isMissed()) || (lesson.isSubstitution() && !offlineLesson.isSubstitution())));
+        exist = (lesson.id == offlineLesson.id && ((lesson.isMissed && !offlineLesson.isMissed) || (lesson.isSubstitution && !offlineLesson.isSubstitution)));
       }
       if (exist) {
         var androidPlatformChannelSpecifics = new AndroidNotificationDetails(

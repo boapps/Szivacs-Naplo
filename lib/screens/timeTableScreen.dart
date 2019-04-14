@@ -211,9 +211,9 @@ class TimeTableScreenState extends State<TimeTableScreen> with
     return new ListTile(
       leading: lessonList[index].count >= 0 ? new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,) : new Container(),
       title: new Text(lessonList[index].subject +
-          (lessonList[index].isMissed() ?
+          (lessonList[index].isMissed ?
           " (${AppLocalizations.of(context).missed})" : "") + (lessonList[index].depTeacher != "" ? " (${lessonList[index].depTeacher})":""),
-        style: TextStyle(color: lessonList[index].isMissed()
+        style: TextStyle(color: lessonList[index].isMissed
             ? Colors.red
             : lessonList[index].depTeacher != "" ? Colors.deepOrange : null),),
       subtitle: new Text(lessonList[index].theme),
@@ -247,7 +247,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                     getLessonStartText(lesson)),
                 new Text(AppLocalizations.of(context).lesson_end +
                     getLessonEndText(lesson)),
-                lesson.isMissed() ? new Text(
+                lesson.isMissed ? new Text(
                     AppLocalizations.of(context).state + lesson.stateName)
                     : new Container(),
                 lesson.depTeacher != "" ? new Text(

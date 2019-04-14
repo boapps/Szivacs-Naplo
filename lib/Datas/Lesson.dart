@@ -40,8 +40,8 @@ class Lesson {
       this.homework,
       this.calendarOraType);
 
-  bool isMissed() => state == MISSED;
-  bool isSubstitution() => depTeacher != "";
+  bool get isMissed => state == MISSED;
+  bool get isSubstitution => depTeacher != "";
 
   Lesson.fromJson(Map json) {
     id = json["LessonId"];
