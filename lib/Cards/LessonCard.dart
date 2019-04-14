@@ -18,7 +18,7 @@ class LessonCard extends StatelessWidget {
   Key get key => new Key(getDate());
 
   String getDate() {
-    // hozzáadunk egy napot, ogy a lista tetején legyen
+    // hozzáadunk egy napot, hogy a lista tetején legyen, igen, tudom lehetne szebben is: todo
     return lessons[0].start.add(new Duration(days: 1)).toIso8601String();
   }
 
@@ -95,7 +95,7 @@ class LessonCard extends StatelessWidget {
                       fontSize: 18.0,
                     ),
                   ),
-                  new Text(getNext().subject,
+                  new Text(getNext().subject??"error",
                       style: new TextStyle(
                           fontSize: 18.0, color: Colors.blueAccent)),
                   new Text(", ",
@@ -131,7 +131,7 @@ class LessonCard extends StatelessWidget {
                   padding: new EdgeInsets.all(0.0),
                   child: new Row(
                     children: <Widget>[
-                      new Text(getNext().room,
+                      new Text(getNext().room??"error",
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.blueAccent)),
                       new Expanded(
