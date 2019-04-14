@@ -59,6 +59,7 @@ class MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> feedItems() {
+    SHOW_ITEMS = 250;
     List<Widget> widgets = new List();
     for (String day in absents.keys.toList())
       widgets.add(new AbsenceCard(absents[day], globals.isSingle, context));
