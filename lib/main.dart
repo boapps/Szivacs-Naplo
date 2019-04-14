@@ -27,6 +27,7 @@ import 'screens/notesScreen.dart';
 import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
 import 'screens/timeTableScreen.dart';
+import 'screens/importScreen.dart';
 import 'Utils/Saver.dart' as Saver;
 import 'Utils/ColorManager.dart';
 import 'Datas/Account.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
               '/settings': (_) => new SettingsScreen(),
               '/statistics': (_) => new StatisticsScreen(),
               '/export': (_) => new ExportScreen(),
+              '/import': (_) => new ImportScreen(),
             },
             navigatorKey: navigatorKey,
             home: isNew ? new LogoApp() : MainScreen(),
@@ -473,7 +475,7 @@ class LoginScreenState extends State<LoginScreen> {
                                       fontSize: 21.0, color: Colors.blue),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -482,23 +484,43 @@ class LoginScreenState extends State<LoginScreen> {
                         AppLocalizations.of(context).choose_school_warning,
                               style: new TextStyle(color: Colors.red),
                             )
-                          : new Container()
+                          : new Container(),
+
                     ]),
-                    new Container(
-                        margin: EdgeInsets.only(top: 20.0),
-                        child: new FlatButton(
-                          onPressed: !loggingIn ? () {
-                            setState(() {
-                              loggingIn = true;
-                              login(context);
-                            });
-                          } : null,
-                          disabledColor: Colors.blueGrey.shade800,
-                          disabledTextColor: Colors.blueGrey,
-                          child: new Text(AppLocalizations.of(context).login),
-                          color: Colors.blue, //#2196F3
-                          textColor: Colors.white,
-                        )),
+                    new Row(
+                      children: <Widget>[
+                        new Container(
+                          //margin: EdgeInsets.only(top: 20.0),
+                          child: FlatButton(
+                            onPressed: (){
+                            Navigator.pushNamed(context, "/import");
+                          }, child: new Text("Import"),
+                            disabledColor: Colors.blueGrey.shade800,
+                            disabledTextColor: Colors.blueGrey,
+                            color: Colors.green, //#2196F3
+                            textColor: Colors.white,
+                          ),
+                        ),
+                        new Container(
+                          padding: EdgeInsets.all(6),
+                        ),
+                        new Expanded(
+                            //margin: EdgeInsets.only(top: 20.0),
+                            child: new FlatButton(
+                              onPressed: !loggingIn ? () {
+                                setState(() {
+                                  loggingIn = true;
+                                  login(context);
+                                });
+                              } : null,
+                              disabledColor: Colors.blueGrey.shade800,
+                              disabledTextColor: Colors.blueGrey,
+                              child: new Text(AppLocalizations.of(context).login),
+                              color: Colors.blue, //#2196F3
+                              textColor: Colors.white,
+                            )),
+                      ],
+                    ),
                   ].reversed.toList(),
                         )) : new Container(
                       child: new CircularProgressIndicator(),

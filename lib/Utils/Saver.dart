@@ -175,8 +175,8 @@ Future<File> saveSettings(String settingsString) async {
 void migrate() async {
   saveSettings(json.encode(await PS.readSettings()));
 
-  String usrs = await (await _userFile).readAsString();
-  (await _userFile).writeAsString(await doEncrypt(usrs));
+  String usrs = await (await userFile).readAsString();
+  (await userFile).writeAsString(await doEncrypt(usrs));
 
   List<User> users = await AccountManager().getUsers();
 
@@ -189,14 +189,14 @@ void migrate() async {
   main();
 }
 
-Future<File> get _userFile async {
+Future<File> get userFile async {
   final path = await _localFolder;
   return new File('$path/users.json');
 }
 
 Future<File> saveUsers(List<User> users) async {
   print("save");
-  final file = await _userFile;
+  final file = await userFile;
   List<Map<String, dynamic>> userMap = new List();
   for (User user in users)
     userMap.add(user.toMap());
@@ -205,7 +205,7 @@ Future<File> saveUsers(List<User> users) async {
 
 Future<List<Map<String, dynamic>>> readUsers() async {
   List<Map<String, dynamic>> userMap = new List();
-  final file = await _userFile;
+  final file = await userFile;
   String contents;
   List<dynamic> userlist = new List<dynamic>();
   try {
@@ -225,7 +225,7 @@ Future<List<Map<String, dynamic>>> readUsers() async {
 Future<bool> get shouldMigrate async {
   return false;
   try {
-    final file = await _userFile;
+    final file = await userFile;
     String contents;
     contents = file.readAsStringSync();
     if (contents == "")

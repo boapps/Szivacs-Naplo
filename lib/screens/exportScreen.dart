@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:simple_permissions/simple_permissions.dart';
+import 'dart:convert' show json;
 
 void main() {
   runApp(new MaterialApp(
@@ -41,13 +42,13 @@ class ExportScreenState extends State<ExportScreen> {
   }
 
   void initPath() async {
-      path = (await getExternalStorageDirectory()).path + "/grades.json";
+      path = (await getExternalStorageDirectory()).path + "/grades-" + selectedUser.username + ".json";
       controller.text = path;
   }
 
   TextEditingController controller = new TextEditingController();
   User selectedUser = globals.users[0];
-  List<String> exportOptions = ["adatok, jegyek, hiányzások ...", "órák (WIP)", ];
+  List<String> exportOptions = ["adatok, jegyek, hiányzások ...", "órák (WIP)", "felhasználók", ];
   List<String> formatOptions = ["json", "excel (WIP)", "CSV (WIP)", "HTML (WIP)"];
   int selectedData = 0;
   int selectedFormat = 0;
@@ -81,16 +82,27 @@ class ExportScreenState extends State<ExportScreen> {
                     }).toList(), onChanged: (user){
                       setState(() {
                         selectedUser = user;
+
                       });
                       }, value: selectedUser,),
 
                     new DropdownButton(items: exportOptions.map((String exportData){
                       return DropdownMenuItem(child: Text(exportData), value: exportData,);
-                    }).toList(), onChanged: (exportData){
+                    }).toList(), onChanged: (exportData) async {
+                      selectedData = exportOptions.indexOf(exportData);
+                      switch(selectedData) {
+                        case 0:
+                          path = (await getExternalStorageDirectory()).path + "/grades-" + selectedUser.username + ".json";
+                          break;
+                        case 2:
+                          path = (await getExternalStorageDirectory()).path + "/users.json";
+                          break;
+                      }
+                      controller.text = path;
                       setState(() {
-                        selectedData = exportOptions.indexOf(exportData);
                       });
-                      }, value: exportOptions[selectedData],),
+
+                    }, value: exportOptions[selectedData],),
 
                     new DropdownButton(items: formatOptions.map((String exportFormat){
                       return DropdownMenuItem(child: Text(exportFormat), value: exportFormat,);
@@ -107,6 +119,17 @@ class ExportScreenState extends State<ExportScreen> {
                         case 0:
                           //jegyek
                           String data = await Saver.readStudent(selectedUser);
+                          File file = File(path);
+                          SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
+                            file.writeAsString(data).then((File f){
+                              print("done");
+                            });
+
+                          });
+                          break;
+                        case 2:
+                          //user
+                          String data = json.encode(await Saver.readUsers());
                           File file = File(path);
                           SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
                             file.writeAsString(data).then((File f){
