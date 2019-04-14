@@ -1,12 +1,14 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
+
 import '../Datas/Note.dart';
 import '../GlobalDrawer.dart';
+import '../Helpers/LocaleHelper.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
-import '../Helpers/LocaleHelper.dart';
 
 void main() {
   runApp(new MaterialApp(home: new NotesScreen()));
@@ -96,31 +98,37 @@ class NotesScreenState extends State<NotesScreen> {
     return new Column(
       children: <Widget>[
         new ListTile(
-          title: notes[index].title != null && notes[index].title != "" ? new Text(notes[index].title,style: TextStyle(fontSize: 22),) : null,
+          title: notes[index].title != null && notes[index].title != ""
+              ? new Text(
+                  notes[index].title,
+                  style: TextStyle(fontSize: 22),
+                )
+              : null,
           subtitle: new Column(children: <Widget>[
             new Container(
-            padding: EdgeInsets.all(5),
-            child: Linkify(
-              style: TextStyle(fontSize: 16),
-              text: notes[index].content,
-              onOpen: (String url) {
-                launcher.launch(url);
-              },
+              padding: EdgeInsets.all(5),
+              child: Linkify(
+                style: TextStyle(fontSize: 16),
+                text: notes[index].content,
+                onOpen: (String url) {
+                  launcher.launch(url);
+                },
+              ),
             ),
-          ),
             new Container(
-              child: new Text(dateToHuman(notes[index].date) + dateToWeekDay(notes[index].date)),
+              child: new Text(dateToHuman(notes[index].date) +
+                  dateToWeekDay(notes[index].date)),
               alignment: Alignment(1, -1),
             ),
-            notes[index].teacher != null ? new Container(
-              child: new Text(notes[index].teacher),
-              alignment: Alignment(1, -1),
-            ) : new Container(),
-    ]
-          ),
+            notes[index].teacher != null
+                ? new Container(
+                    child: new Text(notes[index].teacher),
+                    alignment: Alignment(1, -1),
+                  )
+                : new Container(),
+          ]),
           isThreeLine: true,
         ),
-
         new Divider(
           height: 10.0,
         ),

@@ -439,7 +439,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                           value: integer,
                           child: new Row(
                             children: <Widget>[
-                              new Text(integer.toString() + AppLocalizations.of(context).minute),
+                              new Text(integer.toString() + " " + AppLocalizations.of(context).minute),
                             ],
                           )
                       );
