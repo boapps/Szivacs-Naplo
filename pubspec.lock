@@ -7,7 +7,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.35.3"
+    version: "0.36.2"
   archive:
     dependency: transitive
     description:
@@ -91,7 +91,14 @@ packages:
       name: csslib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.6"
+    version: "0.15.0"
+  csv:
+    dependency: "direct main"
+    description:
+      name: csv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.3"
   dart_config:
     dependency: transitive
     description:
@@ -107,7 +114,14 @@ packages:
       name: dart_style
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.7"
+  date_range_picker:
+    dependency: "direct main"
+    description:
+      name: date_range_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   dynamic_theme:
     dependency: "direct main"
     description:
@@ -142,7 +156,7 @@ packages:
       name: flutter_html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.4"
+    version: "0.9.6"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -156,7 +170,7 @@ packages:
       name: flutter_linkify
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -181,13 +195,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.4"
   front_end:
     dependency: transitive
     description:
       name: front_end
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.13"
+    version: "0.1.17"
   glob:
     dependency: transitive
     description:
@@ -201,7 +222,7 @@ packages:
       name: html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3+3"
+    version: "0.13.4+2"
   html_unescape:
     dependency: "direct main"
     description:
@@ -250,14 +271,14 @@ packages:
       name: intl_translation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.3"
+    version: "0.17.4"
   kernel:
     dependency: transitive
     description:
       name: kernel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.13"
+    version: "0.3.17"
   logging:
     dependency: transitive
     description:
@@ -292,7 +313,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+1"
+    version: "0.4.0+3"
   path:
     dependency: transitive
     description:
@@ -320,7 +341,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.1"
   platform:
     dependency: transitive
     description:
@@ -328,13 +349,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-  plugin:
-    dependency: transitive
-    description:
-      name: plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0+3"
   pub_semver:
     dependency: transitive
     description:
@@ -355,7 +369,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.1+1"
+    version: "0.5.2"
   simple_permissions:
     dependency: "direct main"
     description:
@@ -451,7 +465,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "3.4.1"
   yaml:
     dependency: transitive
     description:
