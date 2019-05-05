@@ -575,6 +575,10 @@ class AppLocalizations {
     return Intl.message("Szín", name: "color");
   }
 
+  String get sync_on_data {
+    return Intl.message("Szinkronizálás mobilinterneten", name: "sync_on_data");
+  }
+
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

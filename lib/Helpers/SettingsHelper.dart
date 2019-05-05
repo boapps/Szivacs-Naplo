@@ -102,4 +102,12 @@ class SettingsHelper {
   Future<int> getTheme() async {
     return await _getProperty("theme", 0);
   }
+
+  void setCanSyncOnData(bool canSyncOnData) {
+    _setPropertyBool("canSyncOnData", canSyncOnData);
+  }
+
+  Future<bool> getCanSyncOnData() async {
+    return await _getProperty("canSyncOnData", true);
+  }
 }

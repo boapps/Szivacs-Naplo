@@ -661,6 +661,11 @@
   "@color": {
     "type": "text",
     "placeholders": {}
+  },
+  "sync_on_data": "Sync on cellular network",
+  "@sync_on_data": {
+    "type": "text",
+    "placeholders": {}
   }
 
 }

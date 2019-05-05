@@ -138,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subject" : MessageLookupByLibrary.simpleMessage("subject: "),
     "sure" : MessageLookupByLibrary.simpleMessage("Are you sure?"),
     "sync_frequency" : m5,
+    "sync_on_data" : MessageLookupByLibrary.simpleMessage("Sync on cellular network"),
     "teacher" : MessageLookupByLibrary.simpleMessage("teacher: "),
     "telegram" : MessageLookupByLibrary.simpleMessage("Telegram"),
     "theme" : MessageLookupByLibrary.simpleMessage("topic: "),

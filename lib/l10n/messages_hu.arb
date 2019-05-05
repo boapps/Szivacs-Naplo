@@ -662,6 +662,11 @@
   "@color": {
     "type": "text",
     "placeholders": {}
+  },
+  "sync_on_data": "Szinkronizálás mobilinterneten",
+  "@sync_on_data": {
+    "type": "text",
+    "placeholders": {}
   }
 
 }

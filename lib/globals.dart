@@ -37,6 +37,7 @@ List<Evaluation> evals = new List();
 
 bool isDark = false;
 bool isAmoled = false;
+bool canSyncOnData = true;
 
 List<Evaluation> global_evals = new List();
 List<Average> avers = new List();
