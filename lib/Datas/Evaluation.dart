@@ -5,6 +5,7 @@ class Evaluation {
   // constants:
   static const String HALF_YEAR = "HalfYear";
   static const String MID_YEAR = "MidYear";
+  static const String END_YEAR = "EndYear";
   static const String TEXT = "Text";
 
   int _id;
@@ -52,6 +53,7 @@ class Evaluation {
 
   bool isMidYear() => type == MID_YEAR;
   bool isHalfYear() => type == HALF_YEAR;
+  bool isEndYear() => type == END_YEAR;
   bool isText() => form == TEXT;
 
   String get theme => _theme;

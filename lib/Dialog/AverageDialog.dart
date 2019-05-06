@@ -40,7 +40,6 @@ class AverageDialogState extends State<AverageDialog> {
     AppLocalizations.of(context).quarteryear
         + " (${AppLocalizations.of(context).notworking})",
     AppLocalizations.of(context).endyear
-        + " (${AppLocalizations.of(context).notworking})"
     ];
 
     widgets.add(
@@ -87,24 +86,27 @@ class AverageDialogState extends State<AverageDialog> {
   void refWidgets() {
     currentAvers.clear();
     switch(pageID){
-      case 0:
+      case 0: // sima átlagok
         for (Average average in averages)
           if (average.value >= 1 && average.value <= 5) currentAvers.add(average);
         currentAvers.add(Average(AppLocalizations.of(context).all_average, "",
             "", getAllAverages(), 0, 0));
         break;
-      case 1:
+      case 1: // félévi jegyek
         for (Evaluation evaluation in evaluations)
           if (evaluation.isHalfYear())
             currentAvers.add(Average(evaluation.subject,
                 evaluation.subjectCategory, evaluation.subject,
                 evaluation.numericValue / 1, 0, 0));
         break;
-      case 2:
-        //todo get string for this
+      case 2: // TODO negyedéves jegyek
         break;
-      case 3:
-        //todo and this
+      case 3: // év végi jegyek
+	  	for (Evaluation evaluation in evaluations)
+			if (evaluation.isEndYear())
+			  currentAvers.add(Average(evaluation.subject,
+				  evaluation.subjectCategory, evaluation.subject,
+				  evaluation.numericValue / 1, 0, 0));
         break;
     }
   }

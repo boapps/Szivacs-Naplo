@@ -603,7 +603,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "endyear": "évvégi",
+  "endyear": "év végi",
   "@endyear": {
     "type": "text",
     "placeholders": {}
