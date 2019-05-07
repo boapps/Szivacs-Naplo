@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
+import 'Helpers/BackgroundHelper.dart';
 import 'Helpers/RequestHelper.dart';
 import 'Helpers/UserInfoHelper.dart';
 import 'Helpers/LocaleHelper.dart';
@@ -93,16 +93,8 @@ void main() async {
   globals.lang = await SettingsHelper().getLang();
 
   if (!isNew) {
-    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
-    SettingsHelper().getRefreshNotification().then((int integer) {
-      BackgroundFetch.configure(BackgroundFetchConfig(
-        minimumFetchInterval: integer,
-        stopOnTerminate: false,
-        forceReload: false,
-        enableHeadless: true,
-        startOnBoot: true,
-      ), backgroundFetchHeadlessTask);
-    });
+    BackgroundHelper().register();
+    await BackgroundHelper().configure();
 
     globals.isDark = await SettingsHelper().getDarkTheme();
     globals.isAmoled = await SettingsHelper().getAmoled();
