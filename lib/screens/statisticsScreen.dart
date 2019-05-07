@@ -121,8 +121,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void _initStats() async {
     await globals.selectedAccount.refreshAverages(false, true);
     setState(() {
-      averages = globals.selectedAccount.averages;
+      averages = globals.selectedAccount.averages ?? List();
       averages.removeWhere((Average average) => average.value < 1);
+      if (averages == null || averages.isEmpty)
+        averages = [Average("", "", "", 0.0, 0.0, 0.0)];
       selectedAverage = averages[0];
       globals.selectedAverage = selectedAverage;
       avrString = selectedAverage.value.toString();
