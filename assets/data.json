@@ -18019,7 +18019,7 @@
   },
   {
     "InstituteId": 1644,
-    "InstituteCode": "klik201026005",
+    "InstituteCode": "klik203347001",
     "Name": "Pusztavámi Német Nemzetiségi Általános Iskola",
     "Url": "https://klik201026005.e-kreta.hu",
     "City": "Pusztavám",
@@ -40771,6 +40771,281 @@
     "Name": "Terméktámogatás Virág",
     "Url": "https://bemutato-virag.e-kreta.hu/\r\n",
     "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4063,
+    "InstituteCode": "klik200987002\r\n",
+    "Name": "Hernád – Pusztavacs Általános Iskola Pusztavacsi Tagintézmény",
+    "Url": "https://klik200987002.e-kreta.hu/\r\n",
+    "City": "Hernád",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4064,
+    "InstituteCode": "szalaysuli",
+    "Name": "Szalay Sámuel Református Két Tanítási Nyelvű Általános Iskola",
+    "Url": "https://szalaysuli.e-kreta.hu/",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4065,
+    "InstituteCode": "dgyrefisk",
+    "Name": "Miskolc-Diósgyőri Református Általános Iskola és Óvoda",
+    "Url": "https://dgyrefisk.e-kreta.hu/",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4066,
+    "InstituteCode": "Hernadnemeti",
+    "Name": "Hernádnémeti Református Általános Iskola, Két Tanítási Nyelvű és Alapfokú Művészeti Iskola",
+    "Url": "https://Hernadnemeti.e-kreta.hu/",
+    "City": "Hernádnémeti",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4067,
+    "InstituteCode": "pitypalatty",
+    "Name": "Pitypalatty-völgyi Református Körzeti Általános Iskola és Alapfokú Művészeti Iskola",
+    "Url": "https://pitypalatty.e-kreta.hu/",
+    "City": "Parasznya",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4068,
+    "InstituteCode": "vayrefi",
+    "Name": "Vay Miklós Református Szakgimnázium, Szakközépiskola és Diákotthon",
+    "Url": "https://vayrefi.e-kreta.hu/",
+    "City": "Sárospatak",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4073,
+    "InstituteCode": "patakirefi",
+    "Name": "Sárospataki Református Kollégium Gimnáziuma, Általános Iskolája és Diákotthona",
+    "Url": "https://patakirefi.e-kreta.hu/",
+    "City": "Sárospatak",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4074,
+    "InstituteCode": "csomasz",
+    "Name": "Csomasz Tóth Kálmán Református Alapfokú Művészeti Iskola",
+    "Url": "https://csomasz.e-kreta.hu/",
+    "City": "Dédestapolcsány",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4075,
+    "InstituteCode": "szerencsirakoczi",
+    "Name": "Szerencsi Rákóczi Zsigmond Református Két Tanítási Nyelvű Általános Iskola és Alapfokú Művészeti Iskola",
+    "Url": "https://szerencsirakoczi.e-kreta.hu/",
+    "City": "Szerencs\r\n",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4076,
+    "InstituteCode": "kazinczyfzsolca",
+    "Name": "Kazinczy Ferenc Református Általános Iskola",
+    "Url": "https://kazinczyfzsolca.e-kreta.hu/",
+    "City": "Felsőzsolca",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4078,
+    "InstituteCode": "petofirefi",
+    "Name": "Petőfi Sándor Református Általános Iskola",
+    "Url": "https://petofirefi.e-kreta.hu/",
+    "City": "Sátoraljaújhely\r\n",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4081,
+    "InstituteCode": "szirmairefi",
+    "Name": "Miskolc-Szirmai Református Általános Iskola, Alapfokú Művészeti Iskola és Óvoda",
+    "Url": "https://szirmairefi.e-kreta.hu/",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4085,
+    "InstituteCode": "ijrok",
+    "Name": "Irinyi János Református Oktatási Központ - Óvoda, Általános Iskola, Szakgimnázium, Szakközépiskola és Diákotthon",
+    "Url": "https://ijrok.e-kreta.hu/",
+    "City": "Kazincbarcika",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4086,
+    "InstituteCode": "klik037124101",
+    "Name": "Ady Endre Német Nemzetiségi Nyelvoktató Általános Iskola és Alapfokú Művészeti Iskola (AMI)",
+    "Url": "https://klik037124101.e-kreta.hu/",
+    "City": "Berhida",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4088,
+    "InstituteCode": "klik032405101",
+    "Name": "Tahitótfalui Pollack Mihály Általános Iskola és Alapfokú Művészeti Iskola (AMI)",
+    "Url": "https://klik032405101.e-kreta.hu/",
+    "City": "Tahitótfalu",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4092,
+    "InstituteCode": "klik037165201",
+    "Name": "Magyar-Angol Tannyelvű Gimnázium és Kollégium (Kollégium)",
+    "Url": "https://klik037165201.e-kreta.hu/",
+    "City": "Balatonalmádi",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4094,
+    "InstituteCode": "klik027955007",
+    "Name": "Tiszakécskei Móricz Zsigmond Általános Iskola, Gimnázium, Kollégium és AMI",
+    "Url": "https://klik027955007.e-kreta.hu",
+    "City": "Tiszakécske",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4095,
+    "InstituteCode": "klik029078101",
+    "Name": "Sajószögedi Kölcsey Ferenc Körzeti Általános Iskola és Alapfokú Művészeti Iskola (AMI)",
+    "Url": "https://klik029078101.e-kreta.hu/",
+    "City": "Sajószöged",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4099,
+    "InstituteCode": "klik027955002",
+    "Name": "Tiszakécskei Móricz Zsigmond Általános Iskola és Gimnázium Alsó Tagozata",
+    "Url": "https://klik027955002.e-kreta.hu",
+    "City": "Tiszakécske",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4101,
+    "InstituteCode": "gyulairomaikatolikus",
+    "Name": "Gyulai Római Katolikus Gimnázium, Általános Iskola, Óvoda és Kollégium",
+    "Url": "https://gyulairomaikatolikus.e-kreta.hu",
+    "City": "Gyula",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4102,
+    "InstituteCode": "tapiorefisk",
+    "Name": "Tápiószőlős-Újszilvás Református Általános Iskola es Óvoda",
+    "Url": "https://tapiorefisk.e-kreta.hu",
+    "City": "Tapiószőlős",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4103,
+    "InstituteCode": "constantinum",
+    "Name": "Constantinum Katolikus Óvoda, Általános Iskola, Gimnázium, Szakgimnázium, Kollégium",
+    "Url": "https://constantinum.e-kreta.hu",
+    "City": "Kiskunfélegyháza",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4105,
+    "InstituteCode": "szilagyikeresztenyiskola",
+    "Name": "Szilágyi Erzsébet Keresztény Általános és Alapfokú Művészeti Iskola",
+    "Url": "https://szilagyikeresztenyiskola.e-kreta.hu",
+    "City": "Veszprém",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4106,
+    "InstituteCode": "sztlaszlobaja",
+    "Name": "Szent László Általános Művelődési Központ",
+    "Url": "https://sztlaszlobaja.e-kreta.hu",
+    "City": "Baja",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4107,
+    "InstituteCode": "tiszabercel",
+    "Name": "Lippai János Mezőgazdasági Szakgimnázium és Szakközépiskola Tiszaberceli Mezőgazdasági Szakgimnáziuma és Szakközépiskolája tagintézmény",
+    "Url": "https://tiszabercel.e-kreta.hu/",
+    "City": "Tiszabercel",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
       "JustificationFeatureEnabled": "false"
