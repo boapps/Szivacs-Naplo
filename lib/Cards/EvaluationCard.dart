@@ -134,7 +134,7 @@ class EvaluationCard extends StatelessWidget {
   }
 
   String getDate() {
-    return evaluation.creationDate;
+    return evaluation.creationDate.toIso8601String();
   }
 
   @override
@@ -143,6 +143,15 @@ class EvaluationCard extends StatelessWidget {
   void openDialog() {
     _evaluationDialog(evaluation);
   }
+
+  Widget listEntry(String data, {bold = false, right = false}) => new Container(
+    child: new Text(
+      data,
+      style: TextStyle(fontSize: right ? 16 : 19, fontWeight: bold ? FontWeight.bold : FontWeight.normal),
+    ),
+    alignment: right ? Alignment(1, -1) : Alignment(0, 0),
+    padding: EdgeInsets.only(bottom: 3),
+  );
 
   Future<Null> _evaluationDialog(Evaluation evaluation) async {
     return showDialog<Null>(
@@ -155,65 +164,24 @@ class EvaluationCard extends StatelessWidget {
               child: new ListBody(
                 children: <Widget>[
                   evaluation.value != null
-                      ? new Container(
-                          child: new Text(
-                            evaluation.value,
-                            style: TextStyle(fontSize: 21),
-                          ),
-                          alignment: Alignment(0, 0),
-                          padding: EdgeInsets.only(bottom: 3),
-                        )
+                      ? listEntry(evaluation.value)
                       : new Container(),
                   evaluation.weight != "" &&
                           evaluation.weight != "100%" &&
                           evaluation.weight != null
-                      ? new Container(
-                          child: new Text(
-                            evaluation.weight,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          alignment: Alignment(0, 0),
-                          padding: EdgeInsets.only(bottom: 3),
-                        )
+                      ? listEntry(evaluation.weight, bold: ["200%", "300%"].contains(evaluation.weight))
                       : new Container(),
                   evaluation.theme != "" && evaluation.theme != null
-                      ? new Container(
-                          child: new Text(
-                            evaluation.theme,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          alignment: Alignment(0, 0),
-                          padding: EdgeInsets.only(bottom: 3),
-                        )
+                      ? listEntry(evaluation.theme)
                       : new Container(),
                   evaluation.mode != "" && evaluation.mode != null
-                      ? new Container(
-                          child: new Text(
-                            evaluation.mode,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          alignment: Alignment(0, 0),
-                          padding: EdgeInsets.only(bottom: 8),
-                        )
+                      ? listEntry(evaluation.mode)
                       : new Container(),
                   evaluation.creationDate != null
-                      ? new Container(
-                          child: Text(evaluation.creationDate
-                                  .substring(0, 16)
-                                  .replaceAll("-", ". ")
-                                  .replaceAll("T", ". ") +
-                              " " +
-                              dateToWeekDay(evaluation.date)),
-                          alignment: Alignment(1, -1),
-                          padding: EdgeInsets.only(top: 16),
-                        )
+                      ? listEntry(dateToHuman(evaluation.creationDate), right: true)
                       : new Container(),
                   evaluation.teacher != null
-                      ? new Container(
-                          child: Text(evaluation.teacher),
-                          alignment: Alignment(1, -1),
-                        )
+                      ? listEntry(evaluation.teacher, right: true)
                       : new Container(),
                 ],
               ),
@@ -259,8 +227,6 @@ class EvaluationCard extends StatelessWidget {
         fColor = Colors.white;
         break;
     }
-
-    bool notNull(Object o) => o != null;
 
     return new GestureDetector(
       onTap: openDialog,
@@ -393,12 +359,10 @@ class EvaluationCard extends StatelessWidget {
                                       dateToHuman(evaluation.date) +
                                           dateToWeekDay(evaluation.date),
                                       style: new TextStyle(
-                                          fontSize: 18.0,
+                                          fontSize: 16.0,
                                           color: globals.isDark
                                               ? Colors.white
                                               : Colors.black87),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.fade,
                                       textAlign: TextAlign.end,
                                     ),
                                     alignment: Alignment(1.0, 0.0),

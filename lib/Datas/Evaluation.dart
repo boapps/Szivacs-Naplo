@@ -20,7 +20,7 @@ class Evaluation {
   int _numericValue;
   String _teacher;
   DateTime _date;
-  String _creationDate;
+  DateTime _creationDate;
   String _theme;
   User owner;
 
@@ -42,7 +42,7 @@ class Evaluation {
     this._numericValue = json ["NumberValue"];
     this._teacher = json ["Teacher"];
     this._date = DateTime.parse(json ["Date"]);
-    this._creationDate = json ["CreatingTime"];
+    this._creationDate = DateTime.parse(json ["CreatingTime"]);
     this._theme = json ["Theme"];
     if (form=="Deportment")
       this.subject="Magatartás";
@@ -62,9 +62,9 @@ class Evaluation {
     _theme = value;
   }
 
-  String get creationDate => _creationDate;
+  DateTime get creationDate => _creationDate;
 
-  set creationDate(String value) {
+  set creationDate(DateTime value) {
     _creationDate = value;
   }
 

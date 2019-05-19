@@ -220,8 +220,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                     : new Container(),
                 evaluation.creationDate != null ? new Text(
                     AppLocalizations.of(context).administration_time +
-                    evaluation.creationDate.substring(0, 16).replaceAll(
-                        "-", ". ").replaceAll("T", ". ")) : new Container(),
+                        dateToHuman(evaluation.date)) : new Container(),
                 evaluation.weight != null ? new Text(
                     AppLocalizations.of(context).weight + evaluation.weight)
                     : new Container(),

@@ -502,10 +502,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     dateToHuman(evaluation.date)),
                 new Text(AppLocalizations.of(context).mode + evaluation.mode),
                 new Text(AppLocalizations.of(context).administration_time +
-                    evaluation.creationDate
-                        .substring(0, 16)
-                        .replaceAll("-", ". ")
-                        .replaceAll("T", ". ")),
+                    dateToHuman(evaluation.creationDate)),
                 new Text(AppLocalizations.of(context).weight + evaluation.weight),
                 new Text(AppLocalizations.of(context).value + evaluation.value),
                 new Text(AppLocalizations.of(context).range + evaluation.range),
@@ -689,12 +686,7 @@ class GradeDialogState extends State<GradeDialog> {
                   jegy,
                   "",
                   DateTime.now(),
-                  DateTime.now().year.toString() +
-                      "-" +
-                      DateTime.now().month.toString() +
-                      "-" +
-                      DateTime.now().day.toString() +
-                      "           ",
+                  DateTime.now(),
                   "");
               falseGrade.owner = globals.selectedUser;
               globals.currentEvals.add(falseGrade);

@@ -5,7 +5,9 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'package:background_fetch/background_fetch.dart';
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
 import 'Helpers/BackgroundHelper.dart';
@@ -93,7 +95,8 @@ void main() async {
   globals.lang = await SettingsHelper().getLang();
 
   if (!isNew) {
-    BackgroundHelper().register();
+    //BackgroundHelper().register();
+    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
     await BackgroundHelper().configure();
 
     globals.isDark = await SettingsHelper().getDarkTheme();
@@ -111,6 +114,22 @@ void main() async {
   }
 
   runApp(MyApp());
+}
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+
+void backgroundFetchHeadlessTask() async {
+  var initializationSettingsAndroid =
+  new AndroidInitializationSettings('notification_icon');
+  var initializationSettingsIOS = new IOSInitializationSettings();
+  var initializationSettings = new InitializationSettings(
+      initializationSettingsAndroid, initializationSettingsIOS);
+  flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  await BackgroundHelper().backgroundTask().then((int finished) {
+    BackgroundFetch.finish();
+  });
 }
 
 LoginScreenState loginScreenState = new LoginScreenState();

@@ -2,7 +2,7 @@ name: flutter_naplo
 description: A new Flutter application.
 
 dependencies:
-  background_fetch: '^0.1.0'
+  background_fetch: '^0.2.0'
   path_provider: "^0.4.0"
   fluro: "^1.3.1"
   url_launcher: ^3.0.3

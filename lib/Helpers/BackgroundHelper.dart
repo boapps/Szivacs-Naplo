@@ -177,7 +177,7 @@ class BackgroundHelper {
   Future<int> backgroundTask() async {
     await Connectivity().checkConnectivity().then((
         ConnectivityResult result) async {
-      if (result == ConnectivityResult.mobile && await canSyncOnData)
+      if (result == ConnectivityResult.mobile && await canSyncOnData || result == ConnectivityResult.wifi)
         doBackground();
     });
 

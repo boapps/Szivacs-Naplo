@@ -54,13 +54,18 @@ class LessonCard extends StatelessWidget {
             new SingleChildScrollView(
               child: new ListBody(
                 children: lessons.map((Lesson l){
-                  return new ListTile(
-                    title: new Text(l.subject, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
-                    enabled: true,
-                    onTap: (){},
-                    subtitle: new Text(l.teacher, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
-                    trailing: new Text(l.room, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
-                  );
+                  return new Column(
+                      children: <Widget>[
+                        new ListTile(
+                          title: new Text(l.subject, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
+                          enabled: true,
+                          onTap: null,
+                          subtitle: new Text(l.teacher, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
+                          leading: new Container(child: new Text(l.count.toString(), style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null, fontSize: 21),), alignment: Alignment(0, 1), height: 40,width: 20,),
+                        ),
+                        new Container(child: new Text(l.room, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),alignment: Alignment(1, 0),),
+                        new Divider(color: Colors.blueGrey,),
+                      ]);
                 }).toList()
               ),
             ),

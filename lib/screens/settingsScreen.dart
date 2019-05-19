@@ -51,7 +51,6 @@ class SettingsScreenState extends State<SettingsScreen> {
     _canSyncOnData = await SettingsHelper().getCanSyncOnData();
 
     setState(() {});
-    await BackgroundHelper().configure();
   }
 
 
@@ -60,6 +59,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       _initSet();
     });
+    BackgroundHelper().configure();
     super.initState();
   }
 
