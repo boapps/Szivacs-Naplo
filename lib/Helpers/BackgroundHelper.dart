@@ -184,7 +184,6 @@ class BackgroundHelper {
     return 0;
   }
 
-
   void backgroundFetchHeadlessTask() async {
     var initializationSettingsAndroid =
     new AndroidInitializationSettings('notification_icon');
@@ -200,19 +199,24 @@ class BackgroundHelper {
   }
 
   Future<void> configure() async {
-    await SettingsHelper().getRefreshNotification().then((int _refreshNotification){
-      BackgroundFetch.configure(BackgroundFetchConfig(
-        minimumFetchInterval: _refreshNotification,
-        stopOnTerminate: false,
-        forceReload: false,
-        enableHeadless: true,
-        startOnBoot: true,
-      ), backgroundFetchHeadlessTask);
-    });
+    if (await SettingsHelper().getNotification()) {
+      await SettingsHelper().getRefreshNotification().then((
+          int _refreshNotification) {
+        BackgroundFetch.configure(BackgroundFetchConfig(
+          minimumFetchInterval: _refreshNotification,
+          stopOnTerminate: false,
+          forceReload: false,
+          enableHeadless: true,
+          startOnBoot: true,
+        ), backgroundFetchHeadlessTask);
+      });
+    }
   }
 
-  void register() {
-    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  Future<void> register() async {
+    if (await SettingsHelper().getNotification()) {
+      BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+    }
   }
 
 }

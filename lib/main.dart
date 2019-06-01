@@ -96,7 +96,7 @@ void main() async {
 
   if (!isNew) {
     //BackgroundHelper().register();
-    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+    await BackgroundHelper().register();
     await BackgroundHelper().configure();
 
     globals.isDark = await SettingsHelper().getDarkTheme();
