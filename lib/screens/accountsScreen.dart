@@ -110,10 +110,13 @@ class AccountsScreenState extends State<AccountsScreen> {
                   }, child: new Icon(Icons.color_lens, color: u.color, ),),
                 ),
                 new FlatButton(onPressed: () async {
-                  await _removeUserDialog(u);
-                  setState(() {
-                    _getUserList();
-                    _getListWidgets();
+                  _removeUserDialog(u).then((nul){
+
+                    setState(() {
+                      _getUserList();
+                      _getListWidgets();
+                    });
+
                   });
                 },
                     child: new Icon(Icons.close, color: Colors.red,),),
@@ -157,12 +160,14 @@ class AccountsScreenState extends State<AccountsScreen> {
             ),
             new FlatButton(
               child: new Text(AppLocalizations.of(context).yes),
-              onPressed: () {
-                AccountManager().removeUser(user);
+              onPressed: () async {
+                await AccountManager().removeUser(user);
                 setState(() {
                   _getUserList();
                   _getListWidgets();
                   Navigator.of(context).pop();
+                  Navigator.pop(context); // close the drawer
+                  Navigator.pushReplacementNamed(context, "/accounts");
                 });
               },
             ),

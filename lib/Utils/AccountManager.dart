@@ -44,7 +44,7 @@ class AccountManager {
     }
   }
 
-  void removeUser(User user) async{
+  Future<void> removeUser(User user) async{
     List<User> users = await getUsers();
     List<User> newUsers = new List();
     for (User u in users)
