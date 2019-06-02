@@ -29,10 +29,11 @@ class User {
     parentId = json["parentId"];
     try {
       color = Color(json["color"]);
-    } catch (e) {
 
-    } finally {
+    } catch (e) {
       color = Color(0);
+    } finally {
+
     }
   }
 
