@@ -36,8 +36,31 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   double allMedian;
   int allMode;
 
+  Color color = MaterialPalette.blue.shadeDefault;
+
   @override
   void initState() {
+    switch (globals.themeID) {
+      case 0:
+        color = MaterialPalette.blue.shadeDefault;
+        break;
+      case 1:
+        color = MaterialPalette.red.shadeDefault;
+        break;
+      case 2:
+        color = MaterialPalette.green.shadeDefault;
+        break;
+      case 3:
+        color = MaterialPalette.yellow.shadeDefault;
+        break;
+      case 4:
+        color = MaterialPalette.deepOrange.shadeDefault;
+        break;
+      case 5:
+        color = MaterialPalette.black;
+        break;
+    }
+
     setState(() {
       _initStats();
     });
@@ -144,7 +167,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         new Series(
           displayName: "asd",
           id: "averages",
-          colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+          colorFn: (_, __) => color,
           domainFn: (TimeAverage sales, _) => sales.time,
           measureFn: (TimeAverage sales, _) => sales.sales,
           data: timeData,
@@ -164,7 +187,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               new Series(
                 displayName: "asd",
                 id: "averages",
-                colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+                colorFn: (_, __) => color,
                 domainFn: (TimeAverage sales, _) => sales.time,
                 measureFn: (TimeAverage sales, _) => sales.sales,
                 data: timeData,
@@ -200,7 +223,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               new Series(
                 displayName: "asd",
                 id: "averages",
-                colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+                colorFn: (_, __) => color,
                 domainFn: (TimeAverage sales, _) => sales.time,
                 measureFn: (TimeAverage sales, _) => sales.sales,
                 data: timeData,
@@ -223,7 +246,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       new Series(
         displayName: "asd",
         id: "averages",
-        colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => color,
         domainFn: (TimeAverage sales, _) => sales.time,
         measureFn: (TimeAverage sales, _) => sales.sales,
         data: timeData,
