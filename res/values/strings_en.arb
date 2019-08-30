@@ -1,5 +1,4 @@
 {
-  "@@last_modified": "2019-01-12T13:20:23.179813",
   "title": "e-Szivacs",
   "@title": {
     "description": "The application title",
@@ -11,7 +10,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "version": "verzió: ",
+  "version": "version: ",
   "@version": {
     "type": "text",
     "placeholders": {}
@@ -21,12 +20,12 @@
     "type": "text",
     "placeholders": {}
   },
-  "made_by": "készítette: ",
+  "made_by": "made by: ",
   "@made_by": {
     "type": "text",
     "placeholders": {}
   },
-  "boa": "BoA",
+  "boa": "Boa",
   "@boa": {
     "type": "text",
     "placeholders": {}
@@ -66,607 +65,611 @@
     "type": "text",
     "placeholders": {}
   },
-  "absent_title": "Hiányzások / Késések",
+  "absent_title": "Absences / Delays",
   "@absent_title": {
     "type": "text",
     "placeholders": {}
   },
-  "mode": "mód: ",
+  "mode": "mode: ",
   "@mode": {
     "type": "text",
     "placeholders": {}
   },
-  "subject": "tárgy: ",
+  "subject": "subject: ",
   "@subject": {
     "type": "text",
     "placeholders": {}
   },
-  "teacher": "tanár: ",
+  "teacher": "teacher: ",
   "@teacher": {
     "type": "text",
     "placeholders": {}
   },
-  "absence_time": "hiányzás ideje: ",
+  "absence_time": "absence time: ",
   "@absence_time": {
     "type": "text",
     "placeholders": {}
   },
-  "administration_time": "naplózás ideje: ",
+  "administration_time": "time of logging: ",
   "@administration_time": {
     "type": "text",
     "placeholders": {}
   },
-  "justification_state": "igazolás állapota: ",
+  "justification_state": "justification status: ",
   "@justification_state": {
     "type": "text",
     "placeholders": {}
   },
-  "justification_mode": "igazolás módja: ",
+  "justification_mode": "justification method: ",
   "@justification_mode": {
     "type": "text",
     "placeholders": {}
   },
-  "delay_mins": "késés mértéke: ",
+  "delay_mins": "delay time: ",
   "@delay_mins": {
     "type": "text",
     "placeholders": {}
   },
-  "ok": "oké",
+  "ok": "ok",
   "@ok": {
     "type": "text",
     "placeholders": {}
   },
-  "statistics": "Statisztikák",
+  "statistics": "Statistics",
   "@statistics": {
     "type": "text",
     "placeholders": {}
   },
-  "parental_justification": "Szülői igazolás: {amount} db",
+  "parental_justification": "Parental justification: {amount}",
   "@parental_justification": {
     "type": "text",
     "placeholders": {
       "amount": {}
     }
   },
-  "all_absences": "Összes hiányzás (nincs benne a késés): {amount} óra",
+  "all_absences": "Absence (excluding delay): {amount} hours",
   "@all_absences": {
     "type": "text",
     "placeholders": {
       "amount": {}
     }
   },
-  "all_delay": "Összes késés: {amount} perc",
+  "all_delay": "Total delay: {amount} minutes",
   "@all_delay": {
     "type": "text",
     "placeholders": {
       "amount": {}
     }
   },
-  "sure": "Biztos?",
+  "sure": "Are you sure?",
   "@sure": {
     "type": "text",
     "placeholders": {}
   },
-  "delete_confirmation": "Törölni szeretnéd {name} felhasználót?",
+  "delete_confirmation": "Would you like to delete user: {name} ?",
   "@delete_confirmation": {
     "type": "text",
     "placeholders": {
       "name": {}
     }
   },
-  "no": "nem",
+  "no": "no",
   "@no": {
     "type": "text",
     "placeholders": {}
   },
-  "yes": "igen",
+  "yes": "yes",
   "@yes": {
     "type": "text",
     "placeholders": {}
   },
-  "accounts": "Fiókok",
+  "accounts": "Accounts",
   "@accounts": {
     "type": "text",
     "placeholders": {}
   },
-  "evaluations": "Jegyek",
+  "evaluations": "Evaluations",
   "@evaluations": {
     "type": "text",
     "placeholders": {}
   },
-  "theme": "téma: ",
+  "theme": "topic: ",
   "@theme": {
     "type": "text",
     "placeholders": {}
   },
-  "time": "idő: ",
+  "time": "time: ",
   "@time": {
     "type": "text",
     "placeholders": {}
   },
-  "weight": "súly: ",
+  "weight": "weight: ",
   "@weight": {
     "type": "text",
     "placeholders": {}
   },
-  "value": "érték: ",
+  "value": "value: ",
   "@value": {
     "type": "text",
     "placeholders": {}
   },
-  "range": "határ: ",
+  "range": "range: ",
   "@range": {
     "type": "text",
     "placeholders": {}
   },
-  "sort": "Rendezés",
+  "sort": "Sort",
   "@sort": {
     "type": "text",
     "placeholders": {}
   },
-  "homeworks": "Házi feladatok",
+  "homeworks": "Homeworks",
   "@homeworks": {
     "type": "text",
     "placeholders": {}
   },
-  "homework": "házi",
+  "homework": "homework",
   "@homework": {
     "type": "text",
     "placeholders": {}
   },
-  "deadline": "határidő: ",
+  "deadline": "deadline: ",
   "@deadline": {
     "type": "text",
     "placeholders": {}
   },
-  "uploader": "feltöltő: ",
+  "uploader": "uploader: ",
   "@uploader": {
     "type": "text",
     "placeholders": {}
   },
-  "upload_time": "feltöltés ideje: ",
+  "upload_time": "upload time: ",
   "@upload_time": {
     "type": "text",
     "placeholders": {}
   },
-  "confirm_close": "Be akarod zárni az alkalmazást?",
+  "confirm_close": "Do you want to close the application?",
   "@confirm_close": {
     "type": "text",
     "placeholders": {}
   },
-  "notes": "Feljegyzések",
+  "notes": "Notes",
   "@notes": {
     "type": "text",
     "placeholders": {}
   },
-  "settings": "Beállítások",
+  "settings": "Settings",
   "@settings": {
     "type": "text",
     "placeholders": {}
   },
-  "colorful_mainpage": "Színes főoldal",
+  "colorful_mainpage": "Colorful main-page",
   "@colorful_mainpage": {
     "type": "text",
     "placeholders": {}
   },
-  "singleuser_mainpage": "Egy felhasználó a főoldalon",
+  "singleuser_mainpage": "Single-user main-page",
   "@singleuser_mainpage": {
     "type": "text",
     "placeholders": {}
   },
-  "dark_theme": "Sötét téma",
+  "dark_theme": "Dark theme",
   "@dark_theme": {
     "type": "text",
     "placeholders": {}
   },
-  "notification": "Értesítés",
+  "notification": "Notification",
   "@notification": {
     "type": "text",
     "placeholders": {}
   },
-  "sync_frequency": "Szinkronizálás gyakorisága: {mins} perc",
+  "sync_frequency": "Frequency of sync: {mins} min",
   "@sync_frequency": {
     "type": "text",
     "placeholders": {
       "mins": {}
     }
   },
-  "minute": "perc",
+  "minute": "minutes",
   "@minute": {
     "type": "text",
     "placeholders": {}
   },
-  "logo_menu": "Logó a menüben",
+  "logo_menu": "Logo in the menu",
   "@logo_menu": {
     "type": "text",
     "placeholders": {}
   },
-  "info": "Infó",
+  "info": "About",
   "@info": {
     "type": "text",
     "placeholders": {}
   },
-  "average": "Átlag: ",
+  "average": "Average: ",
   "@average": {
     "type": "text",
     "placeholders": {}
   },
-  "class_average": "Osztályátlag: ",
+  "average_menu": "average",
+  "@average_menu": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "class_average": "Class average: ",
   "@class_average": {
     "type": "text",
     "placeholders": {}
   },
-  "grade1": "1-es osztályzat:",
+  "grade1": "1 grades:",
   "@grade1": {
     "type": "text",
     "placeholders": {}
   },
-  "grade2": "2-es osztályzat:",
+  "grade2": "2 grades:\n",
   "@grade2": {
     "type": "text",
     "placeholders": {}
   },
-  "grade3": "3-as osztályzat:",
+  "grade3": "3 grades:\n",
   "@grade3": {
     "type": "text",
     "placeholders": {}
   },
-  "grade4": "4-es osztályzat:",
+  "grade4": "4 grades:",
   "@grade4": {
     "type": "text",
     "placeholders": {}
   },
-  "grade5": "5-ös osztályzat:",
+  "grade5": "5 grades:\n",
   "@grade5": {
     "type": "text",
     "placeholders": {}
   },
-  "all_average": "Összes jegy átlaga: ",
+  "all_average": "Total average: ",
   "@all_average": {
     "type": "text",
     "placeholders": {}
   },
-  "all_median": "Összes jegy mediánja: ",
+  "all_median": "Median of all grades:",
   "@all_median": {
     "type": "text",
     "placeholders": {}
   },
-  "all_mode": "Összes jegy módusza: ",
+  "all_mode": "Mode of all grades:",
   "@all_mode": {
     "type": "text",
     "placeholders": {}
   },
-  "averages": "Átlagok",
+  "averages": "Averages",
   "@averages": {
     "type": "text",
     "placeholders": {}
   },
-  "datas": "Adatok",
+  "datas": "Datas",
   "@datas": {
     "type": "text",
     "placeholders": {}
   },
-  "done": "kész",
+  "done": "done",
   "@done": {
     "type": "text",
     "placeholders": {}
   },
-  "timetable": "Órarend",
+  "timetable": "Timetable",
   "@timetable": {
     "type": "text",
     "placeholders": {}
   },
-  "no_lessons": "Úgy néz ki ezen a napon nincs órád :)",
+  "no_lessons": "Looks like you have no lessons this week :)",
   "@no_lessons": {
     "type": "text",
     "placeholders": {}
   },
-  "prev_week": "előző hét",
+  "prev_week": "previous week",
   "@prev_week": {
     "type": "text",
     "placeholders": {}
   },
-  "next_week": "következő hét",
+  "next_week": "next week",
   "@next_week": {
     "type": "text",
     "placeholders": {}
   },
-  "prev_day": "előző nap",
+  "prev_day": "previous day",
   "@prev_day": {
     "type": "text",
     "placeholders": {}
   },
-  "next_day": "következő nap",
+  "next_day": "next day",
   "@next_day": {
     "type": "text",
     "placeholders": {}
   },
-  "group": "osztály: ",
+  "group": "class: ",
   "@group": {
     "type": "text",
     "placeholders": {}
   },
-  "room": "terem: ",
+  "room": "room: ",
   "@room": {
     "type": "text",
     "placeholders": {}
   },
-  "lesson_start": "órakezdés: ",
+  "lesson_start": "start of lesson: ",
   "@lesson_start": {
     "type": "text",
     "placeholders": {}
   },
-  "lesson_end": "óra vége: ",
+  "lesson_end": "end of lesson: ",
   "@lesson_end": {
     "type": "text",
     "placeholders": {}
   },
-  "state": "állapot: ",
+  "state": "state: ",
   "@state": {
     "type": "text",
     "placeholders": {}
   },
-  "dep_teacher": "helyettesítő tanár",
+  "dep_teacher": "deputy teacher: ",
   "@dep_teacher": {
     "type": "text",
     "placeholders": {}
   },
-  "missed": "elmarad",
+  "missed": "canceled",
   "@missed": {
     "type": "text",
     "placeholders": {}
   },
-  "short_monday": "H",
+  "short_monday": "M",
   "@short_monday": {
     "type": "text",
     "placeholders": {}
   },
-  "short_tuesday": "K",
+  "short_tuesday": "Tu",
   "@short_tuesday": {
     "type": "text",
     "placeholders": {}
   },
-  "short_wednesday": "Sz",
+  "short_wednesday": "W",
   "@short_wednesday": {
     "type": "text",
     "placeholders": {}
   },
-  "short_thursday": "Cs",
+  "short_thursday": "Th",
   "@short_thursday": {
     "type": "text",
     "placeholders": {}
   },
-  "short_friday": "P",
+  "short_friday": "F",
   "@short_friday": {
     "type": "text",
     "placeholders": {}
   },
-  "short_saturday": "Sz",
+  "short_saturday": "Sa",
   "@short_saturday": {
     "type": "text",
     "placeholders": {}
   },
-  "short_sunday": "V",
+  "short_sunday": "Su",
   "@short_sunday": {
     "type": "text",
     "placeholders": {}
   },
-  "choose": "válassz",
+  "choose": "choose",
   "@choose": {
     "type": "text",
     "placeholders": {}
   },
-  "day": "nap",
+  "day": "day",
   "@day": {
     "type": "text",
     "placeholders": {}
   },
-  "week": "hét",
+  "week": "week",
   "@week": {
     "type": "text",
     "placeholders": {}
   },
-  "month": "hónap",
+  "month": "month",
   "@month": {
     "type": "text",
     "placeholders": {}
   },
-  "two_months": "két hónap",
+  "two_months": "two months",
   "@two_months": {
     "type": "text",
     "placeholders": {}
   },
-  "disclaimer": "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
+  "disclaimer": "This is an unofficial, nonprofit client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n",
   "@disclaimer": {
     "type": "text",
     "placeholders": {}
   },
-  "choose_username": "Kérlek add meg a felhasználónevedet!",
+  "choose_username": "Please enter a username!",
   "@choose_username": {
     "type": "text",
     "placeholders": {}
   },
-  "choose_password": "Kérlek add meg a jelszavadat!",
+  "choose_password": "Please enter a password.",
   "@choose_password": {
     "type": "text",
     "placeholders": {}
   },
-  "wrong_pass": "hibás felasználónév vagy jelszó",
+  "wrong_pass": "incorrect username or password",
   "@wrong_pass": {
     "type": "text",
     "placeholders": {}
   },
-  "network_error": "hálózati probléma",
+  "network_error": "network error",
   "@network_error": {
     "type": "text",
     "placeholders": {}
   },
-  "username": "felhasználónév",
+  "username": "username",
   "@username": {
     "type": "text",
     "placeholders": {}
   },
-  "username_hint": "oktatási azonosító 11-jegyű diákigazolványszám",
+  "username_hint": "student ID (the 11-digit number)",
   "@username_hint": {
     "type": "text",
     "placeholders": {}
   },
-  "password": "jelszó",
+  "password": "password",
   "@password": {
     "type": "text",
     "placeholders": {}
   },
-  "password_hint": "általában a születési dátum(pl.: 2000-01-02)",
+  "password_hint": "usually date of birth (e.g.: 2000-01-02)",
   "@password_hint": {
     "type": "text",
     "placeholders": {}
   },
-  "school": "Iskola: ",
+  "school": "School: ",
   "@school": {
     "type": "text",
     "placeholders": {}
   },
-  "choose_school_warning": "Válassz egy iskolát is",
+  "choose_school_warning": "Choose a school as well",
   "@choose_school_warning": {
     "type": "text",
     "placeholders": {}
   },
-  "login": "Bejelentkezés",
+  "login": "Login",
   "@login": {
     "type": "text",
     "placeholders": {}
   },
-  "choose_school": "Válassz iskolát:",
+  "choose_school": "Choose a school:",
   "@choose_school": {
     "type": "text",
     "placeholders": {}
   },
-  "lessons": "órák: {db} db",
+  "lessons": "lessons: {db}",
   "@lessons": {
     "type": "text",
     "placeholders": {
       "db": {}
     }
   },
-  "absence": "hiányzás",
+  "absence": "absences",
   "@absence": {
     "type": "text",
     "placeholders": {}
   },
-  "next_lesson": "Következő óra: ",
+  "next_lesson": "Next lesson: ",
   "@next_lesson": {
     "type": "text",
     "placeholders": {}
   },
-  "later": "múlva",
+  "later": "later",
   "@later": {
     "type": "text",
     "placeholders": {}
   },
-  "main_page": "Főoldal",
+  "main_page": "Mainpage",
   "@main_page": {
     "type": "text",
     "placeholders": {}
   },
-  "absences_title": "Hiányzások", 
-  "@absences_title": { 
+  "absences_title": "Absences",
+  "@absences_title": {
     "type": "text",
     "placeholders": {}
   },
-  "sort_time": "idő",         
-  "@sort_time": {     
+  "sort_time": "time",
+  "@sort_time": {
     "type": "text",
     "placeholders": {}
   },
-  "sort_eval": "jegy",        
-  "@sort_eval": {     
+  "sort_eval": "grade",
+  "@sort_eval": {
     "type": "text",
     "placeholders": {}
   },
-  "sort_subject": "tárgy",   
-  "@sort_subject": {  
+  "sort_subject": "subject",
+  "@sort_subject": {
     "type": "text",
     "placeholders": {}
   },
-  "if_i_got": "Ha kapnék egy...",
+  "if_i_got": "What if I got a...",
   "@if_i_got": {
     "type": "text",
     "placeholders": {}
   },
-   "language": "Nyelv",
-   "@language": {
-     "type": "text",
-     "placeholders": {}
-   },
-  "halfyear": "félévi",
+  "language": "Language",
+  "@language": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "halfyear": "half-year",
   "@halfyear": {
     "type": "text",
     "placeholders": {}
   },
-  "endyear": "év végi",
+  "endyear": "end-year",
   "@endyear": {
     "type": "text",
     "placeholders": {}
   },
-  "quarteryear": "negyedéves",
+  "quarteryear": "quarter-year",
   "@quarteryear": {
     "type": "text",
     "placeholders": {}
   },
-  "notworking": "nem működik",
+  "notworking": "not working",
   "@notworking": {
     "type": "text",
     "placeholders": {}
   },
-  "dep": "helyettesítés",
+  "dep": "substitution",
   "@dep": {
     "type": "text",
     "placeholders": {}
   },
-  "lesson": "óra",
+  "lesson": "lesson",
   "@lesson": {
     "type": "text",
     "placeholders": {}
   },
-  "blue": "kék",
+  "blue": "blue",
   "@blue": {
     "type": "text",
     "placeholders": {}
   },
-  "red": "piros",
+  "red": "red",
   "@red": {
     "type": "text",
     "placeholders": {}
   },
-  "green": "zöld",
+  "green": "green",
   "@green": {
     "type": "text",
     "placeholders": {}
   },
-  "yellow": "sárga",
+  "yellow": "yellow",
   "@yellow": {
     "type": "text",
     "placeholders": {}
   },
-  "orange": "narancssárga",
+  "orange": "orange",
   "@orange": {
     "type": "text",
     "placeholders": {}
   },
-  "grey": "szürke",
+  "grey": "grey",
   "@grey": {
     "type": "text",
     "placeholders": {}
   },
-  "color": "Szín",
+  "color": "Color",
   "@color": {
     "type": "text",
     "placeholders": {}
   },
-  "sync_on_data": "Szinkronizálás mobilinterneten",
+  "sync_on_data": "Sync on cellular network",
   "@sync_on_data": {
     "type": "text",
     "placeholders": {}
   }
-
 }

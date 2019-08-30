@@ -95,7 +95,6 @@ class RequestHelper {
 
     String evaluationsString =
     (await getEvaluations(code, instCode));
-    saveEvaluations(evaluationsString, user);
 
     return evaluationsString;
   }

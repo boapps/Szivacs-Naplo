@@ -1,28 +1,23 @@
-import '../Utils/Saver.dart';
 import 'dart:convert' show utf8, json;
+import 'package:flutter/material.dart';
 import '../globals.dart';
 import 'dart:async';
+import 'DBHelper.dart';
 
 class SettingsHelper {
-  Future<Map<String, dynamic>> _getSettings() async {
-    Map<String, dynamic> settings = new Map();
-    settings = await readSettings();
-    return settings;
-  }
-
-  void _setSettings(Map<String, dynamic> settings) {
-    saveSettings(json.encode(settings));
-  }
-
   void _setPropertyBool(String name, dynamic value) async {
     Map<String, dynamic> settings = new Map();
-    settings.addAll(await _getSettings());
+    try {
+      settings.addAll(await DBHelper().getSettingsMap());
+    } catch (e) {
+      print(e);
+    }
     settings[name] = value;
-    _setSettings(settings);
+    DBHelper().saveSettingsMap(settings);
   }
 
   dynamic _getProperty(String name, dynamic defaultValue) async {
-    Map<String, dynamic> settings = await _getSettings();
+    Map<String, dynamic> settings = await DBHelper().getSettingsMap();
     if (settings==null)
       settings = new Map();
     if (settings.containsKey(name))
@@ -109,5 +104,21 @@ class SettingsHelper {
 
   Future<bool> getCanSyncOnData() async {
     return await _getProperty("canSyncOnData", true);
+  }
+
+  void setEvalColor(int eval, Color color) {
+    _setPropertyBool("grade_${eval}_color", color.value);
+  }
+
+  static const List<Color> COLORS = [
+    Colors.red,
+    Colors.brown,
+    Colors.orange,
+    Color.fromARGB(255, 255, 241, 118),
+    Colors.green
+  ];
+
+  Future<Color> getEvalColor(int eval) async {
+    return Color(await _getProperty("grade_${eval}_color", COLORS[eval].value));
   }
 }

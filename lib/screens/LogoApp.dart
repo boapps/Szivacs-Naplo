@@ -1,7 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import '../PageRouteBuilder.dart';
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import '../main.dart';
 //todo refactor this
 class LogoApp extends StatefulWidget {
@@ -42,12 +42,16 @@ class WelcomeNewUserState extends State<LogoApp> with SingleTickerProviderStateM
                       child: new Row(
                         children: <Widget>[
                           new Text(
-                            AppLocalizations.of(context).title,
+                            S
+                                .of(context)
+                                .title,
                             style: TextStyle(
                                 fontSize: 40.0,
                                 color: Color.fromARGB(animation.value.toInt(), 0, 0, 0)),
                           ),
-                          new Text(" " + AppLocalizations.of(context).version_number,
+                          new Text(" " + S
+                              .of(context)
+                              .version_number,
                             style: TextStyle(
                                 color:
                                 Color.fromARGB(animation.value.toInt(), 68, 138, 255),
@@ -118,7 +122,9 @@ class AcceptTermsState extends StatelessWidget {
                 new Container(
                   alignment: Alignment(0, 0),
                   child: new SingleChildScrollView(
-                    child: new Text(AppLocalizations.of(context).disclaimer,
+                    child: new Text(S
+                        .of(context)
+                        .disclaimer,
                       style: TextStyle(
                         fontSize: 21.0,
                       ),

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../Datas/Absence.dart';
+import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
 import '../Dialog/AbsentDialog.dart';
@@ -14,14 +14,16 @@ import '../Utils/StringFormatter.dart';
 void main() {
   runApp(
       new MaterialApp(home: new AbsentsScreen(),
-    localizationsDelegates: [
-      AppLocalizationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate
-    ],
-    supportedLocales: [Locale("hu"), Locale("en")],
+        localizationsDelegates: const <
+            LocalizationsDelegate<WidgetsLocalizations>>[
+          S.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
     onGenerateTitle: (BuildContext context) =>
-    AppLocalizations.of(context).title,
+    S
+        .of(context)
+        .title,
   ));
 }
 
@@ -51,7 +53,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     initSelectedUser();
     setState(() {
       _getOffline();
-      _onRefresh();
+      //_onRefresh();
     });
   }
 
@@ -65,9 +67,11 @@ class AbsentsScreenState extends State<AbsentsScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(AppLocalizations.of(context).absent_title),
+              title: new Text(S
+                  .of(context)
+                  .absent_title),
               actions: <Widget>[
-                new IconButton(
+                Tooltip(child: new IconButton(
                     icon: new Icon(Icons.info),
                     onPressed: () {
                       return showDialog(
@@ -78,7 +82,11 @@ class AbsentsScreenState extends State<AbsentsScreen> {
                             },
                           ) ??
                           false;
-                    })
+                    }),
+                  message: S
+                      .of(context)
+                      .statistics,
+                ),
               ],
             ),
             body: new Container(
@@ -103,7 +111,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshAbsents(false, false);
+    await globals.selectedAccount.refreshStudentString(false);
     absents = globals.selectedAccount.absents;
 
     if (mounted)
@@ -122,7 +130,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshAbsents(false, true);
+    await globals.selectedAccount.refreshStudentString(true);
     absents = globals.selectedAccount.absents;
 
     if (mounted)
@@ -140,23 +148,40 @@ class AbsentsScreenState extends State<AbsentsScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(absence.typeName),
+          title: new Text(absence.TypeName),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).mode + absence.modeName),
-                new Text(AppLocalizations.of(context).subject + absence.subject),
-                new Text(AppLocalizations.of(context).teacher + absence.teacher),
-                new Text(AppLocalizations.of(context).absence_time +
-                    dateToHuman(absence.startTime)),
-                new Text(AppLocalizations.of(context).administration_time +
-                    dateToHuman(absence.creationTime)),
+                new Text(S
+                    .of(context)
+                    .mode + absence.ModeName),
+                new Text(S
+                    .of(context)
+                    .subject + absence.Subject),
+                new Text(S
+                    .of(context)
+                    .teacher + absence.Teacher),
+                new Text(S
+                    .of(context)
+                    .absence_time +
+                    dateToHuman(absence.LessonStartTime)),
+                new Text(S
+                    .of(context)
+                    .administration_time +
+                    dateToHuman(absence.CreatingTime)),
                 new Text(
-                    AppLocalizations.of(context).justification_state + absence.justificationStateName),
-                new Text(AppLocalizations.of(context).justification_mode + absence.justificationTypeName),
-                absence.delayMinutes != 0
+                    S
+                        .of(context)
+                        .justification_state + absence.JustificationStateName),
+                new Text(S
+                    .of(context)
+                    .justification_mode + absence.JustificationTypeName),
+                absence.DelayTimeMinutes != 0
                     ? new Text(
-                    AppLocalizations.of(context).delay_mins + absence.delayMinutes.toString())
+                    S
+                        .of(context)
+                        .delay_mins + absence.DelayTimeMinutes.toString() +
+                        " perc")
                     : new Container(),
               ],
             ),
@@ -218,12 +243,13 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     for (Absence absence in thisAbsence)
       children.add(new ListTile(
-        leading: new Icon(absence.delayMinutes == 0 ? iconifyState(absence.justificationState) : (Icons.watch_later),
-            color: colorifyState(absence.justificationState)),
-        title: new Text(absence.subject),
-        subtitle: new Text(absence.teacher),
+        leading: new Icon(absence.DelayTimeMinutes == 0 ? iconifyState(
+            absence.JustificationState) : (Icons.watch_later),
+            color: colorifyState(absence.JustificationState)),
+        title: new Text(absence.Subject),
+        subtitle: new Text(absence.Teacher),
         trailing: new Text(
-            dateToHuman(absence.startTime)),
+            dateToHuman(absence.LessonStartTime)),
         onTap: () {
           absenceDialog(absence);
         },
@@ -249,7 +275,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
           ),
           new Container(
             padding: EdgeInsets.all(10),
-            child: new Text(dateToHuman(thisAbsence[0].startTime) + dateToWeekDay(thisAbsence[0].startTime) + " " +
+            child: new Text(dateToHuman(thisAbsence[0].LessonStartTime) +
+                dateToWeekDay(thisAbsence[0].LessonStartTime) + " " +
                 "(" +
                 thisAbsence.length.toString() +
                 " db)"),

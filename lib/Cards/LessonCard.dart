@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 class LessonCard extends StatelessWidget {
   List<Lesson> lessons;
   int numOfAbsences;
   BuildContext context;
+  DateTime now;
 
-  LessonCard(List<Lesson> lessons, BuildContext context) {
+  LessonCard(List<Lesson> lessons, BuildContext context, DateTime now) {
+    this.now = now;
     this.lessons = lessons;
-    lessons.removeWhere((Lesson l) => l.start.day != DateTime.now().day);
+    lessons.removeWhere((Lesson l) => l.start.day != now.day);
     numOfAbsences = lessons.length;
     this.context = context;
   }
@@ -24,19 +26,23 @@ class LessonCard extends StatelessWidget {
 
   Lesson getNext() {
     for (Lesson l in lessons) {
-      if (l.start.isAfter(DateTime.now())) {
+      if (l.start.isAfter(now)) {
         return l;
       }
     }
   }
 
   String getDurToNext() {
-    return getNext().start.difference(DateTime.now()).inMinutes.toString();
+    return getNext().start
+        .difference(now)
+        .inMinutes
+        .toString();
   }
 
   String progress() {
     int n = 0;
-    for (Lesson lesson in lessons) if (lesson.start.day == DateTime.now().day) n++;
+    for (Lesson lesson in lessons)
+      if (lesson.start.day == now.day) n++;
     return (lessons.indexWhere((Lesson l) => l.id==getNext().id) + 1).toString() + "/" + n.toString();
   }
 
@@ -57,13 +63,28 @@ class LessonCard extends StatelessWidget {
                   return new Column(
                       children: <Widget>[
                         new ListTile(
-                          title: new Text(l.subject, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
+                          title: new Text(l.subject, style: new TextStyle(
+                              color: (l.end.isBefore(now))
+                                  ? Colors.grey
+                                  : null),),
                           enabled: true,
                           onTap: null,
-                          subtitle: new Text(l.teacher, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),
-                          leading: new Container(child: new Text(l.count.toString(), style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null, fontSize: 21),), alignment: Alignment(0, 1), height: 40,width: 20,),
+                          subtitle: new Text(l.teacher, style: new TextStyle(
+                              color: (l.end.isBefore(now))
+                                  ? Colors.grey
+                                  : null),),
+                          leading: new Container(child: new Text(
+                            l.count.toString(), style: new TextStyle(
+                              color: (l.end.isBefore(now)) ? Colors.grey : null,
+                              fontSize: 21),),
+                            alignment: Alignment(0, 1),
+                            height: 40,
+                            width: 20,),
                         ),
-                        new Container(child: new Text(l.room, style: new TextStyle(color: (l.end.isBefore(DateTime.now())) ? Colors.grey:null),),alignment: Alignment(1, 0),),
+                        new Container(child: new Text(l.room,
+                          style: new TextStyle(color: (l.end.isBefore(now))
+                              ? Colors.grey
+                              : null),), alignment: Alignment(1, 0),),
                         new Divider(color: Colors.blueGrey,),
                       ]);
                 }).toList()
@@ -95,7 +116,9 @@ class LessonCard extends StatelessWidget {
               child: Wrap(
                 children: <Widget>[
                   new Text(
-                    AppLocalizations.of(context).next_lesson,
+                    S
+                        .of(context)
+                        .next_lesson,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
@@ -109,12 +132,16 @@ class LessonCard extends StatelessWidget {
                       )),
                   Container(
                     padding: EdgeInsets.only(right: 5),
-                    child: new Text(getDurToNext() + " " + AppLocalizations.of(context).minute,
+                    child: new Text(getDurToNext() + " " + S
+                        .of(context)
+                        .minute,
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
                   new Text(
-                    AppLocalizations.of(context).later,
+                    S
+                        .of(context)
+                        .later,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),

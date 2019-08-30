@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 import '../Datas/Note.dart';
 import '../GlobalDrawer.dart';
-import '../Helpers/LocaleHelper.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 
@@ -42,7 +42,9 @@ class NotesScreenState extends State<NotesScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(AppLocalizations.of(context).notes),
+              title: new Text(S
+                  .of(context)
+                  .notes),
               actions: <Widget>[],
             ),
             body: new Container(
@@ -66,7 +68,7 @@ class NotesScreenState extends State<NotesScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
 
-    globals.selectedAccount.refreshNotes(false, false);
+    globals.selectedAccount.refreshStudentString(false);
     notes = globals.selectedAccount.notes;
 
     hasLoaded = true;
@@ -83,7 +85,7 @@ class NotesScreenState extends State<NotesScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
 
-    globals.selectedAccount.refreshNotes(false, true);
+    globals.selectedAccount.refreshStudentString(true);
     notes = globals.selectedAccount.notes;
 
     hasOfflineLoaded = true;

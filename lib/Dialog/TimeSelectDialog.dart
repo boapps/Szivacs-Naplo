@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 class TimeSelectDialog extends StatefulWidget {
   const TimeSelectDialog();
@@ -20,10 +20,21 @@ class TimeSelectDialogState extends State<TimeSelectDialog> {
   }
 
   Widget build(BuildContext context) {
-    List<String> timeOptionList = [AppLocalizations.of(context).day, AppLocalizations.of(context).week, AppLocalizations.of(context).month, AppLocalizations.of(context).two_months];
+    List<String> timeOptionList = [S
+        .of(context)
+        .day, S
+        .of(context)
+        .week, S
+        .of(context)
+        .month, S
+        .of(context)
+        .two_months
+    ];
 
     return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).time),
+      title: new Text(S
+          .of(context)
+          .time),
       contentPadding: const EdgeInsets.all(10.0),
       children: <Widget>[
         new PopupMenuButton<String>(

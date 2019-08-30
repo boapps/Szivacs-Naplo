@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../Datas/Absence.dart';
-import '../Helpers/LocaleHelper.dart';
+
+import '../Datas/Student.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
 
@@ -31,10 +32,10 @@ class AbsentDialogState extends State<AbsentDialog> {
           sumOfParentalAbsences++;
         if (absencesOnDay[0].owner.isSelected())
           for (Absence absence in absencesOnDay)
-            if (absence.delayMinutes == 0)
+            if (absence.DelayTimeMinutes == 0)
               sumOfAllAbsences++;
             else
-              sumOfDelayMinutes += absence.delayMinutes;
+              sumOfDelayMinutes += absence.DelayTimeMinutes;
       });
     });
   }
@@ -47,20 +48,38 @@ class AbsentDialogState extends State<AbsentDialog> {
 
   Widget build(BuildContext context) {
     return new SimpleDialog(
-        title: new Text(AppLocalizations.of(context).statistics),
+        title: new Text(S
+            .of(context)
+            .statistics),
+        titlePadding: EdgeInsets.all(16),
         contentPadding: const EdgeInsets.all(5.0),
         children: <Widget>[
-          new Text(
-            AppLocalizations.of(context).parental_justification(sumOfParentalAbsences),
+          Container(child: new Text(
+            S
+                .of(context)
+                .parental_justification
+                .replaceFirst("{{ amount }}", sumOfParentalAbsences.toString()),
             style: TextStyle(fontSize: 16.0),
           ),
-          new Text(
-            AppLocalizations.of(context).all_absences(sumOfAllAbsences),
+            margin: EdgeInsets.all(8),
+          ),
+          Container(child: new Text(
+            S
+                .of(context)
+                .all_absences
+                .replaceFirst("{{ amount }}", sumOfAllAbsences.toString()),
             style: TextStyle(fontSize: 16.0),
           ),
-          new Text(
-            AppLocalizations.of(context).all_delay(sumOfDelayMinutes),
+            margin: EdgeInsets.all(8),
+          ),
+          Container(child: new Text(
+            S
+                .of(context)
+                .all_delay
+                .replaceFirst("{{ amount }}", sumOfDelayMinutes.toString()),
             style: TextStyle(fontSize: 16.0),
+          ),
+            margin: EdgeInsets.all(8),
           ),
         ]);
   }

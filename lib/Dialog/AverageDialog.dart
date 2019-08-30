@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../Datas/Average.dart';
-import '../Datas/Evaluation.dart';
+import '../Datas/Student.dart';
 import '../globals.dart' as globals;
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 class AverageDialog extends StatefulWidget {
   const AverageDialog();
@@ -30,16 +30,27 @@ class AverageDialogState extends State<AverageDialog> {
   Widget build(BuildContext context) {
     widgets.clear();
     averages = globals.selectedAccount.averages;
-    evaluations = globals.selectedAccount.evaluations;
-    evaluations.removeWhere((Evaluation e) => e.numericValue == 0
-        || e.mode=="Na" || e.weight == null || e.weight == "-");
+    evaluations = globals.selectedAccount.student.Evaluations;
+    evaluations.removeWhere((Evaluation e) =>
+    e.NumberValue == 0
+        || e.Mode == "Na" || e.Weight == null || e.Weight == "-");
 
     List<String> avrChoice = [
-      AppLocalizations.of(context).average,
-    AppLocalizations.of(context).halfyear,
-    AppLocalizations.of(context).quarteryear
-        + " (${AppLocalizations.of(context).notworking})",
-    AppLocalizations.of(context).endyear
+      S
+          .of(context)
+          .average_menu,
+      S
+          .of(context)
+          .halfyear,
+      S
+          .of(context)
+          .quarteryear
+          + " (${S
+          .of(context)
+          .notworking})",
+      S
+          .of(context)
+          .endyear
     ];
 
     widgets.add(
@@ -47,6 +58,7 @@ class AverageDialogState extends State<AverageDialog> {
         child: new DropdownButton<int>(items: [0, 1, 2, 3].map((int choice){
           return DropdownMenuItem<int>(child: Text(avrChoice[choice]), value: choice,);
         }).toList(), onChanged: onChanged, value: pageID,),
+        margin: EdgeInsets.all(10),
       )
     );
 
@@ -67,7 +79,9 @@ class AverageDialogState extends State<AverageDialog> {
     });
 
     return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).averages),
+      title: new Text(S
+          .of(context)
+          .averages),
       contentPadding: const EdgeInsets.all(10.0),
       children: widgets,
     );
@@ -89,40 +103,53 @@ class AverageDialogState extends State<AverageDialog> {
       case 0: // sima átlagok
         for (Average average in averages)
           if (average.value >= 1 && average.value <= 5) currentAvers.add(average);
-        currentAvers.add(Average(AppLocalizations.of(context).all_average, "",
+        currentAvers.sort((Average a, Average b) {
+          return a.subject.compareTo(b.subject);
+        });
+        currentAvers.add(Average(S
+            .of(context)
+            .all_average, "",
             "", getAllAverages(), 0, 0));
         break;
       case 1: // félévi jegyek
         for (Evaluation evaluation in evaluations)
           if (evaluation.isHalfYear())
-            currentAvers.add(Average(evaluation.subject,
-                evaluation.subjectCategory, evaluation.subject,
-                evaluation.numericValue / 1, 0, 0));
+            currentAvers.add(Average(evaluation.Subject,
+                evaluation.SubjectCategory, evaluation.Subject,
+                evaluation.NumberValue / 1, 0, 0));
+        currentAvers.sort((Average a, Average b) {
+          return a.subject.compareTo(b.subject);
+        });
         break;
       case 2: // TODO negyedéves jegyek
         break;
       case 3: // év végi jegyek
 	  	for (Evaluation evaluation in evaluations)
 			if (evaluation.isEndYear())
-			  currentAvers.add(Average(evaluation.subject,
-				  evaluation.subjectCategory, evaluation.subject,
-				  evaluation.numericValue / 1, 0, 0));
-        break;
+        currentAvers.add(Average(evaluation.Subject,
+            evaluation.SubjectCategory, evaluation.Subject,
+            evaluation.NumberValue / 1, 0, 0));
+      currentAvers.sort((Average a, Average b) {
+        return a.subject.compareTo(b.subject);
+      });
+      break;
     }
+
   }
 
   double getAllAverages() {
     double sum = 0;
     double n = 0;
     for (Evaluation evaluation in evaluations) {
-      if (evaluation.numericValue!=0 && evaluation.isMidYear()) {
+      if (evaluation.NumberValue != 0 && evaluation.isMidYear()) {
         double multiplier = 1;
         try {
-          multiplier = double.parse(evaluation.weight.replaceAll("%", "")) / 100;
+          multiplier =
+              double.parse(evaluation.Weight.replaceAll("%", "")) / 100;
         } catch (e) {
           print(e);
         }
-        sum += evaluation.numericValue * multiplier;
+        sum += evaluation.NumberValue * multiplier;
         n += multiplier;
       }
     }

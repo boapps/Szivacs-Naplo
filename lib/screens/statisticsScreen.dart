@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import '../GlobalDrawer.dart';
 import '../globals.dart' as globals;
 import '../Datas/Average.dart';
-import '../Datas/Evaluation.dart';
+import '../Datas/Student.dart';
 import 'package:charts_flutter/flutter.dart';
-import '../Helpers/LocaleHelper.dart';
 import '../Utils/StringFormatter.dart';
+import 'package:e_szivacs/generated/i18n.dart';
+import 'dart:convert' show utf8, json;
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -51,13 +52,25 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         color = MaterialPalette.green.shadeDefault;
         break;
       case 3:
-        color = MaterialPalette.yellow.shadeDefault;
+        color = MaterialPalette.green.shadeDefault;
         break;
       case 4:
-        color = MaterialPalette.deepOrange.shadeDefault;
+        color = MaterialPalette.yellow.shadeDefault;
         break;
       case 5:
-        color = MaterialPalette.black;
+        color = MaterialPalette.deepOrange.shadeDefault;
+        break;
+      case 6:
+        color = MaterialPalette.gray.shadeDefault;
+        break;
+      case 7:
+        color = MaterialPalette.pink.shadeDefault;
+        break;
+      case 8:
+        color = MaterialPalette.purple.shadeDefault;
+        break;
+      case 9:
+        color = MaterialPalette.teal.shadeDefault;
         break;
     }
 
@@ -68,14 +81,15 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void initEvals() async {
-    await globals.selectedAccount.refreshEvaluations(false, true);
-    evals = globals.selectedAccount.evaluations;
-    evals.removeWhere((Evaluation evaluation) => evaluation.numericValue == 0 || 
-        evaluation.mode=="Na" || evaluation.weight == null || 
-        evaluation.weight == "-" || !evaluation.isMidYear());
+    await globals.selectedAccount.refreshStudentString(true);
+    evals = globals.selectedAccount.student.Evaluations;
+    evals.removeWhere((Evaluation evaluation) =>
+    evaluation.NumberValue == 0 ||
+        evaluation.Mode == "Na" || evaluation.Weight == null ||
+        evaluation.Weight == "-" || !evaluation.isMidYear());
     _onSelect(averages[0]);
     for (Evaluation e in evals)
-      switch(e.numericValue){
+      switch (e.NumberValue) {
         case 1:
           db1++;
           break;
@@ -107,14 +121,14 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     double sum = 0;
     double n = 0;
     for (Evaluation e in evals) {
-      if (e.numericValue!=0) {
+      if (e.NumberValue != 0) {
         double multiplier = 1;
         try {
-          multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
+          multiplier = double.parse(e.Weight.replaceAll("%", "")) / 100;
         } catch (e) {
           print(e);
         }
-        sum += e.numericValue * multiplier;
+        sum += e.NumberValue * multiplier;
         n += multiplier;
       }
     }
@@ -125,7 +139,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   double getMedian() {
     List<int> jegyek = new List();
     for (Evaluation e in evals)
-      jegyek.add(e.numericValue);
+      jegyek.add(e.NumberValue);
     jegyek.sort();
     if (!jegyek.length.isEven)
       return jegyek[((jegyek.length+1)/2).round()]/1;
@@ -142,12 +156,15 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void _initStats() async {
-    await globals.selectedAccount.refreshAverages(false, true);
+    await globals.selectedAccount.refreshStudentString(true);
     setState(() {
       averages = globals.selectedAccount.averages ?? List();
       averages.removeWhere((Average average) => average.value < 1);
       if (averages == null || averages.isEmpty)
         averages = [Average("", "", "", 0.0, 0.0, 0.0)];
+      averages.sort((Average a, Average b) {
+        return a.subject.compareTo(b.subject);
+      });
       selectedAverage = averages[0];
       globals.selectedAverage = selectedAverage;
       avrString = selectedAverage.value.toString();
@@ -176,13 +193,13 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     });
 
     for (Evaluation e in evals.reversed) {
-      if (e.numericValue != 0) {
-        if (average.subject == e.subject) {
+      if (e.NumberValue != 0) {
+        if (average.subject == e.Subject) {
           globals.currentEvals.add(e);
           setState(() {
             timeData.add(new TimeAverage(
-                e.date,
-                e.numericValue));
+                e.Date,
+                e.NumberValue));
             series = [
               new Series(
                 displayName: "asd",
@@ -206,19 +223,19 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       double sum = 0;
       double n = 0;
       for (Evaluation e in globals.currentEvals) {
-        if (e.numericValue != 0) {
+        if (e.NumberValue != 0) {
           double multiplier = 1;
           try {
-            multiplier = double.parse(e.weight.replaceAll("%", "")) / 100;
+            multiplier = double.parse(e.Weight.replaceAll("%", "")) / 100;
           } catch (e) {
             print(e);
           }
 
-          sum += e.numericValue * multiplier;
+          sum += e.NumberValue * multiplier;
           n += multiplier;
 
           setState(() {
-            timeData.add(new TimeAverage(e.date, e.numericValue));
+            timeData.add(new TimeAverage(e.Date, e.NumberValue));
             series = [
               new Series(
                 displayName: "asd",
@@ -261,7 +278,9 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).grade1, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .grade1, style: TextStyle(fontSize: 21),),
                 new Text(db1.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -269,28 +288,36 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).grade2, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .grade2, style: TextStyle(fontSize: 21),),
                 new Text(db2.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).grade3, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .grade3, style: TextStyle(fontSize: 21),),
                 new Text(db3.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).grade4, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .grade4, style: TextStyle(fontSize: 21),),
                 new Text(db4.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).grade5, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .grade5, style: TextStyle(fontSize: 21),),
                 new Text(db5.toString() + " db", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -298,21 +325,27 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             new Divider(),
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).all_average, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .all_average, style: TextStyle(fontSize: 21),),
                 new Text(allAverage != null ? allAverage.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).all_median, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .all_median, style: TextStyle(fontSize: 21),),
                 new Text(allMedian != null ? allMedian.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             Row(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).all_mode, style: TextStyle(fontSize: 21),),
+                new Text(S
+                    .of(context)
+                    .all_mode, style: TextStyle(fontSize: 21),),
                 new Text(allMode != null ? allMode.toString():"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -349,7 +382,9 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Text(AppLocalizations.of(context).average),
+                  new Text(S
+                      .of(context)
+                      .average),
                   new Text(
                     avrString,
                     style: TextStyle(
@@ -357,13 +392,19 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   new Container(padding: EdgeInsets.only(left: 10),),
-                  new Text(AppLocalizations.of(context).class_average),
-                  new Text(
+                  selectedAverage != null ? selectedAverage.classValue != null
+                      ? new Text(S
+                      .of(context)
+                      .class_average)
+                      : Container() : Container(),
+                  selectedAverage != null ? selectedAverage.classValue != null
+                      ? new Text(
                     selectedAverage.classValue.toString(),
                     style: TextStyle(
                         color: Theme.of(context).accentColor,
                         fontWeight: FontWeight.bold),
-                  ),
+                  )
+                      : Container() : Container(),
                 ],
               ),
               new Container(
@@ -375,7 +416,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                       showAxisLine: true,
                     ),
                   ),
-                  height: 200,
+                  height: 150,
                 ),
               ),
               new Flexible(child:
@@ -403,18 +444,24 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: new Icon(Icons.insert_chart),
-                title: new Text(AppLocalizations.of(context).averages),
+                title: new Text(S
+                    .of(context)
+                    .averages),
               ),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.info),
-                title: new Text(AppLocalizations.of(context).datas),
+                title: new Text(S
+                    .of(context)
+                    .datas),
               ),
             ],
             onTap: switchToScreen,
             ),
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(AppLocalizations.of(context).statistics),
+              title: new Text(S
+                  .of(context)
+                  .statistics),
               actions: <Widget>[
                 currentBody==0 ? new FlatButton(
                   onPressed: () {
@@ -455,24 +502,24 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           new ListTile(
             leading: new Container(
               child: new Text(
-                globals.currentEvals[index].numericValue.toString(),
+                  globals.currentEvals[index].NumberValue.toString(),
                 textScaleFactor: 2.0,
                 style: TextStyle(color: globals.currentEvals[index].color)
               ),
               padding: EdgeInsets.only(left: 8.0),
             ),
-            title: new Text(globals.currentEvals[index].subject),
-            subtitle: new Text(globals.currentEvals[index].theme),
+            title: new Text(globals.currentEvals[index].Subject),
+            subtitle: new Text(globals.currentEvals[index].Theme),
             trailing: new Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 new Column(
                   children: <Widget>[
-                    new Text(dateToHuman(globals.currentEvals[index].date)),
-                    new Text(dateToWeekDay(globals.currentEvals[index].date)),
+                    new Text(dateToHuman(globals.currentEvals[index].Date)),
+                    new Text(dateToWeekDay(globals.currentEvals[index].Date)),
                   ],
                 ),
-                globals.currentEvals[index].mode == "Hamis"
+                globals.currentEvals[index].Mode == "Hamis"
                     ? new Container(
                         padding: EdgeInsets.all(0.0),
                         margin: EdgeInsets.all(0),
@@ -513,28 +560,46 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(evaluation.subject + " " + evaluation.value),
+          title: new Text(evaluation.Subject + " " + evaluation.Value),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                evaluation.theme != ""
-                    ? new Text(AppLocalizations.of(context).theme + evaluation.theme)
+                evaluation.Theme != ""
+                    ? new Text(S
+                    .of(context)
+                    .theme + evaluation.Theme)
                     : new Container(),
-                new Text(AppLocalizations.of(context).teacher + evaluation.teacher),
-                new Text(AppLocalizations.of(context).time +
-                    dateToHuman(evaluation.date)),
-                new Text(AppLocalizations.of(context).mode + evaluation.mode),
-                new Text(AppLocalizations.of(context).administration_time +
-                    dateToHuman(evaluation.creationDate)),
-                new Text(AppLocalizations.of(context).weight + evaluation.weight),
-                new Text(AppLocalizations.of(context).value + evaluation.value),
-                new Text(AppLocalizations.of(context).range + evaluation.range),
+                new Text(S
+                    .of(context)
+                    .teacher + evaluation.Teacher),
+                new Text(S
+                    .of(context)
+                    .time +
+                    dateToHuman(evaluation.Date)),
+                new Text(S
+                    .of(context)
+                    .mode + evaluation.Mode),
+                new Text(S
+                    .of(context)
+                    .administration_time +
+                    dateToHuman(evaluation.CreatingTime)),
+                new Text(S
+                    .of(context)
+                    .weight + evaluation.Weight),
+                new Text(S
+                    .of(context)
+                    .value + evaluation.Value),
+                new Text(S
+                    .of(context)
+                    .range + evaluation.FormName),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text(AppLocalizations.of(context).ok),
+              child: new Text(S
+                  .of(context)
+                  .ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -575,7 +640,9 @@ class GradeDialogState extends State<GradeDialog> {
   Widget build(BuildContext context) {
     return new SimpleDialog(
       contentPadding: EdgeInsets.all(0),
-      title: new Text(AppLocalizations.of(context).if_i_got),
+      title: new Text(S
+          .of(context)
+          .if_i_got),
       children: <Widget>[
         Container(
           child: Row(
@@ -696,29 +763,48 @@ class GradeDialogState extends State<GradeDialog> {
         new FlatButton(
           onPressed: () {
             setState(() {
-              Evaluation falseGrade = new Evaluation(
-                  0,
-                  "",
-                  "",
-                  "",
-                  globals.selectedAverage.subject,
-                  globals.selectedAverage.subjectCategory,
-                  "Hamis",
-                  isTZ ? (weight+"%") : "100%",
-                  jegy.toString(),
-                  jegy,
-                  "",
-                  DateTime.now(),
-                  DateTime.now(),
-                  "");
-              falseGrade.owner = globals.selectedUser;
+              Evaluation falseGrade = Evaluation.fromMap(json.decode("""
+              {
+      "EvaluationId": 12345678,
+      "Form": "Mark",
+      "FormName": "Elégtelen (1) és Jeles (5) között az öt alapértelmezett érték",
+      "Type": "MidYear",
+      "TypeName": "Évközi jegy/értékelés",
+      "Subject": "Xxxxxxxx",
+      "SubjectCategory": null,
+      "SubjectCategoryName": "Xxxxxxxx",
+      "Theme": "xxxxxxx",
+      "IsAtlagbaBeleszamit": true,
+      "Mode": "Gyakorlati feladat",
+      "Weight": "100%",
+      "Value": "Jeles(5)",
+      "NumberValue": 5,
+      "SeenByTutelaryUTC": null,
+      "Teacher": "Xxxxxxxx Xxxxxxxx",
+      "Date": "2019-06-07T00:00:00",
+      "CreatingTime": "2019-06-07T08:00:00.000",
+      "Jelleg": {
+        "Id": 1,
+        "Nev": "Ertekeles",
+        "Leiras": "Értékelés"
+      },
+      "JellegNev": "Ertekeles",
+      "ErtekFajta": {
+        "Id": 1,
+        "Nev": "Osztalyzat",
+        "Leiras": "Osztályzat"
+      }
+    }
+              """), globals.selectedUser);
               globals.currentEvals.add(falseGrade);
               this.widget.callback();
               Navigator.pop(context);
             });
           },
           child: new Text(
-            AppLocalizations.of(context).done,
+            S
+                .of(context)
+                .done,
             style: TextStyle(color: Theme.of(context).accentColor),
           ),
           padding: EdgeInsets.all(10),

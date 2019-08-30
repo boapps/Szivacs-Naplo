@@ -3,10 +3,9 @@ import 'dart:convert' show json, ascii, base64, utf8;
 import 'dart:io';
 
 import '../Datas/User.dart';
+import '../Helpers/DBHelper.dart';
 import '../main.dart';
-import 'PlainSaver.dart' as PS;
-import 'AccountManager.dart' ;
-
+import 'package:flutter/material.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 //import 'package:pointycastle/random/fortuna_random.dart';
@@ -173,17 +172,47 @@ Future<File> saveSettings(String settingsString) async {
 }
 
 void migrate() async {
-  saveSettings(json.encode(await PS.readSettings()));
+  List<Map<String, dynamic>> userMap = new List();
+  String data = (await userFile).readAsStringSync();
+  List<dynamic> userList = json.decode(data);
+  for (dynamic d in userList)
+    userMap.add(d as Map<String, dynamic>);
 
-  String usrs = await (await userFile).readAsString();
-  (await userFile).writeAsString(await doEncrypt(usrs));
+  List<User> users = new List();
+  if (userMap.isNotEmpty)
+    for (Map<String, dynamic> m in userMap)
+      users.add(User.fromJson(m));
+  List<Color> colors = [
+    Colors.blue,
+    Colors.green,
+    Colors.red,
+    Colors.black,
+    Colors.brown,
+    Colors.orange
+  ];
+  Iterator<Color> cit = colors.iterator;
+  for (User u in users) {
+    cit.moveNext();
+    if (u.color.value == 0)
+      u.color = cit.current;
+  }
 
-  List<User> users = await AccountManager().getUsers();
+  DBHelper().saveUsersJson(users);
 
-  for (User u in users){
-    saveEvaluations(json.encode(await PS.readEvaluations(u)), u);
-    saveEvents(json.encode(await PS.readEvents(u)), u);
-    saveHomework(json.encode(await PS.readHomework(u)), u);
+  (await _localSettings).delete();
+  var dir = new Directory(await _localFolder);
+  List contents = dir.listSync();
+  for (var fileOrDir in contents) {
+    if (fileOrDir is File) {
+      print(fileOrDir.path);
+      if (fileOrDir.path.contains("/timetable_") ||
+          fileOrDir.path.contains("/evaluations_") ||
+          fileOrDir.path.contains("/events_") ||
+          fileOrDir.path.contains("/users.json") ||
+          fileOrDir.path.contains("/settings.json")) {
+        fileOrDir.delete();
+      }
+    }
   }
 
   main();
@@ -194,47 +223,16 @@ Future<File> get userFile async {
   return new File('$path/users.json');
 }
 
-Future<File> saveUsers(List<User> users) async {
-  print("save");
-  final file = await userFile;
-  List<Map<String, dynamic>> userMap = new List();
-  for (User user in users)
-    userMap.add(user.toMap());
-  return file.writeAsString(await doEncrypt(json.encode(userMap)));
+Future<void> saveUsers(List<User> users) async {
+  await DBHelper().saveUsersJson(users);
 }
 
 Future<List<Map<String, dynamic>>> readUsers() async {
-  List<Map<String, dynamic>> userMap = new List();
-  final file = await userFile;
-  String contents;
-  List<dynamic> userlist = new List<dynamic>();
-  try {
-    contents = await doDecrypt(await file.readAsString());
-    userlist = json.decode(contents);
-  } catch (error) {
-    print(error);
-    contents = "";
-  }
-
-  for (dynamic d in userlist)
-    userMap.add(d as Map<String, dynamic>);
-
-  return userMap;
+  return await DBHelper().getUserJson();
 }
 
 Future<bool> get shouldMigrate async {
-  return false;
-  try {
-    final file = await userFile;
-    String contents;
-    contents = file.readAsStringSync();
-    if (contents == "")
-      return false;
-    return (contents.contains("username" ) && contents.contains("password"));
-  } catch (e) {
-    print(e);
-    return false;
-  }
+  return (await userFile).exists();
 }
 
 Future<Map<String, dynamic>> readSettings() async {

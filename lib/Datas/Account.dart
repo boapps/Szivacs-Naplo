@@ -1,34 +1,52 @@
+import 'dart:convert' show utf8, json;
+
 import 'User.dart';
-import 'Evaluation.dart';
-import 'Absence.dart';
 import 'Note.dart';
 import 'Average.dart';
+import 'Student.dart';
+import '../globals.dart';
+import '../Helpers/DBHelper.dart';
 import '../Helpers/RequestHelper.dart';
-import '../Helpers/EvaluationHelper.dart';
 import '../Helpers/AbsentHelper.dart';
 import '../Helpers/AverageHelper.dart';
 import '../Helpers/NotesHelper.dart';
 import '../Utils/Saver.dart';
 
 class Account {
+  Student student;
+
   User user;
-  String _studentString;
+  Map _studentJson;
   String _eventsString;
-  List<Evaluation> evaluations;
   Map<String, List<Absence>> absents;
   List<Note> notes;
   List<Average> averages;
+
   //todo add a Bearer token here
 
   Account(User user) {
     this.user = user;
   }
 
-  Future<void> _refreshStudentString(bool isOffline) async {
-    if (isOffline)
-      _studentString = await readStudent(user);
-    else
-      _studentString = await RequestHelper().getStudentString(user);
+  Future<void> refreshStudentString(bool isOffline) async {
+    if (isOffline && _studentJson == null) {
+      try {
+        _studentJson = await DBHelper().getStudentJson(user);
+      } catch (e) {
+        print(e);
+      }
+    } else if (!isOffline) {
+      _studentJson = json.decode(await RequestHelper().getStudentString(user));
+      await DBHelper().addStudentJson(_studentJson, user);
+    }
+
+    student = Student.fromMap(_studentJson, user);
+    absents = await AbsentHelper().getAbsentsFrom(student.Absences);
+    await _refreshEventsString(isOffline);
+    notes = await NotesHelper().getNotesFrom(
+        _eventsString, json.encode(_studentJson), user);
+    averages =
+    await AverageHelper().getAveragesFrom(json.encode(_studentJson), user);
   }
 
   Future<void> _refreshEventsString(bool isOffline) async {
@@ -38,32 +56,7 @@ class Account {
       _eventsString = await RequestHelper().getEventsString(user);
   }
 
-  Future<void> refreshEvaluations(bool isForced, bool isOffline) async {
-    if (_studentString == null || isForced)
-      await _refreshStudentString(isOffline);
-    evaluations = await EvaluationHelper().getEvaluationsFrom(_studentString, user);
-  }
-
-  Future<void> refreshAbsents(bool isForced, bool isOffline) async {
-    if (_studentString == null || isForced)
-      await _refreshStudentString(isOffline);
-    absents = await AbsentHelper().getAbsentsFrom(_studentString, user);
-  }
-
-  Future<void> refreshNotes(bool isForced, bool isOffline) async {
-    if (_studentString == null || isForced)
-      await _refreshStudentString(isOffline);
-    if (_eventsString == null || isForced)
-      await _refreshEventsString(isOffline);
-    notes = await NotesHelper().getNotesFrom(_eventsString, _studentString, user);
-  }
-
-  Future<void> refreshAverages(bool isForced, bool isOffline) async {
-    if (_studentString == null || isForced)
-      await _refreshStudentString(isOffline);
-    averages = await AverageHelper().getAveragesFrom(_studentString, user);
-  }
-
-  List<Evaluation> get midyearEvaluations => evaluations.where(
-          (Evaluation evaluation) => evaluation.isMidYear()).toList();
+  List<Evaluation> get midyearEvaluations =>
+      student.Evaluations.where(
+              (Evaluation evaluation) => evaluation.isMidYear()).toList();
 }

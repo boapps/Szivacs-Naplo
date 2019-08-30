@@ -10,7 +10,7 @@ import '../Helpers/TimetableHelper.dart';
 import '../globals.dart' as globals;
 import '../Utils/ModdedTabs.dart' as MT;
 import "../Utils/StringFormatter.dart";
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 void main() {
   runApp(new MaterialApp(home: new TimeTableScreen()));
@@ -23,7 +23,10 @@ class TimeTableScreen extends StatefulWidget {
 }
 
 class TimeTableScreenState extends State<TimeTableScreen> with
-    SingleTickerProviderStateMixin{
+    TickerProviderStateMixin {
+  // for testing
+  //DateTime get now => DateTime.parse("2019-06-12 08:00:00Z");
+  DateTime get now => DateTime.now();
 
   TabController _tabController;
 
@@ -48,16 +51,51 @@ class TimeTableScreenState extends State<TimeTableScreen> with
     refreshWeek();
   }
 
+  int getInitIndex(Week week, DateTime date) {
+    int index = 0;
+    List<List<Lesson>> realWeek = [
+      week.monday,
+      week.tuesday,
+      week.wednesday,
+      week.thursday,
+      week.friday,
+      week.saturday,
+      week.sunday
+    ];
+    for (int i = 0; i < date.weekday - 1; i++) {
+      if (realWeek[i].isNotEmpty)
+        index++;
+    }
+    return index;
+  }
+
   void refreshWeek() async {
-    DateTime startDate = new DateTime.now();
+    DateTime startDate = now;
     startDate = startDate.add(
         new Duration(days: (-1 * startDate.weekday + 1 + 7 * relativeWeek)));
     setState(() {
       startDateText = startDate;
     });
 
-    lessonsWeek = await getWeek(startDate, true);
-    lessonsWeek = await getWeek(startDate, false);
+    getWeek(startDate, true).then((Week week) {
+      lessonsWeek = week;
+      setState(() {
+        _tabController = new TabController(vsync: this, length: lessonsWeek
+            .dayList()
+            .length,
+            initialIndex: getInitIndex(lessonsWeek, now));
+      });
+    });
+    getWeek(startDate, false).then((Week week) {
+      lessonsWeek = week;
+      setState(() {
+        _tabController = new TabController(vsync: this, length: lessonsWeek
+            .dayList()
+            .length,
+            initialIndex: getInitIndex(lessonsWeek, now));
+      });
+    });
+
   }
 
   void initSelectedUser() async {
@@ -71,12 +109,10 @@ class TimeTableScreenState extends State<TimeTableScreen> with
   void initState() {
     super.initState();
     initSelectedUser();
-    startDateText = new DateTime.now();
+    startDateText = now;
     startDateText = startDateText.add(new Duration(
         days: (-1 * startDateText.weekday + 1 + 7 * relativeWeek)));
     refreshWeek();
-    _tabController = new TabController(vsync: this, length: 7,
-        initialIndex: new DateTime.now().weekday - 1);
   }
 
   @override
@@ -103,27 +139,25 @@ class TimeTableScreenState extends State<TimeTableScreen> with
           child: new Scaffold(
               drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(AppLocalizations.of(context).timetable +
+              title: new Text(S
+                  .of(context)
+                  .timetable +
                   getTimetableText(startDateText)),
             ),
             body: new Column(
               children: <Widget>[
                 new Expanded(
-                  child: new TabBarView(
+                  child: (lessonsWeek != null) ? lessonsWeek
+                      .dayList()
+                      .isNotEmpty ? new TabBarView(
                     controller: _tabController,
                     children: (lessonsWeek != null) ?
-                        lessonsWeek.dayList().map((List<Lesson> lessonList){
-                          return lessonList.isNotEmpty ? new ListView.builder(
+                    lessonsWeek.dayList().map((List<Lesson> lessonList) {
+                      return new ListView.builder(
                             itemBuilder: (BuildContext context, int index){
                               return _itemBuilderLessonList(context, index, lessonList);
                               },
-                            itemCount: lessonsWeek!=null ? lessonList.length:0,
-                          )
-                              :
-                          new Container(
-                            child: new Center(
-                              child: new Text(AppLocalizations.of(context).no_lessons),
-                            ),
+                        itemCount: lessonsWeek != null ? lessonList.length : 0,
                           );
                         }).toList()
                         :<Widget>[
@@ -135,28 +169,25 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                       new Container(child: new Center(child: new CircularProgressIndicator()), height: 20.0, width: 20.0),
                       new Container(child: new Center(child: new CircularProgressIndicator()), height: 20.0, width: 20.0),
                     ]
-                ),
+                  ) : Center(child: Text(S
+                      .of(context)
+                      .no_lessons),) : Container(),
           ),
                 new Container(
                       height: 54.0,
                 color: Theme.of(context).primaryColor,
                       child: new Row(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           new IconButton(
-                            tooltip: AppLocalizations.of(context).prev_week,
-                            icon: const Icon(Icons.skip_previous, size: 20,color: Colors.white,),
+                            tooltip: S
+                                .of(context)
+                                .prev_week,
+                            icon: const Icon(Icons.skip_previous, size: 20,
+                              color: Colors.white,),
                             onPressed: () {
                               previousWeek();
-                            },
-                            padding: EdgeInsets.all(0),
-                          ),
-                          new IconButton(
-                            tooltip: AppLocalizations.of(context).prev_day,
-                            icon: const Icon(Icons.keyboard_arrow_left, size: 20,color: Colors.white,),
-                            onPressed: () {
-                              _nextPage(-1);
                             },
                             padding: EdgeInsets.all(0),
                           ),
@@ -172,23 +203,12 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                               scrollDirection: Axis.horizontal,
                               padding: EdgeInsets.all(0),
                             ),
-                            //alignment: Alignment(0, 0),
-                            //padding: EdgeInsets.all(0),
-                            //margin: EdgeInsets.all(0),
-                          ),
-                          new IconButton(
-                            icon: const Icon(Icons.keyboard_arrow_right, size: 20,color: Colors.white,),
-                            tooltip: AppLocalizations.of(context).next_day,
-                            onPressed: () {
-                              setState(() {
-                                _nextPage(1);
-                              });
-                            },
-                            padding: EdgeInsets.all(0),
                           ),
                           new IconButton(
                             icon: const Icon(Icons.skip_next, size: 20,color: Colors.white,),
-                            tooltip: AppLocalizations.of(context).next_week,
+                            tooltip: S
+                                .of(context)
+                                .next_week,
                             onPressed: () {
                               setState(() {
                                 nextWeek();
@@ -212,7 +232,11 @@ class TimeTableScreenState extends State<TimeTableScreen> with
       leading: lessonList[index].count >= 0 ? new Text(lessonList[index].count.toString(), textScaleFactor: 2.0,) : new Container(),
       title: new Text(lessonList[index].subject +
           (lessonList[index].isMissed ?
-          " (${AppLocalizations.of(context).missed})" : "") + (lessonList[index].depTeacher != "" ? " (${lessonList[index].depTeacher})":""),
+          " (${S
+              .of(context)
+              .missed})" : "") +
+          (lessonList[index].depTeacher != "" ? " (${lessonList[index]
+              .depTeacher})" : ""),
         style: TextStyle(color: lessonList[index].isMissed
             ? Colors.red
             : lessonList[index].depTeacher != "" ? Colors.deepOrange : null),),
@@ -240,28 +264,46 @@ class TimeTableScreenState extends State<TimeTableScreen> with
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text(AppLocalizations.of(context).room + lesson.room),
-                new Text(AppLocalizations.of(context).teacher + lesson.teacher),
-                new Text(AppLocalizations.of(context).group + lesson.group),
-                new Text(AppLocalizations.of(context).lesson_start +
+                new Text(S
+                    .of(context)
+                    .room + lesson.room),
+                new Text(S
+                    .of(context)
+                    .teacher + lesson.teacher),
+                new Text(S
+                    .of(context)
+                    .group + lesson.group),
+                new Text(S
+                    .of(context)
+                    .lesson_start +
                     getLessonStartText(lesson)),
-                new Text(AppLocalizations.of(context).lesson_end +
+                new Text(S
+                    .of(context)
+                    .lesson_end +
                     getLessonEndText(lesson)),
                 lesson.isMissed ? new Text(
-                    AppLocalizations.of(context).state + lesson.stateName)
+                    S
+                        .of(context)
+                        .state + lesson.stateName)
                     : new Container(),
                 lesson.depTeacher != "" ? new Text(
-                    AppLocalizations.of(context).dep_teacher + lesson.depTeacher)
+                    S
+                        .of(context)
+                        .dep_teacher + lesson.depTeacher)
                     : new Container(),
                 (lesson.theme != "" && lesson.theme!= null)
-                    ? new Text(AppLocalizations.of(context).theme + lesson.theme)
+                    ? new Text(S
+                    .of(context)
+                    .theme + lesson.theme)
                     : new Container(),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text(AppLocalizations.of(context).ok),
+              child: new Text(S
+                  .of(context)
+                  .ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../Helpers/LocaleHelper.dart';
-import '../Datas/Absence.dart';
+
+import 'package:e_szivacs/generated/i18n.dart';
+import '../Datas/Student.dart';
 import '../Utils/StringFormatter.dart';
 
 class AbsenceCard extends StatelessWidget {
-  List<Absence> absence;
+  List<Absence> absences;
   int numOfAbsences = 0;
   String state = "";
   Color color;
@@ -13,7 +14,7 @@ class AbsenceCard extends StatelessWidget {
 
   AbsenceCard(List<Absence> absence, bool isSingle, BuildContext context){
     this.context = context;
-    this.absence = absence;
+    this.absences = absence;
     numOfAbsences = absence.length;
     
     this.isSingle = isSingle;
@@ -23,11 +24,11 @@ class AbsenceCard extends StatelessWidget {
     bool bejust = false;
 
     for (Absence a in absence){
-      if (a.justificationState == "UnJustified")
+      if (a.JustificationState == "UnJustified")
         unjust = true;
-      else if (a.justificationState == "Justified")
+      else if (a.JustificationState == "Justified")
         just = true;
-      else if (a.justificationState == "BeJustified")
+      else if (a.JustificationState == "BeJustified")
         bejust = true;
     }
 
@@ -50,11 +51,45 @@ class AbsenceCard extends StatelessWidget {
   Key get key => new Key(getDate());
 
   String getDate(){
-    return absence[0].creationTime.toIso8601String();
+    return absences[0].CreatingTime.toIso8601String();
   }
 
   void openDialog() {
-    _absenceDialog(absence[0]);
+    _absenceDialog(absences[0]);
+  }
+
+  IconData iconifyState(String state) {
+    switch (state) {
+      case Absence.UNJUSTIFIED:
+        return Icons.clear;
+        break;
+      case Absence.JUSTIFIED:
+        return Icons.check;
+        break;
+      case Absence.BE_JUSTIFIED:
+        return Icons.person;
+        break;
+      default:
+        return Icons.help;
+        break;
+    }
+  }
+
+  Color colorifyState(String state) {
+    switch (state) {
+      case Absence.UNJUSTIFIED:
+        return Colors.red;
+        break;
+      case Absence.JUSTIFIED:
+        return Colors.green;
+        break;
+      case Absence.BE_JUSTIFIED:
+        return Colors.blue;
+        break;
+      default:
+        return Colors.black;
+        break;
+    }
   }
 
   Future<Null> _absenceDialog(Absence absence) async {
@@ -67,25 +102,49 @@ class AbsenceCard extends StatelessWidget {
             new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  new Text(AppLocalizations.of(context).lessons(numOfAbsences)),
+                  new Text(S
+                      .of(context)
+                      .lessons
+                      .replaceFirst("{{ db }}", numOfAbsences.toString())),
                   //new Text("mód: " + absence.modeName),
-                  new Text(AppLocalizations.of(context).absence_time +
-                      dateToHuman(absence.startTime) + dateToWeekDay(absence.startTime)),
-                  new Text(AppLocalizations.of(context).administration_time +
-                      dateToHuman(absence.creationTime) + dateToWeekDay(absence.startTime)),
-                  new Text(AppLocalizations.of(context).justification_state +
-                      absence.justificationStateName),
-                  new Text(AppLocalizations.of(context).justification_mode +
-                      absence.justificationTypeName),
-                  absence.delayMinutes != 0
-                      ? new Text(AppLocalizations.of(context).delay_mins +
-                      absence.delayMinutes.toString())
+                  new Text(S
+                      .of(context)
+                      .absence_time +
+                      dateToHuman(absence.LessonStartTime) +
+                      dateToWeekDay(absence.LessonStartTime)),
+                  new Text(S
+                      .of(context)
+                      .administration_time +
+                      dateToHuman(absence.CreatingTime) +
+                      dateToWeekDay(absence.LessonStartTime)),
+                  new Text(S
+                      .of(context)
+                      .justification_state +
+                      absence.JustificationStateName),
+                  new Text(S
+                      .of(context)
+                      .justification_mode +
+                      absence.JustificationTypeName),
+                  absence.DelayTimeMinutes != 0
+                      ? new Text(S
+                      .of(context)
+                      .delay_mins +
+                      absence.DelayTimeMinutes.toString() + " perc")
                       : new Container(),
-                ],
+                ].followedBy(absences.map((Absence absence) {
+                  return ListTile(
+                    leading: new Icon(absence.DelayTimeMinutes == 0
+                        ? iconifyState(absence.JustificationState)
+                        : (Icons.watch_later),
+                        color: colorifyState(absence.JustificationState)),
+                    title: new Text(absence.Subject),
+                    subtitle: new Text(dateToHuman(absence.LessonStartTime)),
+                  );
+                })).toList(),
               ),
             ),
           ],
-          title: Text(absence.modeName, ),
+          title: Text(absence.ModeName,),
           contentPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -111,16 +170,18 @@ class AbsenceCard extends StatelessWidget {
             child: new Row(
               children: <Widget>[
                   new Text("$numOfAbsences db ", style: new TextStyle(fontSize: 18.0, color: color),),
-                  new Text(AppLocalizations.of(context).absence + ", ", style: new TextStyle(fontSize: 18.0,)),
+                new Text(S
+                    .of(context)
+                    .absence + ", ", style: new TextStyle(fontSize: 18.0,)),
                   new Text(" $state", style: new TextStyle(fontSize: 18.0, color: color)),
                   new Text(". ", style: new TextStyle(fontSize: 18.0,)),
-
               ],
             ),
             padding: EdgeInsets.all(10.0),
           ),
           !isSingle ? new Container(
-            child: new Text(dateToHuman(absence[0].startTime) + dateToWeekDay(absence[0].startTime),
+            child: new Text(dateToHuman(absences[0].LessonStartTime) +
+                dateToWeekDay(absences[0].LessonStartTime),
                 style: new TextStyle(
                 fontSize: 16.0,)),
             alignment: Alignment(1.0, -1.0),
@@ -136,12 +197,17 @@ class AbsenceCard extends StatelessWidget {
                   children: <Widget>[
                     !!isSingle ? new Expanded(
                       child: new Container(
-                      child: new Text(dateToHuman(absence[0].startTime) + dateToWeekDay(absence[0].startTime), style: new TextStyle(fontSize: 18.0,)),
+                        child: new Text(dateToHuman(
+                            absences[0].LessonStartTime) + dateToWeekDay(
+                            absences[0].LessonStartTime), style: new TextStyle(
+                          fontSize: 18.0,)),
                       alignment: Alignment(1.0, 0.0),
                     )) : new Container(),
                     !isSingle ? new Expanded(
                       child: new Container(
-                      child: new Text(absence[0].owner.name, style: new TextStyle(fontSize: 18.0, color: absence[0].owner.color)),
+                        child: new Text(
+                            absences[0].owner.name, style: new TextStyle(
+                            fontSize: 18.0, color: absences[0].owner.color)),
                       alignment: Alignment(1.0, 0.0),
                     )) : new Container(),
                   ],

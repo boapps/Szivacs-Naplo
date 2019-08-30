@@ -1,12 +1,16 @@
-library flutter_naplo.globals;
+library e_szivacs.globals;
+
+import 'package:flutter/material.dart';
+import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast_io.dart';
 import 'Datas/User.dart';
-import 'Datas/Absence.dart';
 import 'Datas/Average.dart';
-import 'Datas/Evaluation.dart';
+import 'Datas/Student.dart';
 import 'Datas/Note.dart';
 import 'Datas/Lesson.dart';
 import 'Datas/Account.dart';
 
+bool firstMain = true;
 String version;
 bool isLoggedIn = false;
 bool isLogo = true;
@@ -44,3 +48,15 @@ List<Average> avers = new List();
 Map<String, List<Absence>> global_absents = new Map();
 List<Note> notes = new List();
 List <Lesson> lessons = new List();
+
+Color color1 = Colors.red;
+Color color2 = Colors.brown;
+Color color3 = Colors.orange;
+Color color4 = Color.fromARGB(255, 255, 241, 118);
+Color color5 = Colors.green;
+
+DatabaseFactory dbFactory = databaseFactoryIo;
+
+Database db;
+var store = StoreRef.main();
+

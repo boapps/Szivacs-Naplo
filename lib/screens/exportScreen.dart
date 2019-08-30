@@ -1,14 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../GlobalDrawer.dart';
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import '../Datas/User.dart';
 import '../Utils/Saver.dart' as Saver;
 import '../globals.dart' as globals;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:convert' show json;
 import 'package:csv/csv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,14 +18,15 @@ import '../Helpers/TimetableHelper.dart';
 void main() {
   runApp(new MaterialApp(
     home: new ExportScreen(),
-    localizationsDelegates: [
-      AppLocalizationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate
+    localizationsDelegates: const <LocalizationsDelegate<WidgetsLocalizations>>[
+      S.delegate,
+      GlobalWidgetsLocalizations.delegate,
     ],
-    supportedLocales: [Locale("hu"), Locale("en")],
+    supportedLocales: S.delegate.supportedLocales,
     onGenerateTitle: (BuildContext context) =>
-    AppLocalizations.of(context).title,
+    S
+        .of(context)
+        .title,
   ));
 }
 
@@ -71,7 +72,9 @@ class ExportScreenState extends State<ExportScreen> {
         child: Scaffold(
             drawer: GDrawer(),
         appBar: new AppBar(
-          title: new Text(AppLocalizations.of(context).title),
+          title: new Text(S
+              .of(context)
+              .title),
           actions: <Widget>[
           ],
         ),
@@ -126,7 +129,6 @@ class ExportScreenState extends State<ExportScreen> {
                               lastDate: new DateTime(2025)
                           );
                           if (picked != null && picked.length == 2) {
-                            print(picked);
                             pickedDate = picked;
                             selectedDate = picked[0].toIso8601String().substring(0, 10) + "  -  " + picked[1].toIso8601String().substring(0, 10);
                             setState(() {});
@@ -169,7 +171,10 @@ class ExportScreenState extends State<ExportScreen> {
                             case 0:
                               String data = json.encode(json.decode(await Saver.readStudent(selectedUser))["Evaluations"]);
                               File file = File(path);
-                              SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
+                              PermissionHandler().requestPermissions(
+                                  [PermissionGroup.storage]).then((Map<
+                                  PermissionGroup,
+                                  PermissionStatus> permissions) {
                                 file.writeAsString(data).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
@@ -179,7 +184,6 @@ class ExportScreenState extends State<ExportScreen> {
                                         fontSize: 16.0
                                     );
                                 });
-
                               });
                               break;
                             case 1:
@@ -190,7 +194,10 @@ class ExportScreenState extends State<ExportScreen> {
                                 csvList.add([jegy["EvaluationId"], jegy["Form"], jegy["FormName"], jegy["Type"], jegy["TypeName"], jegy["Subject"], jegy["SubjectCategory"], jegy["SubjectCategoryName"], jegy["Theme"], jegy["Mode"], jegy["Weight"], jegy["Value"], jegy["NumberValue"], jegy["SeenByTutelaryUTC"], jegy["Teacher"], jegy["Date"], jegy["CreatingTime"]]);
                               String csv = const ListToCsvConverter().convert(csvList);
                               File file = File(path);
-                              SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
+                              PermissionHandler().requestPermissions(
+                                  [PermissionGroup.storage]).then((Map<
+                                  PermissionGroup,
+                                  PermissionStatus> permissions) {
                                 file.writeAsString(csv).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
@@ -207,7 +214,10 @@ class ExportScreenState extends State<ExportScreen> {
                           //user
                           String data = json.encode(await Saver.readUsers());
                           File file = File(path);
-                          SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
+                          PermissionHandler().requestPermissions([
+                            PermissionGroup.storage
+                          ]).then((Map<PermissionGroup,
+                              PermissionStatus> permissions) {
                             file.writeAsString(data).then((File f){
                               if (f.existsSync())
                                 Fluttertoast.showToast(
@@ -226,7 +236,10 @@ class ExportScreenState extends State<ExportScreen> {
                             case 0:
                               String data = await getLessonsJson(pickedDate[0], pickedDate[1], selectedUser);
                               File file = File(path);
-                              SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
+                              PermissionHandler().requestPermissions(
+                                  [PermissionGroup.storage]).then((Map<
+                                  PermissionGroup,
+                                  PermissionStatus> permissions) {
                                 file.writeAsString(data).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
@@ -248,7 +261,10 @@ class ExportScreenState extends State<ExportScreen> {
                                 csvList.add([ora["LessonId"], ora["CalendarOraType"], ora["Count"], ora["Date"], ora["StartTime"], ora["EndTime"], ora["Subject"], ora["SubjectCategory"], ora["SubjectCategoryName"], ora["ClassRoom"], ora["ClassGroup"], ora["Teacher"], ora["DeputyTeacher"], ora["State"], ora["StateName"], ora["PresenceType"], ora["PresenceTypeName"], ora["TeacherHomeworkId"], ora["IsTanuloHaziFeladatEnabled"], ora["Theme"], ora["Homework"]]);
                               String csv = const ListToCsvConverter().convert(csvList);
                               File file = File(path);
-                              SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps){
+                              PermissionHandler().requestPermissions(
+                                  [PermissionGroup.storage]).then((Map<
+                                  PermissionGroup,
+                                  PermissionStatus> permissions) {
                                 file.writeAsString(csv).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(

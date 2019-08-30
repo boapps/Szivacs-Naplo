@@ -1,44 +1,51 @@
 import 'dart:convert' show json;
 import 'dart:io';
 
-import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:background_fetch/background_fetch.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:e_szivacs/generated/i18n.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:http/http.dart' as http;
+import 'package:package_info/package_info.dart';
+
+import 'Datas/Account.dart';
 import 'Datas/Institution.dart';
 import 'Datas/User.dart';
 import 'Helpers/BackgroundHelper.dart';
+import 'Helpers/DBHelper.dart';
 import 'Helpers/RequestHelper.dart';
-import 'Helpers/UserInfoHelper.dart';
-import 'Helpers/LocaleHelper.dart';
 import 'Helpers/SettingsHelper.dart';
+import 'Helpers/UserInfoHelper.dart';
 import 'Utils/AccountManager.dart';
+import 'Utils/ColorManager.dart';
+import 'Utils/Saver.dart' as Saver;
 import 'globals.dart' as globals;
-import 'screens/accountsScreen.dart';
-import 'screens/exportScreen.dart';
+import 'screens/LogoApp.dart';
 import 'screens/aboutScreen.dart';
 import 'screens/absentsScreen.dart';
+import 'screens/accountsScreen.dart';
+import 'screens/battleroyalScreen.dart';
+import 'screens/evaluationColorSettingsScreen.dart';
 import 'screens/evaluationsScreen.dart';
+import 'screens/exportScreen.dart';
 import 'screens/homeworkScreen.dart';
-import 'screens/LogoApp.dart';
+import 'screens/importScreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/notesScreen.dart';
 import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
+import 'screens/studentScreen.dart';
 import 'screens/timeTableScreen.dart';
-import 'screens/importScreen.dart';
-import 'Utils/Saver.dart' as Saver;
-import 'Utils/ColorManager.dart';
-import 'Datas/Account.dart';
-import 'package:package_info/package_info.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:math';
+import 'Helpers/encrypt_codec.dart';
 
 bool isNew = true;
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey(
-    debugLabel: "Main Navigator");
+final GlobalKey<NavigatorState> navigatorKey =
+GlobalKey(debugLabel: "Main Navigator");
 
 class MyApp extends StatelessWidget {
   @override
@@ -48,15 +55,17 @@ class MyApp extends StatelessWidget {
         data: (brightness) => ColorManager().getTheme(brightness),
         themedWidgetBuilder: (context, theme) {
           return new MaterialApp(
-            localizationsDelegates: [
-              AppLocalizationsDelegate(),
+            localizationsDelegates: const <LocalizationsDelegate>[
+              S.delegate,
               GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
+              GlobalWidgetsLocalizations.delegate,
             ],
-            supportedLocales: [Locale("hu"), Locale("en")],
+            supportedLocales: S.delegate.supportedLocales,
             locale: globals.lang != "auto" ? Locale(globals.lang) : null,
             onGenerateTitle: (BuildContext context) =>
-            AppLocalizations.of(context).title,
+            S
+                .of(context)
+                .title,
             title: "e-Szivacs 2",
             theme: theme,
             routes: <String, WidgetBuilder>{
@@ -74,49 +83,74 @@ class MyApp extends StatelessWidget {
               '/statistics': (_) => new StatisticsScreen(),
               '/export': (_) => new ExportScreen(),
               '/import': (_) => new ImportScreen(),
+              '/easteregg': (_) => new BattleRoyaleScreen(),
+              '/evalcolor': (_) => new colorSettingsScreen(),
+              '/student': (_) => new StudentScreen(),
             },
             navigatorKey: navigatorKey,
             home: isNew ? new LogoApp() : MainScreen(),
           );
-        }
-    );
+        });
   }
 }
 
 // todo refactor this and separate the 3 screens here
 
 void main() async {
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  globals.version = packageInfo.version;
-  List<User> users = await AccountManager().getUsers();
-  isNew = (users.isEmpty);
-  globals.isLogo = await SettingsHelper().getLogo();
-  globals.isSingle = await SettingsHelper().getSingleUser();
-  globals.lang = await SettingsHelper().getLang();
-
-  if (!isNew) {
-    //BackgroundHelper().register();
-    await BackgroundHelper().register();
-    await BackgroundHelper().configure();
-
-    globals.isDark = await SettingsHelper().getDarkTheme();
-    globals.isAmoled = await SettingsHelper().getAmoled();
-    globals.isColor = await SettingsHelper().getColoredMainPage();
-    globals.isSingle = await SettingsHelper().getSingleUser();
-    globals.multiAccount = (await Saver.readUsers()).length != 1;
-    globals.users = users;
-    globals.accounts = List();
-    for (User user in users)
-      globals.accounts.add(Account(user));
-    globals.selectedAccount = globals.accounts[0];
-    globals.selectedUser = users[0];
-    globals.themeID = await SettingsHelper().getTheme();
+  final storage = new FlutterSecureStorage();
+  String value = await storage.read(key: "db_key");
+  if (value == null) {
+    int randomNumber = Random.secure().nextInt(4294967296);
+    await storage.write(key: "db_key", value: randomNumber.toString());
+    value = await storage.read(key: "db_key");
   }
 
-  runApp(MyApp());
+  var codec = getEncryptSembastCodec(password: value);
+
+  globals.db = await globals.dbFactory.openDatabase(
+      (await DBHelper().localFolder) + DBHelper().dbPath,
+      codec: codec);
+  if (await Saver.shouldMigrate) {
+    Saver.migrate();
+  } else {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    globals.version = packageInfo.version;
+    List<User> users = await AccountManager().getUsers();
+    isNew = (users.isEmpty);
+    globals.isLogo = await SettingsHelper().getLogo();
+    globals.isSingle = await SettingsHelper().getSingleUser();
+    globals.lang = await SettingsHelper().getLang();
+
+    if (!isNew) {
+      //BackgroundHelper().register();
+
+      globals.isDark = await SettingsHelper().getDarkTheme();
+      globals.isAmoled = await SettingsHelper().getAmoled();
+      globals.isColor = await SettingsHelper().getColoredMainPage();
+      globals.isSingle = await SettingsHelper().getSingleUser();
+      globals.multiAccount = (await Saver.readUsers()).length != 1;
+      globals.users = users;
+      globals.accounts = List();
+      for (User user in users)
+        globals.accounts.add(Account(user));
+      globals.selectedAccount = globals.accounts[0];
+      globals.selectedUser = users[0];
+      globals.themeID = await SettingsHelper().getTheme();
+
+      globals.color1 = await SettingsHelper().getEvalColor(0);
+      globals.color2 = await SettingsHelper().getEvalColor(1);
+      globals.color3 = await SettingsHelper().getEvalColor(2);
+      globals.color4 = await SettingsHelper().getEvalColor(3);
+      globals.color5 = await SettingsHelper().getEvalColor(4);
+    }
+
+    runApp(MyApp());
+    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  }
 }
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+new FlutterLocalNotificationsPlugin();
 
 void backgroundFetchHeadlessTask() async {
   var initializationSettingsAndroid =
@@ -135,8 +169,12 @@ void backgroundFetchHeadlessTask() async {
 LoginScreenState loginScreenState = new LoginScreenState();
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen({this.fromApp});
+
+  bool fromApp = false;
+
   @override
-  LoginScreenState createState() => loginScreenState;
+  LoginScreenState createState() => LoginScreenState();
 }
 
 Icon helpIconSwitch = new Icon(
@@ -200,6 +238,11 @@ final passwordController = new TextEditingController();
 class LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
+/*
+    DynamicTheme.of(context).setBrightness(Brightness.light).then((void a){
+      setStateHere();
+    });
+*/
     loggingIn = false;
     super.initState();
   }
@@ -240,7 +283,9 @@ class LoginScreenState extends State<LoginScreen> {
         http.Response bearerResp;
         String code;
         if (userName == "") {
-          userError = AppLocalizations.of(context).choose_username;
+          userError = S
+              .of(context)
+              .choose_username;
           setState(() {
             loggingIn = false;
           });
@@ -248,7 +293,9 @@ class LoginScreenState extends State<LoginScreen> {
           setState(() {
             loggingIn = false;
           });
-          passwordError = AppLocalizations.of(context).choose_password;
+          passwordError = S
+              .of(context)
+              .choose_password;
         } else if (globals.selectedSchoolUrl == "") {
           setState(() {
             loggingIn = false;
@@ -269,8 +316,7 @@ class LoginScreenState extends State<LoginScreen> {
               "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
 
           try {
-            bearerResp =
-            await RequestHelper().getBearer(jsonBody, instCode);
+            bearerResp = await RequestHelper().getBearer(jsonBody, instCode);
             Map<String, dynamic> bearerMap = json.decode(bearerResp.body);
             code = bearerMap.values.toList()[0];
 
@@ -297,8 +343,8 @@ class LoginScreenState extends State<LoginScreen> {
               globals.accounts = List();
               for (User user in globals.users)
                 globals.accounts.add(Account(user));
-              globals.selectedAccount = globals.accounts.firstWhere(
-                      (Account account) => account.user.id == user.id);
+              globals.selectedAccount = globals.accounts
+                  .firstWhere((Account account) => account.user.id == user.id);
               globals.selectedUser = user;
 
               Navigator.pushNamed(context, "/main");
@@ -332,7 +378,6 @@ class LoginScreenState extends State<LoginScreen> {
       });
       passwordError = "nincs internet";
     }
-
   }
 
   void showSelectDialog() {
@@ -344,7 +389,6 @@ class LoginScreenState extends State<LoginScreen> {
             return new MyDialog();
           });
     });
-
   }
 
   void setStateHere() {
@@ -358,186 +402,229 @@ class LoginScreenState extends State<LoginScreen> {
     initJson();
 
     return new WillPopScope(
-        onWillPop: (){},
+        onWillPop: () {
+          if (widget.fromApp)
+            Navigator.pushReplacementNamed(context, "/accounts");
+        },
         child: Scaffold(
             body: new Container(
                 color: Colors.black87,
                 child: new Center(
-                    child: !loggingIn ? new Container(
+                    child: !loggingIn
+                        ? new Container(
                         child: new ListView(
-                  reverse: true,
-                  padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
-                  children: <Widget>[
-                    new Container(
-                      padding: new EdgeInsets.only(left: 40.0, right: 40.0),
-                      child: Image.asset("assets/icon.png"),
-                      height: kbSize,
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(top: 5.0),
-                        child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  controller: userNameController,
-                                  decoration: InputDecoration(
-                                    prefixIcon: new Icon(Icons.person),
-                                    hintText: AppLocalizations.of(context).username,
-                                    hintStyle: TextStyle(color: Colors.white30),
-                                    errorText: userError,
-                                    fillColor: Color.fromARGB(40, 20, 20, 30),
-                                    filled: true,
-                                    helperText: helpSwitch
-                                        ? AppLocalizations.of(context).username_hint
-                                        : null,
-                                    helperStyle:
+                          reverse: true,
+                          padding:
+                          EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
+                          children: <Widget>[
+                            new Container(
+                              padding: new EdgeInsets.only(
+                                  left: 40.0, right: 40.0),
+                              child: Image.asset("assets/icon.png"),
+                              height: kbSize,
+                            ),
+                            new Container(
+                                margin: EdgeInsets.only(top: 5.0),
+                                child: new Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      new Flexible(
+                                        child: new TextFormField(
+                                          style:
+                                          TextStyle(color: Colors.white),
+                                          controller: userNameController,
+                                          decoration: InputDecoration(
+                                            prefixIcon:
+                                            new Icon(Icons.person),
+                                            hintText: S
+                                                .of(context)
+                                                .username,
+                                            hintStyle: TextStyle(
+                                                color: Colors.white30),
+                                            errorText: userError,
+                                            fillColor: Color.fromARGB(
+                                                40, 20, 20, 30),
+                                            filled: true,
+                                            helperText: helpSwitch
+                                                ? S
+                                                .of(context)
+                                                .username_hint
+                                                : null,
+                                            helperStyle: TextStyle(
+                                                color: Colors.white30),
+                                            contentPadding:
+                                            EdgeInsets.fromLTRB(
+                                                5.0, 15.0, 5.0, 15.0),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    5.0),
+                                                gapPadding: 1.0,
+                                                borderSide: BorderSide(
+                                                  color: Colors.green,
+                                                  width: 2.0,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                      new IconButton(
+                                          icon: helpIconSwitch,
+                                          onPressed: () {
+                                            setState(() {
+                                              helpToggle();
+                                            });
+                                          })
+                                    ])),
+                            new Container(
+                                margin: EdgeInsets.only(top: 10.0),
+                                child: new Row(children: <Widget>[
+                                  new Flexible(
+                                    child: new TextFormField(
+                                      style: TextStyle(color: Colors.white),
+                                      controller: passwordController,
+                                      keyboardType: TextInputType.text,
+                                      obscureText: !showSwitch,
+                                      decoration: InputDecoration(
+                                        prefixIcon: new Icon(Icons.https),
+                                        hintStyle:
                                         TextStyle(color: Colors.white30),
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        5.0, 15.0, 5.0, 15.0),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
+                                        hintText: S
+                                            .of(context)
+                                            .password,
+                                        errorText: passwordError,
+                                        fillColor:
+                                        Color.fromARGB(40, 20, 20, 30),
+                                        filled: true,
+                                        helperText: helpSwitch
+                                            ? S
+                                            .of(context)
+                                            .password_hint
+                                            : null,
+                                        helperStyle:
+                                        TextStyle(color: Colors.white30),
+                                        contentPadding: EdgeInsets.fromLTRB(
+                                            5.0, 15.0, 5.0, 15.0),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
                                             BorderRadius.circular(5.0),
-                                        gapPadding: 1.0,
-                                        borderSide: BorderSide(
-                                          color: Colors.green,
-                                          width: 2.0,
-                                        )),
+                                            gapPadding: 1.0,
+                                            borderSide: BorderSide(
+                                              color: Colors.deepOrange,
+                                              width: 2.0,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  new IconButton(
+                                      icon: showIconSwitch,
+                                      onPressed: () {
+                                        setState(() {
+                                          showToggle();
+                                        });
+                                      }),
+                                ])),
+                            new Column(children: <Widget>[
+                              new Container(
+                                margin: new EdgeInsets.fromLTRB(
+                                    0.0, 10.0, 0.0, 5.0),
+                                padding: new EdgeInsets.fromLTRB(
+                                    10.0, 4.0, 10.0, 4.0),
+                                decoration: new BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Color.fromARGB(40, 20, 20, 30),
+                                  border: new Border.all(
+                                    color: schoolSelected
+                                        ? Colors.black87
+                                        : Colors.red,
+                                    width: 1.0,
                                   ),
                                 ),
-                              ),
-                              new IconButton(
-                                  icon: helpIconSwitch,
-                                  onPressed: () {
-                                    setState(() {
-                                      helpToggle();
-                                    });
-                                  })
-                            ])),
-                    new Container(
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: new Row(children: <Widget>[
-                          new Flexible(
-                            child: new TextFormField(
-                              style: TextStyle(color: Colors.white),
-                              controller: passwordController,
-                              keyboardType: TextInputType.text,
-                              obscureText: !showSwitch,
-                              decoration: InputDecoration(
-                                prefixIcon: new Icon(Icons.https),
-                                hintStyle: TextStyle(color: Colors.white30),
-                                hintText: AppLocalizations.of(context).password,
-                                errorText: passwordError,
-                                fillColor: Color.fromARGB(40, 20, 20, 30),
-                                filled: true,
-                                helperText: helpSwitch
-                                    ? AppLocalizations.of(context).password_hint
-                                    : null,
-                                helperStyle: TextStyle(color: Colors.white30),
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 15.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    gapPadding: 1.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                      width: 2.0,
-                                    )),
-                              ),
-                            ),
-                          ),
-                          new IconButton(
-                              icon: showIconSwitch,
-                              onPressed: () {
-                                setState(() {
-                                  showToggle();
-                                });
-                              }),
-                        ])),
-                    new Column(children: <Widget>[
-                      new Container(
-                        margin: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                        padding: new EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: Color.fromARGB(40, 20, 20, 30),
-                          border: new Border.all(
-                            color: schoolSelected ? Colors.black87 : Colors.red,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: new Row(
-                          children: <Widget>[
-                            new Text(
-                              AppLocalizations.of(context).school,
-                              style: new TextStyle(
-                                  fontSize: 21.0, color: Colors.white30),
-                            ),
-                            new Expanded(
-                              child: new FlatButton(
-                                onPressed: (){
-                                  showSelectDialog();
-                                  setState(() {});
-                                },
-                                child: new Text(
-                                  globals.selectedSchoolName??AppLocalizations.of(context).choose,
-                                  style: new TextStyle(
-                                      fontSize: 21.0, color: Colors.blue),
+                                child: new Row(
+                                  children: <Widget>[
+                                    new Text(
+                                      S
+                                          .of(context)
+                                          .school,
+                                      style: new TextStyle(
+                                          fontSize: 21.0,
+                                          color: Colors.white30),
+                                    ),
+                                    new Expanded(
+                                      child: new FlatButton(
+                                        onPressed: () {
+                                          showSelectDialog();
+                                          setState(() {});
+                                        },
+                                        child: new Text(
+                                          globals.selectedSchoolName ??
+                                              S
+                                                  .of(context)
+                                                  .choose,
+                                          style: new TextStyle(
+                                              fontSize: 21.0,
+                                              color: Colors.blue),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
+                              !schoolSelected
+                                  ? new Text(
+                                S
+                                    .of(context)
+                                    .choose_school_warning,
+                                style: new TextStyle(color: Colors.red),
+                              )
+                                  : new Container(),
+                            ]),
+                            new Row(
+                              children: <Widget>[
+                                new Container(
+                                  //margin: EdgeInsets.only(top: 20.0),
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, "/import");
+                                    },
+                                    child: new Text("Import"),
+                                    disabledColor: Colors.blueGrey.shade800,
+                                    disabledTextColor: Colors.blueGrey,
+                                    color: Colors.green,
+                                    //#2196F3
+                                    textColor: Colors.white,
+                                  ),
+                                ),
+                                new Container(
+                                  padding: EdgeInsets.all(6),
+                                ),
+                                new Expanded(
+                                  //margin: EdgeInsets.only(top: 20.0),
+                                    child: new FlatButton(
+                                      onPressed: !loggingIn
+                                          ? () {
+                                        setState(() {
+                                          loggingIn = true;
+                                          login(context);
+                                        });
+                                      }
+                                          : null,
+                                      disabledColor: Colors.blueGrey.shade800,
+                                      disabledTextColor: Colors.blueGrey,
+                                      child: new Text(S
+                                          .of(context)
+                                          .login),
+                                      color: Colors.blue,
+                                      //#2196F3
+                                      textColor: Colors.white,
+                                    )),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      !schoolSelected
-                          ? new Text(
-                        AppLocalizations.of(context).choose_school_warning,
-                              style: new TextStyle(color: Colors.red),
-                            )
-                          : new Container(),
-
-                    ]),
-                    new Row(
-                      children: <Widget>[
-                        new Container(
-                          //margin: EdgeInsets.only(top: 20.0),
-                          child: FlatButton(
-                            onPressed: (){
-                            Navigator.pushNamed(context, "/import");
-                          }, child: new Text("Import"),
-                            disabledColor: Colors.blueGrey.shade800,
-                            disabledTextColor: Colors.blueGrey,
-                            color: Colors.green, //#2196F3
-                            textColor: Colors.white,
-                          ),
-                        ),
-                        new Container(
-                          padding: EdgeInsets.all(6),
-                        ),
-                        new Expanded(
-                            //margin: EdgeInsets.only(top: 20.0),
-                            child: new FlatButton(
-                              onPressed: !loggingIn ? () {
-                                setState(() {
-                                  loggingIn = true;
-                                  login(context);
-                                });
-                              } : null,
-                              disabledColor: Colors.blueGrey.shade800,
-                              disabledTextColor: Colors.blueGrey,
-                              child: new Text(AppLocalizations.of(context).login),
-                              color: Colors.blue, //#2196F3
-                              textColor: Colors.white,
-                            )),
-                      ],
-                    ),
-                  ].reversed.toList(),
-                        )) : new Container(
+                          ].reversed.toList(),
+                        ))
+                        : new Container(
                       child: new CircularProgressIndicator(),
-                    )
-                )
-            )));
+                    )))));
   }
 
   @override
@@ -559,14 +646,11 @@ class MyDialog extends StatefulWidget {
     globals.searchres = globals.jsonres;
     return myDialogState;
   }
-
-
 }
 
 MyDialogState myDialogState = new MyDialogState();
 
 class MyDialogState extends State<MyDialog> {
-
   @override
   void dispose() {
 //    this.dispose();
@@ -574,7 +658,7 @@ class MyDialogState extends State<MyDialog> {
 //    passwordController.dispose();
 //    userNameController.dispose();
 //    myDialogState.dispose();
-    isDialog=false;
+    isDialog = false;
     super.dispose();
   }
 
@@ -586,7 +670,9 @@ class MyDialogState extends State<MyDialog> {
 
   Widget build(BuildContext context) {
     return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).choose_school),
+      title: new Text(S
+          .of(context)
+          .choose_school),
       contentPadding: const EdgeInsets.all(10.0),
       children: <Widget>[
         new Container(
@@ -601,10 +687,12 @@ class MyDialogState extends State<MyDialog> {
           margin: new EdgeInsets.all(10.0),
         ),
         new Container(
-          child: globals.searchres != null ? new ListView.builder(
+          child: globals.searchres != null
+              ? new ListView.builder(
             itemBuilder: _itemBuilder,
             itemCount: globals.searchres.length,
-          ) : new Container(),
+          )
+              : new Container(),
           width: 320.0,
           height: 400.0,
         )
@@ -645,7 +733,6 @@ class MyDialogState extends State<MyDialog> {
             });
 //            isDialog=false;
             loginScreenState.setStateHere();
-
           },
         ),
         new Container(

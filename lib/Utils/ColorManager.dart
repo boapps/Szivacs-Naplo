@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_naplo/globals.dart' as globals;
+import 'package:e_szivacs/globals.dart' as globals;
 
 class ColorManager {
 
@@ -12,11 +12,19 @@ class ColorManager {
       case 2:
         return Colors.green;
       case 3:
-        return Colors.yellow;
+        return Colors.lightGreen;
       case 4:
-        return Colors.orange;
+        return Colors.yellow;
       case 5:
+        return Colors.orangeAccent;
+      case 6:
         return Colors.grey;
+      case 7:
+        return Colors.pink;
+      case 8:
+        return Colors.purple;
+      case 9:
+        return Colors.teal;
     }
   }
 
@@ -29,7 +37,7 @@ class ColorManager {
 
     switch (globals.themeID) {
       case 0:
-        accent = Colors.blueAccent;
+        accent = Colors.blue;
         primaryLight = Colors.blue[700];
         break;
       case 1:
@@ -41,16 +49,32 @@ class ColorManager {
         primaryLight = Colors.green[700];
         break;
       case 3:
+        accent = Colors.lightGreen;
+        primaryLight = Colors.lightGreen[700];
+        break;
+      case 4:
         accent = Colors.yellow;
         primaryLight = Colors.yellow[700];
         break;
-      case 4:
-        accent = Colors.orangeAccent;
-        primaryLight = Colors.orange[700];
-        break;
       case 5:
+        accent = Colors.orangeAccent;
+        primaryLight = Colors.orangeAccent[400];
+        break;
+      case 6:
         accent = Colors.blueGrey;
         primaryLight = Colors.grey[700];
+        break;
+      case 7:
+        accent = Colors.pink;
+        primaryLight = Colors.pink[700];
+        break;
+      case 8:
+        accent = Colors.purple;
+        primaryLight = Colors.purple[700];
+        break;
+      case 9:
+        accent = Colors.teal;
+        primaryLight = Colors.teal[700];
         break;
 
     }

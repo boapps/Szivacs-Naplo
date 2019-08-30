@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 
 class Week {
@@ -35,19 +35,33 @@ class Week {
   List<String> dayStrings(BuildContext context){
     List<String> days = new List();
     if (monday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_monday);
+      days.add(S
+          .of(context)
+          .short_monday);
     if (tuesday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_tuesday);
+      days.add(S
+          .of(context)
+          .short_tuesday);
     if (wednesday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_wednesday);
+      days.add(S
+          .of(context)
+          .short_wednesday);
     if (thursday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_thursday);
+      days.add(S
+          .of(context)
+          .short_thursday);
     if (friday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_friday);
+      days.add(S
+          .of(context)
+          .short_friday);
     if (saturday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_saturday);
+      days.add(S
+          .of(context)
+          .short_saturday);
     if (sunday.isNotEmpty)
-      days.add(AppLocalizations.of(context).short_sunday);
+      days.add(S
+          .of(context)
+          .short_sunday);
     return days;
   }
 

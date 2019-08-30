@@ -1,27 +1,31 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../GlobalDrawer.dart';
+import '../Helpers/DBHelper.dart';
+import '../Datas/User.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import '../globals.dart' as globals;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../Utils/Saver.dart' as Saver;
 import 'package:flutter/services.dart';
+import 'dart:convert' show json;
 
 void main() {
   runApp(new MaterialApp(
     home: new ImportScreen(),
-    localizationsDelegates: [
-      AppLocalizationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate
+    localizationsDelegates: const <LocalizationsDelegate<WidgetsLocalizations>>[
+      S.delegate,
+      GlobalWidgetsLocalizations.delegate,
     ],
-    supportedLocales: [Locale("hu"), Locale("en")],
+    supportedLocales: S.delegate.supportedLocales,
     onGenerateTitle: (BuildContext context) =>
-    AppLocalizations.of(context).title,
+    S
+        .of(context)
+        .title,
   ));
 }
 
@@ -97,10 +101,38 @@ class ImportScreenState extends State<ImportScreen> {
                   new TextField(onChanged: (text){path = text;},controller: controller,),
                   new Container(
                     child: new RaisedButton(onPressed: () async {
-                          SimplePermissions.requestPermission(Permission.WriteExternalStorage).then((PermissionStatus ps) async {
+                      PermissionHandler().requestPermissions(
+                          [PermissionGroup.storage]).then((Map<
+                          PermissionGroup,
+                          PermissionStatus> permissions) async {
                             File importFile = new File(path);
+                            List<Map<String, dynamic>> userMap = new List();
                             String data = importFile.readAsStringSync();
-                            (await Saver.userFile).writeAsStringSync(data);
+                            List<dynamic> userList = json.decode(data);
+                            for (dynamic d in userList)
+                              userMap.add(d as Map<String, dynamic>);
+
+                            List<User> users = new List();
+                            if (userMap.isNotEmpty)
+                              for (Map<String, dynamic> m in userMap)
+                                users.add(User.fromJson(m));
+                            List<Color> colors = [
+                              Colors.blue,
+                              Colors.green,
+                              Colors.red,
+                              Colors.black,
+                              Colors.brown,
+                              Colors.orange
+                            ];
+                            Iterator<Color> cit = colors.iterator;
+                            for (User u in users) {
+                              cit.moveNext();
+                              if (u.color.value == 0)
+                                u.color = cit.current;
+                            }
+
+                            DBHelper().saveUsersJson(users);
+
                             SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                           });
                     }, child: new Text("Import", style: TextStyle(color: Colors.white),), color: Colors.green[700],),

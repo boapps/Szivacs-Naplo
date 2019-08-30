@@ -8,8 +8,7 @@ import '../Cards/EvaluationCard.dart';
 import '../Cards/NoteCard.dart';
 import '../Cards/LessonCard.dart';
 import '../Cards/ChangedLessonCard.dart';
-import '../Datas/Absence.dart';
-import '../Datas/Evaluation.dart';
+import '../Datas/Student.dart';
 import '../Datas/Note.dart';
 import '../Datas/Account.dart';
 import '../GlobalDrawer.dart';
@@ -17,8 +16,9 @@ import '../globals.dart' as globals;
 import '../Helpers/SettingsHelper.dart';
 import '../Datas/Lesson.dart';
 import '../Helpers/TimetableHelper.dart';
+import '../Helpers/BackgroundHelper.dart';
 
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -32,12 +32,21 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
+  List mainScreenCards;
+
   List<Evaluation> evaluations = new List();
   Map<String, List<Absence>> absents = new Map();
   List<Note> notes = new List();
   List<Lesson> lessons = new List();
 
-  DateTime startDate = DateTime.now();
+  // for testing
+  // DateTime get now => DateTime.parse("2019-06-03 08:00:00Z");
+  DateTime get now => DateTime.now();
+
+  DateTime startDate;
+
+  //DateTime startDate = DateTime.now();
+
 
   bool hasOfflineLoaded = false;
   bool hasLoaded = false;
@@ -46,19 +55,32 @@ class MainScreenState extends State<MainScreen> {
     DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme()
         ? Brightness.dark
         : Brightness.light);
+
+    BackgroundHelper().configure();
+    // refresh color settings
+    globals.color1 = await SettingsHelper().getEvalColor(0);
+    globals.color2 = await SettingsHelper().getEvalColor(1);
+    globals.color3 = await SettingsHelper().getEvalColor(2);
+    globals.color4 = await SettingsHelper().getEvalColor(3);
+    globals.color5 = await SettingsHelper().getEvalColor(4);
   }
 
   @override
   void initState() {
     _initSettings();
     super.initState();
-    _onRefresh(offline: true);
-    _onRefresh(offline: false);
-    //_onRefreshOffline();
+    _onRefresh(offline: true).then((var a) {
+      mainScreenCards = feedItems();
+    });
+    if (globals.firstMain) {
+      _onRefresh(offline: false);
+      globals.firstMain = false;
+    }
+    startDate = now;
   }
 
   List<Widget> feedItems() {
-    int maximumFeedLength = 250;
+    int maximumFeedLength = 100;
 
     List<Widget> feedCards = new List();
 
@@ -72,48 +94,61 @@ class MainScreenState extends State<MainScreen> {
     bool rem = false;
 
     for (Lesson l in lessons.where((Lesson lesson) =>
-        (lesson.isMissed || lesson.isSubstitution) &&
-        lesson.date.isAfter(DateTime.now())))
+    (lesson.isMissed || lesson.isSubstitution) &&
+        lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
 
     for (Lesson l in realLessons)
-      if (l.start.isAfter(DateTime.now()) && l.start.day == DateTime.now().day)
+      if (l.start.isAfter(now) && l.start.day == now.day)
         rem = true;
     if (realLessons.length > 0 && rem)
-      feedCards.add(new LessonCard(realLessons, context));
-    feedCards.sort((Widget a, Widget b) {
-      return b.key.toString().compareTo(a.key.toString());
-    });
+      feedCards.add(new LessonCard(realLessons, context, now));
+    try {
+      feedCards.sort((Widget a, Widget b) {
+        return b.key.toString().compareTo(a.key.toString());
+      });
+    } catch (e) {
+      print(e);
+    }
 
     if (maximumFeedLength > feedCards.length)
       maximumFeedLength = feedCards.length;
+
     return feedCards.sublist(0, maximumFeedLength);
   }
 
   Future<bool> _onWillPop() {
     return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return new AlertDialog(
-              title: new Text(AppLocalizations.of(context).sure),
-              content: new Text(AppLocalizations.of(context).confirm_close),
-              actions: <Widget>[
-                new FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text(AppLocalizations.of(context).no),
-                ),
-                new FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: new Text(AppLocalizations.of(context).yes),
-                ),
-              ],
-            );
-          },
-        ) ??
+      context: context,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text(S
+              .of(context)
+              .sure),
+          content: new Text(S
+              .of(context)
+              .confirm_close),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text(S
+                  .of(context)
+                  .no),
+            ),
+            new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: new Text(S
+                  .of(context)
+                  .yes),
+            ),
+          ],
+        );
+      },
+    ) ??
         false;
   }
 
@@ -124,7 +159,9 @@ class MainScreenState extends State<MainScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(AppLocalizations.of(context).title),
+              title: new Text(S
+                  .of(context)
+                  .title),
               actions: <Widget>[
                 //todo search maybe?
               ],
@@ -136,21 +173,21 @@ class MainScreenState extends State<MainScreen> {
                     height: double.infinity,
                     child: new RefreshIndicator(
                       child: new ListView(
-                        children: feedItems(),
+                        children: mainScreenCards,
                       ),
                       onRefresh: (){
-                        //_onRefresh(offline: true);
                         Completer<Null> completer = new Completer<Null>();
                         _onRefresh().then((bool b){
                           setState(() {
                             completer.complete();
+                            mainScreenCards = feedItems();
                           });
                         });
                         return completer.future;
-                        },
-                      )
+                      },
+                    )
                 )
-                        : new Center(child: new CircularProgressIndicator()))));
+                    : new Center(child: new CircularProgressIndicator()))));
   }
 
   Future<Null> _onRefresh({bool offline = false}) async {
@@ -166,44 +203,20 @@ class MainScreenState extends State<MainScreen> {
 
     if (globals.isSingle) {
       try {
-        await globals.selectedAccount.refreshEvaluations(true, offline);
-        tempEvaluations.addAll(globals.selectedAccount.evaluations);
-      } catch (exception) {
-        print(exception);
-      }
-
-      try {
-        await globals.selectedAccount.refreshAbsents(false, offline);
-        tempAbsents.addAll(globals.selectedAccount.absents);
-      } catch (exception) {
-        print(exception);
-      }
-
-      try {
-        await globals.selectedAccount.refreshNotes(false, offline);
+        await globals.selectedAccount.refreshStudentString(offline);
+        tempEvaluations.addAll(globals.selectedAccount.student.Evaluations);
         tempNotes.addAll(globals.selectedAccount.notes);
+        tempAbsents.addAll(globals.selectedAccount.absents);
       } catch (exception) {
         print(exception);
       }
     } else {
       for (Account account in globals.accounts) {
         try {
-          await account.refreshEvaluations(true, offline);
-          tempEvaluations.addAll(account.evaluations);
-        } catch (exception) {
-          print(exception);
-        }
-
-        try {
-          await account.refreshAbsents(false, offline);
-          tempAbsents.addAll(account.absents);
-        } catch (exception) {
-          print(exception);
-        }
-
-        try {
-          await account.refreshNotes(false, offline);
+          await account.refreshStudentString(offline);
+          tempEvaluations.addAll(account.student.Evaluations);
           tempNotes.addAll(account.notes);
+          tempAbsents.addAll(account.absents);
         } catch (exception) {
           print(exception);
         }
@@ -214,7 +227,7 @@ class MainScreenState extends State<MainScreen> {
     if (tempAbsents.length > 0) absents = tempAbsents;
     if (tempNotes.length > 0) notes = tempNotes;
 
-    startDate = DateTime.now();
+    startDate = now;
     startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
 
     if (offline) {
@@ -238,9 +251,13 @@ class MainScreenState extends State<MainScreen> {
         print(exception);
       }
     }
-    lessons.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
+    try {
+      lessons.sort((Lesson a, Lesson b) => a.start.compareTo(b.start));
 
-    if (lessons.length > 0) globals.lessons = lessons;
+      if (lessons.length > 0) globals.lessons = lessons;
+    } catch (e) {
+      print(e);
+    }
 
     Completer<Null> completer = new Completer<Null>();
     if (!offline) hasLoaded = true;

@@ -9,7 +9,7 @@ import '../Helpers/HomeworkHelper.dart';
 
 import 'package:html_unescape/html_unescape.dart';
 import '../globals.dart' as globals;
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import '../Utils/StringFormatter.dart';
 import '../Dialog/TimeSelectDialog.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -73,7 +73,9 @@ class HomeworkScreenState extends State<HomeworkScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(AppLocalizations.of(context).homeworks),
+              title: new Text(S
+                  .of(context)
+                  .homeworks),
               actions: <Widget>[
                 new IconButton(icon: new Icon(Icons.access_time), onPressed: (){
                     timeDialog().then((b) {
@@ -118,14 +120,24 @@ class HomeworkScreenState extends State<HomeworkScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(homework.subject + " " + AppLocalizations.of(context).homework),
+          title: new Text(homework.subject + " " + S
+              .of(context)
+              .homework),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                homework.deadline != null ? new Text(AppLocalizations.of(context).deadline + homework.deadline) : new Container(),
-                new Text(AppLocalizations.of(context).subject + homework.subject),
-                new Text(AppLocalizations.of(context).uploader + homework.uploader),
-                new Text(AppLocalizations.of(context).upload_time +
+                homework.deadline != null ? new Text(S
+                    .of(context)
+                    .deadline + homework.deadline) : new Container(),
+                new Text(S
+                    .of(context)
+                    .subject + homework.subject),
+                new Text(S
+                    .of(context)
+                    .uploader + homework.uploader),
+                new Text(S
+                    .of(context)
+                    .upload_time +
                     homework.uploadDate
                         .substring(0, 16)
                         .replaceAll("-", '. ')
@@ -138,7 +150,9 @@ class HomeworkScreenState extends State<HomeworkScreen> {
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text(AppLocalizations.of(context).ok),
+              child: new Text(S
+                  .of(context)
+                  .ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },

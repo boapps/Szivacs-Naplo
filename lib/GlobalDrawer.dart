@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'globals.dart';
 import 'Datas/Account.dart';
 import 'Datas/User.dart';
-import 'Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
+import 'screens/studentScreen.dart';
 
 BuildContext ctx;
 
@@ -82,7 +83,9 @@ class GDrawerState extends State<GDrawer> {
                     children: <Widget>[
                       new Container(
                         child: new Text(
-                          AppLocalizations.of(context).title,
+                          S
+                              .of(context)
+                              .title,
                           style: TextStyle(fontSize: 19.0),
                         ),
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 5.0, 0.0),
@@ -100,7 +103,9 @@ class GDrawerState extends State<GDrawer> {
                     children: <Widget>[
                       new Container(
                         child: new Text(
-                          AppLocalizations.of(context).made_by,
+                          S
+                              .of(context)
+                              .made_by,
                           style: TextStyle(
                             fontSize: 19.0,
                           ),
@@ -109,7 +114,9 @@ class GDrawerState extends State<GDrawer> {
                       ),
                       new Container(
                         child: new Text(
-                          AppLocalizations.of(context).boa,
+                          S
+                              .of(context)
+                              .boa,
                           style:
                           TextStyle(fontSize: 19.0, color: Theme.of(context).accentColor),
                         ),
@@ -127,7 +134,7 @@ class GDrawerState extends State<GDrawer> {
           ) : new Container(height: 5,),
           selectedUser != null && multiAccount ? new Container(
             child: new DrawerHeader(
-              child: new PopupMenuButton<User>(
+              child: Row(children: <Widget>[new PopupMenuButton<User>(
                 child: new Container(
                   child: new Row(
                     children: <Widget>[
@@ -151,10 +158,23 @@ class GDrawerState extends State<GDrawer> {
                             new Icon(Icons.account_circle, color: user.color,),
                             new Text(user.name),
                           ],
-                        )
+                        ),
                     );
                   }).toList();
                 },
+              ),
+                Expanded(child: Container()),
+                IconButton(icon: Icon(Icons.info, color: Theme
+                    .of(context)
+                    .accentColor,), onPressed: () {
+                  Navigator.pop(context); // close the drawer
+                  Navigator.push(context, new MaterialPageRoute(builder: (
+                      BuildContext context) =>
+                  new StudentScreen(account: selectedAccount,)));
+                },
+                  padding: EdgeInsets.only(right: 10),),
+              ],
+                mainAxisSize: MainAxisSize.max,
               ),
               padding: EdgeInsets.all(0),
               margin: EdgeInsets.all(0),
@@ -166,7 +186,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.home, color: screen == 0 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).main_page,
+            title: new Text(S
+                .of(context)
+                .main_page,
               style: TextStyle(color: screen == 0 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 0;
@@ -177,7 +199,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.assignment, color: screen == 1 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).evaluations,
+            title: new Text(S
+                .of(context)
+                .evaluations,
               style: TextStyle(color: screen == 1 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 1;
@@ -189,7 +213,9 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf520, fontFamily: "Material Design Icons"),
               color: screen == 2 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).timetable,
+            title: new Text(S
+                .of(context)
+                .timetable,
               style: TextStyle(color: screen == 2 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 2;
@@ -201,7 +227,9 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf2dc, fontFamily: "Material Design Icons"),
               color: screen == 8 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).homeworks,
+            title: new Text(S
+                .of(context)
+                .homeworks,
               style: TextStyle(color: screen == 8 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 8;
@@ -213,7 +241,9 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf0e5, fontFamily: "Material Design Icons"),
               color: screen == 3 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).notes,
+            title: new Text(S
+                .of(context)
+                .notes,
               style: TextStyle(color: screen == 3 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 3;
@@ -224,7 +254,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.block, color: screen == 5 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).absent_title,
+            title: new Text(S
+                .of(context)
+                .absent_title,
               style: TextStyle(color: screen == 5 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 5;
@@ -236,7 +268,9 @@ class GDrawerState extends State<GDrawer> {
             leading: new Icon(
               IconData(0xf127, fontFamily: "Material Design Icons"),
               color: screen == 6 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).statistics,
+            title: new Text(S
+                .of(context)
+                .statistics,
               style: TextStyle(color: screen == 6 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 6;
@@ -247,7 +281,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(Icons.supervisor_account,
               color: screen == 4 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).accounts,
+            title: new Text(S
+                .of(context)
+                .accounts,
               style: TextStyle(color: screen == 4 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 4;
@@ -258,7 +294,9 @@ class GDrawerState extends State<GDrawer> {
           new ListTile(
             leading: new Icon(
               Icons.settings, color: screen == 7 ? Theme.of(context).accentColor : null,),
-            title: new Text(AppLocalizations.of(context).settings,
+            title: new Text(S
+                .of(context)
+                .settings,
               style: TextStyle(color: screen == 7 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 7;

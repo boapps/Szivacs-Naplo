@@ -1,4 +1,4 @@
-package io.github.boapps.flutternaplo;
+package com.example.e_szivacs;
 
 import com.transistorsoft.flutter.backgroundfetch.BackgroundFetchPlugin;
 

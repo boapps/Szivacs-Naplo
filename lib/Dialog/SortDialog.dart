@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../globals.dart' as globals;
-import '../Helpers/LocaleHelper.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 
 class SortDialog extends StatefulWidget {
   const SortDialog();
@@ -22,13 +22,21 @@ class SortDialogState extends State<SortDialog> {
 
   Widget build(BuildContext context) {
     List<String> sortOptionList = [
-      AppLocalizations.of(context).sort_by_time,
-      AppLocalizations.of(context).sort_by_eval,
-      AppLocalizations.of(context).sort_by_subject
+      S
+          .of(context)
+          .sort_time,
+      S
+          .of(context)
+          .sort_eval,
+      S
+          .of(context)
+          .sort_subject
     ];
 
     return new SimpleDialog(
-      title: new Text(AppLocalizations.of(context).sort),
+      title: new Text(S
+          .of(context)
+          .sort),
       contentPadding: const EdgeInsets.all(10.0),
       children: <Widget>[
         new PopupMenuButton<String>(
