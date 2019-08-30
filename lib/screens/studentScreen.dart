@@ -1,13 +1,8 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../GlobalDrawer.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:e_szivacs/generated/i18n.dart';
-import '../globals.dart' as globals;
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import '../Datas/Account.dart';
 import '../Datas/Student.dart';
+import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
 
 class StudentScreen extends StatefulWidget {
@@ -46,7 +41,9 @@ class StudentScreenState extends State<StudentScreen> {
             ),
             ListTile(
               title: Text("kréta id"),
-              trailing: Text(this.widget.account.student.StudentId.toString()),
+              trailing: Text(
+                  this.widget.account.student.StudentId != null ? this.widget
+                      .account.student.StudentId.toString() : "-"),
             ),
             Row(
               children: <Widget>[
@@ -62,13 +59,13 @@ class StudentScreenState extends State<StudentScreen> {
                 ),
               ],
             ),
-            Row(
+            widget.account.student.FormTeacher != null ? Row(
               children: <Widget>[
                 Expanded(child: Container(
                   child: Text("osztályfőnök"), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: <String>[
-                    widget.account.student.FormTeacher.Name,
+                    widget.account.student.FormTeacher.Name ?? "",
                     widget.account.student.FormTeacher.Email ?? "",
                     widget.account.student.FormTeacher.PhoneNumber ?? ""
                   ].map((String data) {
@@ -78,14 +75,14 @@ class StudentScreenState extends State<StudentScreen> {
                   width: c_width,
                 ),
               ],
-            ),
+            ) : Container(),
             Row(
               children: <Widget>[
                 Expanded(child: Container(
                   child: Text("iskola"), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: <String>[
-                    widget.account.student.InstituteName,
+                    widget.account.student.InstituteName ?? "",
                     widget.account.student.InstituteCode ?? ""
                   ].map((String data) {
                     return Text(data, maxLines: 3, softWrap: true,);
@@ -122,10 +119,10 @@ class StudentScreenState extends State<StudentScreen> {
                 ),
               ],
             ) : Container(),
-            ListTile(
+            widget.account.student.MothersName != null ? ListTile(
               title: Text("anyja neve"),
               trailing: Text(widget.account.student.MothersName),
-            ),
+            ) : Container(),
           ],
         ),
       ),
