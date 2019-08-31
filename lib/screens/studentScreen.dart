@@ -1,3 +1,4 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Account.dart';
@@ -7,21 +8,15 @@ import '../Utils/StringFormatter.dart';
 
 class StudentScreen extends StatefulWidget {
   StudentScreen({this.account});
-
   Account account;
-
   @override
   StudentScreenState createState() => new StudentScreenState();
 }
 
 class StudentScreenState extends State<StudentScreen> {
-
   @override
   Widget build(BuildContext context) {
-    double c_width = MediaQuery
-        .of(context)
-        .size
-        .width * 0.6;
+    double c_width = MediaQuery.of(context).size.width * 0.6;
 
     return new Scaffold(
       drawer: GDrawer(),
@@ -35,13 +30,13 @@ class StudentScreenState extends State<StudentScreen> {
         child: ListView(
           children: <Widget>[
             ListTile(
-              title: Text("születési dátum"),
+              title: Text(S.of(context).info_birthdate),
               trailing: Text(dateToHuman(
                   DateTime.parse(this.widget.account.student.DateOfBirthUtc)
                       .add(Duration(days: 1)))),
             ),
             ListTile(
-              title: Text("kréta id"),
+              title: Text(S.of(context).info_kretaid),
               trailing: Text(
                   this.widget.account.student.StudentId != null ? this.widget
                       .account.student.StudentId.toString() : "-"),
@@ -49,7 +44,7 @@ class StudentScreenState extends State<StudentScreen> {
             Row(
               children: <Widget>[
                 Expanded(child: Container(
-                  child: Text("lakcím"), padding: EdgeInsets.all(18),),),
+                  child: Text(S.of(context).info_address), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: widget.account.student.AddressDataList.map((
                       String address) {
@@ -63,7 +58,7 @@ class StudentScreenState extends State<StudentScreen> {
             widget.account.student.FormTeacher != null ? Row(
               children: <Widget>[
                 Expanded(child: Container(
-                  child: Text("osztályfőnök"), padding: EdgeInsets.all(18),),),
+                  child: Text(S.of(context).info_teacher), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: <String>[
                     widget.account.student.FormTeacher.Name ?? "",
@@ -80,7 +75,7 @@ class StudentScreenState extends State<StudentScreen> {
             Row(
               children: <Widget>[
                 Expanded(child: Container(
-                  child: Text("iskola"), padding: EdgeInsets.all(18),),),
+                  child: Text(S.of(context).info_school), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: <String>[
                     widget.account.student.InstituteName ?? "",
@@ -97,7 +92,7 @@ class StudentScreenState extends State<StudentScreen> {
             widget.account.student.Tutelaries != null ? Row(
               children: <Widget>[
                 Expanded(child: Container(
-                  child: Text("szülők"), padding: EdgeInsets.all(18),),),
+                  child: Text(S.of(context).info_parents), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: widget.account.student.Tutelaries.map((
                       TutelariesBean parrent) {
@@ -121,7 +116,7 @@ class StudentScreenState extends State<StudentScreen> {
               ],
             ) : Container(),
             widget.account.student.MothersName != null ? ListTile(
-              title: Text("anyja neve"),
+              title: Text(S.of(context).info_mathers_name),
               trailing: Text(widget.account.student.MothersName),
             ) : Container(),
           ],

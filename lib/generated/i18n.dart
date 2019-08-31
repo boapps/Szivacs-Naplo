@@ -14,7 +14,7 @@ class S implements WidgetsLocalizations {
   static S current;
 
   static const GeneratedLocalizationsDelegate delegate =
-  GeneratedLocalizationsDelegate();
+    GeneratedLocalizationsDelegate();
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
@@ -42,13 +42,9 @@ class S implements WidgetsLocalizations {
   String get choose_username => "Please enter a username!";
   String get class_average => "Class average: ";
   String get color => "Color";
-
   String get color_lightgreen => "lightgreen";
-
   String get color_pink => "pink";
-
   String get color_purple => "purple";
-
   String get color_teal => "teal";
   String get colorful_mainpage => "Colorful main-page";
   String get confirm_close => "Do you want to close the application?";
@@ -59,9 +55,7 @@ class S implements WidgetsLocalizations {
   String get delay_mins => "delay time: ";
   String get dep => "substitution";
   String get dep_teacher => "deputy teacher: ";
-
-  String get disclaimer =>
-      "This is an unofficial, nonprofit client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n";
+  String get disclaimer => "This is an unofficial, nonprofit client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n";
   String get done => "done";
   String get email => "eSzivacs@gmail.com";
   String get endyear => "end-year";
@@ -81,6 +75,13 @@ class S implements WidgetsLocalizations {
   String get homeworks => "Homeworks";
   String get if_i_got => "What if I got a...";
   String get info => "About";
+  String get info_address => "Address: ";
+  String get info_birthdate => "Date of birth: ";
+  String get info_kretaid => "Kréta id: ";
+  String get info_mathers_name => "Mother's name: ";
+  String get info_parents => "Parents: ";
+  String get info_school => "School: ";
+  String get info_teacher => "Teacher: ";
   String get instagram => "Instagram";
   String get justification_mode => "justification method: ";
   String get justification_state => "justification status: ";
@@ -157,20 +158,11 @@ class S implements WidgetsLocalizations {
   String get yellow => "yellow";
   String get yes => "yes";
   String get youtube => "YouTube";
-
-  String all_absences(String amount) =>
-      "Absence (excluding delay): $amount hours";
-
+  String all_absences(String amount) => "Absence (excluding delay): $amount hours";
   String all_delay(String amount) => "Total delay: $amount minutes";
-
-  String delete_confirmation(String name) =>
-      "Would you like to delete user: $name ?";
-
+  String delete_confirmation(String name) => "Would you like to delete user: $name ?";
   String lessons(String db) => "lessons: $db";
-
-  String parental_justification(String amount) =>
-      "Parental justification: $amount";
-
+  String parental_justification(String amount) => "Parental justification: $amount";
   String sync_frequency(String mins) => "Frequency of sync: $mins min";
 }
 
@@ -204,7 +196,6 @@ class $hu extends S {
   String get dark_theme => "Sötét téma";
   @override
   String get dep => "helyettesítés";
-
   @override
   String get color_pink => "rózsaszín";
   @override
@@ -230,6 +221,8 @@ class $hu extends S {
   @override
   String get version => "verzió: ";
   @override
+  String get info_parents => "Szülők: ";
+  @override
   String get upload_time => "feltöltés ideje: ";
   @override
   String get if_i_got => "Ha kapnék egy...";
@@ -243,6 +236,8 @@ class $hu extends S {
   String get yellow => "sárga";
   @override
   String get range => "határ: ";
+  @override
+  String get info_mathers_name => "Anyja neve: ";
   @override
   String get absent_title => "Hiányzások / Késések";
   @override
@@ -264,21 +259,21 @@ class $hu extends S {
   @override
   String get prev_week => "előző hét";
   @override
+  String get info_address => "Lakcím: ";
+  @override
   String get deadline => "határidő: ";
   @override
   String get email => "eSzivacs@gmail.com";
   @override
   String get administration_time => "naplózás ideje: ";
   @override
-  String get disclaimer =>
-      "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n";
+  String get disclaimer => "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n";
   @override
   String get lesson_end => "óra vége: ";
   @override
   String get homework => "házi";
   @override
   String get missed => "elmarad";
-
   @override
   String get color_teal => "kékeszöld";
   @override
@@ -303,6 +298,8 @@ class $hu extends S {
   String get network_error => "hálózati probléma";
   @override
   String get notes => "Feljegyzések";
+  @override
+  String get info_teacher => "Osztályfőnök: ";
   @override
   String get lesson_start => "órakezdés: ";
   @override
@@ -351,7 +348,6 @@ class $hu extends S {
   String get datas => "Adatok";
   @override
   String get weight => "súly: ";
-
   @override
   String get average_menu => "átlag";
   @override
@@ -371,9 +367,13 @@ class $hu extends S {
   @override
   String get boa => "BoA";
   @override
+  String get info_school => "Iskola: ";
+  @override
   String get class_average => "Osztályátlag: ";
   @override
   String get next_day => "következő nap";
+  @override
+  String get info_kretaid => "Kréta azonosító: ";
   @override
   String get short_tuesday => "K";
   @override
@@ -416,7 +416,6 @@ class $hu extends S {
   String get next_lesson => "Következő óra: ";
   @override
   String get absence_time => "hiányzás ideje: ";
-
   @override
   String get color_lightgreen => "világosabb zöld";
   @override
@@ -427,7 +426,6 @@ class $hu extends S {
   String get green => "zöld";
   @override
   String get yes => "igen";
-
   @override
   String get color_purple => "lila";
   @override
@@ -443,6 +441,8 @@ class $hu extends S {
   @override
   String get choose_username => "Kérlek add meg a felhasználónevedet!";
   @override
+  String get info_birthdate => "Születési dátum: ";
+  @override
   String get time => "idő: ";
   @override
   String get made_by => "készítette: ";
@@ -450,27 +450,18 @@ class $hu extends S {
   String get short_monday => "H";
   @override
   String get username => "felhasználónév";
-
   @override
-  String all_absences(String amount) =>
-      "Összes hiányzás (nincs benne a késés): $amount óra";
-
+  String all_absences(String amount) => "Összes hiányzás (nincs benne a késés): $amount óra";
   @override
   String parental_justification(String amount) => "Szülői igazolás: $amount db";
-
   @override
   String lessons(String db) => "órák: $db db";
-
   @override
-  String delete_confirmation(String name) =>
-      "Törölni szeretnéd $name felhasználót?";
-
+  String delete_confirmation(String name) => "Törölni szeretnéd $name felhasználót?";
   @override
   String all_delay(String amount) => "Összes késés: $amount perc";
-
   @override
-  String sync_frequency(String mins) =>
-      "Szinkronizálás gyakorisága: $mins perc";
+  String sync_frequency(String mins) => "Szinkronizálás gyakorisága: $mins perc";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -483,8 +474,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     ];
   }
 
-  LocaleListResolutionCallback listResolution(
-      {Locale fallback, bool withCountry = true}) {
+  LocaleListResolutionCallback listResolution({Locale fallback, bool withCountry = true}) {
     return (List<Locale> locales, Iterable<Locale> supported) {
       if (locales == null || locales.isEmpty) {
         return fallback ?? supported.first;
@@ -494,8 +484,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     };
   }
 
-  LocaleResolutionCallback resolution(
-      {Locale fallback, bool withCountry = true}) {
+  LocaleResolutionCallback resolution({Locale fallback, bool withCountry = true}) {
     return (Locale locale, Iterable<Locale> supported) {
       return _resolve(locale, fallback, supported, withCountry);
     };
@@ -513,7 +502,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
           S.current = const $hu();
           return SynchronousFuture<S>(S.current);
         default:
-        // NO-OP.
+          // NO-OP.
       }
     }
     S.current = const S();
@@ -529,8 +518,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   ///
   /// Internal method to resolve a locale from a list of locales.
   ///
-  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported,
-      bool withCountry) {
+  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported, bool withCountry) {
     if (locale == null || !_isSupported(locale, withCountry)) {
       return fallback ?? supported.first;
     }
@@ -563,8 +551,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         }
 
         // If no country requirement is requested, check if this locale has no country.
-        if (true != withCountry && (supportedLocale.countryCode == null ||
-            supportedLocale.countryCode.isEmpty)) {
+        if (true != withCountry && (supportedLocale.countryCode == null || supportedLocale.countryCode.isEmpty)) {
           return true;
         }
       }
@@ -573,9 +560,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   }
 }
 
-String getLang(Locale l) =>
-    l == null
-        ? null
-        : l.countryCode != null && l.countryCode.isEmpty
-        ? l.languageCode
-        : l.toString();
+String getLang(Locale l) => l == null
+  ? null
+  : l.countryCode != null && l.countryCode.isEmpty
+    ? l.languageCode
+    : l.toString();

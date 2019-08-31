@@ -134,5 +134,12 @@
   "color_lightgreen": "világosabb zöld",
   "color_pink": "rózsaszín",
   "color_purple": "lila",
-  "color_teal": "kékeszöld"
+  "color_teal": "kékeszöld",
+  "info_birthdate": "Születési dátum: ",
+  "info_kretaid": "Kréta azonosító: ",
+  "info_address": "Lakcím: ",
+  "info_teacher": "Osztályfőnök: ",
+  "info_school": "Iskola: ",
+  "info_parents": "Szülők: ",
+  "info_mathers_name": "Anyja neve: "
 }
