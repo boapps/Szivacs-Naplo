@@ -73,6 +73,10 @@ class AbsentDialogState extends State<AbsentDialog> {
           ),
             margin: EdgeInsets.all(8),
           ),
+          Container(
+            margin: EdgeInsets.only(top: 30),
+            child: new Text(S.of(context).excluding_delay),
+          )
         ]);
   }
 }

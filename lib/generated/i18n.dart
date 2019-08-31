@@ -60,6 +60,7 @@ class S implements WidgetsLocalizations {
   String get email => "eSzivacs@gmail.com";
   String get endyear => "end-year";
   String get evaluations => "Evaluations";
+  String get excluding_delay => "*excluding delay";
   String get flutter => "Flutter";
   String get github => "GitHub";
   String get grade1 => "1 grades:";
@@ -158,7 +159,7 @@ class S implements WidgetsLocalizations {
   String get yellow => "yellow";
   String get yes => "yes";
   String get youtube => "YouTube";
-  String all_absences(String amount) => "Absence (excluding delay): $amount hours";
+  String all_absences(String amount) => "Absence*: $amount hours";
   String all_delay(String amount) => "Total delay: $amount minutes";
   String delete_confirmation(String name) => "Would you like to delete user: $name ?";
   String lessons(String db) => "lessons: $db";
@@ -389,6 +390,8 @@ class $hu extends S {
   @override
   String get absence => "hiányzás";
   @override
+  String get excluding_delay => "*nincs benne a késés";
+  @override
   String get averages => "Átlagok";
   @override
   String get choose => "válassz";
@@ -451,7 +454,7 @@ class $hu extends S {
   @override
   String get username => "felhasználónév";
   @override
-  String all_absences(String amount) => "Összes hiányzás (nincs benne a késés): $amount óra";
+  String all_absences(String amount) => "Összes hiányzás*: $amount óra";
   @override
   String parental_justification(String amount) => "Szülői igazolás: $amount db";
   @override
