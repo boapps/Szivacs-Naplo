@@ -37,7 +37,8 @@ class StudentScreenState extends State<StudentScreen> {
             ListTile(
               title: Text("születési dátum"),
               trailing: Text(dateToHuman(
-                  DateTime.parse(this.widget.account.student.DateOfBirthUtc))),
+                  DateTime.parse(this.widget.account.student.DateOfBirthUtc)
+                      .add(Duration(days: 1)))),
             ),
             ListTile(
               title: Text("kréta id"),
