@@ -1,15 +1,17 @@
 import 'dart:async';
+
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+
+import '../Datas/Account.dart';
 import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
-import '../globals.dart' as globals;
 import '../Utils/AccountManager.dart';
 import '../Utils/Saver.dart';
-import '../Datas/Account.dart';
-import 'package:e_szivacs/generated/i18n.dart';
-import 'studentScreen.dart';
+import '../globals.dart' as globals;
 import '../main.dart';
+import 'studentScreen.dart';
 
 void main() {
   runApp(new MaterialApp(home: new AccountsScreen()));
@@ -167,10 +169,7 @@ class AccountsScreenState extends State<AccountsScreen> {
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .delete_confirmation
-                    .replaceFirst("{{ name }}", user.name)),
+                new Text(S.of(context).delete_confirmation(user.name)),
               ],
             ),
           ),

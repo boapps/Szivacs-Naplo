@@ -383,7 +383,9 @@ class SettingsScreenState extends State<SettingsScreen> {
       S
           .of(context)
           .green,
-      "világosabb zöld",
+      S
+          .of(context)
+          .color_lightgreen,
       S
           .of(context)
           .yellow,
@@ -393,9 +395,15 @@ class SettingsScreenState extends State<SettingsScreen> {
       S
           .of(context)
           .grey,
-      "rózsaszín",
-      "lila",
-      "kékeszöld"
+      S
+          .of(context)
+          .color_pink,
+      S
+          .of(context)
+          .color_purple,
+      S
+          .of(context)
+          .color_teal
     ];
 
     return new WillPopScope(
@@ -466,21 +474,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 ListTile(
                   title: new Text(
-                    S
-                        .of(context)
-                        .color + " (" + S
-                        .of(context)
-                        .evaluations + ")",
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, "/evalcolor");
-                  },
-                  leading: new Icon(IconData(0xf50e,
-                      fontFamily: "Material Design Icons")),
-                ),
-                ListTile(
-                  title: new Text(
                     "Amoled",
                     style: TextStyle(fontSize: 20.0),
                   ),
@@ -494,6 +487,20 @@ class SettingsScreenState extends State<SettingsScreen> {
                   ),
                   leading: new Icon(IconData(0xf301,
                       fontFamily: "Material Design Icons")),
+                ),
+                ListTile(
+                  title: new Text(
+                    S
+                        .of(context)
+                        .color + " (" + S
+                        .of(context)
+                        .evaluations + ")",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/evalcolor");
+                  },
+                  leading: new Icon(Icons.color_lens),
                 ),
                 ListTile(
                   title: new PopupMenuButton<int>(
@@ -566,11 +573,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ? new PopupMenuButton<int>(
                   child: new ListTile(
                     title: new Text(
-                      S
-                          .of(context)
-                          .sync_frequency
-                          .replaceFirst(
-                          "{{ mins }}",
+                      S.of(context).sync_frequency(
                           _refreshNotification.toString()),
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -596,11 +599,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 )
                     : new ListTile(
                   title: new Text(
-                    S
-                        .of(context)
-                        .sync_frequency
-                        .replaceFirst(
-                        "{{ mins }}",
+                    S.of(context).sync_frequency(
                         _refreshNotification.toString()),
                     style: TextStyle(fontSize: 20.0),
                   ),

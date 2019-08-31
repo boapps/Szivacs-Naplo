@@ -1,7 +1,7 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../globals.dart' as globals;
-import 'package:e_szivacs/generated/i18n.dart';
 
 class SortDialog extends StatefulWidget {
   const SortDialog();

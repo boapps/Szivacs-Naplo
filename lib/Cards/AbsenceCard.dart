@@ -1,6 +1,6 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
-import 'package:e_szivacs/generated/i18n.dart';
 import '../Datas/Student.dart';
 import '../Utils/StringFormatter.dart';
 
@@ -104,8 +104,7 @@ class AbsenceCard extends StatelessWidget {
                 children: <Widget>[
                   new Text(S
                       .of(context)
-                      .lessons
-                      .replaceFirst("{{ db }}", numOfAbsences.toString())),
+                      .lessons(numOfAbsences.toString())),
                   //new Text("mód: " + absence.modeName),
                   new Text(S
                       .of(context)

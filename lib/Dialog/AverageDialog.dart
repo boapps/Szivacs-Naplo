@@ -1,9 +1,9 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Average.dart';
 import '../Datas/Student.dart';
 import '../globals.dart' as globals;
-import 'package:e_szivacs/generated/i18n.dart';
 
 class AverageDialog extends StatefulWidget {
   const AverageDialog();
@@ -44,8 +44,7 @@ class AverageDialogState extends State<AverageDialog> {
           .halfyear,
       S
           .of(context)
-          .quarteryear
-          + " (${S
+          .quarteryear + " (${S
           .of(context)
           .notworking})",
       S
@@ -54,12 +53,12 @@ class AverageDialogState extends State<AverageDialog> {
     ];
 
     widgets.add(
-      new Container(
-        child: new DropdownButton<int>(items: [0, 1, 2, 3].map((int choice){
-          return DropdownMenuItem<int>(child: Text(avrChoice[choice]), value: choice,);
-        }).toList(), onChanged: onChanged, value: pageID,),
-        margin: EdgeInsets.all(10),
-      )
+        new Container(
+          child: new DropdownButton<int>(items: [0, 1, 2, 3].map((int choice){
+            return DropdownMenuItem<int>(child: Text(avrChoice[choice]), value: choice,);
+          }).toList(), onChanged: onChanged, value: pageID,),
+          margin: EdgeInsets.all(10),
+        )
     );
 
     setState(() {
@@ -92,8 +91,7 @@ class AverageDialogState extends State<AverageDialog> {
       title: new Text(currentAvers[index].subject),
       subtitle: new Text(currentAvers[index].value.toStringAsFixed(2), style: TextStyle(
           color: currentAvers[index].value < 2 ? Colors.red : null),),
-      onTap: () {
-      },
+      onTap: () {},
     );
   }
 
@@ -124,17 +122,16 @@ class AverageDialogState extends State<AverageDialog> {
       case 2: // TODO negyedéves jegyek
         break;
       case 3: // év végi jegyek
-	  	for (Evaluation evaluation in evaluations)
-			if (evaluation.isEndYear())
-        currentAvers.add(Average(evaluation.Subject,
-            evaluation.SubjectCategory, evaluation.Subject,
-            evaluation.NumberValue / 1, 0, 0));
-      currentAvers.sort((Average a, Average b) {
-        return a.subject.compareTo(b.subject);
-      });
-      break;
+        for (Evaluation evaluation in evaluations)
+          if (evaluation.isEndYear())
+            currentAvers.add(Average(evaluation.Subject,
+                evaluation.SubjectCategory, evaluation.Subject,
+                evaluation.NumberValue / 1, 0, 0));
+        currentAvers.sort((Average a, Average b) {
+          return a.subject.compareTo(b.subject);
+        });
+        break;
     }
-
   }
 
   double getAllAverages() {

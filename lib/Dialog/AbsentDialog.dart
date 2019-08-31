@@ -1,7 +1,7 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Student.dart';
-import 'package:e_szivacs/generated/i18n.dart';
 import '../Datas/User.dart';
 import '../globals.dart' as globals;
 
@@ -55,28 +55,20 @@ class AbsentDialogState extends State<AbsentDialog> {
         contentPadding: const EdgeInsets.all(5.0),
         children: <Widget>[
           Container(child: new Text(
-            S
-                .of(context)
-                .parental_justification
-                .replaceFirst("{{ amount }}", sumOfParentalAbsences.toString()),
+            S.of(context).parental_justification(
+                sumOfParentalAbsences.toString()),
             style: TextStyle(fontSize: 16.0),
           ),
             margin: EdgeInsets.all(8),
           ),
           Container(child: new Text(
-            S
-                .of(context)
-                .all_absences
-                .replaceFirst("{{ amount }}", sumOfAllAbsences.toString()),
+            S.of(context).all_absences(sumOfAllAbsences.toString()),
             style: TextStyle(fontSize: 16.0),
           ),
             margin: EdgeInsets.all(8),
           ),
           Container(child: new Text(
-            S
-                .of(context)
-                .all_delay
-                .replaceFirst("{{ amount }}", sumOfDelayMinutes.toString()),
+            S.of(context).all_delay(sumOfDelayMinutes.toString()),
             style: TextStyle(fontSize: 16.0),
           ),
             margin: EdgeInsets.all(8),
