@@ -145,6 +145,14 @@ class EvaluationCard extends StatelessWidget {
         typeIcon = Icons.book;
         typeName = "évfolyamdolgozat";
         break;
+      case "év végi":
+        typeIcon = IconData(0xF23C, fontFamily: "Material Design Icons");
+        typeName = "évfolyamdolgozat";
+        break;
+      case "Házi dolgozat":
+        typeIcon = IconData(0xF224, fontFamily: "Material Design Icons");
+        typeName = "évfolyamdolgozat";
+        break;
       case "":
         typeIcon = null;
         typeName = "";
