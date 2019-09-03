@@ -1,13 +1,15 @@
+import 'dart:convert' show utf8, json;
 import 'dart:ui';
+
+import 'package:charts_flutter/flutter.dart';
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
-import '../GlobalDrawer.dart';
-import '../globals.dart' as globals;
+
 import '../Datas/Average.dart';
 import '../Datas/Student.dart';
-import 'package:charts_flutter/flutter.dart';
+import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
-import 'package:e_szivacs/generated/i18n.dart';
-import 'dart:convert' show utf8, json;
+import '../globals.dart' as globals;
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -770,19 +772,19 @@ class GradeDialogState extends State<GradeDialog> {
       "FormName": "Elégtelen (1) és Jeles (5) között az öt alapértelmezett érték",
       "Type": "MidYear",
       "TypeName": "Évközi jegy/értékelés",
-      "Subject": "Xxxxxxxx",
+      "Subject": "${globals.selectedAverage.subject}",
       "SubjectCategory": null,
-      "SubjectCategoryName": "Xxxxxxxx",
-      "Theme": "xxxxxxx",
+      "SubjectCategoryName": "",
+      "Theme": "",
       "IsAtlagbaBeleszamit": true,
       "Mode": "Gyakorlati feladat",
-      "Weight": "100%",
+      "Weight": "$weight",
       "Value": "Jeles(5)",
-      "NumberValue": 5,
+      "NumberValue": $jegy,
       "SeenByTutelaryUTC": null,
-      "Teacher": "Xxxxxxxx Xxxxxxxx",
-      "Date": "2019-06-07T00:00:00",
-      "CreatingTime": "2019-06-07T08:00:00.000",
+      "Teacher": "",
+      "Date": "${DateTime.now().toIso8601String()}",
+      "CreatingTime": "${DateTime.now().toIso8601String()}",
       "Jelleg": {
         "Id": 1,
         "Nev": "Ertekeles",
