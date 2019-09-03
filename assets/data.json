@@ -18019,9 +18019,9 @@
   },
   {
     "InstituteId": 1644,
-    "InstituteCode": "klik203347001",
+    "InstituteCode": "pusztavam",
     "Name": "Pusztavámi Német Nemzetiségi Általános Iskola",
-    "Url": "https://klik201026005.e-kreta.hu",
+    "Url": "https://pusztavam.e-kreta.hu",
     "City": "Pusztavám",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33265,9 +33265,9 @@
   },
   {
     "InstituteId": 3037,
-    "InstituteCode": "bvszc-dobos",
+    "InstituteCode": "bgaszc-dobos",
     "Name": "Budapesti Vendéglátóipari és Humán SZC Dobos C. József Szakképző Iskolája",
-    "Url": "https://bvszc-dobos.e-kreta.hu",
+    "Url": "https://bgaszc-dobos.e-kreta.hu",
     "City": "Budapest XIII. kerület (1134)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33276,9 +33276,9 @@
   },
   {
     "InstituteId": 3038,
-    "InstituteCode": "bvszc-perlasca",
+    "InstituteCode": "bgaszc-perlasca",
     "Name": "Budapesti Vendéglátóipari és Humán SZC Giorgio Perlasca Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://bvszc-perlasca.e-kreta.hu",
+    "Url": "https://bgaszc-perlasca.e-kreta.hu",
     "City": "Budapest X. kerület (1106)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33287,9 +33287,9 @@
   },
   {
     "InstituteId": 3039,
-    "InstituteCode": "bvszc-gundel",
+    "InstituteCode": "bkszc-gundel",
     "Name": "Budapesti Vendéglátóipari és Humán SZC Gundel Károly Szakképző Iskolája",
-    "Url": "https://bvszc-gundel.e-kreta.hu",
+    "Url": "https://bkszc-gundel.e-kreta.hu",
     "City": "Budapest IX. kerület (1097)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33320,9 +33320,9 @@
   },
   {
     "InstituteId": 3042,
-    "InstituteCode": "bvszc-szamos",
+    "InstituteCode": "bkszc-szamos",
     "Name": "Budapesti Vendéglátóipari és Humán SZC Szamos Mátyás Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://bvszc-szamos.e-kreta.hu",
+    "Url": "https://bkszc-szamos.e-kreta.hu",
     "City": "Budapest XXI. kerület (1212)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33749,9 +33749,9 @@
   },
   {
     "InstituteId": 3081,
-    "InstituteCode": "gymszc-bercsenyi",
+    "InstituteCode": "gyszc-bercsenyi",
     "Name": "Győri Műszaki SZC Bercsényi Miklós Közlekedési és Sportiskolai Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://gymszc-bercsenyi.e-kreta.hu",
+    "Url": "https://gyszc-bercsenyi.e-kreta.hu",
     "City": "Győr (9025)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33760,9 +33760,9 @@
   },
   {
     "InstituteId": 3082,
-    "InstituteCode": "gymszc-gabor",
+    "InstituteCode": "gyszc-gabor",
     "Name": "Győri Műszaki SZC Gábor László Építő- és Faipari Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://gymszc-gabor.e-kreta.hu",
+    "Url": "https://gyszc-gabor.e-kreta.hu",
     "City": "Győr (9024)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33771,9 +33771,9 @@
   },
   {
     "InstituteId": 3083,
-    "InstituteCode": "gymszc-szaboky",
+    "InstituteCode": "gyszc-szaboky",
     "Name": "Győri Műszaki SZC Szabóky Adolf Szakiskolája ",
-    "Url": "https://gymszc-szaboky.e-kreta.hu",
+    "Url": "https://gyszc-szaboky.e-kreta.hu",
     "City": "Győr (9023)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33782,9 +33782,9 @@
   },
   {
     "InstituteId": 3084,
-    "InstituteCode": "gymszc-hild",
+    "InstituteCode": "gyszc-hild",
     "Name": "Győri Műszaki SZC Hild József Építőipari Szakgimnáziuma",
-    "Url": "https://gymszc-hild.e-kreta.hu",
+    "Url": "https://gyszc-hild.e-kreta.hu",
     "City": "Győr (9024)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33793,9 +33793,9 @@
   },
   {
     "InstituteId": 3085,
-    "InstituteCode": "gymszc-hunyadi",
+    "InstituteCode": "gyszc-hunyadi",
     "Name": "Győri Műszaki SZC Hunyadi Mátyás Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://gymszc-hunyadi.e-kreta.hu",
+    "Url": "https://gyszc-hunyadi.e-kreta.hu",
     "City": "Mosonmagyaróvár (9200)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33804,9 +33804,9 @@
   },
   {
     "InstituteId": 3086,
-    "InstituteCode": "gymszc-jedlik",
+    "InstituteCode": "gyszc-jedlik",
     "Name": "Győri Műszaki SZC Jedlik Ányos Gépipari és Informatikai Szakgimnáziuma, Szakközépiskolája és Kollégiuma",
-    "Url": "https://gymszc-jedlik.e-kreta.hu",
+    "Url": "https://gyszc-jedlik.e-kreta.hu",
     "City": "Győr (9021)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33815,9 +33815,9 @@
   },
   {
     "InstituteId": 3087,
-    "InstituteCode": "gymszc-lukacs",
+    "InstituteCode": "gyszc-lukacs",
     "Name": "Győri Műszaki SZC Lukács Sándor Mechatronikai és Gépészeti Szakgimnáziuma, Szakközépiskolája és Kollégiuma",
-    "Url": "https://gymszc-lukacs.e-kreta.hu",
+    "Url": "https://gyszc-lukacs.e-kreta.hu",
     "City": "Győr (9027)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33826,9 +33826,9 @@
   },
   {
     "InstituteId": 3088,
-    "InstituteCode": "gymszc-pattantyus",
+    "InstituteCode": "gyszc-pattantyus",
     "Name": "Győri Műszaki SZC Pattantyús-Ábrahám Géza Ipari Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://gymszc-pattantyus.e-kreta.hu",
+    "Url": "https://gyszc-pattantyus.e-kreta.hu",
     "City": "Győr (9024)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33837,9 +33837,9 @@
   },
   {
     "InstituteId": 3089,
-    "InstituteCode": "gyszszc-baross",
+    "InstituteCode": "gyszc-baross",
     "Name": "Győri Szolgáltatási SZC Baross Gábor Két Tanítási Nyelvű Közgazdasági és Ügyviteli Szakgimnáziuma",
-    "Url": "https://gyszszc-baross.e-kreta.hu",
+    "Url": "https://gyszc-baross.e-kreta.hu",
     "City": "Győr (9024)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33848,9 +33848,9 @@
   },
   {
     "InstituteId": 3090,
-    "InstituteCode": "gyszszc-deak",
+    "InstituteCode": "gyszc-deak",
     "Name": "Győri Szolgáltatási SZC Deák Ferenc Közgazdasági Szakgimnáziuma",
-    "Url": "https://gyszszc-deak.e-kreta.hu",
+    "Url": "https://gyszc-deak.e-kreta.hu",
     "City": "Győr (9022)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33859,9 +33859,9 @@
   },
   {
     "InstituteId": 3091,
-    "InstituteCode": "gyszszc-palffy",
+    "InstituteCode": "gyszc-palffy",
     "Name": "Győri Szolgáltatási SZC Pálffy Miklós Kereskedelmi és Logisztikai Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://gyszszc-palffy.e-kreta.hu",
+    "Url": "https://gyszc-palffy.e-kreta.hu",
     "City": "Győr (9023)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33870,9 +33870,9 @@
   },
   {
     "InstituteId": 3092,
-    "InstituteCode": "gyszszc-csornai",
+    "InstituteCode": "sszc-csornai",
     "Name": "Győri Szolgáltatási SZC Csornai Kossuth Lajos Szakközépiskolája",
-    "Url": "https://gyszszc-csornai.e-kreta.hu",
+    "Url": "https://sszc-csornai.e-kreta.hu",
     "City": "Csorna (9300)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33881,9 +33881,9 @@
   },
   {
     "InstituteId": 3093,
-    "InstituteCode": "gyszszc-kossuth",
+    "InstituteCode": "gyszc-kossuth",
     "Name": "Győri Szolgáltatási Szakképzési Centrum Kossuth Lajos Középiskolája és Kollégiuma",
-    "Url": "https://gyszszc-kossuth.e-kreta.hu",
+    "Url": "https://gyszc-kossuth.e-kreta.hu",
     "City": "Győr (9025)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33892,9 +33892,9 @@
   },
   {
     "InstituteId": 3094,
-    "InstituteCode": "gyszszc-krudy",
+    "InstituteCode": "gyszc-krudy",
     "Name": "Győri Szolgáltatási SZC Krúdy Gyula Gimnáziuma, Két Tanítási Nyelvű Középiskolája, Turisztikai és Vendéglátóipari Szakképző Iskolája",
-    "Url": "https://gyszszc-krudy.e-kreta.hu",
+    "Url": "https://gyszc-krudy.e-kreta.hu",
     "City": "Győr (9024)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33903,9 +33903,9 @@
   },
   {
     "InstituteId": 3095,
-    "InstituteCode": "gyszszc-hunyadi",
+    "InstituteCode": "sszc-hunyadij",
     "Name": "Győri Szolgáltatási SZC Hunyadi János Középiskolája",
-    "Url": "https://gyszszc-hunyadi.e-kreta.hu",
+    "Url": "https://sszc-hunyadij.e-kreta.hu",
     "City": "Csorna (9300)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33914,9 +33914,9 @@
   },
   {
     "InstituteId": 3096,
-    "InstituteCode": "gyszszc-haller",
+    "InstituteCode": "gyszc-haller",
     "Name": "Győri Szolgáltatási SZ C Haller János Általános Iskolája, Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://gyszszc-haller.e-kreta.hu",
+    "Url": "https://gyszc-haller.e-kreta.hu",
     "City": "Mosonmagyaróvár (9200)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -33936,9 +33936,9 @@
   },
   {
     "InstituteId": 3098,
-    "InstituteCode": "gyszszc-bolyai",
+    "InstituteCode": "gyszc-bolyai",
     "Name": "Győri Szolgáltatási SZC Mosonmagyaróvári Bolyai János Általános Iskolája, Informatikai és Közgazdasági Szakgimnáziuma",
-    "Url": "https://gyszszc-bolyai.e-kreta.hu",
+    "Url": "https://gyszc-bolyai.e-kreta.hu",
     "City": "Mosonmagyaróvár",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35784,9 +35784,9 @@
   },
   {
     "InstituteId": 3266,
-    "InstituteCode": "szmszc-jendrassik",
+    "InstituteCode": "szoszc-jendrassik",
     "Name": "Szolnoki Műszaki SZC Jendrassik György Gépipari Szakgimnáziuma",
-    "Url": "https://szmszc-jendrassik.e-kreta.hu",
+    "Url": "https://szoszc-jendrassik.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35795,9 +35795,9 @@
   },
   {
     "InstituteId": 3267,
-    "InstituteCode": "szmszc-baross",
+    "InstituteCode": "szoszc-baross",
     "Name": "Szolnoki Műszaki SZC Baross Gábor Gépipari, Közlekedési Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szmszc-baross.e-kreta.hu",
+    "Url": "https://szoszc-baross.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35806,9 +35806,9 @@
   },
   {
     "InstituteId": 3268,
-    "InstituteCode": "szmszc-petofi",
+    "InstituteCode": "szoszc-petofi",
     "Name": "Szolnoki Műszaki SZC Petőfi Sándor Építészeti és Faipari Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szmszc-petofi.e-kreta.hu",
+    "Url": "https://szoszc-petofi.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35817,9 +35817,9 @@
   },
   {
     "InstituteId": 3269,
-    "InstituteCode": "szmszc-palfy",
+    "InstituteCode": "szoszc-palfy",
     "Name": "Szolnoki Műszaki SZC Pálfy- Vízügyi Szakgimnáziuma",
-    "Url": "https://szmszc-palfy.e-kreta.hu",
+    "Url": "https://szoszc-palfy.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35828,9 +35828,9 @@
   },
   {
     "InstituteId": 3270,
-    "InstituteCode": "szmszc-klapka",
+    "InstituteCode": "szoszc-klapka",
     "Name": "Szolnoki Műszaki SZC Klapka György Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szmszc-klapka.e-kreta.hu",
+    "Url": "https://szoszc-klapka.e-kreta.hu",
     "City": "Jászberény (5100)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35839,9 +35839,9 @@
   },
   {
     "InstituteId": 3271,
-    "InstituteCode": "szmszc-rozsa",
+    "InstituteCode": "szoszc-rozsa",
     "Name": "Szolnoki Műszaki SZC Rózsa Imre Középiskolája és Kollégiuma",
-    "Url": "https://szmszc-rozsa.e-kreta.hu",
+    "Url": "https://szoszc-rozsa.e-kreta.hu",
     "City": "Újszász (5052)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35850,9 +35850,9 @@
   },
   {
     "InstituteId": 3272,
-    "InstituteCode": "szszszc-damjanich",
+    "InstituteCode": "sszoszc-damjanich",
     "Name": "Szolnoki Szolgáltatási SZC Damjanich János Szakképző Iskolája és Kollégiuma",
-    "Url": "https://szszszc-damjanich.e-kreta.hu",
+    "Url": "https://szoszc-damjanich.e-kreta.hu",
     "City": "Martfű (5435)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35861,9 +35861,9 @@
   },
   {
     "InstituteId": 3273,
-    "InstituteCode": "szszszc-sipos",
+    "InstituteCode": "sszoszc-sipos",
     "Name": "Szolnoki Szolgáltatási SZC Sipos Orbán Szakképző Iskolája és Kollégiuma",
-    "Url": "https://szszszc-sipos.e-kreta.hu",
+    "Url": "https://szoszc-sipos.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35872,9 +35872,9 @@
   },
   {
     "InstituteId": 3274,
-    "InstituteCode": "szszszc-ruhaipari",
+    "InstituteCode": "szoszc-ruhaipari",
     "Name": "Szolnoki Szolgáltatási SZC Ruhaipari  Középiskolája, Általános Iskolája és Kollégiuma",
-    "Url": "https://szszszc-ruhaipari.e-kreta.hu",
+    "Url": "https://szoszc-ruhaipari.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35883,9 +35883,9 @@
   },
   {
     "InstituteId": 3275,
-    "InstituteCode": "szszszc-vasarhelyi",
+    "InstituteCode": "szoszc-vasarhelyi",
     "Name": "Szolnoki Szolgáltatási SZC Vásárhelyi Pál Közgazdasági, Egészségügyi és Idegenforgalmi Két Tanítási Nyelvű Szakképző Iskolája",
-    "Url": "https://szszszc-vasarhelyi.e-kreta.hu",
+    "Url": "https://szoszc-vasarhelyi.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35894,9 +35894,9 @@
   },
   {
     "InstituteId": 3276,
-    "InstituteCode": "szszszc-kereskedelmi",
+    "InstituteCode": "szoszc-kervend",
     "Name": "Szolnoki Szolgáltatási SZC Kereskedelmi és Vendéglátóipari Szakképző Iskolája",
-    "Url": "https://szszszc-kereskedelmi.e-kreta.hu",
+    "Url": "https://szoszc-kervend.e-kreta.hu",
     "City": "Szolnok (5000)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35905,9 +35905,9 @@
   },
   {
     "InstituteId": 3277,
-    "InstituteCode": "szomszc-eotvos",
+    "InstituteCode": "vaszc-eotvos",
     "Name": "Szombathelyi Műszaki SZC Eötvös Loránd Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szomszc-eotvos.e-kreta.hu",
+    "Url": "https://vaszc-eotvos.e-kreta.hu",
     "City": "Celldömölk (9500)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35916,9 +35916,9 @@
   },
   {
     "InstituteId": 3278,
-    "InstituteCode": "szomszc-puskas",
+    "InstituteCode": "vaszc-puskas",
     "Name": "Szombathelyi Műszaki SZC Puskás Tivadar Fém- és Villamosipari Szakgimnáziuma, Szakközépiskolája és Kollégiuma",
-    "Url": "https://szomszc-puskas.e-kreta.hu",
+    "Url": "https://vaszc-puskas.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35927,9 +35927,9 @@
   },
   {
     "InstituteId": 3279,
-    "InstituteCode": "szomszc-hefele",
+    "InstituteCode": "vaszc-hefele",
     "Name": "Szombathelyi Műszaki SZC Hefele Menyhért Építő- és Faipari Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szomszc-hefele.e-kreta.hu",
+    "Url": "https://vaszc-hefele.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35938,9 +35938,9 @@
   },
   {
     "InstituteId": 3280,
-    "InstituteCode": "szomszc-nadasdy",
+    "InstituteCode": "vaszc-nadasdy",
     "Name": "Szombathelyi Műszaki SZC Nádasdy Tamás Közgazdasági, Informatikai, Műszaki  Szakgimnáziuma, Szakközépiskolája és Kollégiuma",
-    "Url": "https://szomszc-nadasdy.e-kreta.hu",
+    "Url": "https://vaszc-nadasdy.e-kreta.hu",
     "City": "Csepreg (9735)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35949,9 +35949,9 @@
   },
   {
     "InstituteId": 3281,
-    "InstituteCode": "szomszc-razso",
+    "InstituteCode": "vaszc-razso",
     "Name": "Szombathelyi Műszaki SZC Rázsó Imre Szakgimnáziuma és  Szakközépiskolája",
-    "Url": "https://szomszc-razso.e-kreta.hu",
+    "Url": "https://vaszc-razso.e-kreta.hu",
     "City": "Körmend (9900)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35960,9 +35960,9 @@
   },
   {
     "InstituteId": 3282,
-    "InstituteCode": "szomszc-iiibela",
+    "InstituteCode": "vaszc-iiibela",
     "Name": "Szombathelyi Műszaki Szakképzési Centrum III. Béla Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szomszc-iiibela.e-kreta.hu",
+    "Url": "https://vaszc-iiibela.e-kreta.hu",
     "City": "Szentgotthárd (9970)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35971,9 +35971,9 @@
   },
   {
     "InstituteId": 3283,
-    "InstituteCode": "szomszc-gepipari",
+    "InstituteCode": "vaszc-gepipari",
     "Name": "Szombathelyi Műszaki SZC Gépipari és Informatikai  Szakgimnáziuma",
-    "Url": "https://szomszc-gepipari.e-kreta.hu",
+    "Url": "https://vaszc-gepipari.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35982,9 +35982,9 @@
   },
   {
     "InstituteId": 3284,
-    "InstituteCode": "szomszc-savaria",
+    "InstituteCode": "vaszc-savaria",
     "Name": "Szombathelyi Műszaki SZC Savaria Szakgimnáziuma és Kollégiuma",
-    "Url": "https://szomszc-savaria.e-kreta.hu",
+    "Url": "https://vaszc-savaria.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -35993,9 +35993,9 @@
   },
   {
     "InstituteId": 3285,
-    "InstituteCode": "szoszc-barabas",
+    "InstituteCode": "vaszc-barabas",
     "Name": "Szombathelyi Szolgáltatási SZC Barabás György Műszaki Szakgimnáziuma és  Szakközépiskolája",
-    "Url": "https://szoszc-barabas.e-kreta.hu",
+    "Url": "https://vaszc-barabas.e-kreta.hu",
     "City": "Sárvár (9600)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -36004,9 +36004,9 @@
   },
   {
     "InstituteId": 3286,
-    "InstituteCode": "szoszc-horvath",
+    "InstituteCode": "vaszc-horvath",
     "Name": "Szombathelyi Szolgáltatási SZC Horváth Boldizsár Közgazdasági és Informatikai  Szakgimnáziuma",
-    "Url": "https://szoszc-horvath.e-kreta.hu",
+    "Url": "https://vaszc-horvath.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -36015,9 +36015,9 @@
   },
   {
     "InstituteId": 3287,
-    "InstituteCode": "szoszc-kereskedelmi",
+    "InstituteCode": "vaszc-kereskedelm",
     "Name": "Szombathelyi Szolgáltatási SZC Kereskedelmi és Vendéglátó Szakgimnáziuma, Szakközépiskolája és Kollégiuma",
-    "Url": "https://szoszc-kereskedelmi.e-kreta.hu",
+    "Url": "https://vaszc-kereskedelm.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -36026,9 +36026,9 @@
   },
   {
     "InstituteId": 3288,
-    "InstituteCode": "szoszc-oladi",
+    "InstituteCode": "vaszc-oladi",
     "Name": "Szombathelyi Szolgáltatási SZC Oladi Szakgimnáziuma és Szakközépiskolája",
-    "Url": "https://szoszc-oladi.e-kreta.hu",
+    "Url": "https://vaszc-oladi.e-kreta.hu",
     "City": "Szombathely (9700)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -36037,9 +36037,9 @@
   },
   {
     "InstituteId": 3289,
-    "InstituteCode": "szoszc-beri",
+    "InstituteCode": "vaszc-beri",
     "Name": "Szombathelyi Szolgáltatási SzC Béri Balogh Ádám Szakgimnáziuma és  Szakközépiskolája",
-    "Url": "https://szoszc-beri.e-kreta.hu",
+    "Url": "https://vaszc-beri.e-kreta.hu",
     "City": "Vasvár (9800)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -36048,9 +36048,9 @@
   },
   {
     "InstituteId": 3290,
-    "InstituteCode": "szoszc-tinodi",
+    "InstituteCode": "vaszc-tinodi",
     "Name": "Szombathelyi Szolgáltatási SZC Tinódi Sebestyén Gimnáziuma és Idegenforgalmi, Vendéglátói Szakképző Iskolája ",
-    "Url": "https://szoszc-tinodi.e-kreta.hu",
+    "Url": "https://vaszc-tinodi.e-kreta.hu",
     "City": "Sárvár (9600)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -39150,9 +39150,9 @@
   },
   {
     "InstituteId": 3609,
-    "InstituteCode": "gyszszc-mora",
+    "InstituteCode": "gyszc-mora",
     "Name": "Győri Szolgáltatási SZC Móra Ferenc Általános Iskolája és Szakgimnáziuma",
-    "Url": "https://gyszszc-mora.e-kreta.hu",
+    "Url": "https://gyszc-mora.e-kreta.hu",
     "City": "Győr (9023)",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
@@ -39855,7 +39855,7 @@
   {
     "InstituteId": 3955,
     "InstituteCode": "paliszentvince",
-    "Name": "Páli Szent Vince Katolikus Általános Iskola és Óvoda",
+    "Name": "Páli Szent Vince Katolikus Gimnázium, Általános Iskola és Óvoda",
     "Url": "https://paliszentvince.e-kreta.hu",
     "City": "Kapuvár",
     "AdvertisingUrl": "",
@@ -39866,9 +39866,9 @@
   {
     "InstituteId": 3957,
     "InstituteCode": "szentanna",
-    "Name": "Szent Anna Katolikus Általános Iskola",
+    "Name": "Szent Anna Katolikus Általános Iskola és Óvoda",
     "Url": "https://szentanna.e-kreta.hu",
-    "City": "Jánoshalma",
+    "City": "Szany",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
       "JustificationFeatureEnabled": "false"
@@ -41046,6 +41046,1117 @@
     "Name": "Lippai János Mezőgazdasági Szakgimnázium és Szakközépiskola Tiszaberceli Mezőgazdasági Szakgimnáziuma és Szakközépiskolája tagintézmény",
     "Url": "https://tiszabercel.e-kreta.hu/",
     "City": "Tiszabercel",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4108,
+    "InstituteCode": "baptista",
+    "Name": "Baptista Szeretetszolgálat Egyházi Jogi Személy",
+    "Url": "https://baptista.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4109,
+    "InstituteCode": "deb-nyir",
+    "Name": "Debrecen-Nyíregyházi Egyházmegye",
+    "Url": "https://deb-nyir.e-kreta.hu",
+    "City": "Debrecen",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4110,
+    "InstituteCode": "egom-bud",
+    "Name": "Esztergom-Budapesti Főegyházmegye Katolikus Iskolai Főhatósága (EKIF)",
+    "Url": "https://egom-bud.e-kreta.hu",
+    "City": "Esztergom",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4111,
+    "InstituteCode": "kolping",
+    "Name": "Kolping Oktatási és Szociális Intézményfenntartó Szervezet",
+    "Url": "https://kolping.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4113,
+    "InstituteCode": "pecsi",
+    "Name": "Magyar Katolikus Egyház Pécsi Egyházmegye",
+    "Url": "https://pecsi.e-kreta.hu",
+    "City": "Pécs",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4114,
+    "InstituteCode": "evangelikus",
+    "Name": "Magyarországi Evangélikus Egyház",
+    "Url": "https://evangelikus.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4115,
+    "InstituteCode": "nyiregyhazi",
+    "Name": "Nyíregyházi Egyházmegye",
+    "Url": "https://nyiregyhazi.e-kreta.hu",
+    "City": "Nyíregyháza",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4116,
+    "InstituteCode": "szeged-csanad",
+    "Name": "Szeged-Csanádi Egyházmegye",
+    "Url": "https://szeged-csanad.e-kreta.hu",
+    "City": "Szeged",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4117,
+    "InstituteCode": "szekesfehervar",
+    "Name": "Székesfehérvári Egyházmegye",
+    "Url": "https://szekesfehervar.e-kreta.hu",
+    "City": "Székesfehérvár",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4118,
+    "InstituteCode": "vaci-egyhaz",
+    "Name": "Váci Egyházmegye Ordináriusa",
+    "Url": "https://vaci-egyhaz.e-kreta.hu",
+    "City": "Vác",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4120,
+    "InstituteCode": "veszpremi",
+    "Name": "Veszprémi Érsekség",
+    "Url": "https://veszpremi.e-kreta.hu",
+    "City": "Veszprém",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4121,
+    "InstituteCode": "altisk-kcsa",
+    "Name": "Nagyasszonyunk Katolikus Óvoda, Általános Iskola és Gimnázium",
+    "Url": "https://altisk-kcsa.e-kreta.hu",
+    "City": "Kalocsa",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4122,
+    "InstituteCode": "sztmi",
+    "Name": "Szent Miklós Görögkatolikus Általános Iskola, Óvoda és Alapfokú Művészeti Iskola",
+    "Url": "https://sztmi.e-kreta.hu",
+    "City": "Edelény",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4123,
+    "InstituteCode": "kulkergimi\r\n",
+    "Name": "BZSH Külkereskedelmi Szakgimnázium",
+    "Url": "https://kulkergimi.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4124,
+    "InstituteCode": "szbi-kiskunfelegyhaza",
+    "Name": "Kiskunfélegyházi Szent Benedek PG Szakgimnázium, Szakközépiskola és Kollégium",
+    "Url": "https://szbi-kiskunfelegyhaza.e-kreta.hu",
+    "City": "Kiskunfélegyháza",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4125,
+    "InstituteCode": "sob",
+    "Name": "Szegedi Szent Benedek School of Business Szakgimnázium",
+    "Url": "https://sob.e-kreta.hu",
+    "City": "Szeged",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4127,
+    "InstituteCode": "szbi-szeged",
+    "Name": "Szent Benedek Középiskola és Alapfokú Művészeti Iskola Szegedi Tagintézménye",
+    "Url": "https://szbi-szeged.e-kreta.hu",
+    "City": "Szeged",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4129,
+    "InstituteCode": "szbi-budaors",
+    "Name": "Szent Benedek Középiskola és Alapfokú Művészeti Iskola",
+    "Url": "https://szbi-budaors.e-kreta.hu",
+    "City": "Budaörs",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4132,
+    "InstituteCode": "szbi-miskolc",
+    "Name": "Szent Benedek Általános Iskola, Középiskola, Alapfokú Művészeti Iskola és Kollégium",
+    "Url": "https://szbi-miskolc.e-kreta.hu",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4133,
+    "InstituteCode": "balatonfuredszbi",
+    "Name": "Balatonfüredi Szent Benedek Középiskola és Kollégium",
+    "Url": "https://balatonfuredszbi.e-kreta.hu",
+    "City": "Balatonfüred",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4134,
+    "InstituteCode": "szbi-bp",
+    "Name": "Szent Benedek Középiskola és Alapfokú Művészeti Iskola Budapesti Tagintézménye",
+    "Url": "https://szbi-bp.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4135,
+    "InstituteCode": "jgygmako",
+    "Name": "Juhasz Gyula Református Gimnázium és Szakképző Iskola",
+    "Url": "https://jgygmako.e-kreta.hu",
+    "City": "Makó",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4137,
+    "InstituteCode": "erzsebet8060",
+    "Name": "Szent Erzsébet Római Katolikus Általános Iskola",
+    "Url": "https://erzsebet8060.e-kreta.hu",
+    "City": "Mór",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4138,
+    "InstituteCode": "kanyargoami",
+    "Name": "Kanyar-GO Alapfokú Művészeti Iskola",
+    "Url": "https://kanyargoami.e-kreta.hu",
+    "City": "Szentendre",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4139,
+    "InstituteCode": "birok005",
+    "Name": "Bocskai István Református Oktatási Központ Egressy Béni Alap- és Középfokú Zeneművészeit, Színművészeti és Táncművészeti Szakgimnáziuma, Ének-Zene Gimnáziuma",
+    "Url": "https://egressy.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4140,
+    "InstituteCode": "zspsz",
+    "Name": "Zsámbéki Premontrei Gimnázium, Szakgimnázium és Szakközépiskola",
+    "Url": "https://zspsz.e-kreta.hu",
+    "City": "Zsámbék",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4141,
+    "InstituteCode": "immanuelotthon",
+    "Name": "Debrecen Nagytemplomi Református Egyházközség Immanuel Otthona és Fejlesztő Nevelés-Oktatást Végző Iskolája",
+    "Url": "https://immanuelotthon.e-kreta.hu",
+    "City": "Debrecen",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4142,
+    "InstituteCode": "mrszg",
+    "Name": "Miskolci Rendészeti Szakgimnázium",
+    "Url": "https://mrszg.e-kreta.hu",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4143,
+    "InstituteCode": "klik200727001",
+    "Name": "Kossuth Lajos Általános Iskola",
+    "Url": "https://klik200727001.e-kreta.hu",
+    "City": "Nagyvenyim",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4144,
+    "InstituteCode": "klik200908217",
+    "Name": "Barcsi Széchényi Ferenc Gimnázium és Kollégium Kollégiumi Intézményegysége",
+    "Url": "https://klik200908217.e-kreta.hu",
+    "City": "Barcs",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4145,
+    "InstituteCode": "klik034202101",
+    "Name": "Jálics Ernő Általános Iskola, Alapfokú Művészeti Iskola és Kollégium (AMI)",
+    "Url": "https://klik034202101.e-kreta.hu",
+    "City": "Kadarkút",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4146,
+    "InstituteCode": "klik034202301",
+    "Name": "Jálics Ernő Általános Iskola, Alapfokú Művészeti Iskola és Kollégium (gyógypedagógia)",
+    "Url": "https://klik034202301.e-kreta.hu",
+    "City": "Kadarkút",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4147,
+    "InstituteCode": "klik034202201",
+    "Name": "Jálics Ernő Általános Iskola, Alapfokú Művészeti Iskola és Kollégium (kollégium)",
+    "Url": "https://klik034202201.e-kreta.hu",
+    "City": "Kadarkút",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4149,
+    "InstituteCode": "klik201472101",
+    "Name": "Kaposmérő Hunyadi János Általános Iskola és Alapfokú Művészeti Iskola (AMI)",
+    "Url": "https://klik201472101.e-kreta.hu",
+    "City": "Kaposmérő",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4151,
+    "InstituteCode": "klik034178201",
+    "Name": "Kaposvári Zichy Mihály Iparművészeti Szakgimnázium és Kollégium Kollégiumi Intézményegysége",
+    "Url": "https://klik034178201.e-kreta.hu",
+    "City": "Kaposvár",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4152,
+    "InstituteCode": "klik038552301",
+    "Name": "Somogy Megyei Duráczky József Óvoda, Általános Iskola, Egységes Gyógypedagógiai Módszertani Intézmény és Kollégium (Utazógyógypedagógia)",
+    "Url": "https://klik038552301.e-kreta.hu",
+    "City": "Kaposvár",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4153,
+    "InstituteCode": "klik032232013",
+    "Name": "Aba Sámuel Általános Iskola Bárnai Tagiskolája",
+    "Url": "https://klik032232013.e-kreta.hu",
+    "City": "Kazár",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4155,
+    "InstituteCode": "klik201336103",
+    "Name": "Széchényi Imre Általános Iskola és Alapfokú Művészeti Iskola Ránki György Alapfokú Művészeti Tagiskolája - táncművészeti ág",
+    "Url": "https://klik201336103.e-kreta.hu",
+    "City": "Balatonföldvár",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4156,
+    "InstituteCode": "klik036325003",
+    "Name": "Dunaszentgyörgyi Csapó Vilmos Általános Iskola Tagintézménye",
+    "Url": "https://klik036325003.e-kreta.hu",
+    "City": "Dunaszentgyörgy",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4157,
+    "InstituteCode": "klik031121102",
+    "Name": "Csökmői Bocskai István Általános Iskola és Alapfokú Művészeti Iskola Hidas Frigyes Művészeti Iskolája (4142 Zsáka, Kölcsey utca 2.)",
+    "Url": "https://klik031121102.e-kreta.hu",
+    "City": "Csökmő",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4158,
+    "InstituteCode": "klik032378002",
+    "Name": "Péceli Integrált Oktatási Központ - gimnáziumi intézményegység",
+    "Url": "https://klik032378002.e-kreta.hu",
+    "City": "Pécel",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4159,
+    "InstituteCode": "klik200121204",
+    "Name": "Veresegyházi Egységes Gyógypedagógiai Módszertani Intézmény - utazó gyógypedagógiai hálózat (intézményegység)",
+    "Url": "https://klik200121204.e-kreta.hu\r\n",
+    "City": "Veresegyház",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4161,
+    "InstituteCode": "klik035327002",
+    "Name": "Klebelsberg Kuno Általános Iskola és Gimnázium",
+    "Url": "https://klik035327002.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4162,
+    "InstituteCode": "klik035242002",
+    "Name": "Városmajori Gimnázium és Kós Károly Általános Iskola",
+    "Url": "https://klik035242002.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4164,
+    "InstituteCode": "klik038427002",
+    "Name": "Dr. Török Béla Óvoda, Általános Iskola, Szakiskola, Készségfejlesztő Iskola, Egységes Gyógypedagógiai Módszertani Intézmény és Kollégium (Szőnyi út 26/b.)",
+    "Url": "https://klik038427002.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4165,
+    "InstituteCode": "klik038427003",
+    "Name": "Dr. Török Béla Óvoda, Általános Iskola, Szakiskola, Készségfejlesztő Iskola, Egységes Gyógypedagógiai Módszertani Intézmény és Kollégium (Újváros park 1.)",
+    "Url": "https://klik038427003.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4170,
+    "InstituteCode": "klik038427004",
+    "Name": "Dr. Török Béla Óvoda, Általános Iskola, Szakiskola, Készségfejlesztő Iskola, Egységes Gyógypedagógiai Módszertani Intézmény és Kollégium (Utazó Gyógypedagógusi Hálózat)",
+    "Url": "https://klik038427004.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4174,
+    "InstituteCode": "klik038424002",
+    "Name": "Zuglói Benedek Elek Óvoda, Általános Iskola, Egységes Gyógypedagógiai Módszertani Intézmény (Utazó Gyógypedagógusi Hálózat)",
+    "Url": "https://klik038424002.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4175,
+    "InstituteCode": "forrai",
+    "Name": "Forrai Gimnázium és Művészeti Szakgimnázium a Magyarországi Metodista Egyház Fenntartásában",
+    "Url": "https://forrai.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4176,
+    "InstituteCode": "birok001",
+    "Name": "Bocskai István Református Oktatási Központ - Óvoda, Általános Iskola, Gimnázium, Szakgimnázium, Alapfokú Művészeti Iskola és Kollégium",
+    "Url": "https://birok001.e-kreta.hu",
+    "City": "Halasztelek",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4178,
+    "InstituteCode": "birok011",
+    "Name": "Bocskai István Református Központ Apáczai Csere Janos Középiskolája",
+    "Url": "https://birok011.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4180,
+    "InstituteCode": "birok013",
+    "Name": "Bocskai István Református Oktatási Központ Karácsony Sándor Középiskolája",
+    "Url": "https://birok013.e-kreta.hu",
+    "City": "Dunaújváros",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4181,
+    "InstituteCode": "birok024",
+    "Name": "Bocskai István Református Oktatási Központ - Szigetszentmiklósi Tagintézmény\r\n",
+    "Url": "https://birok024.e-kreta.hu",
+    "City": "Szigetszentmiklós",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4182,
+    "InstituteCode": "lonyay",
+    "Name": "Lónyay Menyhért Baptista Szakgimnázium és Szakközépiskola",
+    "Url": "https://lonyay.e-kreta.hu",
+    "City": "Vásárosnamény",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4183,
+    "InstituteCode": "bkrkvszi",
+    "Name": "Bernáth Kálmán Református Gimnázium, Kereskedelmi és Vendéglátóipari Szakgimnázium és Szakközépiskola",
+    "Url": "https://bkrkvszi.e-kreta.hu",
+    "City": "Vác",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4186,
+    "InstituteCode": "magveto",
+    "Name": "Magvető Református Általános Iskola és Óvoda",
+    "Url": "https://magveto.e-kreta.hu",
+    "City": "Gyula",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4187,
+    "InstituteCode": "moriczref",
+    "Name": "Móricz Zsigmond Református Kollégium, Gimnázium, Szakgimnázium, Általános Iskola és Óvoda",
+    "Url": "https://moriczref.e-kreta.hu",
+    "City": "Kisújszállás",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4188,
+    "InstituteCode": "waldmaria",
+    "Name": "Budapesti Ward Maria Általános Iskola, Gimnázium és Zeneművészeti Szakgimnázium",
+    "Url": "https://waldmaria.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4189,
+    "InstituteCode": "specovoda",
+    "Name": "ELTE Gyakorló Óvoda és Egységes Gyógypedagógiai Módszertani Intézmény",
+    "Url": "https://specovoda.e-kreta.hu\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4190,
+    "InstituteCode": "eltegyakovi",
+    "Name": "ELTE Gyakorló Óvoda",
+    "Url": "https://eltegyakovi.e-kreta.hu\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4191,
+    "InstituteCode": "eltebarczi",
+    "Name": "ELTE Bárczi Gusztáv Gyakorló Általános Iskola",
+    "Url": "https://eltebarczi.e-kreta.hu\r\n",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4192,
+    "InstituteCode": "refaltisk-kecskemet",
+    "Name": "Kecskeméti Református Általános Iskola",
+    "Url": "https://refaltisk-kecskemet.e-kreta.hu",
+    "City": "Kecskemét",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4193,
+    "InstituteCode": "banfalvyszineszkepzo",
+    "Name": "Bánfalvy Ági Színészképző Szakgimnázium és Alapfokú Iskola",
+    "Url": "https://banfalvyszineszkepzo.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4194,
+    "InstituteCode": "magyarmuhely",
+    "Name": "Magyar Műhely Általános Művelődési Központ",
+    "Url": "https://magyarmuhely.e-kreta.hu",
+    "City": "Mezőörs",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4195,
+    "InstituteCode": "miloradic",
+    "Name": "Mate Meršić Miloradić Horvát Óvoda es Általános Iskola",
+    "Url": "https://miloradic.e-kreta.hu",
+    "City": "Szombathely",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4196,
+    "InstituteCode": "kisbalintrefiskveszto",
+    "Name": "Kis Bálint Református Általános Iskola",
+    "Url": "https://kisbalintrefiskveszto.e-kreta.hu\r\n",
+    "City": "Vésztő",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4197,
+    "InstituteCode": "ASZMG",
+    "Name": "Árpád-házi Szent Margit Óvoda, Általános Iskola, Gimnázium és Kollégium",
+    "Url": "https://ASZMG.e-kreta.hu\r\n",
+    "City": "Kőszeg",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4198,
+    "InstituteCode": "amegesz",
+    "Name": "Angol-Magyar Érdekeltségű Gimnázium és Szakgimnázium",
+    "Url": "https://amegesz.e-kreta.hu",
+    "City": "Gödöllő",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4199,
+    "InstituteCode": "bubaki",
+    "Name": "Budapest Baptista Szakgimnázium, Gimnázium és Sportiskola",
+    "Url": "https://bubaki.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4200,
+    "InstituteCode": "talentumtata",
+    "Name": "Talentum Angol-Magyar Két Tanítási Nyelvű Általános Iskola és Művészeti Szakgimnázium",
+    "Url": "https://talentumtata.e-kreta.hu",
+    "City": "Tata",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4201,
+    "InstituteCode": "letenyey",
+    "Name": "Felcsúti Letenyey Lajos Gimnázium Szakgimnázium és Szakközépiskola",
+    "Url": "https://letenyey.e-kreta.hu",
+    "City": "Felcsút",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4202,
+    "InstituteCode": "remenyhir",
+    "Name": "Reményhír Szakközépiskola, Általános Iskola, Óvoda és Alapfokú Művészeti Iskola",
+    "Url": "https://remenyhir.e-kreta.hu",
+    "City": "Békés",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4203,
+    "InstituteCode": "zenesuli",
+    "Name": "Kőbányai Zenei Stúdió az MZTSZ Művészeti Szakgimnáziuma",
+    "Url": "https://zenesuli.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4204,
+    "InstituteCode": "galferencfoiskolabekes",
+    "Name": "Gál Ferenc Főiskola Békési Szakképző Iskola, Gimnázium és Kollégium",
+    "Url": "https://galferencfoiskolabekes.e-kreta.hu",
+    "City": "Békés",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4205,
+    "InstituteCode": "salkahazi",
+    "Name": "Salkaházi Sára Katolikus Általános Iskola, Szakközépiskola, Szakiskola, Készségfejlesztő Iskola és Fejlesztő Nevelés-Oktatást Végző Iskola",
+    "Url": "https://salkahazi.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4206,
+    "InstituteCode": "szaboky",
+    "Name": "Szabóky Adolf Általános és Szakképző Iskola",
+    "Url": "https://szaboky.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4207,
+    "InstituteCode": "papairefi",
+    "Name": "Pápai Református Kollégium Gimnáziuma, Művészeti Szakgimnáziuma és Diákotthona",
+    "Url": "https://papairefi.e-kreta.hu",
+    "City": "Pápa",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4208,
+    "InstituteCode": "apaczaicentrum",
+    "Name": "Apáczai Csere János Általános Iskola, Szakközépiskola, Szakgimnázium és Gimnázium",
+    "Url": "https://apaczaicentrum.e-kreta.hu",
+    "City": "Kisvárda",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4210,
+    "InstituteCode": "nyabi",
+    "Name": "Nyitott Ajtó Baptista Általános Iskola, Óvoda, Művészeti Szakgimnázium, Középiskola és Kollégium",
+    "Url": "https://nyabi.e-kreta.hu",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4211,
+    "InstituteCode": "mrk",
+    "Name": "Mezőtúri Református Kollégium, Gimnázium, Szakgimnázium, Általános Iskola és Óvoda",
+    "Url": "https://mrk.e-kreta.hu",
+    "City": "Mezőtúr",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4212,
+    "InstituteCode": "euroiskola",
+    "Name": "EURO Baptista Két Tanítási Nyelvű Gimnázium, Szakgimnázium és Szakközépiskola",
+    "Url": "https://euroiskola.e-kreta.hu",
+    "City": "Debrecen",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4213,
+    "InstituteCode": "schola",
+    "Name": "Schola Europa Akadémia Középiskola és Alapfokú Művészeti Iskola a Magyarországi Metodista Egyház fenntartásában",
+    "Url": "https://schola.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4214,
+    "InstituteCode": "eszi",
+    "Name": "Energetikai Szakgimnázium és Kollégium",
+    "Url": "https://eszi.e-kreta.hu",
+    "City": "Paks",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4215,
+    "InstituteCode": "ovegesgyor",
+    "Name": "Széchenyi István Egyetem Öveges Kálmán Gyakorló Általános Iskola",
+    "Url": "https://ovegesgyor.e-kreta.hu",
+    "City": "Győr",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4217,
+    "InstituteCode": "launairef",
+    "Name": "Launai Miklós Református Általános Iskola, Alapfokú Művészeti Iskola és Művészeti Szakgimnázium",
+    "Url": "https://launairef.e-kreta.hu",
+    "City": "Neszmély",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4218,
+    "InstituteCode": "homrogdsuli",
+    "Name": "Homrogdi Görögkatolikus Általános Iskola és Óvoda",
+    "Url": "https://homrogdsuli.e-kreta.hu",
+    "City": "Homrogd",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4219,
+    "InstituteCode": "szentpetergorogkatolikus",
+    "Name": "Szent Péter Görögkatolikus Általános Iskola",
+    "Url": "https://szentpetergorogkatolikus.e-kreta.hu",
+    "City": "Múcsony",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4220,
+    "InstituteCode": "audischule",
+    "Name": "AUDI Hungaria Általános Művelődési Központ",
+    "Url": "https://audischule.e-kreta.hu",
+    "City": "Győr",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4221,
+    "InstituteCode": "szivarvany",
+    "Name": "Szivárvány Baptista Általános Iskola, Gimnázium és Szakképző Iskola",
+    "Url": "https:\\\\szivarvany.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4222,
+    "InstituteCode": "drkai",
+    "Name": "Debreceni Református Kollégium Általános Iskolája (DRK Általános Iskolája)",
+    "Url": "https:\\\\drkai.e-kreta.hu",
+    "City": "Debrecen",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4223,
+    "InstituteCode": "fischermoriskola",
+    "Name": "Fischer Mór Porcelánipari Szakközépiskola",
+    "Url": "https:\\\\fischermoriskola.e-kreta.hu",
+    "City": "Herend",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4224,
+    "InstituteCode": "szhatvan",
+    "Name": "Széchenyi István Római Katolikus Gimnázium és Szakgimnázium",
+    "Url": "https:\\\\szhatvan.e-kreta.hu",
+    "City": "Hatvan",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4226,
+    "InstituteCode": "szkirg",
+    "Name": "Szegedi Kis István Református Gimnázium, Szakgimnázium, Általános Iskola, Óvoda és Kollégium",
+    "Url": "https:\\\\szkirg.e-kreta.hu",
+    "City": "Békés",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4228,
+    "InstituteCode": "dianaszki",
+    "Name": "Diana Vadász- Felnőttképző Alapítványi Szakképző Iskola és Kollégium",
+    "Url": "https:\\\\dianaszki.e-kreta.hu",
+    "City": "Csongrád",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4230,
+    "InstituteCode": "mamiszki",
+    "Name": "MAMI Magyar Motorkerékpár Szakközépiskola",
+    "Url": "https:\\\\mamiszki.e-kreta.hu",
+    "City": "Mogyoród",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4231,
+    "InstituteCode": "fay-misk",
+    "Name": "Fáy András Görögkatolikus Közgazdasági Szakgimnázium",
+    "Url": "https:\\\\fay-misk.e-kreta.hu",
+    "City": "Miskolc",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4232,
+    "InstituteCode": "georgikon",
+    "Name": "Georgikon Görögkatolikus Mezőgazdasági és Élelmiszeripari Szakgimnázium, Szakközépiskola és Kollégium",
+    "Url": "https:\\\\georgikon.e-kreta.hu",
+    "City": "Sátoraljaújhely",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4233,
+    "InstituteCode": "wignerkozepiskola",
+    "Name": "Wigner Jenő Műszaki, Informatikai Középiskola és Kollégium",
+    "Url": "https:\\\\wignerkozepiskola.e-kreta.hu",
+    "City": "Eger",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4234,
+    "InstituteCode": "pentelei",
+    "Name": "Pentelei Mentálhigiénés Általános Iskola, Szakképző Iskola és Gimnázium",
+    "Url": "https:\\\\pentelei.e-kreta.hu",
+    "City": "Dunaújváros",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4235,
+    "InstituteCode": "zoldkakas",
+    "Name": "Zöld Kakas Líceum Mentálhigiénés Szakgimnázium, Gimnázium és Általános Iskola",
+    "Url": "https:\\\\zoldkakas.e-kreta.hu",
+    "City": "Budapest",
+    "AdvertisingUrl": "",
+    "FeatureToggleSet": {
+      "JustificationFeatureEnabled": "false"
+    }
+  },
+  {
+    "InstituteId": 4236,
+    "InstituteCode": "orczy",
+    "Name": "Orczy Anna Katolikus Általános Iskola és Óvoda",
+    "Url": "https://orczy.e-kreta.hu",
+    "City": "Fegyvernek",
     "AdvertisingUrl": "",
     "FeatureToggleSet": {
       "JustificationFeatureEnabled": "false"
