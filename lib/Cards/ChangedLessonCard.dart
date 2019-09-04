@@ -1,7 +1,8 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
+
 import '../Datas/Lesson.dart';
 import '../Utils/StringFormatter.dart';
-import 'package:e_szivacs/generated/i18n.dart';
 
 class ChangedLessonCard extends StatelessWidget {
   Lesson lesson;
@@ -31,7 +32,7 @@ class ChangedLessonCard extends StatelessWidget {
             new Container(
               child: Wrap(
                 children: <Widget>[
-                  new Text((isSubstitution ? S().dep : S().missed) + ": ",
+                  new Text((isSubstitution ? S.of(context).dep : S.of(context).missed) + ": ",
                       style: new TextStyle(
                           fontSize: 18.0, )),
                   new Text(lesson.subject,
@@ -56,7 +57,7 @@ class ChangedLessonCard extends StatelessWidget {
                   padding: new EdgeInsets.all(0.0),
                   child: new Row(
                     children: <Widget>[
-                      new Text(lesson.count.toString() + ". " + S().lesson,
+                      new Text(lesson.count.toString() + ". " + S.of(context).lesson,
                           style: new TextStyle(
                               fontSize: 18.0,)),
                       new Expanded(
