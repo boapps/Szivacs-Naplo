@@ -1,5 +1,6 @@
 import 'dart:convert' show json;
 import 'dart:io';
+import 'dart:math';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -7,6 +8,7 @@ import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
 
@@ -18,6 +20,7 @@ import 'Helpers/DBHelper.dart';
 import 'Helpers/RequestHelper.dart';
 import 'Helpers/SettingsHelper.dart';
 import 'Helpers/UserInfoHelper.dart';
+import 'Helpers/encrypt_codec.dart';
 import 'Utils/AccountManager.dart';
 import 'Utils/ColorManager.dart';
 import 'Utils/Saver.dart' as Saver;
@@ -38,9 +41,6 @@ import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
 import 'screens/studentScreen.dart';
 import 'screens/timeTableScreen.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:math';
-import 'Helpers/encrypt_codec.dart';
 
 bool isNew = true;
 
@@ -62,10 +62,7 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: S.delegate.supportedLocales,
             locale: globals.lang != "auto" ? Locale(globals.lang) : null,
-            onGenerateTitle: (BuildContext context) =>
-            S
-                .of(context)
-                .title,
+            onGenerateTitle: (BuildContext context) => S.of(context).title,
             title: "e-Szivacs 2",
             theme: theme,
             routes: <String, WidgetBuilder>{
