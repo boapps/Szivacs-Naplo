@@ -1,16 +1,17 @@
 import 'dart:async';
 
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../Datas/User.dart';
 import '../Datas/Lesson.dart';
+import '../Datas/User.dart';
 import '../Datas/Week.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/TimetableHelper.dart';
-import '../globals.dart' as globals;
 import '../Utils/ModdedTabs.dart' as MT;
 import "../Utils/StringFormatter.dart";
-import 'package:e_szivacs/generated/i18n.dart';
+import '../globals.dart' as globals;
 
 void main() {
   runApp(new MaterialApp(home: new TimeTableScreen()));
@@ -69,7 +70,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
     return index;
   }
 
-  void refreshWeek() async {
+  void refreshWeek({bool first = false}) async {
     DateTime startDate = now;
     startDate = startDate.add(
         new Duration(days: (-1 * startDate.weekday + 1 + 7 * relativeWeek)));
@@ -77,25 +78,31 @@ class TimeTableScreenState extends State<TimeTableScreen> with
       startDateText = startDate;
     });
 
+    bool block = false;
     getWeek(startDate, true).then((Week week) {
       lessonsWeek = week;
+      int index = getInitIndex(lessonsWeek, now);
       setState(() {
         _tabController = new TabController(vsync: this, length: lessonsWeek
             .dayList()
             .length,
-            initialIndex: getInitIndex(lessonsWeek, now));
+            initialIndex: first && index < week.dayList().length ? index : first ? week.dayList().length-1 : 0);
       });
     });
     getWeek(startDate, false).then((Week week) {
-      lessonsWeek = week;
-      setState(() {
-        _tabController = new TabController(vsync: this, length: lessonsWeek
-            .dayList()
-            .length,
-            initialIndex: getInitIndex(lessonsWeek, now));
-      });
+      if (block) {
+        lessonsWeek = week;
+        int index = getInitIndex(lessonsWeek, now);
+        setState(() {
+          _tabController = new TabController(vsync: this, length: lessonsWeek
+              .dayList()
+              .length,
+              initialIndex: first && index < week
+                  .dayList()
+                  .length ? index : week.dayList().length-1);
+        });
+      }
     });
-
   }
 
   void initSelectedUser() async {
@@ -112,7 +119,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
     startDateText = now;
     startDateText = startDateText.add(new Duration(
         days: (-1 * startDateText.weekday + 1 + 7 * relativeWeek)));
-    refreshWeek();
+    refreshWeek(first: true);
   }
 
   @override
@@ -147,9 +154,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
             body: new Column(
               children: <Widget>[
                 new Expanded(
-                  child: (lessonsWeek != null) ? lessonsWeek
-                      .dayList()
-                      .isNotEmpty ? new TabBarView(
+                  child: (lessonsWeek != null) ? (lessonsWeek.dayList().isNotEmpty) ? new TabBarView(
                     controller: _tabController,
                     children: (lessonsWeek != null) ?
                     lessonsWeek.dayList().map((List<Lesson> lessonList) {
@@ -187,6 +192,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                             icon: const Icon(Icons.skip_previous, size: 20,
                               color: Colors.white,),
                             onPressed: () {
+                              HapticFeedback.lightImpact();
                               previousWeek();
                             },
                             padding: EdgeInsets.all(0),
@@ -211,6 +217,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                                 .next_week,
                             onPressed: () {
                               setState(() {
+                                HapticFeedback.lightImpact();
                                 nextWeek();
                               });
                             },
