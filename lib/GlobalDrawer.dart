@@ -1,8 +1,9 @@
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
-import 'globals.dart';
+
 import 'Datas/Account.dart';
 import 'Datas/User.dart';
-import 'package:e_szivacs/generated/i18n.dart';
+import 'globals.dart';
 import 'screens/studentScreen.dart';
 
 BuildContext ctx;
@@ -61,9 +62,9 @@ class GDrawerState extends State<GDrawer> {
         break;
     }
   }
-
   @override
   Widget build(BuildContext context) {
+    double c_width = MediaQuery.of(context).size.width*0.5;
     // TODO: implement build
     return new Drawer(
       child: new Container(
@@ -141,8 +142,10 @@ class GDrawerState extends State<GDrawer> {
                       new Container(child: new Icon(
                         Icons.account_circle, color: selectedUser.color,
                         size: 40,), margin: EdgeInsets.only(right: 5),),
-                      new Text(selectedUser.name,
-                        style: new TextStyle(color: null, fontSize: 17.0),),
+                      new Container(
+                        width: 170,
+                        child: Text(selectedUser.name,
+                        style: new TextStyle(color: null, fontSize: 16.0,),),),
                       new Icon(Icons.arrow_drop_down, color: null,),
                     ],
                   ),
@@ -179,7 +182,7 @@ class GDrawerState extends State<GDrawer> {
               padding: EdgeInsets.all(0),
               margin: EdgeInsets.all(0),
             ),
-            height: 50,
+            height: 60,
             padding: EdgeInsets.all(0),
             margin: EdgeInsets.all(0),
           ) : new Container(),

@@ -351,9 +351,6 @@ class TimeTableScreenState extends State<TimeTableScreen>
                 lesson.isMissed
                     ? new Text(S.of(context).state + lesson.stateName)
                     : new Container(),
-                lesson.depTeacher != ""
-                    ? new Text(S.of(context).dep_teacher + lesson.depTeacher)
-                    : new Container(),
                 (lesson.theme != "" && lesson.theme != null)
                     ? new Text(S.of(context).theme + lesson.theme)
                     : new Container(),
