@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-import 'dart:ui' show lerpDouble;
-
 double _indexChangeProgress(TabController controller) {
   final double controllerValue = controller.animation.value;
   final double previousIndex = controller.previousIndex.toDouble();
@@ -56,7 +53,7 @@ class TabPageSelectorIndicator extends StatelessWidget {
           child: Text(day, style: TextStyle(color: Colors.white,),),
     ),
 padding: EdgeInsets.all(0),
-    shape: RoundedRectangleBorder(side: BorderSide(color: borderColor),borderRadius: BorderRadius.circular(3),),color: backgroundColor,
+    shape: RoundedRectangleBorder(side: BorderSide(),borderRadius: BorderRadius.circular(3),),color: backgroundColor,
         ),
     height: size,
       width: size,

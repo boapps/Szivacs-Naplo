@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
@@ -202,7 +203,7 @@ class TimeTableScreenState extends State<TimeTableScreen> with
                               child: lessonsWeek != null ? new MT.TabPageSelector(
                                 controller: _tabController,
                                 indicatorSize: 25,
-                                selectedColor: Colors.black54,
+                                selectedColor: Theme.of(context).brightness == Brightness.light ? Colors.black87:Theme.of(context).primaryColorLight.withAlpha(180),
                                 color: Colors.black26,
                                 days: lessonsWeek.dayStrings(context),
                               ) : new Container(),
