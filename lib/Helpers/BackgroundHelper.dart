@@ -1,25 +1,25 @@
-import 'dart:ui';
-import 'dart:math';
-import '../Helpers/encrypt_codec.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../Helpers/DBHelper.dart';
-
-import 'SettingsHelper.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
-import '../Helpers/SettingsHelper.dart';
-import '../globals.dart' as globals;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:math';
+
 import 'package:background_fetch/background_fetch.dart';
-import '../Datas/Student.dart';
-import '../Helpers/TimetableHelper.dart';
-import '../Utils/StringFormatter.dart';
-import '../Utils/AccountManager.dart';
-import '../Datas/User.dart';
-import '../Datas/Account.dart';
-import '../Datas/Note.dart';
-import '../Datas/Lesson.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../Datas/Account.dart';
+import '../Datas/Lesson.dart';
+import '../Datas/Note.dart';
+import '../Datas/Student.dart';
+import '../Datas/User.dart';
+import '../Helpers/DBHelper.dart';
+import '../Helpers/SettingsHelper.dart';
+import '../Helpers/TimetableHelper.dart';
+import '../Helpers/encrypt_codec.dart';
+import '../Utils/AccountManager.dart';
+import '../Utils/StringFormatter.dart';
+import '../globals.dart' as globals;
+import 'SettingsHelper.dart';
 
 
 class BackgroundHelper {
@@ -145,6 +145,37 @@ class BackgroundHelper {
 
     for (Lesson lesson in lessons) {
       bool exist = false;
+
+      // Értesítés a következő óráról WIP
+
+      if (false) {
+        print("1");
+        if (lesson.date.isAfter(DateTime.now()) && lesson.id != lessons.last.id) {
+          print("2");
+          int index = lessons.indexOf(lesson);
+          print("index: " + index.toString());
+          if (lessons[index].date == lessons[index+1].date) {
+            print("3");
+            print(lesson.end.toIso8601String());
+            print(lessons[index+1].subject);
+            var scheduledNotificationDateTime = lesson.end;
+            var androidPlatformChannelSpecifics = new AndroidNotificationDetails('next-lesson', 'Következő óra', 'Értesítés a következő óráról', playSound: false,);
+            var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+            NotificationDetails platformChannelSpecifics = new NotificationDetails(
+                androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+            await flutterLocalNotificationsPlugin.schedule(
+                lesson.id,
+                'Következő óra: ' + lessons[index+1].subject + " " + (lessons[index+1].start.minute - DateTime.now().minute).toString() + " perc",
+                lessons[index+1].room,
+                scheduledNotificationDateTime,
+                platformChannelSpecifics,
+              androidAllowWhileIdle: true
+            );
+          }
+        }
+      }
+
+
       for (Lesson offlineLesson in lessonsOffline) {
         exist = (lesson.id == offlineLesson.id &&
             ((lesson.isMissed && !offlineLesson.isMissed) ||

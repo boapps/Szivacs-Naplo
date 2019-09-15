@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:e_szivacs/generated/i18n.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Cards/AbsenceCard.dart';
-import '../Cards/EvaluationCard.dart';
-import '../Cards/NoteCard.dart';
-import '../Cards/LessonCard.dart';
 import '../Cards/ChangedLessonCard.dart';
-import '../Datas/Student.dart';
-import '../Datas/Note.dart';
+import '../Cards/EvaluationCard.dart';
+import '../Cards/LessonCard.dart';
+import '../Cards/NoteCard.dart';
 import '../Datas/Account.dart';
-import '../GlobalDrawer.dart';
-import '../globals.dart' as globals;
-import '../Helpers/SettingsHelper.dart';
 import '../Datas/Lesson.dart';
-import '../Helpers/TimetableHelper.dart';
+import '../Datas/Note.dart';
+import '../Datas/Student.dart';
+import '../GlobalDrawer.dart';
 import '../Helpers/BackgroundHelper.dart';
-
-import 'package:e_szivacs/generated/i18n.dart';
+import '../Helpers/SettingsHelper.dart';
+import '../Helpers/TimetableHelper.dart';
+import '../globals.dart' as globals;
 
 void main() {
   runApp(new MaterialApp(
@@ -69,11 +69,11 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
     _initSettings();
     super.initState();
-    _onRefresh(offline: true).then((var a) {
+    _onRefresh(offline: true, showErrors: false).then((var a) {
       mainScreenCards = feedItems();
     });
     if (globals.firstMain) {
-      _onRefresh(offline: false);
+      _onRefresh(offline: false, showErrors: false);
       globals.firstMain = false;
     }
     startDate = now;
@@ -190,7 +190,7 @@ class MainScreenState extends State<MainScreen> {
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Future<Null> _onRefresh({bool offline = false}) async {
+  Future<Null> _onRefresh({bool offline = false, bool showErrors=true}) async {
     List<Evaluation> tempEvaluations = new List();
     Map<String, List<Absence>> tempAbsents = new Map();
     List<Note> tempNotes = new List();
@@ -203,17 +203,28 @@ class MainScreenState extends State<MainScreen> {
 
     if (globals.isSingle) {
       try {
-        await globals.selectedAccount.refreshStudentString(offline);
+        await globals.selectedAccount.refreshStudentString(offline, showErrors: showErrors);
         tempEvaluations.addAll(globals.selectedAccount.student.Evaluations);
         tempNotes.addAll(globals.selectedAccount.notes);
         tempAbsents.addAll(globals.selectedAccount.absents);
       } catch (exception) {
+        Fluttertoast.showToast(
+            msg: "Hiba",
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
         print(exception);
       }
     } else {
       for (Account account in globals.accounts) {
         try {
-          await account.refreshStudentString(offline);
+          try {
+            await account.refreshStudentString(offline, showErrors: showErrors);
+          } catch (e) {
+            print("HIBA 2");
+            print(e);
+          }
           tempEvaluations.addAll(account.student.Evaluations);
           tempNotes.addAll(account.notes);
           tempAbsents.addAll(account.absents);

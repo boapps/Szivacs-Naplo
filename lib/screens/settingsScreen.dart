@@ -8,6 +8,7 @@ import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Datas/Account.dart';
 import '../Datas/Lesson.dart';
@@ -323,7 +324,19 @@ class SettingsScreenState extends State<SettingsScreen> {
     if (value) {
       BackgroundFetch.start().then((int status) {
         print('[BackgroundFetch] start success: $status');
+        Fluttertoast.showToast(
+            msg: "Siker",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }).catchError((e) {
+        Fluttertoast.showToast(
+            msg: "Nem sikerül bekapcsolni az értesítéseket",
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
         print('[BackgroundFetch] start FAILURE: $e');
       });
     } else {

@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:convert' show utf8, json;
 import 'dart:io';
 
-import '../Utils/Saver.dart';
-import '../Datas/User.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+
+import '../Datas/User.dart';
+import '../Utils/Saver.dart';
 
 class RequestHelper {
 
@@ -66,16 +69,25 @@ class RequestHelper {
     try {
       return http.post("https://" + schoolCode + ".e-kreta.hu/idp/api/v1/Token",
           headers: {
-            "HOST": schoolCode + ".e-kreta.hu"
+            "HOST": schoolCode + ".e-kreta.hu",
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
           },
           body: jsonBody);
     } catch (e) {
+      print(e);
+      print("hiba");
+      Fluttertoast.showToast(
+          msg: "Hálózati hiba",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return null;
       //todo: handle error
     }
   }
 
-  Future<String> getStudentString(User user) async {
+  Future<String> getStudentString(User user, {bool showErrors=true}) async {
     String instCode = user.schoolCode;
     String userName = user.username;
     String password = user.password;
@@ -88,15 +100,35 @@ class RequestHelper {
         password +
         "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
 
-    Map<String, dynamic> bearerMap =
-    json.decode((await getBearer(jsonBody, instCode)).body);
+    Map<String, dynamic> bearerMap;
+    try {
+      bearerMap = json.decode((await getBearer(jsonBody, instCode)).body);
+    } catch (SocketException) {
+      if (showErrors)
+        Fluttertoast.showToast(
+            msg: "Hálózati hiba",
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+    }
 
-    String code = bearerMap.values.toList()[0];
+    if (bearerMap["error"] == "invalid_grant"){
+      Fluttertoast.showToast(
+          msg: "Hibás jelszó vagy felhasználónév",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    } else {
+      String code = bearerMap["access_token"];
 
-    String evaluationsString =
-    (await getEvaluations(code, instCode));
+      String evaluationsString =
+      (await getEvaluations(code, instCode));
 
-    return evaluationsString;
+      return evaluationsString;
+    }
+    return null;
   }
 
   Future<String> getEventsString(User user) async {
@@ -111,9 +143,14 @@ class RequestHelper {
         "&password=" +
         password +
         "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-
-    Map<String, dynamic> bearerMap =
-    json.decode((await getBearer(jsonBody, instCode)).body);
+    Map<String, dynamic> bearerMap;
+    try {
+      bearerMap =
+          json.decode((await getBearer(jsonBody, instCode)).body);
+    } catch (e) {
+      print("errore2");
+      print(e);
+    }
 
     String code = bearerMap.values.toList()[0];
 
