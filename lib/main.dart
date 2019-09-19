@@ -389,13 +389,9 @@ class LoginScreenState extends State<LoginScreen> {
           context: context,
           builder: (BuildContext context) {
             return new MyDialog();
-          });
-    });
-  }
-
-  void setStateHere() {
-    setState(() {
-      globals.selectedSchoolName;
+          }).then((dynamic){
+        setState(() {});
+      });
     });
   }
 
@@ -735,8 +731,6 @@ class MyDialogState extends State<MyDialog> {
             setState(() {
               Navigator.pop(context);
             });
-//            isDialog=false;
-            loginScreenState.setStateHere();
           },
         ),
         new Container(
