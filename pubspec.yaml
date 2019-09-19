@@ -18,6 +18,8 @@ dependencies:
   #pointycastle: ^1.0.0
   #encrypt:
   #  path: encrypt # "git clone -b "v2.0" https://github.com/leocavalcante/encrypt/"
+  native_http_request:
+    path: lib/plugins/native_http_request/
   charts_flutter: ^0.5.0
   dynamic_theme:
     git:

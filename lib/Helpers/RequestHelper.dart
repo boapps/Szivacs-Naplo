@@ -5,23 +5,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:native_http_request/native_http_request.dart' as nhttp;
 
 import '../Datas/User.dart';
 import '../Utils/Saver.dart';
 
 class RequestHelper {
 
-  Future<Map<String, dynamic>> getInstitutes(HttpClient client) async {
+  Future<String> getInstitutes() async {
     final String url =
         "https://kretaglobalmobileapi.ekreta.hu/api/v1/Institute";
 
-    final HttpClientRequest request = await client.getUrl(Uri.parse(url))
-      ..headers.add("HOST", "kretaglobalmobileapi.ekreta.hu")
-      ..headers.add("apiKey", "7856d350-1fda-45f5-822d-e1a2f3f1acf0");
+    var r = nhttp.NativeHttpRequest.getRequest(url, headers: {
+      "HOST": "kretaglobalmobileapi.ekreta.hu",
+      "apiKey": "7856d350-1fda-45f5-822d-e1a2f3f1acf0"
+    });
 
-    final HttpClientResponse response = await request.close();
-
-    return json.decode(await response.transform(utf8.decoder).join());
+    return r;
+    //return json.decode(await response.transform(utf8.decoder).join());
   }
 
   //todo ^ that does not work, because fuck Kréta

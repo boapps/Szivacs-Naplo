@@ -1,18 +1,17 @@
+import 'dart:convert' show json;
+import 'dart:io';
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import '../GlobalDrawer.dart';
-import '../Helpers/DBHelper.dart';
-import '../Datas/User.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:e_szivacs/generated/i18n.dart';
-import '../globals.dart' as globals;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-import '../Utils/Saver.dart' as Saver;
-import 'package:flutter/services.dart';
-import 'dart:convert' show json;
+
+import '../Datas/User.dart';
+import '../Helpers/DBHelper.dart';
+import '../globals.dart' as globals;
 
 void main() {
   runApp(new MaterialApp(

@@ -274,7 +274,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       _lang = value;
       SettingsHelper().setLang(_lang);
-      Main.main();
+      runApp(Main.MyApp());
     });
   }
 

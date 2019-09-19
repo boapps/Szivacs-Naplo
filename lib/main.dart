@@ -235,6 +235,7 @@ final passwordController = new TextEditingController();
 class LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
+    initJson();
 /*
     DynamicTheme.of(context).setBrightness(Brightness.light).then((void a){
       setStateHere();
@@ -245,10 +246,14 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void initJson() async {
-    final String data =
-        await DefaultAssetBundle.of(context).loadString("assets/data.json");
+    String data = "";//await DefaultAssetBundle.of(context).loadString("assets/data.json");
+
+    data = await RequestHelper().getInstitutes();
+    print(data);
 
     globals.jsonres = json.decode(data);
+
+    print(globals.jsonres.length);
 
     globals.jsonres.sort((dynamic a, dynamic b) {
       return a["Name"].toString().compareTo(b["Name"].toString());
@@ -396,7 +401,6 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    initJson();
 
     return new WillPopScope(
         onWillPop: () {
@@ -640,7 +644,8 @@ class MyDialog extends StatefulWidget {
 
   @override
   State createState() {
-    globals.searchres = globals.jsonres;
+    print(globals.jsonres.length);
+    globals.searchres.addAll(globals.jsonres);
     return myDialogState;
   }
 }
@@ -701,6 +706,8 @@ class MyDialogState extends State<MyDialog> {
     setState(() {
       globals.searchres.clear();
       globals.searchres.addAll(globals.jsonres);
+      print(globals.jsonres.length);
+
     });
 
     if (searchText != "") {
