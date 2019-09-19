@@ -435,70 +435,46 @@ class SettingsScreenState extends State<SettingsScreen> {
             child: _isColor != null
                 ? new ListView(
               children: <Widget>[
-                ListTile(
+                SwitchListTile(
                   title: new Text(
-                    S
-                        .of(context)
-                        .colorful_mainpage,
+                    S.of(context).colorful_mainpage,
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  trailing: new Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .accentColor,
-                    value: _isColor,
-                    onChanged: _isColorChange,
-                  ),
-                  leading: new Icon(IconData(0xf266,
+                  activeColor: Theme.of(context).accentColor,
+                  value: _isColor,
+                  onChanged: _isColorChange,
+                  secondary: new Icon(IconData(0xf266,
                       fontFamily: "Material Design Icons")),
                 ),
-                ListTile(
+                SwitchListTile(
                   title: new Text(
-                    S
-                        .of(context)
-                        .singleuser_mainpage,
+                    S.of(context).singleuser_mainpage,
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  trailing: new Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .accentColor,
-                    value: _isSingleUser,
-                    onChanged: _isSingleUserChange,
-                  ),
-                  leading: new Icon(Icons.person),
+                  activeColor: Theme.of(context).accentColor,
+                  value: _isSingleUser,
+                  onChanged: _isSingleUserChange,
+                  secondary: new Icon(Icons.person),
                 ),
-                ListTile(
+                SwitchListTile(
                   title: new Text(
-                    S
-                        .of(context)
-                        .dark_theme,
+                    S.of(context).dark_theme,
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  trailing: new Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .accentColor,
-                    value: _isDark,
-                    onChanged: _isDarkChange,
-                  ),
-                  leading: new Icon(IconData(0xf50e,
-                      fontFamily: "Material Design Icons")),
+                  activeColor: Theme.of(context).accentColor,
+                  value: _isDark,
+                  onChanged: _isDarkChange,
+                  secondary: new Icon(IconData(0xf50e, fontFamily: "Material Design Icons")),
                 ),
-                ListTile(
+                SwitchListTile(
                   title: new Text(
                     "Amoled",
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  enabled: _isDark,
-                  trailing: new Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .accentColor,
-                    value: _amoled,
-                    onChanged: _isDark ? _setAmoled : null,
-                  ),
-                  leading: new Icon(IconData(0xf301,
+                  activeColor: Theme.of(context).accentColor,
+                  value: _isDark ? _amoled : false,
+                  onChanged: _isDark ? _setAmoled : null,
+                  secondary: new Icon(IconData(0xf301,
                       fontFamily: "Material Design Icons")),
                 ),
                 ListTile(
@@ -550,21 +526,15 @@ class SettingsScreenState extends State<SettingsScreen> {
                   ),
                   leading: new Icon(Icons.color_lens),
                 ),
-                ListTile(
+                SwitchListTile(
                   title: new Text(
-                    S
-                        .of(context)
-                        .notification,
+                    S.of(context).notification,
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  trailing: new Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .accentColor,
-                    value: _isNotification,
-                    onChanged: _isNotificationChange,
-                  ),
-                  leading: new Icon(IconData(0xf09a,
+                  activeColor: Theme.of(context).accentColor,
+                  value: _isNotification,
+                  onChanged: _isNotificationChange,
+                  secondary: new Icon(IconData(0xf09a,
                       fontFamily: "Material Design Icons")),
                 ),
                 SwitchListTile(
@@ -620,22 +590,19 @@ class SettingsScreenState extends State<SettingsScreen> {
                   leading: new Icon(IconData(0xf4e6,
                       fontFamily: "Material Design Icons")),
                 ),
-                ListTile(
+                SwitchListTile(
                   title: new Text(
                     S
                         .of(context)
                         .logo_menu,
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  trailing: new Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .accentColor,
-                    value: _isLogo,
-                    onChanged: _isLogoChange,
+                  onChanged: _isLogoChange,
+                  value: _isLogo,
+                  activeColor: Theme.of(context).accentColor,
+                  secondary: new Icon(IconData(0xf6fb,
+                      fontFamily: "Material Design Icons"),
                   ),
-                  leading: new Icon(IconData(0xf6fb,
-                      fontFamily: "Material Design Icons")),
                 ),
                 ListTile(
                   title: new Text(
