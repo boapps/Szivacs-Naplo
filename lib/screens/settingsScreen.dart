@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:background_fetch/background_fetch.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
@@ -10,18 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../Datas/Account.dart';
-import '../Datas/Lesson.dart';
-import '../Datas/Note.dart';
-import '../Datas/Student.dart';
-import '../Datas/User.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/BackgroundHelper.dart';
 import '../Helpers/SettingsHelper.dart';
-import '../Helpers/TimetableHelper.dart';
-import '../Utils/AccountManager.dart';
 import '../Utils/ColorManager.dart';
-import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import '../main.dart' as Main;
 
@@ -43,12 +34,14 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _isLogo;
   bool _isSingleUser;
   bool _canSyncOnData;
+  bool nextLesson;
   String _lang = "auto";
   static const List<String> LANG_LIST = ["auto", "en", "hu"];
 
   final List<int> refreshArray = [15, 30, 60, 120, 360];
   int _refreshNotification;
   int _theme;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
   void _initSet() async {
     _isColor = await SettingsHelper().getColoredMainPage();
@@ -61,6 +54,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     _theme = await SettingsHelper().getTheme();
     _amoled = await SettingsHelper().getAmoled();
     _canSyncOnData = await SettingsHelper().getCanSyncOnData();
+    nextLesson = await SettingsHelper().getNextLesson();
 
     setState(() {});
   }
@@ -72,12 +66,6 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
     BackgroundHelper().configure();
     super.initState();
-  }
-
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  new FlutterLocalNotificationsPlugin();
-
-  void backgroundFetchHeadlessTask() async {
     var initializationSettingsAndroid =
     new AndroidInitializationSettings('notification_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
@@ -85,189 +73,17 @@ class SettingsScreenState extends State<SettingsScreen> {
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-    await backgroundTask().then((int finished) {
-      BackgroundFetch.finish();
-    });
   }
 
   Future<bool> get canSyncOnData async =>
       await SettingsHelper().getCanSyncOnData();
 
-  void doEvaluations(Account account) async {
-    await account.refreshStudentString(true);
-    List<Evaluation> offlineEvals = account.student.Evaluations;
-    await account.refreshStudentString(false);
-    List<Evaluation> evals = account.student.Evaluations;
-
-    for (Evaluation e in evals) {
-      bool exist = false;
-      for (Evaluation o in offlineEvals)
-        if (e.trueID() == o.trueID()) exist = true;
-      if (!exist) {
-        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-            'evaluations', 'jegyek', 'értesítések a jegyekről',
-            importance: Importance.Max,
-            priority: Priority.High,
-            color: Colors.blue);
-        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-        var platformChannelSpecifics = new NotificationDetails(
-            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        flutterLocalNotificationsPlugin.show(
-            e.trueID(),
-            e.Subject +
-                " - " +
-                (e.NumberValue != 0 ? e.NumberValue.toString() : e.Value),
-            e.owner.name + ", " + (e.Theme ?? ""),
-            platformChannelSpecifics,
-            payload: e.trueID().toString());
-      }
-
-      //todo jegyek változása
-      //todo új házik
-      //todo ha óra elmarad/helyettesítés
-    }
-  }
-
-  void doNotes(Account account) async {
-    await account.refreshStudentString(true);
-    List<Note> offlineNotes = account.notes;
-    await account.refreshStudentString(false);
-    List<Note> notes = account.notes;
-
-    for (Note n in notes) {
-      bool exist = false;
-      for (Note o in offlineNotes)
-        if (n.id == o.id) exist = true;
-      if (!exist) {
-        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-            'notes', 'feljegyzések', 'értesítések a feljegyzésekről',
-            importance: Importance.Max,
-            priority: Priority.High,
-            style: AndroidNotificationStyle.BigText,
-            color: Colors.blue);
-        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-        var platformChannelSpecifics = new NotificationDetails(
-            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        flutterLocalNotificationsPlugin.show(
-            n.id, n.title + " - " + n.type, n.content, platformChannelSpecifics,
-            payload: n.id.toString());
-      }
-    }
-  }
-
-  void doAbsences(Account account) async {
-    await account.refreshStudentString(true);
-    Map<String, List<Absence>> offlineAbsences = account.absents;
-    await account.refreshStudentString(false);
-    Map<String, List<Absence>> absences = account.absents;
-
-    if (absences != null)
-      absences.forEach((String date, List<Absence> absenceList) {
-        for (Absence absence in absenceList) {
-          bool exist = false;
-          offlineAbsences
-              .forEach((String dateOffline, List<Absence> absenceList2) {
-            for (Absence offlineAbsence in absenceList2)
-              if (absence.AbsenceId == offlineAbsence.AbsenceId) exist = true;
-          });
-          if (!exist) {
-            var androidPlatformChannelSpecifics =
-            new AndroidNotificationDetails(
-              'absences',
-              'mulasztások',
-              'értesítések a hiányzásokról',
-              importance: Importance.Max,
-              priority: Priority.High,
-              color: Colors.blue,
-              groupKey: account.user.id.toString() + absence.Type,
-            );
-            var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-            var platformChannelSpecifics = new NotificationDetails(
-                androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-            flutterLocalNotificationsPlugin.show(
-              absence.AbsenceId,
-              absence.Subject + " " + absence.TypeName,
-              absence.owner.name +
-                  (absence.DelayTimeMinutes != 0
-                      ? (", " +
-                      absence.DelayTimeMinutes.toString() +
-                      " perc késés")
-                      : ""),
-              platformChannelSpecifics,
-              payload: absence.AbsenceId.toString(),
-            );
-          }
-        }
-      });
-  }
-
-  void doLessons(Account account) async {
-    DateTime startDate = new DateTime.now();
-    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
-
-    List<Lesson> lessonsOffline = await getLessonsOffline(
-        startDate, startDate.add(new Duration(days: 7)), account.user);
-    List<Lesson> lessons = await getLessons(
-        startDate, startDate.add(new Duration(days: 7)), account.user);
-
-    for (Lesson lesson in lessons) {
-      bool exist = false;
-      for (Lesson offlineLesson in lessonsOffline) {
-        exist = (lesson.id == offlineLesson.id &&
-            ((lesson.isMissed && !offlineLesson.isMissed) ||
-                (lesson.isSubstitution && !offlineLesson.isSubstitution)));
-      }
-      if (exist) {
-        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-            'lessons', 'órák', 'értesítések elmaradt/helyettesített órákról',
-            importance: Importance.Max,
-            priority: Priority.High,
-            style: AndroidNotificationStyle.BigText,
-            color: Colors.blue);
-        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-        var platformChannelSpecifics = new NotificationDetails(
-            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        flutterLocalNotificationsPlugin.show(
-            lesson.id,
-            lesson.subject +
-                " " +
-                lesson.date.toIso8601String().substring(0, 10) +
-                " (" +
-                dateToWeekDay(lesson.date) +
-                ")",
-            lesson.stateName + " " + lesson.depTeacher,
-            platformChannelSpecifics,
-            payload: lesson.id.toString());
-      }
-    }
-  }
-
-  void doBackground() async {
-    try {
-      List accounts = List();
-      for (User user in await AccountManager().getUsers())
-        accounts.add(Account(user));
-      for (Account account in globals.accounts) {
-        doEvaluations(account);
-        doNotes(account);
-        doAbsences(account);
-        doLessons(account);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<int> backgroundTask() async {
-    await Connectivity()
-        .checkConnectivity()
-        .then((ConnectivityResult result) async {
-      if (result == ConnectivityResult.mobile && await canSyncOnData ||
-          result == ConnectivityResult.wifi) doBackground();
+  void _setNextLesson(bool value) async {
+    setState(() {
+      nextLesson = value;
+      SettingsHelper().setNextLesson(nextLesson);
+      flutterLocalNotificationsPlugin.cancel(0);
     });
-
-    return 0;
   }
 
   void _setLang(String value) {
@@ -552,6 +368,20 @@ class SettingsScreenState extends State<SettingsScreen> {
                   _isNotification ? _isCanSyncOnDataChange : null,
                   secondary: new Icon(Icons.network_locked),
                 ),
+/*
+                SwitchListTile(
+                  title: new Text(
+                    "Következő óra",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  value: nextLesson,
+                  activeColor: Theme
+                      .of(context)
+                      .accentColor,
+                  onChanged: _isNotification ? _setNextLesson : null,
+                  secondary: new Icon(Icons.access_time),
+                ),
+*/
                 _isNotification
                     ? new PopupMenuButton<int>(
                   child: new ListTile(

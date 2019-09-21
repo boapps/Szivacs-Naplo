@@ -25,9 +25,6 @@ class RequestHelper {
     //return json.decode(await response.transform(utf8.decoder).join());
   }
 
-  //todo ^ that does not work, because fuck Kréta
-  //todo: get schools with NativeHttpRequest. Can't do it with dart, because Kréta does not use follow http standards with it's requests' headers, as the "apiKey" header is not lowercase :(
-
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
 
     HttpClient client = new HttpClient();
@@ -84,7 +81,6 @@ class RequestHelper {
           fontSize: 16.0
       );
       return null;
-      //todo: handle error
     }
   }
 

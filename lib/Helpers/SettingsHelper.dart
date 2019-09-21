@@ -1,7 +1,8 @@
-import 'dart:convert' show utf8, json;
-import 'package:flutter/material.dart';
-import '../globals.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import '../globals.dart';
 import 'DBHelper.dart';
 
 class SettingsHelper {
@@ -96,6 +97,14 @@ class SettingsHelper {
 
   Future<int> getTheme() async {
     return await _getProperty("theme", 0);
+  }
+
+  void setNextLesson(bool nextLesson) {
+    _setPropertyBool("next_lesson", nextLesson);
+  }
+
+  Future<bool> getNextLesson() async {
+    return await _getProperty("next_lesson", true);
   }
 
   void setCanSyncOnData(bool canSyncOnData) {

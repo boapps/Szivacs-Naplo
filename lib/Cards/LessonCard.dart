@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import '../Datas/Lesson.dart';
 import 'package:e_szivacs/generated/i18n.dart';
+import 'package:flutter/material.dart';
+
+import '../Datas/Lesson.dart';
 
 class LessonCard extends StatelessWidget {
   List<Lesson> lessons;
@@ -20,8 +21,7 @@ class LessonCard extends StatelessWidget {
   Key get key => new Key(getDate());
 
   String getDate() {
-    // hozzáadunk egy napot, hogy a lista tetején legyen, igen, tudom lehetne szebben is: todo
-    return lessons[0].start.add(new Duration(days: 1)).toIso8601String();
+    return "c";
   }
 
   Lesson getNext() {
