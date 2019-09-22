@@ -252,7 +252,6 @@ class LoginScreenState extends State<LoginScreen> {
     String data = "";//await DefaultAssetBundle.of(context).loadString("assets/data.json");
 
     data = await RequestHelper().getInstitutes();
-    print(data);
 
     globals.jsonres = json.decode(data);
 

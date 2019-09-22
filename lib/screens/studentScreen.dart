@@ -21,7 +21,7 @@ class StudentScreenState extends State<StudentScreen> {
     return new Scaffold(
       drawer: GDrawer(),
       appBar: new AppBar(
-        title: new Text(this.widget.account.student.Name),
+        title: new Text(this.widget.account.student != null ? this.widget.account.student.Name??"":""),
         actions: <Widget>[
         ],
       ),
@@ -29,33 +29,43 @@ class StudentScreenState extends State<StudentScreen> {
       new Center(
         child: ListView(
           children: <Widget>[
-            ListTile(
-              title: Text(S.of(context).info_birthdate),
-              trailing: Text(dateToHuman(
-                  DateTime.parse(this.widget.account.student.DateOfBirthUtc)
-                      .add(Duration(days: 1)))),
+
+            Card(
+              child: ListTile(
+                title: Text(S.of(context).info_birthdate),
+                trailing: Text(dateToHuman(
+                    DateTime.parse(this.widget.account.student.DateOfBirthUtc)
+                        .add(Duration(days: 1)))),
+              ),
             ),
-            ListTile(
+            Card(
+            child: ListTile(
               title: Text(S.of(context).info_kretaid),
               trailing: Text(
                   this.widget.account.student.StudentId != null ? this.widget
                       .account.student.StudentId.toString() : "-"),
             ),
-            Row(
+            ),
+    Card(
+    child: Row(
               children: <Widget>[
                 Expanded(child: Container(
                   child: Text(S.of(context).info_address), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
-                  children: widget.account.student.AddressDataList.map((
+                  children: widget.account.student.AddressDataList.toSet().toList().map((
                       String address) {
                     return Text(address, maxLines: 3, softWrap: true,);
                   }).toList(),
+                  crossAxisAlignment: CrossAxisAlignment.end,
                 ),
                   width: c_width,
+                  margin: EdgeInsets.only(right: 15, left: 15),
                 ),
               ],
             ),
-            widget.account.student.FormTeacher != null ? Row(
+    ),
+      widget.account.student.FormTeacher != null ? Card(
+    child: Row(
               children: <Widget>[
                 Expanded(child: Container(
                   child: Text(S.of(context).info_teacher), padding: EdgeInsets.all(18),),),
@@ -64,15 +74,18 @@ class StudentScreenState extends State<StudentScreen> {
                     widget.account.student.FormTeacher.Name ?? "",
                     widget.account.student.FormTeacher.Email ?? "",
                     widget.account.student.FormTeacher.PhoneNumber ?? ""
-                  ].map((String data) {
+                  ].where((String data) => data != "").map((String data) {
                     return Text(data, maxLines: 3, softWrap: true,);
                   }).toList(),
+                  crossAxisAlignment: CrossAxisAlignment.end,
                 ),
                   width: c_width,
+                  margin: EdgeInsets.only(right: 15, left: 15),
                 ),
               ],
-            ) : Container(),
-            Row(
+            ),) : Container(),
+    Card(
+    child: Row(
               children: <Widget>[
                 Expanded(child: Container(
                   child: Text(S.of(context).info_school), padding: EdgeInsets.all(18),),),
@@ -83,13 +96,16 @@ class StudentScreenState extends State<StudentScreen> {
                   ].map((String data) {
                     return Text(data, maxLines: 3, softWrap: true,);
                   }).toList(),
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                 ),
                   width: c_width,
+                  margin: EdgeInsets.only(right: 15, left: 15),
                 ),
               ],
             ),
-            widget.account.student.Tutelaries != null ? Row(
+    ),
+            widget.account.student.Tutelaries != null ? Card(
+                child: Row(
               children: <Widget>[
                 Expanded(child: Container(
                   child: Text(S.of(context).info_parents), padding: EdgeInsets.all(18),),),
@@ -109,16 +125,18 @@ class StudentScreenState extends State<StudentScreen> {
                     return Text(parrent.Name + details, maxLines: 3,
                       softWrap: true,);
                   }).toList(),
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                 ),
                   width: c_width,
+                  margin: EdgeInsets.only(right: 15, left: 15),
                 ),
               ],
-            ) : Container(),
-            widget.account.student.MothersName != null ? ListTile(
+            ),) : Container(),
+            widget.account.student.MothersName != null ? Card(
+                child: ListTile(
               title: Text(S.of(context).info_mathers_name),
               trailing: Text(widget.account.student.MothersName),
-            ) : Container(),
+            ),) : Container(),
           ],
         ),
       ),

@@ -79,7 +79,6 @@ class RequestHelper {
           body: jsonBody);
     } catch (e) {
       print(e);
-      print("hiba");
       Fluttertoast.showToast(
           msg: "Hálózati hiba",
           backgroundColor: Colors.red,
@@ -103,16 +102,13 @@ class RequestHelper {
               .body);
       String code = bearerMap.values.toList()[0];
 
-      print("send:");
       await http.post("https://eugyintezes.e-kreta.hu//integration-kretamobile-api/v1/kommunikacio/uzenetek/olvasott",
           headers: {
         "Authorization": ("Bearer " + code),
           },
           body: "{\"isOlvasott\":true,\"uzenetAzonositoLista\":[$id]}");
-      print("{\"isOlvasott\":true,\"uzenetAzonositoLista\":[$id]}");
     } catch (e) {
       print(e);
-      print("hiba");
       Fluttertoast.showToast(
           msg: "Hálózati hiba",
           backgroundColor: Colors.red,
@@ -184,7 +180,6 @@ class RequestHelper {
       bearerMap =
           json.decode((await getBearer(jsonBody, instCode)).body);
     } catch (e) {
-      print("errore2");
       print(e);
     }
 
