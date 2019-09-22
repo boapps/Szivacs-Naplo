@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert' show utf8, json;
+
 import 'RequestHelper.dart';
 
 
@@ -10,6 +11,7 @@ class UserInfoHelper {
 
     evaluationsMap = await _getEvaluationlist(instCode, userName, password);
 
+    print(evaluationsMap);
     String StudentId = evaluationsMap["StudentId"].toString();
     if (StudentId == null)
       StudentId = "";
@@ -64,8 +66,10 @@ class UserInfoHelper {
 
     String code = bearerMap.values.toList()[0];
 
+    print(code);
     String evaluationsString =
         (await RequestHelper().getEvaluations(code, instCode));
+    print(evaluationsString);
     Map<String, dynamic> evaluationsMap = json.decode(evaluationsString);
 
     return evaluationsMap;

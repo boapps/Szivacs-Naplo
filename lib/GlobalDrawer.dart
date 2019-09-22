@@ -60,6 +60,10 @@ class GDrawerState extends State<GDrawer> {
         Navigator.pop(context); // close the drawer
         Navigator.pushReplacementNamed(context, "/homework");
         break;
+      case 11:
+        Navigator.pop(context); // close the drawer
+        Navigator.pushReplacementNamed(context, "/messages");
+        break;
     }
   }
   @override
@@ -201,7 +205,7 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(
-              Icons.assignment, color: screen == 1 ? Theme.of(context).accentColor : null,),
+              IconData(0xF474, fontFamily: "Material Design Icons"), color: screen == 1 ? Theme.of(context).accentColor : null,),
             title: new Text(S
                 .of(context)
                 .evaluations,
@@ -252,6 +256,18 @@ class GDrawerState extends State<GDrawer> {
               screen = 3;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/notes");
+            },
+          ),
+          new ListTile(
+            leading: new Icon(
+              IconData(0xF361, fontFamily: "Material Design Icons"),
+              color: screen == 11 ? Theme.of(context).accentColor : null,),
+            title: new Text(S.of(context).messages,
+              style: TextStyle(color: screen == 11 ? Theme.of(context).accentColor : null),),
+            onTap: () {
+              screen = 11;
+              Navigator.pop(context); // close the drawer
+              Navigator.pushReplacementNamed(context, "/messages");
             },
           ),
           new ListTile(

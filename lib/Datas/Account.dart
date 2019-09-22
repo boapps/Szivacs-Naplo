@@ -1,4 +1,4 @@
-import 'dart:convert' show utf8, json;
+import 'dart:convert' show json;
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,10 +6,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../Helpers/AbsentHelper.dart';
 import '../Helpers/AverageHelper.dart';
 import '../Helpers/DBHelper.dart';
+import '../Helpers/MessageHelper.dart';
 import '../Helpers/NotesHelper.dart';
 import '../Helpers/RequestHelper.dart';
 import '../Utils/Saver.dart';
 import 'Average.dart';
+import 'Message.dart';
 import 'Note.dart';
 import 'Student.dart';
 import 'User.dart';
@@ -23,6 +25,7 @@ class Account {
   Map<String, List<Absence>> absents;
   List<Note> notes;
   List<Average> averages;
+  List<Message> messages;
 
   //todo add a Bearer token here
 
@@ -42,9 +45,11 @@ class Account {
             fontSize: 16.0
         );
       }
+      messages = await MessageHelper().getMessagesOffline(user);
     } else if (!isOffline) {
       _studentJson = json.decode(await RequestHelper().getStudentString(user, showErrors: showErrors));
       await DBHelper().addStudentJson(_studentJson, user);
+      messages = await MessageHelper().getMessages(user);
     }
 
     student = Student.fromMap(_studentJson, user);

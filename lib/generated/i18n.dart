@@ -96,6 +96,7 @@ class S implements WidgetsLocalizations {
   String get made_by => "made by: ";
   String get made_with => "made with: ";
   String get main_page => "Mainpage";
+  String get messages => "Messages";
   String get minute => "minutes";
   String get missed => "canceled";
   String get mode => "mode: ";
@@ -108,6 +109,7 @@ class S implements WidgetsLocalizations {
   String get no_lessons => "Looks like you have no lessons this week :)";
   String get notes => "Notes";
   String get notification => "Notification";
+  String get notification_failed => "Failed to turn on notifications";
   String get notworking => "not working";
   String get ok => "ok";
   String get orange => "orange";
@@ -117,6 +119,7 @@ class S implements WidgetsLocalizations {
   String get prev_week => "previous week";
   String get quarteryear => "quarter-year";
   String get range => "range: ";
+  String get receivers => "Receivers: ";
   String get red => "red";
   String get room => "room: ";
   String get school => "School: ";
@@ -136,6 +139,7 @@ class S implements WidgetsLocalizations {
   String get state => "state: ";
   String get statistics => "Statistics";
   String get subject => "subject: ";
+  String get success => "Success";
   String get sure => "Are you sure?";
   String get sync_on_data => "Sync on cellular network";
   String get teacher => "teacher: ";
@@ -227,6 +231,8 @@ class $hu extends S {
   String get upload_time => "feltöltés ideje: ";
   @override
   String get if_i_got => "Ha kapnék egy...";
+  @override
+  String get messages => "Üzenetek";
   @override
   String get wrong_pass => "hibás felasználónév vagy jelszó";
   @override
@@ -370,6 +376,8 @@ class $hu extends S {
   @override
   String get info_school => "Iskola: ";
   @override
+  String get success => "Siker";
+  @override
   String get class_average => "Osztályátlag: ";
   @override
   String get next_day => "következő nap";
@@ -390,6 +398,8 @@ class $hu extends S {
   @override
   String get absence => "hiányzás";
   @override
+  String get notification_failed => "Nem sikerül bekapcsolni az értesítéseket";
+  @override
   String get excluding_delay => "*nincs benne a késés";
   @override
   String get averages => "Átlagok";
@@ -405,6 +415,8 @@ class $hu extends S {
   String get short_wednesday => "Sz";
   @override
   String get notworking => "nem működik";
+  @override
+  String get receivers => "Címzettek: ";
   @override
   String get singleuser_mainpage => "Egy felhasználó a főoldalon";
   @override

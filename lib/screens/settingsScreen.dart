@@ -141,14 +141,14 @@ class SettingsScreenState extends State<SettingsScreen> {
       BackgroundFetch.start().then((int status) {
         print('[BackgroundFetch] start success: $status');
         Fluttertoast.showToast(
-            msg: "Siker",
+            msg: S.of(context).success,
             backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 16.0
         );
       }).catchError((e) {
         Fluttertoast.showToast(
-            msg: "Nem sikerül bekapcsolni az értesítéseket",
+            msg: S.of(context).notification_failed,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0

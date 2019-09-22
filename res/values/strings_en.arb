@@ -142,5 +142,9 @@
   "info_teacher": "Teacher: ",
   "info_school": "School: ",
   "info_parents": "Parents: ",
-  "info_mathers_name": "Mother's name: "
+  "info_mathers_name": "Mother's name: ",
+  "messages": "Messages",
+  "receivers": "Receivers: ",
+  "success": "Success",
+  "notification_failed": "Failed to turn on notifications"
 }

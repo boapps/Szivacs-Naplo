@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:path_provider/path_provider.dart';
+
 import '../Datas/User.dart';
 import '../globals.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DBHelper {
   String dbPath = 'szivacs.db';
@@ -53,6 +54,48 @@ class DBHelper {
     return await store.record(user.id.toString() + '_student_json').get(
         db) as Map;
   }
+
+  Future<void> addMessagesJson(List json, User user) async {
+    List studentJson;
+    try {
+      studentJson = await getMessagesJson(user);
+    } catch (e) {
+      print(e);
+    }
+
+    if (studentJson == null)
+      await store.record(user.id.toString() + '_messages_json').add(db, json);
+    else
+      await store.record(user.id.toString() + '_messages_json').update(db, json);
+  }
+
+  Future<List> getMessagesJson(User user) async {
+    return await store.record(user.id.toString() + '_messages_json').get(
+        db) as List;
+  }
+
+  Future<void> addMessageByIdJson(int id, Map<String, dynamic> json, User user) async {
+    Map<String, dynamic> studentJson;
+    try {
+      studentJson = await getMessageByIdJson(id, user);
+    } catch (e) {
+      print(e);
+    }
+
+    String name = user.id.toString() + "-" + id.toString() + '_message_json';
+
+    if (studentJson == null)
+      await store.record(name).add(db, json);
+    else
+      await store.record(name).update(db, json);
+  }
+
+  Future<Map<String, dynamic>> getMessageByIdJson(int id, User user) async {
+    String name = user.id.toString() + "-" + id.toString() + '_message_json';
+
+    return await store.record(name).get(db) as Map<String, dynamic>;
+  }
+
 
   Future<void> saveSettingsMap(Map json) async {
     Map settingsMap;

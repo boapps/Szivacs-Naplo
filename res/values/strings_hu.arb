@@ -142,5 +142,9 @@
   "info_teacher": "Osztályfőnök: ",
   "info_school": "Iskola: ",
   "info_parents": "Szülők: ",
-  "info_mathers_name": "Anyja neve: "
+  "info_mathers_name": "Anyja neve: ",
+  "messages": "Üzenetek",
+  "receivers": "Címzettek: ",
+  "success": "Siker",
+  "notification_failed": "Nem sikerül bekapcsolni az értesítéseket"
 }

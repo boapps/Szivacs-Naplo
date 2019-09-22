@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:e_szivacs/generated/i18n.dart';
+import 'package:e_szivacs/screens/messageScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
               '/homework': (_) => new HomeworkScreen(),
               '/evaluations': (_) => new EvaluationsScreen(),
               '/notes': (_) => new NotesScreen(),
+              '/messages': (_) => new MessageScreen(),
               '/absents': (_) => new AbsentsScreen(),
               '/accounts': (_) => new AccountsScreen(),
               '/settings': (_) => new SettingsScreen(),
@@ -235,14 +237,15 @@ final passwordController = new TextEditingController();
 class LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
+    loggingIn = false;
+    super.initState();
+
     initJson();
 /*
     DynamicTheme.of(context).setBrightness(Brightness.light).then((void a){
       setStateHere();
     });
 */
-    loggingIn = false;
-    super.initState();
   }
 
   void initJson() async {
@@ -304,10 +307,6 @@ class LoginScreenState extends State<LoginScreen> {
           });
           schoolSelected = false;
         } else {
-          //iskolák lekérése
-
-          //bejelentkezés
-
           String instCode = globals.selectedSchoolCode; //suli kódja
           String jsonBody = "institute_code=" +
               instCode +

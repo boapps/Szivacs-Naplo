@@ -36,6 +36,12 @@ class RequestHelper {
     return await (await request.close()).transform(utf8.decoder).join();
   }
 
+  Future<String> getMessages(String accessToken, String schoolCode) =>
+      getStuffFromUrl("https://eugyintezes.e-kreta.hu/integration-kretamobile-api/v1/kommunikacio/postaladaelemek/sajat", accessToken, schoolCode);
+
+  Future<String> getMessageById(int id, String accessToken, String schoolCode) =>
+      getStuffFromUrl("https://eugyintezes.e-kreta.hu/integration-kretamobile-api/v1/kommunikacio/postaladaelemek/$id", accessToken, schoolCode);
+
   Future<String> getEvaluations(String accessToken, String schoolCode) =>
       getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu"
       + "/mapi/api/v1/Student", accessToken, schoolCode);
@@ -71,6 +77,39 @@ class RequestHelper {
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
           },
           body: jsonBody);
+    } catch (e) {
+      print(e);
+      print("hiba");
+      Fluttertoast.showToast(
+          msg: "Hálózati hiba",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      return null;
+    }
+  }
+
+  void seeMessage(int id, User user) async {
+    try {
+      String jsonBody =
+          "institute_code=" + user.schoolCode +
+              "&userName=" + user.username +
+              "&password=" + user.password +
+              "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
+
+      Map<String, dynamic> bearerMap = json.decode(
+          (await RequestHelper().getBearer(jsonBody, user.schoolCode))
+              .body);
+      String code = bearerMap.values.toList()[0];
+
+      print("send:");
+      await http.post("https://eugyintezes.e-kreta.hu//integration-kretamobile-api/v1/kommunikacio/uzenetek/olvasott",
+          headers: {
+        "Authorization": ("Bearer " + code),
+          },
+          body: "{\"isOlvasott\":true,\"uzenetAzonositoLista\":[$id]}");
+      print("{\"isOlvasott\":true,\"uzenetAzonositoLista\":[$id]}");
     } catch (e) {
       print(e);
       print("hiba");
