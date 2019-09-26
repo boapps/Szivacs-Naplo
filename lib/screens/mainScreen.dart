@@ -73,7 +73,9 @@ class MainScreenState extends State<MainScreen> {
       mainScreenCards = feedItems();
     });
     if (globals.firstMain) {
-      _onRefresh(offline: false, showErrors: false);
+      _onRefresh(offline: false, showErrors: false).then((var a) {
+        mainScreenCards = feedItems();
+      });
       globals.firstMain = false;
     }
     startDate = now;

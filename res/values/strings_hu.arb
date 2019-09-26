@@ -94,7 +94,7 @@
   "week": "hét",
   "month": "hónap",
   "two_months": "két hónap",
-  "disclaimer": "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
+  "disclaimer": "Ez egy nem-hivatalos kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n",
   "choose_username": "Kérlek add meg a felhasználónevedet!",
   "choose_password": "Kérlek add meg a jelszavadat!",
   "wrong_pass": "hibás felasználónév vagy jelszó",

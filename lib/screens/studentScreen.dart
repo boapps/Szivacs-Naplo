@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +56,7 @@ class StudentScreenState extends State<StudentScreen> {
                 Container(child: Column(
                   children: widget.account.student.AddressDataList.toSet().toList().map((
                       String address) {
-                    return Text(address, maxLines: 3, softWrap: true,);
+                    return Text(address, maxLines: 3, softWrap: true, textAlign: TextAlign.end,);
                   }).toList(),
                   crossAxisAlignment: CrossAxisAlignment.end,
                 ),

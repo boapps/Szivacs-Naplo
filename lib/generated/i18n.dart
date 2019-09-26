@@ -55,7 +55,7 @@ class S implements WidgetsLocalizations {
   String get delay_mins => "delay time: ";
   String get dep => "substitution";
   String get dep_teacher => "deputy teacher: ";
-  String get disclaimer => "This is an unofficial, nonprofit client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n";
+  String get disclaimer => "This is an unofficial client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n";
   String get done => "done";
   String get email => "eSzivacs@gmail.com";
   String get endyear => "end-year";
@@ -274,7 +274,7 @@ class $hu extends S {
   @override
   String get administration_time => "naplózás ideje: ";
   @override
-  String get disclaimer => "Ez egy nonprofit kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n";
+  String get disclaimer => "Ez egy nem-hivatalos kliens alkalmazás az e-Kréta rendszerhez. \n\nMivel az appot nem az eKRÉTA Informatikai Zrt. készítette, ha ötleted van az appal kapcsolatban, kérlek ne az ő ügyfélszolgálatukat terheld, inkább írj nekünk egy e-mailt: \n\neszivacs@gmail.com\n";
   @override
   String get lesson_end => "óra vége: ";
   @override

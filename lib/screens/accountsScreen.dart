@@ -37,9 +37,6 @@ class AccountsScreenState extends State<AccountsScreen> {
 
   }
   List<User> users;
-  void _getUserList() async {
-    users = await AccountManager().getUsers();
-  }
 
   @override
   void initState() {
@@ -51,7 +48,7 @@ class AccountsScreenState extends State<AccountsScreen> {
   }
 
   void performInitState() async {
-    await _getUserList();
+    users = await AccountManager().getUsers();
     _getListWidgets();
   }
 
@@ -89,7 +86,6 @@ class AccountsScreenState extends State<AccountsScreen> {
                     account.user.color = selected;
                 _getListWidgets();
               });
-
             },
           ),
         ],
@@ -97,7 +93,7 @@ class AccountsScreenState extends State<AccountsScreen> {
     );
   }
 
-  void _getListWidgets() async {
+  Future<void> _getListWidgets() async {
     if (users.isEmpty)
       Navigator.pushNamed(context, "/login");
     accountListWidgets = new List();
@@ -124,10 +120,15 @@ class AccountsScreenState extends State<AccountsScreen> {
                   }, child: new Icon(Icons.color_lens, color: a.user.color,),),
                 ),
                 new FlatButton(onPressed: () async {
-                  _removeUserDialog(a.user).then((nul) {
+                  _removeUserDialog(a.user).then((nul) async {
+                    print("asd2");
+                    users = await AccountManager().getUsers();
+                    print(users.length);
+                    globals.accounts.removeWhere((Account a) => !users.map((User u) => u.id).contains(a.user.id));
+                    await _getListWidgets();
                     setState(() {
-                      _getUserList();
-                      _getListWidgets();
+                      print("asd3");
+                      print(users.length);
                     });
                   });
                 },
@@ -188,9 +189,9 @@ class AccountsScreenState extends State<AccountsScreen> {
                   .yes),
               onPressed: () async {
                 await AccountManager().removeUser(user);
-                setState(() {
-                  _getUserList();
-                  _getListWidgets();
+                print("asd1");
+                setState(() async {
+                  globals.accounts.removeWhere((Account a) => a.user.id == user.id);
                   Navigator.of(context).pop();
                   Navigator.pop(context); // close the drawer
                   Navigator.pushReplacementNamed(context, "/accounts");

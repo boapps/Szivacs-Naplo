@@ -44,7 +44,7 @@ class MessageScreenState extends State<MessageScreen> {
               actions: <Widget>[],
             ),
             body: new Container(
-                child: hasOfflineLoaded
+                child: hasOfflineLoaded & (messages != null)
                     ? new Container(
                   width: double.infinity,
                   height: double.infinity,

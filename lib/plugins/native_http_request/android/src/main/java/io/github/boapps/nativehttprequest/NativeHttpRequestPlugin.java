@@ -41,9 +41,6 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
         headers = call.argument("headers");
         url = call.argument("url").toString();
         data = call.argument("data");
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
 
         if (call.method.equals("getRequest")) {
             Thread thread = new Thread(new Runnable() {
@@ -59,16 +56,17 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
                         trequest.connect();
                         getResponse = readStream(trequest.getInputStream());
                         trequest.disconnect();
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                result.success(getResponse);
+                            }
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    result.success(getResponse);
                 }
             });
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.run();
-            //thread.start();
-
+            thread.start();
         } else if (call.method.equals("postRequest")){
             new Thread(new Runnable() {
                 public void run() {
@@ -92,7 +90,6 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
                     }
                 }
             }).start();
-
         } else {
             result.notImplemented();
         }
@@ -107,5 +104,4 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
         }
         return total.toString();
     }
-
 }

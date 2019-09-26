@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
 
@@ -95,20 +96,22 @@ class MyApp extends StatelessWidget {
 
 // todo refactor this and separate the 3 screens here
 
-void main() async {
-  final storage = new FlutterSecureStorage();
-  String value = await storage.read(key: "db_key");
-  if (value == null) {
-    int randomNumber = Random.secure().nextInt(4294967296);
-    await storage.write(key: "db_key", value: randomNumber.toString());
-    value = await storage.read(key: "db_key");
+void main({bool noReset = false}) async {
+  if (!noReset) {
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: "db_key");
+    if (value == null) {
+      int randomNumber = Random.secure().nextInt(4294967296);
+      await storage.write(key: "db_key", value: randomNumber.toString());
+      value = await storage.read(key: "db_key");
+    }
+
+    var codec = getEncryptSembastCodec(password: value);
+
+    globals.db = await globals.dbFactory.openDatabase(
+        (await DBHelper().localFolder) + DBHelper().dbPath,
+        codec: codec);
   }
-
-  var codec = getEncryptSembastCodec(password: value);
-
-  globals.db = await globals.dbFactory.openDatabase(
-      (await DBHelper().localFolder) + DBHelper().dbPath,
-      codec: codec);
   if (await Saver.shouldMigrate) {
     Saver.migrate();
   } else {
@@ -128,12 +131,17 @@ void main() async {
       globals.isColor = await SettingsHelper().getColoredMainPage();
       globals.isSingle = await SettingsHelper().getSingleUser();
       globals.multiAccount = (await Saver.readUsers()).length != 1;
-      globals.users = users;
-      globals.accounts = List();
-      for (User user in users)
-        globals.accounts.add(Account(user));
-      globals.selectedAccount = globals.accounts[0];
-      globals.selectedUser = users[0];
+      if (!noReset)
+        globals.users = users;
+      if (!noReset)
+        globals.accounts = List();
+      if (!noReset)
+        for (User user in users)
+          globals.accounts.add(Account(user));
+      if (!noReset)
+        globals.selectedAccount = globals.accounts[0];
+      if (!noReset)
+        globals.selectedUser = users[0];
       globals.themeID = await SettingsHelper().getTheme();
 
       globals.color1 = await SettingsHelper().getEvalColor(0);
@@ -146,6 +154,11 @@ void main() async {
     runApp(MyApp());
     BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
   }
+}
+
+Future<void> reInit() async {
+  globals.lang = await SettingsHelper().getLang();
+  runApp(MyApp());
 }
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -253,9 +266,21 @@ class LoginScreenState extends State<LoginScreen> {
 
     data = await RequestHelper().getInstitutes();
 
-    globals.jsonres = json.decode(data);
+    print(data);
+    try {
+      globals.jsonres = json.decode(data);
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: "Nem sikerült lekérni a Krétás iskolákat, így az offline adatbázist fogja használni az app.",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+      );
 
-    print(globals.jsonres.length);
+      //data = await DefaultAssetBundle.of(context).loadString("assets/data.json");
+      //globals.jsonres = json.decode(data);
+    }
 
     globals.jsonres.sort((dynamic a, dynamic b) {
       return a["Name"].toString().compareTo(b["Name"].toString());
@@ -638,8 +663,8 @@ class MyDialog extends StatefulWidget {
 
   @override
   State createState() {
-    print(globals.jsonres.length);
-    globals.searchres.addAll(globals.jsonres);
+    if (globals.jsonres != null)
+      globals.searchres.addAll(globals.jsonres);
     return myDialogState;
   }
 }
@@ -700,8 +725,6 @@ class MyDialogState extends State<MyDialog> {
     setState(() {
       globals.searchres.clear();
       globals.searchres.addAll(globals.jsonres);
-      print(globals.jsonres.length);
-
     });
 
     if (searchText != "") {

@@ -86,12 +86,10 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  void _setLang(String value) {
-    setState(() {
-      _lang = value;
-      SettingsHelper().setLang(_lang);
-      runApp(Main.MyApp());
-    });
+  void _setLang(String value) async {
+    SettingsHelper().setLang(_lang);
+    globals.lang = value;
+    runApp(Main.MyApp());
   }
 
   void _setAmoled(bool value) {
@@ -131,11 +129,13 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  void _isNotificationChange(bool value) {
+  void _isNotificationChange(bool value) async {
     setState(() {
       _isNotification = value;
       SettingsHelper().setNotification(_isNotification);
     });
+
+    await BackgroundHelper().configure();
 
     if (value) {
       BackgroundFetch.start().then((int status) {

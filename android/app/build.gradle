@@ -21,7 +21,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
 
     lintOptions {
         disable 'InvalidPackage'
@@ -42,7 +42,7 @@ android {
     defaultConfig {
         applicationId "io.github.boapps.meSzivacs"
         minSdkVersion 18
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 2034
         versionName "2.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

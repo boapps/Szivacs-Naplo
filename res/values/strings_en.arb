@@ -94,7 +94,7 @@
   "week": "week",
   "month": "month",
   "two_months": "two months",
-  "disclaimer": "This is an unofficial, nonprofit client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n",
+  "disclaimer": "This is an unofficial client application for the e-Kréta system. Since the app was not made by eKRÉTA Informatikai Zrt, please don't use their support. Instead you can write me an email:\neszivacs@gmail.com\n",
   "choose_username": "Please enter a username!",
   "choose_password": "Please enter a password.",
   "wrong_pass": "incorrect username or password",
