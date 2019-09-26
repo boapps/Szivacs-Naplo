@@ -30,7 +30,10 @@ class SortDialogState extends State<SortDialog> {
           .sort_eval,
       S
           .of(context)
-          .sort_subject
+          .sort_subject,
+      S
+          .of(context)
+          .sort_real_time,
     ];
 
     return new SimpleDialog(

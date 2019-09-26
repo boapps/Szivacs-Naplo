@@ -134,8 +134,9 @@ class S implements WidgetsLocalizations {
   String get singleuser_mainpage => "Single-user main-page";
   String get sort => "Sort";
   String get sort_eval => "grade";
+  String get sort_real_time => "time of writing";
   String get sort_subject => "subject";
-  String get sort_time => "time";
+  String get sort_time => "upload time";
   String get state => "state: ";
   String get statistics => "Statistics";
   String get subject => "subject: ";
@@ -314,7 +315,7 @@ class $hu extends S {
   @override
   String get short_friday => "P";
   @override
-  String get sort_time => "idő";
+  String get sort_time => "beírás ideje";
   @override
   String get all_median => "Összes jegy mediánja: ";
   @override
@@ -413,6 +414,8 @@ class $hu extends S {
   String get teacher => "tanár: ";
   @override
   String get short_wednesday => "Sz";
+  @override
+  String get sort_real_time => "írás ideje";
   @override
   String get notworking => "nem működik";
   @override

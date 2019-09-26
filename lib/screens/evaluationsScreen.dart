@@ -1,16 +1,16 @@
 import 'dart:async';
 
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Average.dart';
 import '../Datas/Student.dart';
 import '../Datas/User.dart';
+import '../Dialog/AverageDialog.dart';
+import '../Dialog/SortDialog.dart';
 import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
-import 'package:e_szivacs/generated/i18n.dart';
-import '../Dialog/SortDialog.dart';
-import '../Dialog/AverageDialog.dart';
 
 void main() {
   runApp(new MaterialApp(home: new EvaluationsScreen()));
@@ -135,6 +135,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       case 2:
         _evaluations.sort((a, b) => a.Subject.compareTo(b.Subject));
         break;
+      case 3:
+        _evaluations.sort((a, b) => a.Date.compareTo(b.Date));
+        break;
     }
 
     hasLoaded = true;
@@ -162,6 +165,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
               return b.CreatingTime.compareTo(a.CreatingTime);
             return a.Subject.compareTo(b.Subject);
           });
+          break;
+        case 3:
+          _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
           break;
       }
     });
@@ -197,6 +203,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             return b.CreatingTime.compareTo(a.CreatingTime);
           return a.Subject.compareTo(b.Subject);
         });
+        break;
+      case 3:
+        _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
         break;
     }
 
