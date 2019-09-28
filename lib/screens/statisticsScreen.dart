@@ -777,7 +777,7 @@ class GradeDialogState extends State<GradeDialog> {
       "SubjectCategoryName": "",
       "Theme": "",
       "IsAtlagbaBeleszamit": true,
-      "Mode": "Gyakorlati feladat",
+      "Mode": "Hamis",
       "Weight": "$weight",
       "Value": "Jeles(5)",
       "NumberValue": $jegy,
