@@ -43,7 +43,7 @@ class AbsenceCard extends StatelessWidget {
       color = Colors.blue;
     } else {
       state="vegyes";
-      color = Colors.black;
+      color = Colors.orange;
     }
     }
 
