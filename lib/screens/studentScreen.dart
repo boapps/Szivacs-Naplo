@@ -18,7 +18,7 @@ class StudentScreen extends StatefulWidget {
 class StudentScreenState extends State<StudentScreen> {
   @override
   Widget build(BuildContext context) {
-    double c_width = MediaQuery.of(context).size.width * 0.6;
+    double c_width = MediaQuery.of(context).size.width * 0.5;
 
     return new Scaffold(
       drawer: GDrawer(),
@@ -70,14 +70,14 @@ class StudentScreenState extends State<StudentScreen> {
     child: Row(
               children: <Widget>[
                 Expanded(child: Container(
-                  child: Text(S.of(context).info_teacher), padding: EdgeInsets.all(18),),),
+                  child: Text(S.of(context).info_teacher, softWrap: false, maxLines: 1,), padding: EdgeInsets.all(18),),),
                 Container(child: Column(
                   children: <String>[
                     widget.account.student.FormTeacher.Name ?? "",
                     widget.account.student.FormTeacher.Email ?? "",
                     widget.account.student.FormTeacher.PhoneNumber ?? ""
                   ].where((String data) => data != "").map((String data) {
-                    return Text(data, maxLines: 3, softWrap: true,);
+                    return Text(data, maxLines: 3, softWrap: true, textAlign: TextAlign.end,);
                   }).toList(),
                   crossAxisAlignment: CrossAxisAlignment.end,
                 ),
@@ -96,7 +96,7 @@ class StudentScreenState extends State<StudentScreen> {
                     widget.account.student.InstituteName ?? "",
                     widget.account.student.InstituteCode ?? ""
                   ].map((String data) {
-                    return Text(data, maxLines: 3, softWrap: true,);
+                    return Text(data, maxLines: 3, softWrap: true, textAlign: TextAlign.end,);
                   }).toList(),
                   crossAxisAlignment: CrossAxisAlignment.end,
                 ),
@@ -117,17 +117,17 @@ class StudentScreenState extends State<StudentScreen> {
                     String details = (parrent.PhoneNumber != null &&
                         parrent.PhoneNumber != "" && parrent.Email != null &&
                         parrent.Email != "") ?
-                    " (" + parrent.PhoneNumber + ", " + parrent.Email + ")"
+                    ":\n- " + parrent.PhoneNumber + "\n- " + parrent.Email
                         : parrent.PhoneNumber != null &&
-                        parrent.PhoneNumber != "" ? " (" +
-                        parrent.PhoneNumber.toString() + ")"
-                        : parrent.Email != null && parrent.Email != "" ? " (" +
-                        (parrent.Email).toString() + ")"
+                        parrent.PhoneNumber != "" ?
+                    ":\n- " + parrent.PhoneNumber.toString()
+                        : parrent.Email != null && parrent.Email != "" ?
+                    ":\n- " + parrent.Email.toString()
                         : "";
                     return Text(parrent.Name + details, maxLines: 3,
-                      softWrap: true,);
+                      softWrap: true, textAlign: TextAlign.start,);
                   }).toList(),
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                 ),
                   width: c_width,
                   margin: EdgeInsets.only(right: 15, left: 15),
