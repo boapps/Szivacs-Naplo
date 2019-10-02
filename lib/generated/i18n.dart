@@ -64,10 +64,10 @@ class S implements WidgetsLocalizations {
   String get flutter => "Flutter";
   String get github => "GitHub";
   String get grade1 => "1 grades:";
-  String get grade2 => "2 grades:\n";
-  String get grade3 => "3 grades:\n";
+  String get grade2 => "2 grades:";
+  String get grade3 => "3 grades:";
   String get grade4 => "4 grades:";
-  String get grade5 => "5 grades:\n";
+  String get grade5 => "5 grades:";
   String get green => "green";
   String get grey => "grey";
   String get group => "class: ";
