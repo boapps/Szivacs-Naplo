@@ -633,9 +633,11 @@ class GradeDialogState extends State<GradeDialog> {
   var jegy = 1;
   bool isTZ = false;
 
-  String weight = "200";
+  String weight = "100";
+  String tzWeight = "200";
 
   void _onWeightInput(String text) {
+    tzWeight = text;
     weight = text;
   }
 
@@ -740,6 +742,10 @@ class GradeDialogState extends State<GradeDialog> {
                 onChanged: (value) {
                   setState(() {
                     isTZ = value;
+                    if (value)
+                      weight = tzWeight;
+                    else
+                      weight = "100";
                   });
                 },
                 activeColor: Theme.of(context).accentColor,
