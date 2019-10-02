@@ -1,10 +1,12 @@
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import '../GlobalDrawer.dart';
+
 import 'package:e_szivacs/generated/i18n.dart';
-import '../globals.dart' as globals;
+import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+
+import '../GlobalDrawer.dart';
 import '../Helpers/SettingsHelper.dart';
+import '../globals.dart' as globals;
 
 class colorSettingsScreen extends StatefulWidget {
   @override
@@ -31,27 +33,24 @@ class colorSettingsScreenState extends State<colorSettingsScreen> {
             content: content,
             actions: [
               FlatButton(
-                child: Text(S
-                    .of(context)
-                    .no),
+                child: Text(S.of(context).no),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               FlatButton(
-                child: Text(S
-                    .of(context)
-                    .ok),
+                child: Text(S.of(context).ok),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   if (selected != null) {
-                    SettingsHelper().setEvalColor(n, selected);
-                    globals.color1 = await SettingsHelper().getEvalColor(0);
-                    globals.color2 = await SettingsHelper().getEvalColor(1);
-                    globals.color3 = await SettingsHelper().getEvalColor(2);
-                    globals.color4 = await SettingsHelper().getEvalColor(3);
-                    globals.color5 = await SettingsHelper().getEvalColor(4);
-                    setState(() {});
+                    SettingsHelper().setEvalColor(n, selected).then((var a) async {
+                      globals.color1 = await SettingsHelper().getEvalColor(0);
+                      globals.color2 = await SettingsHelper().getEvalColor(1);
+                      globals.color3 = await SettingsHelper().getEvalColor(2);
+                      globals.color4 = await SettingsHelper().getEvalColor(3);
+                      globals.color5 = await SettingsHelper().getEvalColor(4);
+                      setState(() {});
+                    });
                   }
                 },
               ),

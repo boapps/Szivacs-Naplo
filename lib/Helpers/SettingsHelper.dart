@@ -6,7 +6,7 @@ import '../globals.dart';
 import 'DBHelper.dart';
 
 class SettingsHelper {
-  void _setPropertyBool(String name, dynamic value) async {
+  Future<void> _setPropertyBool(String name, dynamic value) async {
     Map<String, dynamic> settings = new Map();
     try {
       settings.addAll(await DBHelper().getSettingsMap());
@@ -14,7 +14,8 @@ class SettingsHelper {
       print(e);
     }
     settings[name] = value;
-    DBHelper().saveSettingsMap(settings);
+    await DBHelper().saveSettingsMap(settings);
+    return null;
   }
 
   dynamic _getProperty(String name, dynamic defaultValue) async {
@@ -115,8 +116,8 @@ class SettingsHelper {
     return await _getProperty("canSyncOnData", true);
   }
 
-  void setEvalColor(int eval, Color color) {
-    _setPropertyBool("grade_${eval}_color", color.value);
+  Future<void> setEvalColor(int eval, Color color) async {
+    await _setPropertyBool("grade_${eval}_color", color.value);
   }
 
   static const List<Color> COLORS = [
