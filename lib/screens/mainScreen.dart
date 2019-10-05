@@ -47,9 +47,8 @@ class MainScreenState extends State<MainScreen> {
 
   //DateTime startDate = DateTime.now();
 
-
   bool hasOfflineLoaded = false;
-  bool hasLoaded = false;
+  bool hasLoaded = true;
 
   void _initSettings() async {
     DynamicTheme.of(context).setBrightness(await SettingsHelper().getDarkTheme()
@@ -96,15 +95,13 @@ class MainScreenState extends State<MainScreen> {
     bool rem = false;
 
     for (Lesson l in lessons.where((Lesson lesson) =>
-    (lesson.isMissed || lesson.isSubstitution) &&
-        lesson.date.isAfter(now)))
+        (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
 
     for (Lesson l in realLessons)
-      if (l.start.isAfter(now) && l.start.day == now.day)
-        rem = true;
+      if (l.start.isAfter(now) && l.start.day == now.day) rem = true;
     if (realLessons.length > 0 && rem)
       feedCards.add(new LessonCard(realLessons, context, now));
     try {
@@ -123,34 +120,26 @@ class MainScreenState extends State<MainScreen> {
 
   Future<bool> _onWillPop() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return new AlertDialog(
-          title: new Text(S
-              .of(context)
-              .sure),
-          content: new Text(S
-              .of(context)
-              .confirm_close),
-          actions: <Widget>[
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text(S
-                  .of(context)
-                  .no),
-            ),
-            new FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: new Text(S
-                  .of(context)
-                  .yes),
-            ),
-          ],
-        );
-      },
-    ) ??
+          context: context,
+          builder: (BuildContext context) {
+            return new AlertDialog(
+              title: new Text(S.of(context).sure),
+              content: new Text(S.of(context).confirm_close),
+              actions: <Widget>[
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text(S.of(context).no),
+                ),
+                new FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: new Text(S.of(context).yes),
+                ),
+              ],
+            );
+          },
+        ) ??
         false;
   }
 
@@ -161,38 +150,45 @@ class MainScreenState extends State<MainScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(S
-                  .of(context)
-                  .title),
+              title: new Text(globals.isSingle
+                  ? globals.selectedAccount.user.name
+                  : S.of(context).title),
               actions: <Widget>[
                 //todo search maybe?
               ],
             ),
-            body: new Container(
-                child: hasOfflineLoaded && globals.isColor != null
-                    ? new Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: new RefreshIndicator(
-                      child: new ListView(
-                        children: mainScreenCards,
+            body: hasOfflineLoaded && globals.isColor != null
+                ? new Container(
+                    child: Column(children: <Widget>[
+                      !hasLoaded ? Container(
+                      child: new LinearProgressIndicator(
+                        value: null,
                       ),
-                      onRefresh: (){
-                        Completer<Null> completer = new Completer<Null>();
-                        _onRefresh().then((bool b){
-                          setState(() {
-                            completer.complete();
-                            mainScreenCards = feedItems();
+                      height: 3,
+                      ):Container(height: 3,),
+                    new Expanded(
+                      child: new RefreshIndicator(
+                        child: new ListView(
+                          children: mainScreenCards,
+                        ),
+                        onRefresh: () {
+                          Completer<Null> completer = new Completer<Null>();
+                          _onRefresh().then((bool b) {
+                            setState(() {
+                              completer.complete();
+                              mainScreenCards = feedItems();
+                            });
                           });
-                        });
-                        return completer.future;
-                      },
+                          return completer.future;
+                        },
+                      ),
                     )
-                )
-                    : new Center(child: new CircularProgressIndicator()))));
+                  ]))
+                : new Center(child: new CircularProgressIndicator())));
   }
 
-  Future<Null> _onRefresh({bool offline = false, bool showErrors=true}) async {
+  Future<Null> _onRefresh(
+      {bool offline = false, bool showErrors = true}) async {
     List<Evaluation> tempEvaluations = new List();
     Map<String, List<Absence>> tempAbsents = new Map();
     List<Note> tempNotes = new List();
@@ -205,7 +201,8 @@ class MainScreenState extends State<MainScreen> {
 
     if (globals.isSingle) {
       try {
-        await globals.selectedAccount.refreshStudentString(offline, showErrors: showErrors);
+        await globals.selectedAccount
+            .refreshStudentString(offline, showErrors: showErrors);
         tempEvaluations.addAll(globals.selectedAccount.student.Evaluations);
         tempNotes.addAll(globals.selectedAccount.notes);
         tempAbsents.addAll(globals.selectedAccount.absents);
@@ -214,8 +211,7 @@ class MainScreenState extends State<MainScreen> {
             msg: "Hiba",
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
         print(exception);
       }
     } else {
@@ -248,9 +244,8 @@ class MainScreenState extends State<MainScreen> {
         lessons.addAll(globals.lessons);
       } else {
         try {
-          lessons = await getLessonsOffline(
-              startDate, startDate.add(Duration(days: 6)),
-              globals.selectedUser);
+          lessons = await getLessonsOffline(startDate,
+              startDate.add(Duration(days: 6)), globals.selectedUser);
         } catch (exception) {
           print(exception);
         }

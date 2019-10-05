@@ -45,16 +45,26 @@ class MessageScreenState extends State<MessageScreen> {
             ),
             body: new Container(
                 child: hasOfflineLoaded & (messages != null)
-                    ? new Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: new RefreshIndicator(
-                      child: new ListView.builder(
-                        itemBuilder: _itemBuilder,
-                        itemCount: messages.length,
-                      ),
-                      onRefresh: _onRefresh),
-                )
+                    ? new Column(children: <Widget>[
+                        !hasLoaded
+                            ? Container(
+                                child: new LinearProgressIndicator(
+                                  value: null,
+                                ),
+                                height: 3,
+                              )
+                            : Container(
+                                height: 3,
+                              ),
+                        new Expanded(
+                          child: new RefreshIndicator(
+                              child: new ListView.builder(
+                                itemBuilder: _itemBuilder,
+                                itemCount: messages.length,
+                              ),
+                              onRefresh: _onRefresh),
+                        )
+                      ])
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
@@ -84,12 +94,36 @@ class MessageScreenState extends State<MessageScreen> {
         ),
         new ListTile(
           //leading: new Container(),
-          title: new Text(messages[index].subject, style: TextStyle(fontWeight: !messages[index].seen ? FontWeight.bold : FontWeight.normal),),
-          subtitle: new Text(messages[index].senderName, style: TextStyle(fontWeight: !messages[index].seen ? FontWeight.bold : FontWeight.normal),),
+          title: new Text(
+            messages[index].subject,
+            style: TextStyle(
+                fontWeight: !messages[index].seen
+                    ? FontWeight.bold
+                    : FontWeight.normal),
+          ),
+          subtitle: new Text(
+            messages[index].senderName,
+            style: TextStyle(
+                fontWeight: !messages[index].seen
+                    ? FontWeight.bold
+                    : FontWeight.normal),
+          ),
           trailing: new Column(
             children: <Widget>[
-              new Text(dateToHuman(messages[index].date), style: TextStyle(fontWeight: !messages[index].seen ? FontWeight.bold : FontWeight.normal),),
-              new Text(dateToWeekDay(messages[index].date), style: TextStyle(fontWeight: !messages[index].seen ? FontWeight.bold : FontWeight.normal),),
+              new Text(
+                dateToHuman(messages[index].date),
+                style: TextStyle(
+                    fontWeight: !messages[index].seen
+                        ? FontWeight.bold
+                        : FontWeight.normal),
+              ),
+              new Text(
+                dateToWeekDay(messages[index].date),
+                style: TextStyle(
+                    fontWeight: !messages[index].seen
+                        ? FontWeight.bold
+                        : FontWeight.normal),
+              ),
             ],
           ),
           onTap: () {
@@ -101,12 +135,12 @@ class MessageScreenState extends State<MessageScreen> {
               });
             }
             return showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (BuildContext context) {
-                return new MessageDialog(messages[index]);
-              },
-            ) ??
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return new MessageDialog(messages[index]);
+                  },
+                ) ??
                 false;
           },
         ),

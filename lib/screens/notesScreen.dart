@@ -28,7 +28,7 @@ class NotesScreenState extends State<NotesScreen> {
   }
 
   bool hasOfflineLoaded = false;
-  bool hasLoaded = false;
+  bool hasLoaded = true;
 
   List<Note> notes = new List();
 
@@ -49,16 +49,25 @@ class NotesScreenState extends State<NotesScreen> {
             ),
             body: new Container(
                 child: hasOfflineLoaded
-                    ? new Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: new RefreshIndicator(
+                    ? new Column(children: <Widget>[
+                !hasLoaded
+                ? Container(
+                child: new LinearProgressIndicator(
+                  value: null,
+                ),
+              height: 3,
+            )
+              : Container(
+          height: 3,
+        ),
+        new Expanded(child: new RefreshIndicator(
                             child: new ListView.builder(
                               itemBuilder: _itemBuilder,
                               itemCount: notes.length,
                             ),
-                            onRefresh: _onRefresh),
-                      )
+                            onRefresh: _onRefresh,
+        ),
+                      )])
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
@@ -68,7 +77,7 @@ class NotesScreenState extends State<NotesScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
 
-    globals.selectedAccount.refreshStudentString(false);
+    await globals.selectedAccount.refreshStudentString(false);
     notes = globals.selectedAccount.notes;
 
     hasLoaded = true;

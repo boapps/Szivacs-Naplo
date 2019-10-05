@@ -33,7 +33,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   List<User> users = new List();
 
   bool hasOfflineLoaded = false;
-  bool hasLoaded = false;
+  bool hasLoaded = true;
 
   User selectedUser;
 
@@ -50,12 +50,12 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
   Future<bool> showSortDialog() {
     return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) {
-        return new SortDialog();
-      },
-    ) ??
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            return new SortDialog();
+          },
+        ) ??
         false;
   }
 
@@ -69,18 +69,14 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         child: Scaffold(
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(S
-                  .of(context)
-                  .evaluations),
+              title: new Text(S.of(context).evaluations),
               actions: <Widget>[
                 new Tooltip(
                   child: new FlatButton(
                     onPressed: showAveragesDialog,
                     child: new Icon(Icons.assessment, color: Colors.white),
                   ),
-                  message: S
-                      .of(context)
-                      .averages,
+                  message: S.of(context).averages,
                 ),
                 new Tooltip(
                   child: new FlatButton(
@@ -91,24 +87,32 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                     },
                     child: new Icon(Icons.sort, color: Colors.white),
                   ),
-                  message: S
-                      .of(context)
-                      .sort,
+                  message: S.of(context).sort,
                 ),
               ],
             ),
             body: new Container(
                 child: hasOfflineLoaded
-                    ? new Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: new RefreshIndicator(
-                            child: new ListView.builder(
-                              itemBuilder: _itemBuilder,
-                              itemCount: _evaluations.length,
-                            ),
-                            onRefresh: _onRefresh),
-                      )
+                    ? new Column(children: <Widget>[
+                        !hasLoaded
+                            ? Container(
+                                child: new LinearProgressIndicator(
+                                  value: null,
+                                ),
+                                height: 3,
+                              )
+                            : Container(
+                                height: 3,
+                              ),
+                        new Expanded(
+                          child: new RefreshIndicator(
+                              child: new ListView.builder(
+                                itemBuilder: _itemBuilder,
+                                itemCount: _evaluations.length,
+                              ),
+                              onRefresh: _onRefresh),
+                        )
+                      ])
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
@@ -119,7 +123,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    globals.selectedAccount.refreshStudentString(false);
+    await globals.selectedAccount.refreshStudentString(false);
 
     averages = globals.selectedAccount.averages;
 
@@ -227,55 +231,37 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             child: new ListBody(
               children: <Widget>[
                 evaluation.Theme != "" && evaluation.Theme != null
-                    ? new Text(S
-                    .of(context)
-                    .theme + evaluation.Theme)
+                    ? new Text(S.of(context).theme + evaluation.Theme)
                     : new Container(),
                 evaluation.Teacher != null
-                    ? new Text(S
-                    .of(context)
-                    .teacher + evaluation.Teacher)
+                    ? new Text(S.of(context).teacher + evaluation.Teacher)
                     : new Container(),
                 evaluation.Date != null
                     ? new Text(
-                    S
-                        .of(context)
-                        .time + dateToHuman(evaluation.Date))
+                        S.of(context).time + dateToHuman(evaluation.Date))
                     : new Container(),
                 evaluation.Mode != null
-                    ? new Text(S
-                    .of(context)
-                    .mode + evaluation.Mode)
+                    ? new Text(S.of(context).mode + evaluation.Mode)
                     : new Container(),
                 evaluation.CreatingTime != null
-                    ? new Text(S
-                    .of(context)
-                    .administration_time +
-                    dateToHuman(evaluation.Date))
+                    ? new Text(S.of(context).administration_time +
+                        dateToHuman(evaluation.Date))
                     : new Container(),
                 evaluation.Weight != null
-                    ? new Text(S
-                    .of(context)
-                    .weight + evaluation.Weight)
+                    ? new Text(S.of(context).weight + evaluation.Weight)
                     : new Container(),
                 evaluation.Value != null
-                    ? new Text(S
-                    .of(context)
-                    .value + evaluation.Value)
+                    ? new Text(S.of(context).value + evaluation.Value)
                     : new Container(),
                 evaluation.FormName != null
-                    ? new Text(S
-                    .of(context)
-                    .range + evaluation.FormName)
+                    ? new Text(S.of(context).range + evaluation.FormName)
                     : new Container(),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text(S
-                  .of(context)
-                  .ok),
+              child: new Text(S.of(context).ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -313,16 +299,24 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         if (((index == 0) && (_evaluations[index].Value.length < 16) ||
             (_evaluations[index].Value != _evaluations[index - 1].Value &&
                 _evaluations[index].Value.length < 16)))
-          sep = Container(child: new Text(
-            _evaluations[index].Value, style: TextStyle(fontSize: 16),),
-            margin: EdgeInsets.all(6),);
+          sep = Container(
+            child: new Text(
+              _evaluations[index].Value,
+              style: TextStyle(fontSize: 16),
+            ),
+            margin: EdgeInsets.all(6),
+          );
         break;
       case 2:
         if (index == 0 ||
             (_evaluations[index].Subject != _evaluations[index - 1].Subject))
-          sep = Container(child: new Text(
-            _evaluations[index].Subject, style: TextStyle(fontSize: 16),),
-            margin: EdgeInsets.all(6),);
+          sep = Container(
+            child: new Text(
+              _evaluations[index].Subject,
+              style: TextStyle(fontSize: 16),
+            ),
+            margin: EdgeInsets.all(6),
+          );
         break;
     }
 
@@ -345,7 +339,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           ),
           title: new Text(_evaluations[index].Subject),
           subtitle:
-          new Text(_evaluations[index].Theme ?? _evaluations[index].Value),
+              new Text(_evaluations[index].Theme ?? _evaluations[index].Value),
           trailing: new Column(
             children: <Widget>[
               new Text(dateToHuman(_evaluations[index].Date)),

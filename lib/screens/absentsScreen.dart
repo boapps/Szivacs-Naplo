@@ -1,15 +1,15 @@
 import 'dart:async';
 
+import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../Datas/Student.dart';
-import '../GlobalDrawer.dart';
-import 'package:e_szivacs/generated/i18n.dart';
 import '../Datas/User.dart';
-import '../globals.dart' as globals;
 import '../Dialog/AbsentDialog.dart';
+import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
+import '../globals.dart' as globals;
 
 void main() {
   runApp(
@@ -38,8 +38,8 @@ class AbsentsScreenState extends State<AbsentsScreen> {
   List<User> users;
   User selectedUser;
 
-  bool hasLoaded = false;
   bool hasOfflineLoaded = false;
+  bool hasLoaded = true;
 
   void initSelectedUser() async {
     setState(() {
@@ -91,16 +91,25 @@ class AbsentsScreenState extends State<AbsentsScreen> {
             ),
             body: new Container(
                 child: hasOfflineLoaded
-                    ? new Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: new RefreshIndicator(
+                    ? new Column(children: <Widget>[
+                !hasLoaded
+                ? Container(
+                child: new LinearProgressIndicator(
+                  value: null,
+                ),
+              height: 3,
+            )
+              : Container(
+          height: 3,
+        ),
+        new Expanded(
+          child: new RefreshIndicator(
                             child: new ListView.builder(
                               itemBuilder: _itemBuilder,
                               itemCount: absents.length,
                             ),
                             onRefresh: _onRefresh),
-                      )
+                      )])
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
