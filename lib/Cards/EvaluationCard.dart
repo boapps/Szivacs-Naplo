@@ -179,8 +179,8 @@ class EvaluationCard extends StatelessWidget {
   }
 
   String getDate() {
-    return evaluation.CreatingTime.toIso8601String() +
-        evaluation.trueID().toString();
+    return evaluation.CreatingTime.toIso8601String()??"" +
+        evaluation.trueID().toString()??"";
   }
 
   @override
@@ -310,8 +310,8 @@ class EvaluationCard extends StatelessWidget {
             !showPadding || !isSingle
                 ? new Container(
                     child: new Text(
-                        dateToHuman(evaluation.Date) +
-                            dateToWeekDay(evaluation.Date),
+                        dateToHuman(evaluation.Date)??"" +
+                            dateToWeekDay(evaluation.Date)??"",
                         style: new TextStyle(fontSize: 16.0, color: fColor)),
                     alignment: Alignment(1.0, -1.0),
                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
@@ -392,8 +392,8 @@ class EvaluationCard extends StatelessWidget {
                               ? new Expanded(
                                   child: new Container(
                                     child: new Text(
-                                      dateToHuman(evaluation.Date) +
-                                          dateToWeekDay(evaluation.Date),
+                                      dateToHuman(evaluation.Date)??"" +
+                                          dateToWeekDay(evaluation.Date)??"",
                                       style: new TextStyle(
                                           fontSize: 16.0,
                                           color: globals.isDark

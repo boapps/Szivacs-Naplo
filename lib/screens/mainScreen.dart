@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Cards/AbsenceCard.dart';
@@ -131,9 +132,9 @@ class MainScreenState extends State<MainScreen> {
                   child: new Text(S.of(context).no),
                 ),
                 new FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
+                  onPressed: () async {
+                    await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+                    },
                   child: new Text(S.of(context).yes),
                 ),
               ],

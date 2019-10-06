@@ -35,9 +35,9 @@ class StudentScreenState extends State<StudentScreen> {
             Card(
               child: ListTile(
                 title: Text(S.of(context).info_birthdate),
-                trailing: Text(dateToHuman(
-                    DateTime.parse(this.widget.account.student.DateOfBirthUtc)
-                        .add(Duration(days: 1)))),
+                trailing: this.widget.account.student != null ? Text(dateToHuman(
+                    DateTime.parse(this.widget.account.student.DateOfBirthUtc??"")
+                        .add(Duration(days: 1)))):Container(),
               ),
             ),
             Card(
