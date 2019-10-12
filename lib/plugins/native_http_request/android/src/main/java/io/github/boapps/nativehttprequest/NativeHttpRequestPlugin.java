@@ -1,7 +1,4 @@
-
 package io.github.boapps.nativehttprequest;
-
-import android.app.Activity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,10 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import android.os.StrictMode;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -23,28 +22,26 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 /** NativeHttpRequestPlugin */
 public class NativeHttpRequestPlugin implements MethodCallHandler {
     /** Plugin registration. */
-    static Activity activity;
-
     public static void registerWith(Registrar registrar) {
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "native_http_request");
         channel.setMethodCallHandler(new NativeHttpRequestPlugin());
-        activity = registrar.activity();
     }
 
     private String getResponse = "";
+
     private String url = "";
     private String data = "";
     private HashMap<String, String> headers = new HashMap<>();
 
     @Override
     public void onMethodCall(MethodCall call, final Result result) {
+
         headers = call.argument("headers");
         url = call.argument("url").toString();
         data = call.argument("data");
 
         if (call.method.equals("getRequest")) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
+            new Thread(new Runnable() {
                 public void run() {
                     try {
                         URL treqURL = new URL(url);
@@ -56,17 +53,14 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
                         trequest.connect();
                         getResponse = readStream(trequest.getInputStream());
                         trequest.disconnect();
-                        activity.runOnUiThread(new Runnable() {
-                            public void run() {
-                                result.success(getResponse);
-                            }
-                        });
+                        result.success(getResponse);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            });
-            thread.start();
+            }).start();
+
+
         } else if (call.method.equals("postRequest")){
             new Thread(new Runnable() {
                 public void run() {
@@ -90,6 +84,7 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
                     }
                 }
             }).start();
+
         } else {
             result.notImplemented();
         }
@@ -104,4 +99,5 @@ public class NativeHttpRequestPlugin implements MethodCallHandler {
         }
         return total.toString();
     }
+
 }

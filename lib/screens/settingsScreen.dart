@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -473,13 +474,13 @@ class SettingsScreenState extends State<SettingsScreen> {
                     Navigator.pushNamed(context, "/about");
                   },
                 ),
-                new ListTile(
+                !Platform.isIOS ? new ListTile(
                   leading: new Icon(Icons.import_export),
                   title: new Text("Export"),
                   onTap: () {
                     Navigator.pushNamed(context, "/export");
                   },
-                ),
+                ):Container(),
               ],
               padding: EdgeInsets.all(10),
             )

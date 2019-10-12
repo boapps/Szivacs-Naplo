@@ -13,15 +13,24 @@ import '../Utils/Saver.dart';
 class RequestHelper {
 
   Future<String> getInstitutes() async {
-    final String url =
-        "https://kretaglobalmobileapi.ekreta.hu/api/v1/Institute";
+    if (Platform.isIOS) {
+      String url = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
 
-    var r = nhttp.NativeHttpRequest.getRequest(url, headers: {
-      "HOST": "kretaglobalmobileapi.ekreta.hu",
-      "apiKey": "7856d350-1fda-45f5-822d-e1a2f3f1acf0"
-    });
+      var r = (await http.get(url)).body;
 
-    return r;
+      return r;
+    } else {
+      final String url =
+          "https://kretaglobalmobileapi.ekreta.hu/api/v1/Institute";
+
+      var r = nhttp.NativeHttpRequest.getRequest(url, headers: {
+        "HOST": "kretaglobalmobileapi.ekreta.hu",
+        "apiKey": "7856d350-1fda-45f5-822d-e1a2f3f1acf0"
+      });
+
+      return r;
+    }
+
     //return json.decode(await response.transform(utf8.decoder).join());
   }
 
