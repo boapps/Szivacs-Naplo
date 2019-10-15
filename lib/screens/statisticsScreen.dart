@@ -200,7 +200,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           globals.currentEvals.add(e);
           setState(() {
             timeData.add(new TimeAverage(
-                e.Date,
+                e.CreatingTime,
                 e.NumberValue));
             series = [
               new Series(
@@ -237,7 +237,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           n += multiplier;
 
           setState(() {
-            timeData.add(new TimeAverage(e.Date, e.NumberValue));
+            timeData.add(new TimeAverage(e.CreatingTime, e.NumberValue));
             series = [
               new Series(
                 displayName: "asd",

@@ -35,14 +35,15 @@ class RequestHelper {
   }
 
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
+    http.Response response = await http.get(
+        url,
+        headers: {
+          "HOST": schoolCode + ".e-kreta.hu",
+          "User-Agent": "Kreta.Ellenorzo",
+          "Authorization": "Bearer " + accessToken
+        });
 
-    HttpClient client = new HttpClient();
-
-    final HttpClientRequest request = await client.getUrl(Uri.parse(url))
-      ..headers.add("HOST", schoolCode + ".e-kreta.hu")
-      ..headers.add("Authorization", "Bearer " + accessToken);
-
-    return await (await request.close()).transform(utf8.decoder).join();
+    return response.body;
   }
 
   Future<String> getMessages(String accessToken, String schoolCode) =>
@@ -83,7 +84,8 @@ class RequestHelper {
       return http.post("https://" + schoolCode + ".e-kreta.hu/idp/api/v1/Token",
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
-            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+            "User-Agent": "Kreta.Ellenorzo"
           },
           body: jsonBody);
     } catch (e) {
@@ -167,6 +169,7 @@ class RequestHelper {
       String evaluationsString =
       (await getEvaluations(code, instCode));
 
+      print(evaluationsString);
       return evaluationsString;
     }
     return null;
