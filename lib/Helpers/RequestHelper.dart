@@ -169,7 +169,6 @@ class RequestHelper {
       String evaluationsString =
       (await getEvaluations(code, instCode));
 
-      print(evaluationsString);
       return evaluationsString;
     }
     return null;
