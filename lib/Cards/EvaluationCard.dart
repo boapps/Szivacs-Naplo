@@ -63,6 +63,10 @@ class EvaluationCard extends StatelessWidget {
           break;
       }
       switch (evaluation.Value) {
+        case "5*":
+          bColor = globals.color5;
+          fColor = Colors.white;
+          break;
         case "Példás":
           bColor = globals.color5;
           fColor = Colors.white;
