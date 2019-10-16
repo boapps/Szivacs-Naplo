@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert' show utf8, json;
-import 'dart:io';
+import 'dart:convert' show json;
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:native_http_request/native_http_request.dart' as nhttp;
 
 import '../Datas/User.dart';
 import '../Utils/Saver.dart';
@@ -13,25 +11,10 @@ import '../Utils/Saver.dart';
 class RequestHelper {
 
   Future<String> getInstitutes() async {
-    if (Platform.isIOS) {
-      String url = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
+    String url = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
 
-      var r = (await http.get(url)).body;
-
-      return r;
-    } else {
-      final String url =
-          "https://kretaglobalmobileapi.ekreta.hu/api/v1/Institute";
-
-      var r = nhttp.NativeHttpRequest.getRequest(url, headers: {
-        "HOST": "kretaglobalmobileapi.ekreta.hu",
-        "apiKey": "7856d350-1fda-45f5-822d-e1a2f3f1acf0"
-      });
-
-      return r;
-    }
-
-    //return json.decode(await response.transform(utf8.decoder).join());
+    var r = (await http.get(url)).body;
+    return r;
   }
 
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
