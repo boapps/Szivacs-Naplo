@@ -10,12 +10,25 @@ import '../Utils/Saver.dart';
 
 class RequestHelper {
 
-  Future<String> getInstitutes() async {
-    String url = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
+  static const String CLIENT_ID = "919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
+  static const String GRANT_TYPE = "password";
+  static const String INSTITUTES_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
 
-    var r = (await http.get(url)).body;
-    return r;
+  void showError(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
+
+  Future<String> getInstitutes() async {
+    String institutesBody = (await http.get(INSTITUTES_API_URL)).body;
+    return institutesBody;
+  }
+
+
 
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
     http.Response response = await http.get(
@@ -62,7 +75,7 @@ class RequestHelper {
           "&toDate=" +
           to, accessToken, schoolCode);
 
-  Future<http.Response> getBearer(String jsonBody, String schoolCode) {
+  Future<http.Response> getBearer(String jsonBody, String schoolCode) async {
     try {
       return http.post("https://" + schoolCode + ".e-kreta.hu/idp/api/v1/Token",
           headers: {
@@ -73,28 +86,42 @@ class RequestHelper {
           body: jsonBody);
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(
-          msg: "Hálózati hiba",
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
+      showError("Hálózati hiba");
       return null;
     }
   }
 
+  Future<String> getBearerToken(User user, {bool showErrors=true}) async {
+    String body =
+        "institute_code=${user.schoolCode}&"
+        "userName=${user.username}&"
+        "password=${user.password}&"
+        "grant_type=$GRANT_TYPE&"
+        "client_id=$CLIENT_ID";
+
+    http.Response bearerResponse = await RequestHelper().getBearer(
+        body, user.schoolCode);
+
+    try {
+      Map<String, dynamic> bearerMap = json.decode(bearerResponse.body);
+      if (bearerMap["error"] == "invalid_grant" && showErrors)
+        showError("Hibás jelszó vagy felhasználónév");
+
+      String code = bearerMap["access_token"];
+
+      return code;
+    } catch (e) {
+      if (showErrors)
+        showError("hiba");
+      print(e);
+    }
+
+    return null;
+  }
+
   void seeMessage(int id, User user) async {
     try {
-      String jsonBody =
-          "institute_code=" + user.schoolCode +
-              "&userName=" + user.username +
-              "&password=" + user.password +
-              "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-
-      Map<String, dynamic> bearerMap = json.decode(
-          (await RequestHelper().getBearer(jsonBody, user.schoolCode))
-              .body);
-      String code = bearerMap.values.toList()[0];
+      String code = await getBearerToken(user);
 
       await http.post("https://eugyintezes.e-kreta.hu//integration-kretamobile-api/v1/kommunikacio/uzenetek/olvasott",
           headers: {
@@ -103,83 +130,23 @@ class RequestHelper {
           body: "{\"isOlvasott\":true,\"uzenetAzonositoLista\":[$id]}");
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(
-          msg: "Hálózati hiba",
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
+      showError("Hálózati hiba");
       return null;
     }
   }
 
   Future<String> getStudentString(User user, {bool showErrors=true}) async {
-    String instCode = user.schoolCode;
-    String userName = user.username;
-    String password = user.password;
+      String code = await getBearerToken(user, showErrors: showErrors);
 
-    String jsonBody = "institute_code=" +
-        instCode +
-        "&userName=" +
-        userName +
-        "&password=" +
-        password +
-        "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-
-    Map<String, dynamic> bearerMap;
-    try {
-      bearerMap = json.decode((await getBearer(jsonBody, instCode)).body);
-    } catch (SocketException) {
-      if (showErrors)
-        Fluttertoast.showToast(
-            msg: "Hálózati hiba",
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-    }
-
-    if (bearerMap["error"] == "invalid_grant"){
-      Fluttertoast.showToast(
-          msg: "Hibás jelszó vagy felhasználónév",
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    } else {
-      String code = bearerMap["access_token"];
-
-      String evaluationsString =
-      (await getEvaluations(code, instCode));
+      String evaluationsString = await getEvaluations(code, user.schoolCode);
 
       return evaluationsString;
-    }
-    return null;
   }
 
   Future<String> getEventsString(User user) async {
-    String instCode = user.schoolCode;
-    String userName = user.username;
-    String password = user.password;
+    String code = await getBearerToken(user);
 
-    String jsonBody = "institute_code=" +
-        instCode +
-        "&userName=" +
-        userName +
-        "&password=" +
-        password +
-        "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-    Map<String, dynamic> bearerMap;
-    try {
-      bearerMap =
-          json.decode((await getBearer(jsonBody, instCode)).body);
-    } catch (e) {
-      print(e);
-    }
-
-    String code = bearerMap.values.toList()[0];
-
-    String eventsString = await getEvents(code, instCode);
+    String eventsString = await getEvents(code, user.schoolCode);
 
     saveEvents(eventsString, user);
 

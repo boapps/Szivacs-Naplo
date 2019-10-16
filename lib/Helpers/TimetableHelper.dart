@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import '../Utils/Saver.dart';
 import 'dart:convert' show utf8, json;
 
-import '../globals.dart' as globals;
 import '../Datas/Lesson.dart';
 import '../Helpers/RequestHelper.dart';
 import '../Helpers/DBHelper.dart';
-import '../main.dart';
 import '../Datas/User.dart';
 
 Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to, User user) async {
@@ -37,25 +34,13 @@ Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to, User user) 
 
 
 Future<String> getLessonsJson(DateTime from, DateTime to, User user) async {
-  String instCode = user.schoolCode;
-  userName = user.username;
-  password = user.password;
 
-  String jsonBody =
-      "institute_code=" + instCode +
-          "&userName=" + userName +
-          "&password=" + password +
-          "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-
-  Map<String, dynamic> bearerMap = json.decode(
-      (await RequestHelper().getBearer(jsonBody, instCode))
-          .body);
-  String code = bearerMap.values.toList()[0];
+  String code = await RequestHelper().getBearerToken(user);
 
   String timetableString = await RequestHelper().getTimeTable(
       from.toIso8601String().substring(0, 10),
       to.toIso8601String().substring(0, 10),
-      code, instCode
+      code, user.schoolCode
   );
 
   return timetableString;
@@ -63,25 +48,12 @@ Future<String> getLessonsJson(DateTime from, DateTime to, User user) async {
 
 
 Future <List <Lesson>> getLessons(DateTime from, DateTime to, User user) async {
-  String instCode = user.schoolCode;
-  userName = user.username;
-  password = user.password;
-
-  String jsonBody =
-      "institute_code=" + instCode +
-      "&userName=" + userName +
-      "&password=" + password +
-      "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-
-  Map<String, dynamic> bearerMap = json.decode(
-        (await RequestHelper().getBearer(jsonBody, instCode))
-            .body);
-  String code = bearerMap.values.toList()[0];
+  String code = await RequestHelper().getBearerToken(user);
 
   String timetableString = await RequestHelper().getTimeTable(
       from.toIso8601String().substring(0, 10),
       to.toIso8601String().substring(0, 10),
-      code, instCode
+      code, user.schoolCode
   );
 
   List<dynamic> ttMap = json.decode(timetableString);

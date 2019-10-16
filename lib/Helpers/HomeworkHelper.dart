@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert' show json;
 import '../Datas/User.dart';
 import '../Datas/Homework.dart';
-import '../Datas/Lesson.dart';
 import '../Utils/AccountManager.dart';
 import '../Utils/Saver.dart';
 import 'RequestHelper.dart';
@@ -56,22 +55,7 @@ class HomeworkHelper {
     List<User> users = await AccountManager().getUsers();
 
     for (User user in users) {
-      String instCode = user.schoolCode; //suli kódja
-      String userName = user.username;
-      String password = user.password;
-
-      String jsonBody = "institute_code=" +
-          instCode +
-          "&userName=" +
-          userName +
-          "&password=" +
-          password +
-          "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
-
-      Map<String, dynamic> bearerMap = json
-          .decode((await RequestHelper().getBearer(jsonBody, instCode)).body);
-
-      String code = bearerMap.values.toList()[0];
+      String code = await RequestHelper().getBearerToken(user);
 
       DateTime startDate = new DateTime.now();
       DateTime from = startDate.subtract(new Duration(days: time));
@@ -81,23 +65,18 @@ class HomeworkHelper {
               from.toIso8601String().substring(0, 10),
               to.toIso8601String().substring(0, 10),
               code,
-              instCode));
+              user.schoolCode));
       List<dynamic> ttMap = json.decode(timetableString);
-      //saveTimetable(timetableString, from.year.toString()+"-"+from.month.toString()+"-"+from.day.toString()+"_"+to.year.toString()+"-"+to.month.toString()+"-"+to.day.toString(), user);
-      List<Lesson> lessons = new List();
       List<Map<String, dynamic>> hwmapuser = new List();
 
       for (dynamic d in ttMap) {
         if (d["TeacherHomeworkId"] != null) {
           String homeworkString = (await RequestHelper()
-                  .getHomework(code, instCode, d["TeacherHomeworkId"]));
+                  .getHomework(code, user.schoolCode, d["TeacherHomeworkId"]));
           if (homeworkString == "[]")
             homeworkString = "[" +
                 (await RequestHelper().getHomeworkByTeacher(
-                        code, instCode, d["TeacherHomeworkId"])) +
-                "]";
-
-          //saveEvaluations(homeworkString, user);
+                        code, user.schoolCode, d["TeacherHomeworkId"])) + "]";
           String ctargy = d["Subject"];
           List<dynamic> evaluationsMapUser = json.decode(homeworkString);
           for (dynamic d in evaluationsMapUser) {

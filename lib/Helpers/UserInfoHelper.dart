@@ -5,6 +5,7 @@ import 'RequestHelper.dart';
 
 
 class UserInfoHelper {
+//todo refactor this file
 
   Future<Map<String, String>> getInfo(String instCode, String userName, String password) async {
     Map<String, dynamic> evaluationsMap;
