@@ -33,6 +33,7 @@ List<int> idoAdatok = [1, 7, 30, 60];
 Average selectedAverage;
 List<Evaluation> currentEvals = new List();
 int themeID = 0;
+String userAgent = "Kreta.Ellenorzo/2.9.3.2019100701 (Android; coral 0.0)";
 
 List<Account> accounts = new List();
 Account selectedAccount;

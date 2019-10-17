@@ -4,6 +4,7 @@ import 'dart:convert' show json;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import '../globals.dart' as globals;
 
 import '../Datas/User.dart';
 import '../Utils/Saver.dart';
@@ -13,6 +14,7 @@ class RequestHelper {
   static const String CLIENT_ID = "919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
   static const String GRANT_TYPE = "password";
   static const String INSTITUTES_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
+  static const String USER_AGENT_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/user-agent";
 
   void showError(String msg) {
     Fluttertoast.showToast(
@@ -28,14 +30,17 @@ class RequestHelper {
     return institutesBody;
   }
 
-
+  Future<String> getUserAgent() async {
+    String userAgent = (await http.get(USER_AGENT_API_URL)).body;
+    return userAgent.trim();
+  }
 
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
     http.Response response = await http.get(
         url,
         headers: {
           "HOST": schoolCode + ".e-kreta.hu",
-          "User-Agent": "Kreta.Ellenorzo",
+          "User-Agent": globals.userAgent,
           "Authorization": "Bearer " + accessToken
         });
 
@@ -81,7 +86,7 @@ class RequestHelper {
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-            "User-Agent": "Kreta.Ellenorzo"
+            "User-Agent": globals.userAgent
           },
           body: jsonBody);
     } catch (e) {

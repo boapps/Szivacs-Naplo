@@ -138,17 +138,22 @@ void main({bool noReset = false}) async {
       if (!noReset) globals.selectedAccount = globals.accounts[0];
       if (!noReset) globals.selectedUser = users[0];
       globals.themeID = await SettingsHelper().getTheme();
-
       globals.color1 = await SettingsHelper().getEvalColor(0);
       globals.color2 = await SettingsHelper().getEvalColor(1);
       globals.color3 = await SettingsHelper().getEvalColor(2);
       globals.color4 = await SettingsHelper().getEvalColor(3);
       globals.color5 = await SettingsHelper().getEvalColor(4);
+
+      getUserAgent();
     }
 
     runApp(MyApp());
     BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
   }
+}
+
+void getUserAgent() async {
+  globals.userAgent = await RequestHelper().getUserAgent();
 }
 
 Future<void> reInit() async {
