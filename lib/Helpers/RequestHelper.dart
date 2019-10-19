@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert' show json;
+import 'dart:math';
 
+import 'package:e_szivacs/Datas/Lesson.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import '../globals.dart' as globals;
+import '../Utils/StringFormatter.dart';
 
 import '../Datas/User.dart';
 import '../Utils/Saver.dart';
@@ -21,6 +24,15 @@ class RequestHelper {
     Fluttertoast.showToast(
         msg: msg,
         backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
+
+  void showSuccess(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        backgroundColor: Colors.green,
         textColor: Colors.white,
         fontSize: 16.0
     );
@@ -100,6 +112,45 @@ class RequestHelper {
       showError("Hálózati hiba");
       return null;
     }
+  }
+
+  void uploadHomework(String homework, String deadline, Lesson lesson, User user) async {
+    Map body = {
+      "OraId": lesson.id.toString(),
+      "OraDate": dateToHuman(lesson.date) + "00:00:00",
+      "OraType": lesson.calendarOraType,
+      "HataridoUtc": deadline,
+      "FeladatSzovege": homework
+    };
+
+    String token = await getBearerToken(user);
+
+    String jsonBody = json.encode(body);
+
+    print(jsonBody);
+
+    try {
+      http.Response response = await http.post("https://" + user.schoolCode + ".e-kreta.hu/mapi/api/v1/HaziFeladat/CreateTanuloHaziFeladat",
+          headers: {
+            "HOST": user.schoolCode + ".e-kreta.hu",
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json; charset=utf-8",
+            "User-Agent": globals.userAgent
+          },
+          body: jsonBody);
+
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200)
+        showSuccess("Házi sikeresen feltöltve");
+      else
+        showError("Hiba történt");
+    } catch (e) {
+      print(e);
+      showError("Hálózati hiba");
+      return null;
+    }
+
   }
 
   Future<String> getBearerToken(User user, {bool showErrors=true}) async {

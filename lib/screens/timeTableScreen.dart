@@ -5,6 +5,7 @@ import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../Dialog/HomeWorkDialog.dart';
 import '../Datas/Lesson.dart';
 import '../Datas/User.dart';
 import '../Datas/Week.dart';
@@ -332,6 +333,8 @@ class TimeTableScreenState extends State<TimeTableScreen>
     );
   }
 
+
+
   Future<Null> _lessonDialog(Lesson lesson) async {
     return showDialog<Null>(
       context: context,
@@ -358,6 +361,20 @@ class TimeTableScreenState extends State<TimeTableScreen>
             ),
           ),
           actions: <Widget>[
+            new FlatButton(
+              child: new Text(S.of(context).homework),
+              onPressed: () {
+                Navigator.of(context).pop();
+                return showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return new HomeWorkDialog(lesson);
+                  },
+                ) ??
+                    false;
+              },
+            ),
             new FlatButton(
               child: new Text(S.of(context).ok),
               onPressed: () {
