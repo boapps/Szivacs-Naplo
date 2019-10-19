@@ -1,16 +1,16 @@
 ### Ez mi?
-Egy alkalmazás amiből meg tudod nézni a jegyeidet és még sokmindent.
+Egy nem hivatalos alkalmazás a KRÉTA rendszerhez, amiből meg tudod nézni a jegyeidet és még sokmindent, vannak benne extra funkciók, amiket a hivatalos nem tud.
 
 ## Bejelentkezés:
  
 ### Nálunk nincs bevezetve a Kréta rendszer, tudom használni az appod?
-Nem, hogy tudnád?
+Nem.
 
 ### Mi a felhasználónév/jelszó?
 A bejelentkezési adatokat az adminisztrár (vagy nem tudom, aki ért hozzá) osztja ki az iskolákban. A felhasználónév általában (de iskolától függően más is lehet) a 11 jegyű diákogazolványszám és az alapértelmezett jelszó pedig a születési dátum szokott lenni.
 
 ### Elfelejtettem a bejelentkezési adataimat, tudsz segíteni?
-Nem. De most komolyan, hogy tudnék?
+Nem, szólj annak, akitől az adatokat kaptad!
 
 ## Funkciók:
  
