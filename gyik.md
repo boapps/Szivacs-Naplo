@@ -4,7 +4,7 @@
 ### Ez mi?
 Egy alkalmazás amiből meg tudod nézni a jegyeidet és még sokmindent.
 
-## Bejelentkezés
+## Bejelentkezés:
 
 
 ### Nálunk nincs bevezetve a Kréta rendszer, tudom használni az appod?
@@ -16,7 +16,7 @@ A bejelentkezési adatokat az adminisztrár (vagy nem tudom, aki ért hozzá) os
 ### Elfelejtettem a bejelentkezési adataimat, tudsz segíteni?
 Nem. De most komolyan, hogy tudnék?
 
-## Funkciók
+## Funkciók:
 
 
 ### Van egy tök jó ötletem az apphoz!
