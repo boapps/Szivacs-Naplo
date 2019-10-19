@@ -6,6 +6,7 @@ import 'package:e_szivacs/generated/i18n.dart';
 import '../globals.dart' as globals;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -36,7 +37,7 @@ class AboutScreenState extends State<AboutScreen> {
       clicksUntilEasteregg--;
       Fluttertoast.showToast(
           msg: clicksUntilEasteregg.toString() +
-              " lépesre vagy a battle royale módtól!",
+              " lépésre vagy a battle royale módtól!",
           backgroundColor: Colors.black,
           textColor: Colors.white,
           fontSize: 16.0
@@ -137,6 +138,21 @@ class AboutScreenState extends State<AboutScreen> {
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
                   ),
+                  new FlatButton(onPressed: _launchFAQ,
+                    child: new Row(
+                      children: <Widget>[
+                        new Container(
+                          child: new Icon(Icons.question_answer,
+                            color: Colors.green, size: 20.0,),
+                          padding: EdgeInsets.all(5.0),
+                        ),
+                        new Text(S.of(context).faq, style: new TextStyle(
+                          color: Colors.green, fontSize: 20.0,),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
                   new FlatButton(onPressed: _launchYoutubeURL,
                     child: new Row(
                       children: <Widget>[
@@ -232,6 +248,31 @@ class AboutScreenState extends State<AboutScreen> {
           ),
         )
     );
+  }
+
+  _launchFAQ() async {
+     return showDialog<Null>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return new SimpleDialog(
+            children: <Widget>[
+              new SingleChildScrollView(
+                child: Html(data: globals.htmlFAQ),
+              ),
+            ],
+            title: Text(S.of(context).faq),
+            contentPadding: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                style: BorderStyle.none,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(3),
+            ),
+          );
+        },
+      );
   }
 
   _launchYoutubeURL() async {

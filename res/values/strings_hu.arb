@@ -147,5 +147,6 @@
   "messages": "Üzenetek",
   "receivers": "Címzettek: ",
   "success": "Siker",
+  "faq": "GYIK",
   "notification_failed": "Nem sikerül bekapcsolni az értesítéseket"
 }

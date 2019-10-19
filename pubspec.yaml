@@ -14,10 +14,7 @@ dependencies:
   package_info: ^0.4.0+1
   permission_handler: ^3.2.2
   flutter_material_color_picker: ^0.0.5
-  #flutter_secure_storage: ^3.1.2
-  #pointycastle: ^1.0.0
-  #encrypt:
-  #  path: encrypt # "git clone -b "v2.0" https://github.com/leocavalcante/encrypt/"
+  markdown: ^2.1.1
   charts_flutter: ^0.5.0
   dynamic_theme:
     git:

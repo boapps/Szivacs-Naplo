@@ -13,6 +13,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
+import 'package:markdown/markdown.dart' as markdown;
+import 'package:flutter_html/flutter_html.dart';
 
 import 'Datas/Account.dart';
 import 'Datas/Institution.dart';
@@ -122,6 +124,8 @@ void main({bool noReset = false}) async {
     globals.isLogo = await SettingsHelper().getLogo();
     globals.isSingle = await SettingsHelper().getSingleUser();
     globals.lang = await SettingsHelper().getLang();
+    getUserAgent();
+    loadFAQ();
 
     if (!isNew) {
       //BackgroundHelper().register();
@@ -143,8 +147,6 @@ void main({bool noReset = false}) async {
       globals.color3 = await SettingsHelper().getEvalColor(2);
       globals.color4 = await SettingsHelper().getEvalColor(3);
       globals.color5 = await SettingsHelper().getEvalColor(4);
-
-      getUserAgent();
     }
 
     runApp(MyApp());
@@ -154,6 +156,11 @@ void main({bool noReset = false}) async {
 
 void getUserAgent() async {
   globals.userAgent = await RequestHelper().getUserAgent();
+}
+
+void loadFAQ() async {
+  String markdownFAQ = await RequestHelper().getFAQ();
+  globals.htmlFAQ = markdown.markdownToHtml(markdownFAQ);
 }
 
 Future<void> reInit() async {
@@ -413,6 +420,31 @@ class LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  _launchFAQ() async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            new SingleChildScrollView(
+              child: Html(data: globals.htmlFAQ),
+            ),
+          ],
+          title: Text(S.of(context).faq),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(3),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -600,16 +632,32 @@ class LoginScreenState extends State<LoginScreen> {
                                           padding: EdgeInsets.only(right: 12),
                                         )
                                       : Container(),
-                                  new Expanded(
-                                      //margin: EdgeInsets.only(top: 20.0),
-                                      child: new FlatButton(
+                                  Expanded (
+                                    child: new Container(
+                                    //margin: EdgeInsets.only(top: 20.0),
+                                    child: FlatButton(
+                                      onPressed: _launchFAQ,
+                                      child: new Text("GYIK"),
+                                      disabledColor:
+                                      Colors.blueGrey.shade800,
+                                      disabledTextColor: Colors.blueGrey,
+                                      color: Colors.teal,
+                                      //#2196F3
+                                      textColor: Colors.white,
+                                    ),
+                                  ))
+                                ],
+
+                              ),
+                                //margin: EdgeInsets.only(top: 20.0),
+                                  new FlatButton(
                                     onPressed: !loggingIn
                                         ? () {
-                                            setState(() {
-                                              loggingIn = true;
-                                              login(context);
-                                            });
-                                          }
+                                      setState(() {
+                                        loggingIn = true;
+                                        login(context);
+                                      });
+                                    }
                                         : null,
                                     disabledColor: Colors.blueGrey.shade800,
                                     disabledTextColor: Colors.blueGrey,
@@ -617,9 +665,7 @@ class LoginScreenState extends State<LoginScreen> {
                                     color: Colors.blue,
                                     //#2196F3
                                     textColor: Colors.white,
-                                  )),
-                                ],
-                              ),
+                                  ),
                             ].reversed.toList(),
                           ))
                         : new Container(

@@ -147,5 +147,6 @@
   "messages": "Messages",
   "receivers": "Receivers: ",
   "success": "Success",
+  "faq": "FAQ",
   "notification_failed": "Failed to turn on notifications"
 }

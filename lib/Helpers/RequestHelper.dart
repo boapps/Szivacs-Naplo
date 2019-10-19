@@ -15,6 +15,7 @@ class RequestHelper {
   static const String GRANT_TYPE = "password";
   static const String INSTITUTES_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
   static const String USER_AGENT_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/user-agent";
+  static const String FAQ_API_URL = "https://raw.githubusercontent.com/boapps/e-Szivacs-2/master/gyik.md";
 
   void showError(String msg) {
     Fluttertoast.showToast(
@@ -33,6 +34,11 @@ class RequestHelper {
   Future<String> getUserAgent() async {
     String userAgent = (await http.get(USER_AGENT_API_URL)).body;
     return userAgent.trim();
+  }
+
+  Future<String> getFAQ() async {
+    String faq = (await http.get(FAQ_API_URL)).body;
+    return faq;
   }
 
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {

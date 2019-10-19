@@ -61,6 +61,7 @@ class S implements WidgetsLocalizations {
   String get endyear => "end-year";
   String get evaluations => "Evaluations";
   String get excluding_delay => "*excluding delay";
+  String get faq => "FAQ";
   String get flutter => "Flutter";
   String get github => "GitHub";
   String get grade1 => "1 grades:";
@@ -182,6 +183,8 @@ class $hu extends S {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  @override
+  String get faq => "GYIK";
   @override
   String get grade5 => "5-ös osztályzat:";
   @override
