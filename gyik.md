@@ -1,12 +1,8 @@
-# GYIK
-
-
 ### Ez mi?
 Egy alkalmazás amiből meg tudod nézni a jegyeidet és még sokmindent.
 
 ## Bejelentkezés:
-
-
+ 
 ### Nálunk nincs bevezetve a Kréta rendszer, tudom használni az appod?
 Nem, hogy tudnád?
 
@@ -17,8 +13,7 @@ A bejelentkezési adatokat az adminisztrár (vagy nem tudom, aki ért hozzá) os
 Nem. De most komolyan, hogy tudnék?
 
 ## Funkciók:
-
-
+ 
 ### Van egy tök jó ötletem az apphoz!
 Írj egy e-mail-t: eSzivacs@gmail.com
 
