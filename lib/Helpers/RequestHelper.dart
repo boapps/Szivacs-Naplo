@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert' show json;
-import 'dart:math';
 
 import 'package:e_szivacs/Datas/Lesson.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +15,8 @@ class RequestHelper {
 
   static const String CLIENT_ID = "919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
   static const String GRANT_TYPE = "password";
-  static const String INSTITUTES_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/school-list.json";
-  static const String USER_AGENT_API_URL = "https://raw.githubusercontent.com/boapps/kreta-api-mirror/master/user-agent";
+  static const String SETTINGS_API_URL = "https://www.e-szivacs.org/mirror/settings.json";
+  static const String INSTITUTES_API_URL = "https://www.e-szivacs.org/mirror/school-list.json";
   static const String FAQ_API_URL = "https://raw.githubusercontent.com/boapps/e-Szivacs-2/master/gyik.md";
 
   void showError(String msg) {
@@ -44,8 +43,9 @@ class RequestHelper {
   }
 
   Future<String> getUserAgent() async {
-    String userAgent = (await http.get(USER_AGENT_API_URL)).body;
-    return userAgent.trim();
+    String settings = (await http.get(SETTINGS_API_URL)).body;
+    Map settingsJson = json.decode(settings);
+    return settingsJson["CurrentUserAgent"];
   }
 
   Future<String> getFAQ() async {
@@ -124,10 +124,7 @@ class RequestHelper {
     };
 
     String token = await getBearerToken(user);
-
     String jsonBody = json.encode(body);
-
-    print(jsonBody);
 
     try {
       http.Response response = await http.post("https://" + user.schoolCode + ".e-kreta.hu/mapi/api/v1/HaziFeladat/CreateTanuloHaziFeladat",
@@ -138,9 +135,6 @@ class RequestHelper {
             "User-Agent": globals.userAgent
           },
           body: jsonBody);
-
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode == 200)
         showSuccess("Házi sikeresen feltöltve");
       else
