@@ -51,7 +51,6 @@ class AccountsScreenState extends State<AccountsScreen> {
   }
 
   void performInitState() async {
-    _getUserList();
     _getListWidgets();
   }
 
@@ -128,7 +127,7 @@ class AccountsScreenState extends State<AccountsScreen> {
                 new FlatButton(onPressed: () async {
                   _removeUserDialog(a.user).then((nul) async {
                     print("asd2");
-                    List<User> users = await AccountManager().getUsers();
+                    List<User> users = await _getUserList();
                     print(users.length);
                     globals.accounts.removeWhere((Account a) => !users.map((User u) => u.id).contains(a.user.id));
                     await _getListWidgets();
