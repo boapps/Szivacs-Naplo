@@ -35,6 +35,7 @@ class TimeTableScreenState extends State<TimeTableScreen>
   DateTime startDateText;
   Week lessonsWeek;
   bool ended = false;
+  int process = 0;
 
   int tabLength = 7;
   int relativeWeek = 0;
@@ -72,17 +73,20 @@ class TimeTableScreenState extends State<TimeTableScreen>
   }
 
   void refreshWeek({bool first = false}) async {
+    process++;
+    int current = process;
     ended = false;
     DateTime startDate = now;
     startDate = startDate.add(
         new Duration(days: (-1 * startDate.weekday + 1 + 7 * relativeWeek)));
+
     setState(() {
       lessonsWeek = null;
       startDateText = startDate;
     });
 
     getWeek(startDate, true).then((Week week) {
-      if (week.dayList().isNotEmpty)
+      if (week.dayList().isNotEmpty && current == process)
         setState(() {
           try {
             lessonsWeek = week;
@@ -99,7 +103,9 @@ class TimeTableScreenState extends State<TimeTableScreen>
           ended = true;
         });
     });
+
     getWeek(startDate, false).then((Week week) {
+      if (current == process)
       setState(() {
         try {
           lessonsWeek = week;
@@ -332,8 +338,6 @@ class TimeTableScreenState extends State<TimeTableScreen>
       },
     );
   }
-
-
 
   Future<Null> _lessonDialog(Lesson lesson) async {
     return showDialog<Null>(
