@@ -330,7 +330,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 new Text(S
                     .of(context)
                     .all_average, style: TextStyle(fontSize: 21),),
-                new Text(allAverage != null ? allAverage.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
+                new Text(evals.isNotEmpty ? allAverage.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
@@ -339,7 +339,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 new Text(S
                     .of(context)
                     .all_median, style: TextStyle(fontSize: 21),),
-                new Text(allMedian != null ? allMedian.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
+                new Text(evals.isNotEmpty != null ? allMedian.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
@@ -348,7 +348,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 new Text(S
                     .of(context)
                     .all_mode, style: TextStyle(fontSize: 21),),
-                new Text(allMode != null ? allMode.toString():"...", style: TextStyle(fontSize: 21),),
+                new Text(evals.isNotEmpty != null ? allMode.toString():"...", style: TextStyle(fontSize: 21),),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),

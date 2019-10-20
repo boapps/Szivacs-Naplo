@@ -94,7 +94,7 @@ Future<List<dynamic>> readNotes(User user) async {
 Future<File> _localHomework(User user) async {
   final path = await _localFolder;
   String suffix = user.id.toString();
-  return new File('$path/' + suffix + '_homework.json');
+  return new File('$path/homework_$suffix.json');
 }
 
 Future<File> saveHomework(String homeworkString, User user) async {

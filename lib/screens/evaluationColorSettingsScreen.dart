@@ -62,9 +62,10 @@ class colorSettingsScreenState extends State<colorSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-        onWillPop: () {
-          globals.screen = 0;
-          Navigator.pushReplacementNamed(context, "/settings");
+        onWillPop: () async {
+          globals.screen = 7;
+          //Navigator.pushReplacementNamed(context, "/settings");
+          return true;
         },
         child: Scaffold(
           drawer: GDrawer(),

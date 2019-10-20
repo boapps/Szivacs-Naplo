@@ -36,7 +36,10 @@ class AccountsScreenState extends State<AccountsScreen> {
     });
 
   }
-  List<User> users;
+
+  Future<List<User>> _getUserList() async {
+    return await AccountManager().getUsers();
+  }
 
   @override
   void initState() {
@@ -48,7 +51,7 @@ class AccountsScreenState extends State<AccountsScreen> {
   }
 
   void performInitState() async {
-    users = await AccountManager().getUsers();
+    _getUserList();
     _getListWidgets();
   }
 
@@ -74,6 +77,7 @@ class AccountsScreenState extends State<AccountsScreen> {
                 .ok),
             onPressed: () async {
               Navigator.of(context).pop();
+              List<User> users = await _getUserList();
               users[users.map((User u) => u.id).toList().indexOf(user.id)]
                   .color = selected;
               await saveUsers(users);
@@ -94,8 +98,10 @@ class AccountsScreenState extends State<AccountsScreen> {
   }
 
   Future<void> _getListWidgets() async {
-    if (users.isEmpty)
+    List<User> userList = await _getUserList();
+    if (userList.isEmpty)
       Navigator.pushNamed(context, "/login");
+
     accountListWidgets = new List();
     for (Account a in globals.accounts) {
       setState(() {
@@ -122,7 +128,7 @@ class AccountsScreenState extends State<AccountsScreen> {
                 new FlatButton(onPressed: () async {
                   _removeUserDialog(a.user).then((nul) async {
                     print("asd2");
-                    users = await AccountManager().getUsers();
+                    List<User> users = await AccountManager().getUsers();
                     print(users.length);
                     globals.accounts.removeWhere((Account a) => !users.map((User u) => u.id).contains(a.user.id));
                     await _getListWidgets();
