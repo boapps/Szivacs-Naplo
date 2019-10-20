@@ -21,8 +21,8 @@ Nem, szólj annak, akitől az adatokat kaptad!
 Ha lesz rá időm, akkor.
 
 ### Találtam egy hibát!
-Először is győződj meg, róla, hogy a hivatalos kréta alkalmazásban nem jelentkezik a hiba és csak akkor jelentsd nekem.
-Dobj egy email-t: eSzivacs@gmail.com
+Először is győződj meg, róla, hogy a hivatalos kréta alkalmazásban nem jelentkezik a hiba és csak akkor jelentsd nekem. 
+Dobj egy email-t: eSzivacs@gmail.com 
 És sokat segít, ha leírod az eszközöd android verzióját (KitKat vagy 4.4), esetleg típusát (pl.: Motorola Moto G 4G), egy képernyőkép vagy videó is segít, de takard ki rajta a személyes adataidat, nem akarom látni, hány egyesed van bioszból!
 
 ### Lesz tanári/mozanaplós/stb. verzió is?
