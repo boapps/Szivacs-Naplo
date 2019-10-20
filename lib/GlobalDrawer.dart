@@ -66,6 +66,7 @@ class GDrawerState extends State<GDrawer> {
         break;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double c_width = MediaQuery.of(context).size.width*0.5;
@@ -88,9 +89,7 @@ class GDrawerState extends State<GDrawer> {
                     children: <Widget>[
                       new Container(
                         child: new Text(
-                          S
-                              .of(context)
-                              .title,
+                          S.of(context).title,
                           style: TextStyle(fontSize: 19.0),
                         ),
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 5.0, 0.0),
@@ -102,15 +101,20 @@ class GDrawerState extends State<GDrawer> {
                           TextStyle(fontSize: 19.0, color: Theme.of(context).accentColor),
                         ),
                       ),
+                      version != latestVersion && latestVersion != "" ? new Container(
+                        child: new Text(
+                          " (" + latestVersion + "!)",
+                          style:
+                          TextStyle(fontSize: 19.0, color: Colors.red),
+                        ),
+                      ):Container()
                     ],
                   ),
                   new Row(
                     children: <Widget>[
                       new Container(
                         child: new Text(
-                          S
-                              .of(context)
-                              .made_by,
+                          S.of(context).made_by,
                           style: TextStyle(
                             fontSize: 19.0,
                           ),
@@ -119,9 +123,7 @@ class GDrawerState extends State<GDrawer> {
                       ),
                       new Container(
                         child: new Text(
-                          S
-                              .of(context)
-                              .boa,
+                          S.of(context).boa,
                           style:
                           TextStyle(fontSize: 19.0, color: Theme.of(context).accentColor),
                         ),

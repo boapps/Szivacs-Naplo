@@ -124,7 +124,7 @@ void main({bool noReset = false}) async {
     globals.isLogo = await SettingsHelper().getLogo();
     globals.isSingle = await SettingsHelper().getSingleUser();
     globals.lang = await SettingsHelper().getLang();
-    getUserAgent();
+    RequestHelper().refreshSzivacsSettigns();
     loadFAQ();
 
     if (!isNew) {
@@ -152,10 +152,6 @@ void main({bool noReset = false}) async {
     runApp(MyApp());
     BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
   }
-}
-
-void getUserAgent() async {
-  globals.userAgent = await RequestHelper().getUserAgent();
 }
 
 void loadFAQ() async {

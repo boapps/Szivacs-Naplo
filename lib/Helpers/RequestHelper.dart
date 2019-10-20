@@ -42,10 +42,15 @@ class RequestHelper {
     return institutesBody;
   }
 
-  Future<String> getUserAgent() async {
-    String settings = (await http.get(SETTINGS_API_URL)).body;
-    Map settingsJson = json.decode(settings);
-    return settingsJson["CurrentUserAgent"];
+  void refreshSzivacsSettigns() async {
+    try {
+      String settings = (await http.get(SETTINGS_API_URL)).body;
+      Map settingsJson = json.decode(settings);
+      globals.userAgent = settingsJson["CurrentUserAgent"];
+      globals.latestVersion = settingsJson["CurrentAppVersion"];
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<String> getFAQ() async {
