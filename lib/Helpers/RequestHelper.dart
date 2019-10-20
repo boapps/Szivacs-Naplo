@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert' show json;
+import 'dart:convert' show json, utf8;
 
 import 'package:e_szivacs/Datas/Lesson.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +38,13 @@ class RequestHelper {
   }
 
   Future<String> getInstitutes() async {
-    String institutesBody = (await http.get(INSTITUTES_API_URL)).body;
+    String institutesBody = utf8.decode((await http.get(INSTITUTES_API_URL)).bodyBytes);
     return institutesBody;
   }
 
   void refreshSzivacsSettigns() async {
     try {
-      String settings = (await http.get(SETTINGS_API_URL)).body;
+      String settings = utf8.decode((await http.get(SETTINGS_API_URL)).bodyBytes);
       Map settingsJson = json.decode(settings);
       globals.userAgent = settingsJson["CurrentUserAgent"];
       globals.latestVersion = settingsJson["CurrentAppVersion"];

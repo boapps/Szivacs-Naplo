@@ -232,7 +232,7 @@ class BackgroundHelper {
       }
 
       try {
-        doLessons(account);
+        //doLessons(account);
       } catch (e) {
         print(e);
       }
