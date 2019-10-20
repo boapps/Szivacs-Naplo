@@ -70,6 +70,9 @@ class RequestHelper {
     return response.body;
   }
 
+  Future<String> getTests(String accessToken, String schoolCode) =>
+      getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/BejelentettSzamonkeres?DatumTol=null&DatumIg=null", accessToken, schoolCode);
+
   Future<String> getMessages(String accessToken, String schoolCode) =>
       getStuffFromUrl("https://eugyintezes.e-kreta.hu/integration-kretamobile-api/v1/kommunikacio/postaladaelemek/sajat", accessToken, schoolCode);
 
