@@ -10,6 +10,7 @@ import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
+import 'dart:ui' as dart_ui;
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -80,6 +81,23 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       _initStats();
     });
     super.initState();
+  }
+
+  dart_ui.Color getColorForAverage(double average){
+    switch(average.round()){
+      case 1:
+        return globals.color1;
+      case 2:
+        return globals.color2;
+      case 3:
+        return globals.color3;
+      case 4:
+        return globals.color4;
+      case 5:
+        return globals.color5;
+      default:
+        return Colors.black;
+    }
   }
 
   void initEvals() async {
@@ -390,7 +408,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                   new Text(
                     avrString,
                     style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: getColorForAverage(double.parse(avrString)),
                         fontWeight: FontWeight.bold),
                   ),
                   new Container(padding: EdgeInsets.only(left: 10),),
@@ -403,7 +421,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                       ? new Text(
                     selectedAverage.classValue.toString(),
                     style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: getColorForAverage(selectedAverage.classValue),
                         fontWeight: FontWeight.bold),
                   )
                       : Container() : Container(),
