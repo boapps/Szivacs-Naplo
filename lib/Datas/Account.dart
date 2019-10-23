@@ -1,8 +1,10 @@
 import 'dart:convert' show json;
 
+import 'package:e_szivacs/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../Helpers/TestHelper.dart';
 import '../Helpers/AbsentHelper.dart';
 import '../Helpers/AverageHelper.dart';
 import '../Helpers/DBHelper.dart';
@@ -10,6 +12,7 @@ import '../Helpers/MessageHelper.dart';
 import '../Helpers/NotesHelper.dart';
 import '../Helpers/RequestHelper.dart';
 import '../Utils/Saver.dart';
+import 'Test.dart';
 import 'Average.dart';
 import 'Message.dart';
 import 'Note.dart';
@@ -22,7 +25,10 @@ class Account {
   User user;
   Map _studentJson;
   String _eventsString;
+  String testString;
   Map<String, List<Absence>> absents;
+  List<Test> tests;
+  List testJson;
   List<Note> notes;
   List<Average> averages;
   List<Message> messages;
@@ -32,6 +38,10 @@ class Account {
   Account(User user) {
     this.user = user;
   }
+
+  String getStudentString() => json.encode(_studentJson);
+
+  Map getStudentJson() => _studentJson;
 
   Future<void> refreshStudentString(bool isOffline, {bool showErrors=true}) async {
     if (isOffline && _studentJson == null) {
@@ -61,7 +71,37 @@ class Account {
     await AverageHelper().getAveragesFrom(json.encode(_studentJson), user);
   }
 
-  Future<void> _refreshEventsString(bool isOffline) async {
+  Future<void> refreshTests(bool isOffline) async {
+    if (isOffline) {
+      testJson = await DBHelper().getTestsJson(user);
+      tests = await TestHelper().getTestsFrom(testJson, user);
+    } else {
+      testString = await RequestHelper().getTests(
+          await RequestHelper().getBearerToken(user), user.schoolCode);
+      testString = """
+[
+  {
+    "Uid": "1234",
+    "Id": 1234,
+    "Datum": "2019-10-27T00:00:00Z",
+    "HetNapja": "Kedd",
+    "Oraszam": 4,
+    "Tantargy": "kémia",
+    "Tanar": "Xxxxxx Xxxxxx",
+    "SzamonkeresMegnevezese": "xxxxxxxxx",
+    "SzamonkeresModja": "Írásbeli röpdolgozat",
+    "BejelentesDatuma": "2019-10-27T00:00:00Z"
+  }
+]
+      """;
+      testJson = json.decode(testString);
+      tests = await TestHelper().getTestsFrom(testJson, user);
+      DBHelper().addTestsJson(testJson, user);
+    }
+  }
+
+
+    Future<void> _refreshEventsString(bool isOffline) async {
     if (isOffline)
       _eventsString = await readEventsString(user);
     else

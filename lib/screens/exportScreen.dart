@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:e_szivacs/Datas/Account.dart';
 import 'package:flutter/material.dart';
 import '../GlobalDrawer.dart';
 import 'package:e_szivacs/generated/i18n.dart';
@@ -169,7 +170,8 @@ class ExportScreenState extends State<ExportScreen> {
                           switch(selectedFormat){
                             //json
                             case 0:
-                              String data = json.encode(json.decode(await Saver.readStudent(selectedUser))["Evaluations"]);
+                              Account selectedAccount = globals.accounts.firstWhere((Account a) => a.user.id == selectedUser.id);
+                              String data = selectedAccount.getStudentString();
                               File file = File(path);
                               PermissionHandler().requestPermissions(
                                   [PermissionGroup.storage]).then((Map<
@@ -188,7 +190,8 @@ class ExportScreenState extends State<ExportScreen> {
                               break;
                             case 1:
                               //csv
-                              var data = json.decode(await Saver.readStudent(selectedUser));
+                              Account selectedAccount = globals.accounts.firstWhere((Account a) => a.user.id == selectedUser.id);
+                              Map data = selectedAccount.getStudentJson();
                               List<List<dynamic>> csvList = [["EvaluationId", "Form", "FormName", "Type", "TypeName", "Subject", "SubjectCategory", "SubjectCategoryName", "Theme", "Mode", "Weight", "Value", "NumberValue", "SeenByTutelaryUTC", "Teacher", "Date", "CreatingTime"]];
                               for (var jegy in data["Evaluations"])
                                 csvList.add([jegy["EvaluationId"], jegy["Form"], jegy["FormName"], jegy["Type"], jegy["TypeName"], jegy["Subject"], jegy["SubjectCategory"], jegy["SubjectCategoryName"], jegy["Theme"], jegy["Mode"], jegy["Weight"], jegy["Value"], jegy["NumberValue"], jegy["SeenByTutelaryUTC"], jegy["Teacher"], jegy["Date"], jegy["CreatingTime"]]);
