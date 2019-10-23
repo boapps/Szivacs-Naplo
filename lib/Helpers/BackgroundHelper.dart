@@ -139,14 +139,14 @@ class BackgroundHelper {
             print(lesson.end.toIso8601String());
             print(lessons[index+1].subject);
             var scheduledNotificationDateTime = lesson.end;
-            var androidPlatformChannelSpecifics = new AndroidNotificationDetails('next-lesson', 'Következő óra', 'Értesítés a következő óráról', playSound: false,);
+            var androidPlatformChannelSpecifics = new AndroidNotificationDetails('next-lesson', 'Következő óra', 'Értesítés a következő óráról', playSound: false, enableVibration: false, color: Colors.blue);
             var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
             NotificationDetails platformChannelSpecifics = new NotificationDetails(
                 androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
             await flutterLocalNotificationsPlugin.schedule(
-                0,
-                'Következő óra: ' + lessons[index+1].subject + " " + (lessons[index+1].start.minute - lesson.end.minute).toString() + " perc",
-                lessons[index+1].room,
+                lesson.end.weekday*24*3600+lesson.end.hour*3600+lesson.end.minute*60+lesson.end.second,
+                lessons[index+1].subject + " " + ((lessons[index+1].start.hour == lesson.end.hour) ? "": (lessons[index+1].start.hour - lesson.end.hour).toString() + " óra és ") + (lessons[index+1].start.minute - lesson.end.minute).toString() + " perc múlva",
+                "Terem: " + lessons[index+1].room,
                 scheduledNotificationDateTime,
                 platformChannelSpecifics,
               androidAllowWhileIdle: true

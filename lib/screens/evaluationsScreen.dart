@@ -277,16 +277,16 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
 
     switch (_evaluations[index].Value) {
       case "Példás":
-        textShort = ":D";
+        textShort = "Pé.";
         break;
       case "Jó":
-        textShort = ":)";
+        textShort = "Jó";
         break;
       case "Változó":
-        textShort = ":/";
+        textShort = "Vá.";
         break;
       case "Hanyag":
-        textShort = ":(";
+        textShort = "Ha.";
         break;
     }
 

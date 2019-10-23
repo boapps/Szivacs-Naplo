@@ -1,6 +1,5 @@
 import 'dart:convert' show json;
 
-import 'package:e_szivacs/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
