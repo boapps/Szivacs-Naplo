@@ -262,9 +262,9 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(
-              IconData(0xf0e5, fontFamily: "Material Design Icons"),
+              Icons.assignment,
               color: screen == 10 ? Theme.of(context).accentColor : null,),
-            title: new Text("Tests",
+            title: new Text(S.of(context).tests,
               style: TextStyle(color: screen == 10 ? Theme.of(context).accentColor : null),),
             onTap: () {
               screen = 10;

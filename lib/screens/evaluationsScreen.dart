@@ -225,7 +225,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(evaluation.Subject + " " + evaluation.Value),
+          title: new Text(evaluation.Subject??evaluation.Jelleg.Leiras + " " + evaluation.Value),
           titlePadding: EdgeInsets.only(left: 16, right: 16, top: 16),
           content: new SingleChildScrollView(
             child: new ListBody(
@@ -337,7 +337,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             ),
             padding: EdgeInsets.only(left: 8.0),
           ),
-          title: new Text(_evaluations[index].Subject),
+          title: new Text(_evaluations[index].Subject??_evaluations[index].Jelleg.Leiras),
           subtitle:
               new Text(_evaluations[index].Theme ?? _evaluations[index].Value),
           trailing: new Column(

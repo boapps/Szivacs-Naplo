@@ -124,7 +124,7 @@ class SettingsHelper {
     Colors.red,
     Colors.brown,
     Colors.orange,
-    Color.fromARGB(255, 255, 241, 118),
+    Color.fromARGB(255, 253, 215, 52),
     Colors.green
   ];
 

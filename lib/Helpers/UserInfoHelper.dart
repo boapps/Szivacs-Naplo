@@ -67,7 +67,6 @@ class UserInfoHelper {
 
     String code = bearerMap.values.toList()[0];
 
-    print(code);
     String evaluationsString =
         (await RequestHelper().getEvaluations(code, instCode));
     print(evaluationsString);

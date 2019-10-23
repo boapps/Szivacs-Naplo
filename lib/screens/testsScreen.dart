@@ -44,7 +44,7 @@ class TestsScreenState extends State<TestsScreen> {
             appBar: new AppBar(
               title: new Text(S
                   .of(context)
-                  .notes),
+                  .tests),
               actions: <Widget>[],
             ),
             body: new Container(

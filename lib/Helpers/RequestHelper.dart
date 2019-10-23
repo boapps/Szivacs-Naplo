@@ -129,7 +129,8 @@ class RequestHelper {
     try {
       String settings = utf8.decode((await http.get(SETTINGS_API_URL)).bodyBytes);
       Map settingsJson = json.decode(settings);
-      globals.userAgent = (settingsJson["BetaUserAgent"] as String).replaceFirst("<codename>", MODELS[Random(DateTime.now().millisecond).nextInt(MODELS.length-1)]);
+      globals.userAgent = (settingsJson["FillableUserAgent"] as String).replaceFirst("<codename>", MODELS[Random(DateTime.now().millisecond).nextInt(MODELS.length-1)]);
+      print("Using UserAgent: " + globals.userAgent);
       globals.latestVersion = settingsJson["CurrentAppVersion"];
     } catch (e) {
       print(e);

@@ -146,6 +146,7 @@ class S implements WidgetsLocalizations {
   String get sync_on_data => "Sync on cellular network";
   String get teacher => "teacher: ";
   String get telegram => "Telegram";
+  String get tests => "Tests";
   String get theme => "topic: ";
   String get time => "time: ";
   String get timetable => "Timetable";
@@ -185,6 +186,8 @@ class $hu extends S {
 
   @override
   String get faq => "GYIK";
+  @override
+  String get tests => "Számonkérések";
   @override
   String get grade5 => "5-ös osztályzat:";
   @override

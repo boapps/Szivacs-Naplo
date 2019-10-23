@@ -199,14 +199,12 @@ class BackgroundHelper {
     List accounts = List();
     for (User user in await AccountManager().getUsers())
       accounts.add(Account(user));
-    print("accounts.length: " + accounts.length.toString());
     for (Account account in accounts) {
       try {
         print(account.user.name);
         await account.refreshStudentString(true, false);
 
         List<Evaluation> offlineEvals = account.student.Evaluations;
-        print(offlineEvals.length);
         // testing:
         //offlineEvals.removeAt(0);
         List<Note> offlineNotes = account.notes;

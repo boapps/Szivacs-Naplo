@@ -8,7 +8,6 @@ class TestHelper {
 
   Future<List<Test>> getTestsFrom(List testsJson, User user) async {
     List<Test> testsList = List();
-    print(testsJson);
     try {
       for (dynamic d in testsJson) {
         testsList.add(Test.fromJson(d));
