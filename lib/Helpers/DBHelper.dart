@@ -74,6 +74,25 @@ class DBHelper {
         db) as List;
   }
 
+  Future<void> addTestsJson(List json, User user) async {
+    List testsJson;
+    try {
+      testsJson = await getTestsJson(user);
+    } catch (e) {
+      print(e);
+    }
+
+    if (testsJson == null)
+      await store.record(user.id.toString() + '_tests_json').add(db, json);
+    else
+      await store.record(user.id.toString() + '_tests_json').update(db, json);
+  }
+
+  Future<List> getTestsJson(User user) async {
+    return await store.record(user.id.toString() + '_tests_json').get(
+        db) as List;
+  }
+
   Future<void> addMessageByIdJson(int id, Map<String, dynamic> json, User user) async {
     Map<String, dynamic> studentJson;
     try {

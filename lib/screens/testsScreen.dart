@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
-import '../Datas/Note.dart';
+import '../Datas/Test.dart';
 import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 
 void main() {
-  runApp(new MaterialApp(home: new NotesScreen()));
+  runApp(new MaterialApp(home: new TestsScreen()));
 }
 
-class NotesScreen extends StatefulWidget {
+class TestsScreen extends StatefulWidget {
   @override
-  NotesScreenState createState() => new NotesScreenState();
+  TestsScreenState createState() => new TestsScreenState();
 }
 
-class NotesScreenState extends State<NotesScreen> {
+class TestsScreenState extends State<TestsScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class NotesScreenState extends State<NotesScreen> {
   bool hasOfflineLoaded = false;
   bool hasLoaded = true;
 
-  List<Note> notes = new List();
+  List<Test> tests = new List();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class NotesScreenState extends State<NotesScreen> {
               actions: <Widget>[],
             ),
             body: new Container(
-                child: hasOfflineLoaded
+                child: (hasOfflineLoaded && tests != null)
                     ? new Column(children: <Widget>[
                 !hasLoaded
                 ? Container(
@@ -63,7 +63,7 @@ class NotesScreenState extends State<NotesScreen> {
         new Expanded(child: new RefreshIndicator(
                             child: new ListView.builder(
                               itemBuilder: _itemBuilder,
-                              itemCount: notes.length,
+                              itemCount: tests.length,
                             ),
                             onRefresh: _onRefresh,
         ),
@@ -71,14 +71,18 @@ class NotesScreenState extends State<NotesScreen> {
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Future<Null> _onRefresh({bool showErrors=true}) async {
+  Future<Null> _onRefresh({bool showErrors}) async {
     setState(() {
       hasLoaded = false;
     });
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshStudentString(false, showErrors);
-    notes = globals.selectedAccount.notes;
+    try {
+      await globals.selectedAccount.refreshTests(false, showErrors);
+      tests = globals.selectedAccount.tests;
+    } catch (e) {
+      print(e);
+    }
 
     hasLoaded = true;
     if (mounted)
@@ -94,8 +98,8 @@ class NotesScreenState extends State<NotesScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
 
-    globals.selectedAccount.refreshStudentString(true, false);
-    notes = globals.selectedAccount.notes;
+    await globals.selectedAccount.refreshTests(true, false);
+    tests = globals.selectedAccount.tests;
 
     hasOfflineLoaded = true;
     if (mounted)
@@ -109,9 +113,9 @@ class NotesScreenState extends State<NotesScreen> {
     return new Column(
       children: <Widget>[
         new ListTile(
-          title: notes[index].title != null && notes[index].title != ""
+          title: tests[index].title != null && tests[index].title != ""
               ? new Text(
-                  notes[index].title,
+                  tests[index].title,
                   style: TextStyle(fontSize: 22),
                 )
               : null,
@@ -120,20 +124,20 @@ class NotesScreenState extends State<NotesScreen> {
               padding: EdgeInsets.all(5),
               child: Linkify(
                 style: TextStyle(fontSize: 16),
-                text: notes[index].content,
+                text: tests[index].subject + " " + tests[index].mode,
                 onOpen: (String url) {
                   launcher.launch(url);
                 },
               ),
             ),
             new Container(
-              child: new Text(dateToHuman(notes[index].date) +
-                  dateToWeekDay(notes[index].date)),
+              child: new Text(dateToHuman(tests[index].date) +
+                  dateToWeekDay(tests[index].date)),
               alignment: Alignment(1, -1),
             ),
-            notes[index].teacher != null
+            tests[index].teacher != null
                 ? new Container(
-                    child: new Text(notes[index].teacher),
+                    child: new Text(tests[index].teacher),
                     alignment: Alignment(1, -1),
                   )
                 : new Container(),

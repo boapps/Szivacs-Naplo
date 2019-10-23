@@ -122,16 +122,15 @@ class BackgroundHelper {
     List<Lesson> lessonsOffline = await getLessonsOffline(
         startDate, startDate.add(new Duration(days: 7)), account.user);
     List<Lesson> lessons = await getLessons(
-        startDate, startDate.add(new Duration(days: 7)), account.user);
+        startDate, startDate.add(new Duration(days: 7)), account.user, false);
 
+    if (account.user.id == globals.accounts[0].user.id)
     for (Lesson lesson in lessons) {
       bool exist = false;
-
       // Értesítés a következő óráról WIP
-
-      if (false) {
-        print("1");
-        if (lesson.date.isAfter(DateTime.now()) && lesson.id != lessons.last.id) {
+       print("1");
+       print(lesson.end);
+        if (lesson.end.isAfter(DateTime.now()) && lesson.id != lessons.last.id) {
           print("2");
           int index = lessons.indexOf(lesson);
           print("index: " + index.toString());
@@ -146,13 +145,12 @@ class BackgroundHelper {
                 androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
             await flutterLocalNotificationsPlugin.schedule(
                 0,
-                'Következő óra: ' + lessons[index+1].subject + " " + (lessons[index+1].start.minute - DateTime.now().minute).toString() + " perc",
+                'Következő óra: ' + lessons[index+1].subject + " " + (lessons[index+1].start.minute - lesson.end.minute).toString() + " perc",
                 lessons[index+1].room,
                 scheduledNotificationDateTime,
                 platformChannelSpecifics,
               androidAllowWhileIdle: true
             );
-          }
         }
       }
 
@@ -205,7 +203,7 @@ class BackgroundHelper {
     for (Account account in accounts) {
       try {
         print(account.user.name);
-        await account.refreshStudentString(true, showErrors: false);
+        await account.refreshStudentString(true, false);
 
         List<Evaluation> offlineEvals = account.student.Evaluations;
         print(offlineEvals.length);
@@ -218,7 +216,7 @@ class BackgroundHelper {
         // testing:
         //offlineAbsences.remove(offlineAbsences.keys.first);
 
-        await account.refreshStudentString(false, showErrors: false);
+        await account.refreshStudentString(false, false);
 
         List<Evaluation> evals = account.student.Evaluations;
         List<Note> notes = account.notes;
@@ -232,7 +230,7 @@ class BackgroundHelper {
       }
 
       try {
-        //doLessons(account);
+        doLessons(account);
       } catch (e) {
         print(e);
       }

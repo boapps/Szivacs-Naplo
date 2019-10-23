@@ -83,7 +83,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void initEvals() async {
-    await globals.selectedAccount.refreshStudentString(true);
+    await globals.selectedAccount.refreshStudentString(true, false);
     evals = globals.selectedAccount.student.Evaluations;
     evals.removeWhere((Evaluation evaluation) =>
     evaluation.NumberValue == 0 ||
@@ -158,7 +158,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void _initStats() async {
-    await globals.selectedAccount.refreshStudentString(true);
+    await globals.selectedAccount.refreshStudentString(true, false);
     setState(() {
       averages = globals.selectedAccount.averages ?? List();
       averages.removeWhere((Average average) => average.value < 1);

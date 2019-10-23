@@ -24,7 +24,6 @@ class HomeworkScreen extends StatefulWidget {
 
 class HomeworkScreenState extends State<HomeworkScreen> {
   List<User> users;
-  User selectedUser;
 
   bool hasLoaded = true;
   bool hasOfflineLoaded = false;
@@ -35,14 +34,8 @@ class HomeworkScreenState extends State<HomeworkScreen> {
   @override
   void initState() {
     super.initState();
-    initSelectedUser();
     _onRefreshOffline();
-  }
-
-  void initSelectedUser() async {
-    setState(() {
-      selectedUser = globals.selectedUser;
-    });
+    _onRefresh(showErrors: false);
   }
 
   void refHomework() {
@@ -51,7 +44,7 @@ class HomeworkScreenState extends State<HomeworkScreen> {
     });
 
     for (Homework n in homeworks) {
-      if (n.owner.id == selectedUser.id) {
+      if (n.owner.id == globals.selectedUser.id) {
         setState(() {
           selectedHomework.add(n);
         });
@@ -160,13 +153,14 @@ class HomeworkScreenState extends State<HomeworkScreen> {
     );
   }
 
-  Future<Null> _onRefresh() async {
+  Future<Null> _onRefresh({bool showErrors=true}) async {
     setState(() {
       hasLoaded = false;
     });
     Completer<Null> completer = new Completer<Null>();
-    homeworks = await HomeworkHelper()
-        .getHomeworks(globals.idoAdatok[globals.selectedTimeForHomework]);
+    List<Homework> homeworksNew = await HomeworkHelper().getHomeworks(globals.idoAdatok[globals.selectedTimeForHomework], showErrors);
+    if (homeworksNew.length > homeworks.length)
+      homeworks = homeworksNew;
     homeworks
         .sort((Homework a, Homework b) => b.uploadDate.compareTo(a.uploadDate));
     if (mounted)

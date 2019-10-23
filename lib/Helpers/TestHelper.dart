@@ -6,12 +6,11 @@ import '../Datas/User.dart';
 class TestHelper {
   List<dynamic> testsMap;
 
-  Future<List<Test>> getTestsFrom(String testsString, User user) async {
+  Future<List<Test>> getTestsFrom(List testsJson, User user) async {
     List<Test> testsList = List();
+    print(testsJson);
     try {
-      List<dynamic> dynamicTestsList = json.decode(testsString);
-
-      for (dynamic d in dynamicTestsList) {
+      for (dynamic d in testsJson) {
         testsList.add(Test.fromJson(d));
       }
 

@@ -203,7 +203,7 @@ class MainScreenState extends State<MainScreen> {
     if (globals.isSingle) {
       try {
         await globals.selectedAccount
-            .refreshStudentString(offline, showErrors: showErrors);
+            .refreshStudentString(offline, showErrors);
         tempEvaluations.addAll(globals.selectedAccount.student.Evaluations);
         tempNotes.addAll(globals.selectedAccount.notes);
         tempAbsents.addAll(globals.selectedAccount.absents);
@@ -219,7 +219,7 @@ class MainScreenState extends State<MainScreen> {
       for (Account account in globals.accounts) {
         try {
           try {
-            await account.refreshStudentString(offline, showErrors: showErrors);
+            await account.refreshStudentString(offline, showErrors);
           } catch (e) {
             print("HIBA 2");
             print(e);
@@ -255,7 +255,7 @@ class MainScreenState extends State<MainScreen> {
     } else {
       try {
         lessons = await getLessons(
-            startDate, startDate.add(Duration(days: 6)), globals.selectedUser);
+            startDate, startDate.add(Duration(days: 6)), globals.selectedUser, showErrors);
       } catch (exception) {
         print(exception);
       }

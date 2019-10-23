@@ -8,10 +8,10 @@ import '../Datas/User.dart';
 import '../Helpers/DBHelper.dart';
 
 class MessageHelper {
-  Future<List<Message>> getMessages(User user) async {
+  Future<List<Message>> getMessages(User user, bool showErrors) async {
     List<Message> messages = new List();
     try {
-      String code = await RequestHelper().getBearerToken(user);
+      String code = await RequestHelper().getBearerToken(user, showErrors);
       String messageSting = await RequestHelper().getMessages(code, user.schoolCode);
       var messagesJson = json.decode(messageSting);
       DBHelper().addMessagesJson(messagesJson, user);
@@ -52,7 +52,7 @@ class MessageHelper {
   Future<Message> getMessageById(User user, int id) async {
     Message message;
     try {
-      String code = await RequestHelper().getBearerToken(user);
+      String code = await RequestHelper().getBearerToken(user, true);
       String messageSting = await RequestHelper().getMessageById(id, code, user.schoolCode);
       var messagesJson = json.decode(messageSting);
       DBHelper().addMessageByIdJson(id, messagesJson, user);

@@ -139,7 +139,7 @@ class AccountsScreenState extends State<AccountsScreen> {
             leading: GestureDetector(
               child: Icon(Icons.person_outline),
               onTap: () async {
-                await a.refreshStudentString(true);
+                await a.refreshStudentString(true, false);
                 Navigator.push(context, new MaterialPageRoute(
                     builder: (BuildContext context) => new StudentScreen(
                       account: a,)));

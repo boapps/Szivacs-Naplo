@@ -53,7 +53,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
     initSelectedUser();
     setState(() {
       _getOffline();
-      //_onRefresh();
+      _onRefresh(showErrors: false);
     });
   }
 
@@ -113,14 +113,14 @@ class AbsentsScreenState extends State<AbsentsScreen> {
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Future<Null> _onRefresh() async {
+  Future<Null> _onRefresh({bool showErrors=true}) async {
     setState(() {
       hasLoaded = false;
     });
 
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshStudentString(false);
+    await globals.selectedAccount.refreshStudentString(false, showErrors);
     absents = globals.selectedAccount.absents;
 
     if (mounted)
@@ -139,7 +139,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshStudentString(true);
+    await globals.selectedAccount.refreshStudentString(true, false);
     absents = globals.selectedAccount.absents;
 
     if (mounted)

@@ -116,14 +116,14 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Future<Null> _onRefresh() async {
+  Future<Null> _onRefresh({bool showErrors=true}) async {
     setState(() {
       hasLoaded = false;
     });
 
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshStudentString(false);
+    await globals.selectedAccount.refreshStudentString(false, showErrors);
 
     averages = globals.selectedAccount.averages;
 
@@ -183,8 +183,8 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     });
     Completer<Null> completer = new Completer<Null>();
 
-    globals.selectedAccount.refreshStudentString(true);
-    globals.selectedAccount.refreshStudentString(true);
+    globals.selectedAccount.refreshStudentString(true, false);
+    globals.selectedAccount.refreshStudentString(true, false);
 
     averages = globals.selectedAccount.averages;
 

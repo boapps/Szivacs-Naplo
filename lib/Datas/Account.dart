@@ -43,7 +43,7 @@ class Account {
 
   Map getStudentJson() => _studentJson;
 
-  Future<void> refreshStudentString(bool isOffline, {bool showErrors=true}) async {
+  Future<void> refreshStudentString(bool isOffline, bool showErrors) async {
     if (isOffline && _studentJson == null) {
       try {
         _studentJson = await DBHelper().getStudentJson(user);
@@ -57,28 +57,31 @@ class Account {
       }
       messages = await MessageHelper().getMessagesOffline(user);
     } else if (!isOffline) {
-      _studentJson = json.decode(await RequestHelper().getStudentString(user, showErrors: showErrors));
-      await DBHelper().addStudentJson(_studentJson, user);
-      messages = await MessageHelper().getMessages(user);
+      String studentString = await RequestHelper().getStudentString(user, showErrors);
+      if (studentString != null) {
+        _studentJson = json.decode(studentString);
+        await DBHelper().addStudentJson(_studentJson, user);
+      }
+      messages = await MessageHelper().getMessages(user, showErrors);
     }
 
     student = Student.fromMap(_studentJson, user);
     absents = await AbsentHelper().getAbsentsFrom(student.Absences);
-    await _refreshEventsString(isOffline);
+    await _refreshEventsString(isOffline, showErrors);
     notes = await NotesHelper().getNotesFrom(
         _eventsString, json.encode(_studentJson), user);
     averages =
     await AverageHelper().getAveragesFrom(json.encode(_studentJson), user);
   }
 
-  Future<void> refreshTests(bool isOffline) async {
+  Future<void> refreshTests(bool isOffline, bool showErrors) async {
     if (isOffline) {
       testJson = await DBHelper().getTestsJson(user);
       tests = await TestHelper().getTestsFrom(testJson, user);
     } else {
       testString = await RequestHelper().getTests(
-          await RequestHelper().getBearerToken(user), user.schoolCode);
-      testString = """
+          await RequestHelper().getBearerToken(user, showErrors), user.schoolCode);
+      /*testString = """
 [
   {
     "Uid": "1234",
@@ -93,7 +96,7 @@ class Account {
     "BejelentesDatuma": "2019-10-27T00:00:00Z"
   }
 ]
-      """;
+      """;*/
       testJson = json.decode(testString);
       tests = await TestHelper().getTestsFrom(testJson, user);
       DBHelper().addTestsJson(testJson, user);
@@ -101,11 +104,11 @@ class Account {
   }
 
 
-    Future<void> _refreshEventsString(bool isOffline) async {
+    Future<void> _refreshEventsString(bool isOffline, bool showErrors) async {
     if (isOffline)
       _eventsString = await readEventsString(user);
     else
-      _eventsString = await RequestHelper().getEventsString(user);
+      _eventsString = await RequestHelper().getEventsString(user, showErrors);
   }
 
   List<Evaluation> get midyearEvaluations =>

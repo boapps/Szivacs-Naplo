@@ -262,6 +262,18 @@ class GDrawerState extends State<GDrawer> {
           ),
           new ListTile(
             leading: new Icon(
+              IconData(0xf0e5, fontFamily: "Material Design Icons"),
+              color: screen == 10 ? Theme.of(context).accentColor : null,),
+            title: new Text("Tests",
+              style: TextStyle(color: screen == 10 ? Theme.of(context).accentColor : null),),
+            onTap: () {
+              screen = 10;
+              Navigator.pop(context); // close the drawer
+              Navigator.pushReplacementNamed(context, "/tests");
+            },
+          ),
+          new ListTile(
+            leading: new Icon(
               IconData(0xF361, fontFamily: "Material Design Icons"),
               color: screen == 11 ? Theme.of(context).accentColor : null,),
             title: new Text(S.of(context).messages,

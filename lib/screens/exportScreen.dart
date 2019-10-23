@@ -237,7 +237,7 @@ class ExportScreenState extends State<ExportScreen> {
                           switch(selectedFormat){
                           //json
                             case 0:
-                              String data = await getLessonsJson(pickedDate[0], pickedDate[1], selectedUser);
+                              String data = await getLessonsJson(pickedDate[0], pickedDate[1], selectedUser, true);
                               File file = File(path);
                               PermissionHandler().requestPermissions(
                                   [PermissionGroup.storage]).then((Map<
@@ -257,7 +257,7 @@ class ExportScreenState extends State<ExportScreen> {
                               break;
                             case 1:
                             //csv
-                              var data = json.decode(await getLessonsJson(pickedDate[0], pickedDate[1], selectedUser));
+                              var data = json.decode(await getLessonsJson(pickedDate[0], pickedDate[1], selectedUser, true));
                               //{LessonId: 112975, CalendarOraType: OrarendiOra, Count: 4, Date: 2019-05-03T00:00:00, StartTime: 2019-05-03T11:00:00, EndTime: 2019-05-03T11:45:00, Subject: német, SubjectCategory: null, SubjectCategoryName: Német nyelv, ClassRoom: 14, ClassGroup: 11.A/NK, Teacher: Pócsik Viktor, DeputyTeacher: , State: NotRegistered, StateName: Nem naplózott tanóra, PresenceType: NotDefined, PresenceTypeName: Nem definiált, TeacherHomeworkId: null, IsTanuloHaziFeladatEnabled: true, Theme: , Homework: null}
                               List<List<dynamic>> csvList = [["LessonId", "CalendarOraType", "Count", "Date", "StartTime", "EndTime", "Subject", "SubjectCategory", "SubjectCategoryName", "ClassRoom", "ClassGroup", "Teacher", "DeputyTeacher", "State", "StateName", "PresenceType", "PresenceTypeName", "TeacherHomeworkId", "IsTanuloHaziFeladatEnabled", "Theme", "Homework"]];
                               for (var ora in data)

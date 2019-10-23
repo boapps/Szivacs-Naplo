@@ -33,9 +33,9 @@ Future <List <Lesson>> getLessonsOffline(DateTime from, DateTime to, User user) 
 }
 
 
-Future<String> getLessonsJson(DateTime from, DateTime to, User user) async {
+Future<String> getLessonsJson(DateTime from, DateTime to, User user, bool showErrors) async {
 
-  String code = await RequestHelper().getBearerToken(user);
+  String code = await RequestHelper().getBearerToken(user, showErrors);
 
   String timetableString = await RequestHelper().getTimeTable(
       from.toIso8601String().substring(0, 10),
@@ -47,8 +47,8 @@ Future<String> getLessonsJson(DateTime from, DateTime to, User user) async {
 }
 
 
-Future <List <Lesson>> getLessons(DateTime from, DateTime to, User user) async {
-  String code = await RequestHelper().getBearerToken(user);
+Future <List <Lesson>> getLessons(DateTime from, DateTime to, User user, bool showErrors) async {
+  String code = await RequestHelper().getBearerToken(user, showErrors);
 
   String timetableString = await RequestHelper().getTimeTable(
       from.toIso8601String().substring(0, 10),

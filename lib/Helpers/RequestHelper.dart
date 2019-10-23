@@ -142,15 +142,17 @@ class RequestHelper {
   }
 
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
-    http.Response response = await http.get(
-        url,
-        headers: {
-          "HOST": schoolCode + ".e-kreta.hu",
-          "User-Agent": globals.userAgent,
-          "Authorization": "Bearer " + accessToken
-        });
+    if (accessToken != null) {
+      http.Response response = await http.get(
+          url,
+          headers: {
+            "HOST": schoolCode + ".e-kreta.hu",
+            "User-Agent": globals.userAgent,
+            "Authorization": "Bearer " + accessToken
+          });
 
-    return response.body;
+      return response.body;
+    }
   }
 
   Future<String> getTests(String accessToken, String schoolCode) =>
@@ -189,18 +191,21 @@ class RequestHelper {
           "&toDate=" +
           to, accessToken, schoolCode);
 
-  Future<http.Response> getBearer(String jsonBody, String schoolCode) async {
+  Future<String> getBearer(String jsonBody, String schoolCode, bool showErrors) async {
+    http.Response response;
     try {
-      return http.post("https://" + schoolCode + ".e-kreta.hu/idp/api/v1/Token",
+      response = await http.post("https://" + schoolCode + ".e-kreta.hu/idp/api/v1/Token",
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
             "User-Agent": globals.userAgent
           },
           body: jsonBody);
+
+      return response.body;
     } catch (e) {
-      print(e);
-      showError("Hálózati hiba");
+      if (showErrors)
+        showError("Hálózati hiba");
       return null;
     }
   }
@@ -214,7 +219,7 @@ class RequestHelper {
       "FeladatSzovege": homework
     };
 
-    String token = await getBearerToken(user);
+    String token = await getBearerToken(user, true);
     String jsonBody = json.encode(body);
 
     try {
@@ -238,7 +243,7 @@ class RequestHelper {
 
   }
 
-  Future<String> getBearerToken(User user, {bool showErrors=true}) async {
+  Future<String> getBearerToken(User user, bool showErrors) async {
     String body =
         "institute_code=${user.schoolCode}&"
         "userName=${user.username}&"
@@ -246,17 +251,19 @@ class RequestHelper {
         "grant_type=$GRANT_TYPE&"
         "client_id=$CLIENT_ID";
 
-    http.Response bearerResponse = await RequestHelper().getBearer(
-        body, user.schoolCode);
-
     try {
-      Map<String, dynamic> bearerMap = json.decode(bearerResponse.body);
-      if (bearerMap["error"] == "invalid_grant" && showErrors)
-        showError("Hibás jelszó vagy felhasználónév");
+      String bearerResponse = await RequestHelper().getBearer(
+          body, user.schoolCode, showErrors);
 
-      String code = bearerMap["access_token"];
+      if (bearerResponse != null) {
+        Map<String, dynamic> bearerMap = json.decode(bearerResponse);
+        if (bearerMap["error"] == "invalid_grant" && showErrors)
+          showError("Hibás jelszó vagy felhasználónév");
 
-      return code;
+        String code = bearerMap["access_token"];
+
+        return code;
+      }
     } catch (e) {
       if (showErrors)
         showError("hiba");
@@ -268,7 +275,7 @@ class RequestHelper {
 
   void seeMessage(int id, User user) async {
     try {
-      String code = await getBearerToken(user);
+      String code = await getBearerToken(user, true);
 
       await http.post("https://eugyintezes.e-kreta.hu//integration-kretamobile-api/v1/kommunikacio/uzenetek/olvasott",
           headers: {
@@ -282,16 +289,16 @@ class RequestHelper {
     }
   }
 
-  Future<String> getStudentString(User user, {bool showErrors=true}) async {
-      String code = await getBearerToken(user, showErrors: showErrors);
+  Future<String> getStudentString(User user, bool showErrors) async {
+      String code = await getBearerToken(user, showErrors);
 
       String evaluationsString = await getEvaluations(code, user.schoolCode);
 
       return evaluationsString;
   }
 
-  Future<String> getEventsString(User user) async {
-    String code = await getBearerToken(user);
+  Future<String> getEventsString(User user, bool showErrors) async {
+    String code = await getBearerToken(user, showErrors);
 
     String eventsString = await getEvents(code, user.schoolCode);
 

@@ -83,16 +83,16 @@ class EvaluationCard extends StatelessWidget {
     }
     switch (evaluation.Value) {
       case "Példás":
-        textShort = ":D";
+        textShort = "P";
         break;
       case "Jó":
-        textShort = ":)";
+        textShort = "J";
         break;
       case "Változó":
-        textShort = ":/";
+        textShort = "V";
         break;
       case "Hanyag":
-        textShort = ":(";
+        textShort = "H";
         break;
     }
 

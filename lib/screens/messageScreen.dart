@@ -23,6 +23,7 @@ class MessageScreenState extends State<MessageScreen> {
   @override
   void initState() {
     super.initState();
+    _onRefresh(showErrors: false);
   }
 
   List<Message> get messages => globals.selectedAccount.messages;
@@ -68,14 +69,14 @@ class MessageScreenState extends State<MessageScreen> {
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Future<Null> _onRefresh() async {
+  Future<Null> _onRefresh({bool showErrors=true}) async {
     setState(() {
       hasLoaded = false;
     });
 
     Completer<Null> completer = new Completer<Null>();
 
-    await globals.selectedAccount.refreshStudentString(false);
+    await globals.selectedAccount.refreshStudentString(false, showErrors);
 
     hasLoaded = true;
 

@@ -85,7 +85,7 @@ class TimeTableScreenState extends State<TimeTableScreen>
       startDateText = startDate;
     });
 
-    getWeek(startDate, true).then((Week week) {
+    getWeek(startDate, true, !first).then((Week week) {
       if (week.dayList().isNotEmpty && current == process)
         setState(() {
           try {
@@ -104,7 +104,7 @@ class TimeTableScreenState extends State<TimeTableScreen>
         });
     });
 
-    getWeek(startDate, false).then((Week week) {
+    getWeek(startDate, false, !first).then((Week week) {
       if (current == process)
       setState(() {
         try {
@@ -391,14 +391,14 @@ class TimeTableScreenState extends State<TimeTableScreen>
     );
   }
 
-  Future<Week> getWeek(DateTime startDate, bool offline) async {
+  Future<Week> getWeek(DateTime startDate, bool offline, bool showErrors) async {
     List<Lesson> list;
     if (offline)
       list = await getLessonsOffline(startDate,
           startDate.add(new Duration(days: 6)), globals.selectedUser);
     else
       list = await getLessons(startDate, startDate.add(new Duration(days: 6)),
-          globals.selectedUser);
+          globals.selectedUser, showErrors);
 
     List<Lesson> monday = new List();
     List<Lesson> tuesday = new List();

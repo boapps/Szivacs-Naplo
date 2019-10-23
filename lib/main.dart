@@ -29,6 +29,7 @@ import 'Utils/AccountManager.dart';
 import 'Utils/ColorManager.dart';
 import 'Utils/Saver.dart' as Saver;
 import 'globals.dart' as globals;
+
 import 'screens/LogoApp.dart';
 import 'screens/aboutScreen.dart';
 import 'screens/absentsScreen.dart';
@@ -45,6 +46,7 @@ import 'screens/settingsScreen.dart';
 import 'screens/statisticsScreen.dart';
 import 'screens/studentScreen.dart';
 import 'screens/timeTableScreen.dart';
+import 'screens/testsScreen.dart';
 
 bool isNew = true;
 
@@ -88,6 +90,7 @@ class MyApp extends StatelessWidget {
               '/easteregg': (_) => new BattleRoyaleScreen(),
               '/evalcolor': (_) => new colorSettingsScreen(),
               '/student': (_) => new StudentScreen(),
+              '/tests': (_) => new TestsScreen(),
             },
             navigatorKey: navigatorKey,
             home: isNew ? new LogoApp() : MainScreen(),
@@ -311,7 +314,7 @@ class LoginScreenState extends State<LoginScreen> {
         userError = null;
         passwordError = null;
         schoolSelected = true;
-        http.Response bearerResp;
+        String bearerResp;
         String code;
         if (userName == "") {
           userError = S.of(context).choose_username;
@@ -339,12 +342,12 @@ class LoginScreenState extends State<LoginScreen> {
               "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
 
           try {
-            bearerResp = await RequestHelper().getBearer(jsonBody, instCode);
-            Map<String, dynamic> bearerMap = json.decode(bearerResp.body);
+            bearerResp = await RequestHelper().getBearer(jsonBody, instCode, false);
+            Map<String, dynamic> bearerMap = json.decode(bearerResp);
             code = bearerMap.values.toList()[0];
 
             Map<String, String> userInfo =
-                await UserInfoHelper().getInfo(instCode, userName, password);
+                await UserInfoHelper().getInfo(instCode, userName, password, false);
 
             setState(() {
               User user = new User(
@@ -379,8 +382,6 @@ class LoginScreenState extends State<LoginScreen> {
             print(e);
             setState(() {
               if (code == "invalid_grant") {
-                passwordError = "hibás felasználónév vagy jelszó";
-              } else if (bearerResp.statusCode == 403) {
                 passwordError = "hibás felasználónév vagy jelszó";
               } else if (code == "invalid_password") {
                 passwordError = "hibás felasználónév vagy jelszó";

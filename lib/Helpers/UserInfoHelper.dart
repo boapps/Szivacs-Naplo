@@ -7,10 +7,10 @@ import 'RequestHelper.dart';
 class UserInfoHelper {
 //todo refactor this file
 
-  Future<Map<String, String>> getInfo(String instCode, String userName, String password) async {
+  Future<Map<String, String>> getInfo(String instCode, String userName, String password, bool showErrors) async {
     Map<String, dynamic> evaluationsMap;
 
-    evaluationsMap = await _getEvaluationlist(instCode, userName, password);
+    evaluationsMap = await _getEvaluationlist(instCode, userName, password, showErrors);
 
     print(evaluationsMap);
     String StudentId = evaluationsMap["StudentId"].toString();
@@ -52,7 +52,7 @@ class UserInfoHelper {
     return infoMap;
   }
 
-  Future <Map<String, dynamic>> _getEvaluationlist(String instCode, String userName, String password) async{
+  Future <Map<String, dynamic>> _getEvaluationlist(String instCode, String userName, String password, bool showErrors) async{
 
     String jsonBody = "institute_code=" +
         instCode +
@@ -63,7 +63,7 @@ class UserInfoHelper {
         "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
 
     Map<String, dynamic> bearerMap =
-    json.decode((await RequestHelper().getBearer(jsonBody, instCode)).body);
+    json.decode((await RequestHelper().getBearer(jsonBody, instCode, showErrors)));
 
     String code = bearerMap.values.toList()[0];
 
