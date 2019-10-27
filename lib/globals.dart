@@ -13,6 +13,7 @@ import 'Datas/Account.dart';
 bool firstMain = true;
 String version;
 String latestVersion = "";
+bool isBeta = false;
 bool isLoggedIn = false;
 bool isLogo = true;
 bool isColor = true;

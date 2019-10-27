@@ -331,7 +331,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             child: new Text(
               _evaluations[index].NumberValue != 0
                   ? _evaluations[index].NumberValue.toString()
-                  : textShort ?? "?",
+                  : textShort ?? "",
               textScaleFactor: 2.0,
               style: TextStyle(color: _evaluations[index].color),
             ),

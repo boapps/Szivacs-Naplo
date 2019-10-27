@@ -131,7 +131,7 @@ class RequestHelper {
       Map settingsJson = json.decode(settings);
       globals.userAgent = (settingsJson["FillableUserAgent"] as String).replaceFirst("<codename>", MODELS[Random(DateTime.now().millisecond).nextInt(MODELS.length-1)]);
       print("Using UserAgent: " + globals.userAgent);
-      globals.latestVersion = settingsJson["CurrentAppVersion"];
+      globals.latestVersion = globals.isBeta ? settingsJson["BetaVersion"] : settingsJson["CurrentAppVersion"];
     } catch (e) {
       print(e);
     }
