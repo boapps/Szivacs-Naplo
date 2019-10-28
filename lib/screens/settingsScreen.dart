@@ -82,9 +82,10 @@ class SettingsScreenState extends State<SettingsScreen> {
   void _setNextLesson(bool value) async {
     setState(() {
       nextLesson = value;
-      SettingsHelper().setNextLesson(nextLesson);
-      flutterLocalNotificationsPlugin.cancel(0);
     });
+
+    SettingsHelper().setNextLesson(nextLesson);
+    BackgroundHelper().cacnelNextLesson();
   }
 
   void _setLang(String value) async {
@@ -371,7 +372,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                   _isNotification ? _isCanSyncOnDataChange : null,
                   secondary: new Icon(Icons.network_locked),
                 ),
-/*
                 SwitchListTile(
                   title: new Text(
                     "Következő óra",
@@ -384,7 +384,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                   onChanged: _isNotification ? _setNextLesson : null,
                   secondary: new Icon(Icons.access_time),
                 ),
-*/
                 _isNotification
                     ? new PopupMenuButton<int>(
                   child: new ListTile(

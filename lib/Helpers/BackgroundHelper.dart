@@ -114,6 +114,28 @@ class BackgroundHelper {
       });
   }
 
+  void cacnelNextLesson() async {
+    DateTime startDate = new DateTime.now();
+    startDate = startDate.add(
+        new Duration(days: (-1 * startDate.weekday + 1)));
+
+    List<Lesson> lessons = await getLessonsOffline(
+        startDate, startDate.add(new Duration(days: 7)), globals.selectedAccount.user);
+
+    bool nextLesson = await SettingsHelper().getNextLesson();
+    if (nextLesson)
+        for (Lesson lesson in lessons) {
+          if (lesson.end.isAfter(DateTime.now()) &&
+              lesson.id != lessons.last.id) {
+            int index = lessons.indexOf(lesson);
+            if (lessons[index].date == lessons[index + 1].date) {
+              await flutterLocalNotificationsPlugin.cancel(lesson.end.weekday * 24 * 3600 + lesson.end.hour * 3600 +
+                  lesson.end.minute * 60 + lesson.end.second);
+            }
+          }
+        }
+        }
+
   void doLessons(Account account) async {
     DateTime startDate = new DateTime.now();
     startDate = startDate.add(
@@ -124,35 +146,49 @@ class BackgroundHelper {
     List<Lesson> lessons = await getLessons(
         startDate, startDate.add(new Duration(days: 7)), account.user, false);
 
-    if (account.user.id == globals.accounts[0].user.id)
-    for (Lesson lesson in lessons) {
-      bool exist = false;
-      // Értesítés a következő óráról WIP
-       print("1");
-       print(lesson.end);
-        if (lesson.end.isAfter(DateTime.now()) && lesson.id != lessons.last.id) {
-          print("2");
-          int index = lessons.indexOf(lesson);
-          print("index: " + index.toString());
-          if (lessons[index].date == lessons[index+1].date) {
-            print("3");
-            print(lesson.end.toIso8601String());
-            print(lessons[index+1].subject);
-            var scheduledNotificationDateTime = lesson.end;
-            var androidPlatformChannelSpecifics = new AndroidNotificationDetails('next-lesson', 'Következő óra', 'Értesítés a következő óráról', playSound: false, enableVibration: false, color: Colors.blue);
-            var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-            NotificationDetails platformChannelSpecifics = new NotificationDetails(
-                androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-            await flutterLocalNotificationsPlugin.schedule(
-                lesson.end.weekday*24*3600+lesson.end.hour*3600+lesson.end.minute*60+lesson.end.second,
-                lessons[index+1].subject + " " + ((lessons[index+1].start.hour == lesson.end.hour) ? "": (lessons[index+1].start.hour - lesson.end.hour).toString() + " óra és ") + (lessons[index+1].start.minute - lesson.end.minute).toString() + " perc múlva",
-                "Terem: " + lessons[index+1].room,
-                scheduledNotificationDateTime,
-                platformChannelSpecifics,
-              androidAllowWhileIdle: true
-            );
-        }
-      }
+    bool nextLesson = await SettingsHelper().getNextLesson();
+    if (nextLesson)
+      if (account.user.id == globals.accounts[0].user.id)
+        for (Lesson lesson in lessons) {
+          bool exist = false;
+          // Értesítés a következő óráról WIP
+          print("1");
+          print(lesson.end);
+          if (lesson.end.isAfter(DateTime.now()) &&
+              lesson.id != lessons.last.id) {
+            print("2");
+            int index = lessons.indexOf(lesson);
+            print("index: " + index.toString());
+            if (lessons[index].date == lessons[index + 1].date) {
+              print("3");
+              print(lesson.end.toIso8601String());
+              print(lessons[index + 1].subject);
+              var scheduledNotificationDateTime = lesson.end;
+              var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+                  'next-lesson', 'Következő óra',
+                  'Értesítés a következő óráról', playSound: false,
+                  enableVibration: false,
+                  color: Colors.blue);
+              var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+              NotificationDetails platformChannelSpecifics = new NotificationDetails(
+                  androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+              await flutterLocalNotificationsPlugin.schedule(
+                  lesson.end.weekday * 24 * 3600 + lesson.end.hour * 3600 +
+                      lesson.end.minute * 60 + lesson.end.second,
+                  lessons[index + 1].subject + " " +
+                      ((lessons[index + 1].start.hour == lesson.end.hour)
+                          ? ""
+                          : (lessons[index + 1].start.hour - lesson.end.hour)
+                          .toString() + " óra és ") +
+                      (lessons[index + 1].start.minute - lesson.end.minute)
+                          .toString() + " perc múlva",
+                  "Terem: " + lessons[index + 1].room,
+                  scheduledNotificationDateTime,
+                  platformChannelSpecifics,
+                  androidAllowWhileIdle: true
+              );
+            }
+          }
 
       for (Lesson offlineLesson in lessonsOffline) {
         exist = (lesson.id == offlineLesson.id &&
