@@ -138,6 +138,9 @@ void main({bool noReset = false}) async {
 
       globals.isDark = await SettingsHelper().getDarkTheme();
       globals.isAmoled = await SettingsHelper().getAmoled();
+      // ad_start
+      globals.isAds = await SettingsHelper().getAds();
+      // ad_end
       globals.isColor = await SettingsHelper().getColoredMainPage();
       globals.isSingle = await SettingsHelper().getSingleUser();
       globals.multiAccount = (await Saver.readUsers()).length != 1;

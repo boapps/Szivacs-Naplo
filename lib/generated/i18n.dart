@@ -125,6 +125,7 @@ class S implements WidgetsLocalizations {
   String get room => "room: ";
   String get school => "School: ";
   String get settings => "Settings";
+  String get settings_ad => "Show ads";
   String get short_friday => "F";
   String get short_monday => "M";
   String get short_saturday => "Sa";
@@ -300,6 +301,8 @@ class $hu extends S {
   String get username_hint => "oktatási azonosító 11-jegyű diákigazolványszám";
   @override
   String get blue => "kék";
+  @override
+  String get settings_ad => "Reklámok mutatása";
   @override
   String get accounts => "Fiókok";
   @override

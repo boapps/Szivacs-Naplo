@@ -1,5 +1,9 @@
 version=$1
-flavor="play_release"
+fossness="foss"
+# ad_start
+fossness="play"
+# ad_end
+flavor="${fossness}_release"
 
 if [[ -z "$version" ]]; then
 	echo "Nem adtál meg verziót!"
@@ -8,7 +12,7 @@ else
 	echo "Fájlok építése a $version verzióhoz..."
 
 	if [[ $2 == "beta" ]]; then
-		flavor="play_beta"
+		flavor="${fossness}_beta"
 		version="$version-beta"
 		echo "building beta version"
 		flutter build apk --flavor play_beta

@@ -222,14 +222,19 @@ class AccountsScreenState extends State<AccountsScreen> {
               actions: <Widget>[
               ],
             ),
-            body: new Container(
-              child: new Center(
-                child: new Container(
-                  child: accountListWidgets != null ? new ListView(
-                    children:  accountListWidgets ,
-                  ) : new CircularProgressIndicator()
+          body: new Column(
+              children: <Widget>[
+                new Expanded(
+                  child: new Container(
+                      child: accountListWidgets != null ? new ListView(
+                        children:  accountListWidgets ,
+                      ) : new CircularProgressIndicator()
+                  ),
                 ),
-              ),
+                // ad_start
+                globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
+                // ad_end
+              ]
             ),
         ),
     );

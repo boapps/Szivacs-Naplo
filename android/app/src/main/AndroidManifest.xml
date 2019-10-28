@@ -18,6 +18,13 @@
         android:label="e-Szivacs"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <!-- ad_start -->
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+        <!-- ad_end -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -7,6 +7,7 @@ import '../Datas/Account.dart';
 import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
+import '../globals.dart' as globals;
 
 class StudentScreen extends StatefulWidget {
   StudentScreen({this.account});
@@ -139,7 +140,10 @@ class StudentScreenState extends State<StudentScreen> {
               title: Text(S.of(context).info_mathers_name),
               trailing: Text(widget.account.student.MothersName),
             ),) : Container(),
-          ],
+    // ad_start
+    globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
+    // ad_end
+    ],
         ),
       ),
     );
