@@ -119,15 +119,6 @@ class SettingsHelper {
   Future<void> setEvalColor(int eval, Color color) async {
     await _setPropertyBool("grade_${eval}_color", color.value);
   }
-  // ad_start
-  void setAds(bool value) async {
-    await _setPropertyBool("ads", value);
-  }
-
-  Future<bool> getAds() async {
-    return await _getProperty("ads", false);
-  }
-  // ad_end
 
   static const List<Color> COLORS = [
     Colors.red,

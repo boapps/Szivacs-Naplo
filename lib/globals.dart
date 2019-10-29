@@ -9,9 +9,6 @@ import 'Datas/Student.dart';
 import 'Datas/Note.dart';
 import 'Datas/Lesson.dart';
 import 'Datas/Account.dart';
-// ad_start
-import 'package:firebase_admob/firebase_admob.dart';
-// ad_end
 
 bool firstMain = true;
 String version;
@@ -69,9 +66,3 @@ DatabaseFactory dbFactory = databaseFactoryIo;
 Database db;
 var store = StoreRef.main();
 
-// ad_start
-bool isAds;
-BannerAd myBanner;
-double adHeight;
-bool loaded = false;
-// ad_end

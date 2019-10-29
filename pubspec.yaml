@@ -32,9 +32,6 @@ dependencies:
   encrypt: '>=3.1.0'
   crypto: '>=2.0.6'
   flutter_secure_storage: ^3.2.1+1
-  # ad_start
-  firebase_admob: ^0.9.0+1
-  # ad_end
 
 flutter_icons:
   android: "launcher_icon"

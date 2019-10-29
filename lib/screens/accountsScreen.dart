@@ -231,9 +231,6 @@ class AccountsScreenState extends State<AccountsScreen> {
                       ) : new CircularProgressIndicator()
                   ),
                 ),
-                // ad_start
-                globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
-                // ad_end
               ]
             ),
         ),

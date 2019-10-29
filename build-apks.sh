@@ -1,8 +1,5 @@
 version=$1
 fossness="foss"
-# ad_start
-fossness="play"
-# ad_end
 flavor="${fossness}_release"
 
 if [[ -z "$version" ]]; then
