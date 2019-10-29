@@ -37,6 +37,9 @@ class AccountsScreenState extends State<AccountsScreen> {
 
   }
   List<User> users;
+  Future<List<User>> _getUserList() async {
+    return await AccountManager().getUsers();
+  }
 
   @override
   void initState() {
@@ -48,7 +51,7 @@ class AccountsScreenState extends State<AccountsScreen> {
   }
 
   void performInitState() async {
-    users = await AccountManager().getUsers();
+    users = await _getUserList();
     _getListWidgets();
   }
 
