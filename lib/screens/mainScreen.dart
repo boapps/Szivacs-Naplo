@@ -80,7 +80,7 @@ class MainScreenState extends State<MainScreen> {
       nonPersonalizedAds: true,
     );
     globals.myBanner = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: "ca-app-pub-3792366820734167/3421125670",
       size: AdSize.banner,
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
@@ -125,7 +125,7 @@ class MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     _initSettings();
-    // ad_end
+    // ad_start
     tryLoadAds();
     // ad_end
     super.initState();
