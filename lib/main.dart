@@ -770,12 +770,10 @@ class MyDialogState extends State<MyDialog> {
           title: new Text(globals.searchres[index]["Name"]),
           subtitle: new Text(globals.searchres[index]["Url"]),
           onTap: () {
-            globals.selectedSchoolCode =
-                globals.searchres[index]["InstituteCode"];
-            globals.selectedSchoolUrl = globals.searchres[index]["Url"];
-            globals.selectedSchoolName = globals.searchres[index]["Name"];
-
             setState(() {
+              globals.selectedSchoolCode = globals.searchres[index]["InstituteCode"];
+              globals.selectedSchoolUrl = globals.searchres[index]["Url"];
+              globals.selectedSchoolName = globals.searchres[index]["Name"];
               Navigator.pop(context);
             });
           },

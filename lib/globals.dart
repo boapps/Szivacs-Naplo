@@ -70,7 +70,7 @@ Database db;
 var store = StoreRef.main();
 
 // ad_start
-bool isAds;
+bool isAds = false;
 BannerAd myBanner;
 double adHeight;
 bool loaded = false;

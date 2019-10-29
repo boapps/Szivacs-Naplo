@@ -18,12 +18,7 @@ class DBHelper {
     List<Map<String, dynamic>> userMap = new List();
     for (User user in users)
       userMap.add(user.toMap());
-    bool noData = true;
-    noData = (await getUserJson()).isEmpty;
-    if (noData)
-      await store.record('users_json').add(db, userMap);
-    else
-      await store.record('users_json').update(db, userMap);
+    await store.record('users_json').put(db, userMap);
   }
 
   Future<List<Map<String, dynamic>>> getUserJson() async {
