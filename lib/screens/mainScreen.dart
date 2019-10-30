@@ -11,6 +11,7 @@ import '../Cards/ChangedLessonCard.dart';
 import '../Cards/EvaluationCard.dart';
 import '../Cards/LessonCard.dart';
 import '../Cards/NoteCard.dart';
+import '../Cards/TomorrowLessonCard.dart';
 import '../Datas/Account.dart';
 import '../Datas/Lesson.dart';
 import '../Datas/Note.dart';
