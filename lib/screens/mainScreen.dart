@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:e_szivacs/Cards/TomorrowLessonCard.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import '../Cards/ChangedLessonCard.dart';
 import '../Cards/EvaluationCard.dart';
 import '../Cards/LessonCard.dart';
 import '../Cards/NoteCard.dart';
-import '../Cards/TomorrowLessonCard.dart';
 import '../Datas/Account.dart';
 import '../Datas/Lesson.dart';
 import '../Datas/Note.dart';
@@ -95,18 +95,41 @@ class MainScreenState extends State<MainScreen> {
           evaluation, globals.isColor, globals.isSingle, context));
     for (Note note in notes)
       feedCards.add(new NoteCard(note, globals.isSingle, context));
-    bool rem = false;
 
     for (Lesson l in lessons.where((Lesson lesson) =>
-        (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
+    (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
+    bool isLessonsToday = false;
+    bool isLessonsTomorrow = false;
 
-    for (Lesson l in realLessons)
-      if (l.start.isAfter(now) && l.start.day == now.day) rem = true;
-    if (realLessons.length > 0 && rem)
+    for (Lesson l in realLessons) {
+      if (l.start.isAfter(now) && l.start.day == now.day) {
+        isLessonsToday = true;
+        break;
+      }
+    }
+
+    if (realLessons.length > 0 && isLessonsToday)
       feedCards.add(new LessonCard(realLessons, context, now));
+    try {
+      feedCards.sort((Widget a, Widget b) {
+        return b.key.toString().compareTo(a.key.toString());
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    for (Lesson l in realLessons) {
+      if (l.start.isAfter(now) && l.start.day == now.add(Duration(days: 1)).day) {
+        isLessonsTomorrow = true;
+        break;
+      }
+    }
+
+    if (realLessons.length > 0 && isLessonsTomorrow)
+      feedCards.add(new TomorrowLessonCard(realLessons, context, now));
     try {
       feedCards.sort((Widget a, Widget b) {
         return b.key.toString().compareTo(a.key.toString());
@@ -123,26 +146,26 @@ class MainScreenState extends State<MainScreen> {
 
   Future<bool> _onWillPop() {
     return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return new AlertDialog(
-              title: new Text(S.of(context).sure),
-              content: new Text(S.of(context).confirm_close),
-              actions: <Widget>[
-                new FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text(S.of(context).no),
-                ),
-                new FlatButton(
-                  onPressed: () async {
-                    await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-                    },
-                  child: new Text(S.of(context).yes),
-                ),
-              ],
-            );
-          },
-        ) ??
+      context: context,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text(S.of(context).sure),
+          content: new Text(S.of(context).confirm_close),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text(S.of(context).no),
+            ),
+            new FlatButton(
+              onPressed: () async {
+                await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+              },
+              child: new Text(S.of(context).yes),
+            ),
+          ],
+        );
+      },
+    ) ??
         false;
   }
 
@@ -162,31 +185,31 @@ class MainScreenState extends State<MainScreen> {
             ),
             body: hasOfflineLoaded && globals.isColor != null
                 ? new Container(
-                    child: Column(children: <Widget>[
-                      !hasLoaded ? Container(
-                      child: new LinearProgressIndicator(
-                        value: null,
-                      ),
-                      height: 3,
-                      ):Container(height: 3,),
-                    new Expanded(
-                      child: new RefreshIndicator(
-                        child: new ListView(
-                          children: mainScreenCards,
-                        ),
-                        onRefresh: () {
-                          Completer<Null> completer = new Completer<Null>();
-                          _onRefresh().then((bool b) {
-                            setState(() {
-                              completer.complete();
-                              mainScreenCards = feedItems();
-                            });
-                          });
-                          return completer.future;
-                        },
-                      ),
+                child: Column(children: <Widget>[
+                  !hasLoaded ? Container(
+                    child: new LinearProgressIndicator(
+                      value: null,
                     ),
-                    ]))
+                    height: 3,
+                  ):Container(height: 3,),
+                  new Expanded(
+                    child: new RefreshIndicator(
+                      child: new ListView(
+                        children: mainScreenCards,
+                      ),
+                      onRefresh: () {
+                        Completer<Null> completer = new Completer<Null>();
+                        _onRefresh().then((bool b) {
+                          setState(() {
+                            completer.complete();
+                            mainScreenCards = feedItems();
+                          });
+                        });
+                        return completer.future;
+                      },
+                    ),
+                  ),
+                ]))
                 : new Center(child: new CircularProgressIndicator())));
   }
 
@@ -240,7 +263,7 @@ class MainScreenState extends State<MainScreen> {
     if (tempNotes.length > 0) notes = tempNotes;
 
     startDate = now;
-    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+    //startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
 
     if (offline) {
       if (globals.lessons.length > 0) {
