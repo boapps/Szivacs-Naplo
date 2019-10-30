@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:e_szivacs/Cards/TomorrowLessonCard.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -153,18 +154,41 @@ class MainScreenState extends State<MainScreen> {
           evaluation, globals.isColor, globals.isSingle, context));
     for (Note note in notes)
       feedCards.add(new NoteCard(note, globals.isSingle, context));
-    bool rem = false;
 
     for (Lesson l in lessons.where((Lesson lesson) =>
         (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
+    bool isLessonsToday = false;
+    bool isLessonsTomorrow = false;
 
-    for (Lesson l in realLessons)
-      if (l.start.isAfter(now) && l.start.day == now.day) rem = true;
-    if (realLessons.length > 0 && rem)
+    for (Lesson l in realLessons) {
+      if (l.start.isAfter(now) && l.start.day == now.day) {
+        isLessonsToday = true;
+        break;
+      }
+    }
+
+    if (realLessons.length > 0 && isLessonsToday)
       feedCards.add(new LessonCard(realLessons, context, now));
+    try {
+      feedCards.sort((Widget a, Widget b) {
+        return b.key.toString().compareTo(a.key.toString());
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    for (Lesson l in realLessons) {
+      if (l.start.isAfter(now) && l.start.day == now.add(Duration(days: 1)).day) {
+        isLessonsTomorrow = true;
+        break;
+      }
+    }
+
+    if (realLessons.length > 0 && isLessonsTomorrow)
+      feedCards.add(new TomorrowLessonCard(realLessons, context, now));
     try {
       feedCards.sort((Widget a, Widget b) {
         return b.key.toString().compareTo(a.key.toString());
@@ -301,7 +325,7 @@ class MainScreenState extends State<MainScreen> {
     if (tempNotes.length > 0) notes = tempNotes;
 
     startDate = now;
-    startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
+    //startDate = startDate.add(new Duration(days: (-1 * startDate.weekday + 1)));
 
     if (offline) {
       if (globals.lessons.length > 0) {
