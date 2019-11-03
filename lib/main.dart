@@ -102,6 +102,8 @@ class MyApp extends StatelessWidget {
 // todo refactor this and separate the 3 screens here
 
 void main({bool noReset = false}) async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   if (!noReset) {
     final storage = new FlutterSecureStorage();
     String value = await storage.read(key: "db_key");

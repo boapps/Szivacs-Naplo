@@ -119,14 +119,14 @@ packages:
       name: charts_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.8.1"
   charts_flutter:
     dependency: "direct main"
     description:
       name: charts_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.8.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -388,14 +388,14 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.4"
   intl:
     dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.8"
+    version: "0.16.0"
   intl_translation:
     dependency: "direct dev"
     description:
