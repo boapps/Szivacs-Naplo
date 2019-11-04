@@ -97,7 +97,7 @@ class MainScreenState extends State<MainScreen> {
       feedCards.add(new NoteCard(note, globals.isSingle, context));
 
     for (Lesson l in lessons.where((Lesson lesson) =>
-    (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
+        (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
@@ -146,26 +146,26 @@ class MainScreenState extends State<MainScreen> {
 
   Future<bool> _onWillPop() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return new AlertDialog(
-          title: new Text(S.of(context).sure),
-          content: new Text(S.of(context).confirm_close),
-          actions: <Widget>[
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text(S.of(context).no),
-            ),
-            new FlatButton(
-              onPressed: () async {
-                await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-              },
-              child: new Text(S.of(context).yes),
-            ),
-          ],
-        );
-      },
-    ) ??
+          context: context,
+          builder: (BuildContext context) {
+            return new AlertDialog(
+              title: new Text(S.of(context).sure),
+              content: new Text(S.of(context).confirm_close),
+              actions: <Widget>[
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text(S.of(context).no),
+                ),
+                new FlatButton(
+                  onPressed: () async {
+                    await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+                    },
+                  child: new Text(S.of(context).yes),
+                ),
+              ],
+            );
+          },
+        ) ??
         false;
   }
 
@@ -185,31 +185,31 @@ class MainScreenState extends State<MainScreen> {
             ),
             body: hasOfflineLoaded && globals.isColor != null
                 ? new Container(
-                child: Column(children: <Widget>[
-                  !hasLoaded ? Container(
-                    child: new LinearProgressIndicator(
-                      value: null,
-                    ),
-                    height: 3,
-                  ):Container(height: 3,),
-                  new Expanded(
-                    child: new RefreshIndicator(
-                      child: new ListView(
-                        children: mainScreenCards,
+                    child: Column(children: <Widget>[
+                      !hasLoaded ? Container(
+                      child: new LinearProgressIndicator(
+                        value: null,
                       ),
-                      onRefresh: () {
-                        Completer<Null> completer = new Completer<Null>();
-                        _onRefresh().then((bool b) {
-                          setState(() {
-                            completer.complete();
-                            mainScreenCards = feedItems();
+                      height: 3,
+                      ):Container(height: 3,),
+                    new Expanded(
+                      child: new RefreshIndicator(
+                        child: new ListView(
+                          children: mainScreenCards,
+                        ),
+                        onRefresh: () {
+                          Completer<Null> completer = new Completer<Null>();
+                          _onRefresh().then((bool b) {
+                            setState(() {
+                              completer.complete();
+                              mainScreenCards = feedItems();
+                            });
                           });
-                        });
-                        return completer.future;
-                      },
+                          return completer.future;
+                        },
+                      ),
                     ),
-                  ),
-                ]))
+                    ]))
                 : new Center(child: new CircularProgressIndicator())));
   }
 

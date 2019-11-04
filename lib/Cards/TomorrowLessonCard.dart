@@ -45,26 +45,26 @@ class TomorrowLessonCard extends StatelessWidget {
           children: <Widget>[
             new SingleChildScrollView(
               child: new ListBody(
-                  children: lessons.map((Lesson l){
-                    return new Column(
-                        children: <Widget>[
-                          new ListTile(
-                            title: new Text(l.subject),
-                            enabled: true,
-                            onTap: null,
-                            subtitle: new Text(l.teacher),
-                            leading: new Container(child: new Text(
-                              l.count.toString(), style: new TextStyle(
-                                fontSize: 21),),
-                              alignment: Alignment(0, 1),
-                              height: 40,
-                              width: 20,),
-                          ),
-                          new Container(child: new Text(l.room),
-                            alignment: Alignment(1, 0),),
-                          new Divider(color: Colors.blueGrey,),
-                        ]);
-                  }).toList()
+                children: lessons.map((Lesson l){
+                  return new Column(
+                      children: <Widget>[
+                        new ListTile(
+                          title: new Text(l.subject),
+                          enabled: true,
+                          onTap: null,
+                          subtitle: new Text(l.teacher),
+                          leading: new Container(child: new Text(
+                            l.count.toString(), style: new TextStyle(
+                              fontSize: 21),),
+                            alignment: Alignment(0, 1),
+                            height: 40,
+                            width: 20,),
+                        ),
+                        new Container(child: new Text(l.room),
+                          alignment: Alignment(1, 0),),
+                        new Divider(color: Colors.blueGrey,),
+                      ]);
+                }).toList()
               ),
             ),
           ],
