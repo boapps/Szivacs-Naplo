@@ -22,4 +22,6 @@ else
     git commit -a -m $m
 
     git checkout play-edition
+
+    rm -rf ../.szivacs-tmp/
 fi
