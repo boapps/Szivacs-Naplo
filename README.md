@@ -1,8 +1,8 @@
-# e-Szivacs 2.0
+# Szivacs Napló
 
-Az e-Szivacs 2: egy multiplatformos kliensalkalmazás az e-Kréta rendszerhez.
+A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
 
-Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
+Ez a második verziója a nemhivatalos Szivacs Napló alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
 
 #### Jelenlegi funkciók:
 * meg tudod nézni a jegyeidet, hiányzásaidat, órarendedet és a "faliújságot"
@@ -16,8 +16,8 @@ Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért ír
 Issuekban vannak
 
 #### Project felállításához instrukciók:
-* `git clone https://github.com/boapps/e-Szivacs-2`
-* `cd e-Szivacs-2`
+* `git clone https://github.com/boapps/Szivacs-Naplo
+* `cd Szivacs-Naplo`
 * `flutter build apk --debug` vagy `flutter run`
 
 <a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a>

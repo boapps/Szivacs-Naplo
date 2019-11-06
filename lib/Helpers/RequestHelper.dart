@@ -20,88 +20,6 @@ class RequestHelper {
   static const String INSTITUTES_API_URL = "https://www.e-szivacs.org/mirror/school-list.json";
   static const String FAQ_API_URL = "https://raw.githubusercontent.com/boapps/e-Szivacs-2/master/gyik.md";
 
-  // Na próbáljátok meg ezeket blokkolni ;)
-  static const List<String> MODELS = [
-    "SAMSUNG-SM-G930A",
-    "MSD6A648",
-    "SM-G935FD",
-    "SM-G935A",
-    "sdk_phone_armv7",
-    "Nexus 6",
-    "SM-G965F",
-    "G8341",
-    "Pixel",
-    "Pixel 2",
-    "Pixel 3",
-    "Pixel 3a",
-    "Pixel 3 XL",
-    "Pixel 3a XL",
-    "Pixel 4",
-    "Nexus S",
-    "S51SE",
-    "HTCEVOV4G",
-    "PG86100",
-    "Galaxy Nexus",
-    "GTI9300",
-    "VK510",
-    "GT-N5100",
-    "SHIELD Tablet",
-    "SAMSUNG-SM-G900A",
-    "Nexus 7",
-    "GT-S5830i",
-    "hi6250",
-    "MIBOX3",
-    "GT-N7100",
-    "Pixel 2 XL",
-    "GT-I9505",
-    "SAMSUNG-SM-G920A",
-    "GT-N7100",
-    "GT-N8010",
-    "SM-G950F",
-    "SM-G950U",
-    "SAMSUNG-SGH-I337",
-    "SM-J500M",
-    "MXQ-4K",
-    "Moto G (5)",
-    "Samsung Chromebook Plus",
-    "SM-G386F",
-    "SM-T113",
-    "Nexus 6",
-    "GT-I9152",
-    "XT1056",
-    "HTC One_M8",
-    "A37f",
-    "MF353ZP/A",
-    "SM-G610F",
-    "PRO 5",
-    "Nexus 6P",
-    "SM-J120H",
-    "HTCONE",
-    "Lenovo X2-TO",
-    "LG-K420",
-    "SM-G960F",
-    "SM-G960N",
-    "SM-G9600",
-    "SM-G9608",
-    "SM-G960W",
-    "SM-G960U",
-    "SM-G960U1",
-    "MI 9",
-    "MI 8",
-    "MI 9 SE",
-    "MI 8 SE",
-    "MI MIX 2S",
-    "MIX 2",
-    "MI A1",
-    "MI A2",
-    "Redmi Note 7",
-    "Redmi Note 8",
-    "Redmi Note 5",
-    "Redmi Note 5A",
-    "Redmi Note 6 Pro",
-    "Redmi Note 7 Pro",
-  ];
-
   void showError(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -129,8 +47,6 @@ class RequestHelper {
     try {
       String settings = utf8.decode((await http.get(SETTINGS_API_URL)).bodyBytes);
       Map settingsJson = json.decode(settings);
-      globals.userAgent = (settingsJson["FillableUserAgent"] as String).replaceFirst("<codename>", MODELS[Random(DateTime.now().millisecond).nextInt(MODELS.length-1)]);
-      print("Using UserAgent: " + globals.userAgent);
       globals.latestVersion = globals.isBeta ? settingsJson["BetaVersion"] : settingsJson["CurrentAppVersion"];
     } catch (e) {
       print(e);
@@ -148,7 +64,7 @@ class RequestHelper {
           url,
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
-            "User-Agent": globals.userAgent,
+            "User-Agent": "szivacs_naplo",
             "Authorization": "Bearer " + accessToken
           });
 
@@ -199,7 +115,7 @@ class RequestHelper {
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-            "User-Agent": globals.userAgent
+            "User-Agent": "szivacs_naplo"
           },
           body: jsonBody);
 
@@ -229,7 +145,7 @@ class RequestHelper {
             "HOST": user.schoolCode + ".e-kreta.hu",
             "Authorization": "Bearer " + token,
             "Content-Type": "application/json; charset=utf-8",
-            "User-Agent": globals.userAgent
+            "User-Agent": "szivacs_naplo"
           },
           body: jsonBody);
       if (response.statusCode == 200)
