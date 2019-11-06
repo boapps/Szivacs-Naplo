@@ -3,7 +3,7 @@ Ez a 100% FOSS, reklámmentes verziója a Szivacs Naplónak. Van egy play-editio
 
 A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
 
-Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
+Ez a második verziója a nemhivatalos Szivacs Napló alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
 
 #### Jelenlegi funkciók:
 * meg tudod nézni a jegyeidet, hiányzásaidat, órarendedet és a "faliújságot"
