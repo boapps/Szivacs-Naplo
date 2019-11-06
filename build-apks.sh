@@ -26,10 +26,10 @@ else
 
     echo "A fájlok készen vannak, átmásolás a közös mappába..."
 
-    cp build/app/outputs/apk/$flavor/release/app-$flavor-release.apk ~/release_apks/e-szivacs_${fossness}_v$version.apk
-    cp build/app/outputs/bundle/${flavor}Release/app.aab ~/release_apks/e-szivacs_${fossness}_v$version.aab
-    cp build/app/outputs/apk/$flavor/release/app-$flavor-armeabi-v7a-release.apk ~/release_apks/e-szivacs_${fossness}_v$version-arm.apk
-    cp build/app/outputs/apk/$flavor/release/app-$flavor-arm64-v8a-release.apk ~/release_apks/e-szivacs_${fossness}_v$version-arm64.apk
+    cp build/app/outputs/apk/$flavor/release/app-$flavor-release.apk ~/release_apks/szivacs-naplo_${fossness}_v$version.apk
+    cp build/app/outputs/bundle/${flavor}Release/app.aab ~/release_apks/szivacs-naplo_${fossness}_v$version.aab
+    cp build/app/outputs/apk/$flavor/release/app-$flavor-armeabi-v7a-release.apk ~/release_apks/szivacs-naplo_${fossness}_v$version-arm.apk
+    cp build/app/outputs/apk/$flavor/release/app-$flavor-arm64-v8a-release.apk ~/release_apks/szivacs-naplo_${fossness}_v$version-arm64.apk
 
     echo "Kész!"
 fi
