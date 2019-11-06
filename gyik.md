@@ -1,9 +1,9 @@
 ### Ez mi?
-Egy nem hivatalos alkalmazás a KRÉTA rendszerhez, amiből meg tudod nézni a jegyeidet és még sokmindent, vannak benne extra funkciók, amiket a hivatalos nem tud.
+Egy nem hivatalos alkalmazás az e-naplóhoz, amiből meg tudod nézni a jegyeidet és még sokmindent, vannak benne extra funkciók, amiket a hivatalos nem tud.
 
 ## Bejelentkezés:
  
-### Nálunk nincs bevezetve a Kréta rendszer, tudom használni az appod?
+### Nálunk nincs bevezetve az a e-napló rendszer, tudom használni az appod?
 Nem.
 
 ### Mi a felhasználónév/jelszó?
