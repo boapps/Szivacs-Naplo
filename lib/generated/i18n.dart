@@ -151,8 +151,8 @@ class S implements WidgetsLocalizations {
   String get theme => "topic: ";
   String get time => "time: ";
   String get timetable => "Timetable";
-  String get title => "e-Szivacs";
-  String get title_full => "e-Szivacs 2";
+  String get title => "Szivacs Napló";
+  String get title_full => "Szivacs Napló";
   String get two_months => "two months";
   String get upload_time => "upload time: ";
   String get uploader => "uploader: ";
@@ -264,7 +264,7 @@ class $hu extends S {
   @override
   String get justification_mode => "igazolás módja: ";
   @override
-  String get title_full => "e-Szivacs 2";
+  String get title_full => "Szivacs Napló";
   @override
   String get main_page => "Főoldal";
   @override
@@ -416,7 +416,7 @@ class $hu extends S {
   @override
   String get choose => "válassz";
   @override
-  String get title => "e-Szivacs";
+  String get title => "Szivacs Napló";
   @override
   String get password_hint => "általában a születési dátum(pl.: 2000-01-02)";
   @override

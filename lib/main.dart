@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
             supportedLocales: S.delegate.supportedLocales,
             locale: globals.lang != "auto" ? Locale(globals.lang) : null,
             onGenerateTitle: (BuildContext context) => S.of(context).title,
-            title: "e-Szivacs 2",
+            title: "Szivacs Napló",
             theme: theme,
             routes: <String, WidgetBuilder>{
               '/main': (_) => new MainScreen(),

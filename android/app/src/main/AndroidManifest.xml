@@ -15,7 +15,7 @@
         android:allowBackup="false"
         tools:replace="android:label"
         android:name=".Application"
-        android:label="e-Szivacs"
+        android:label="Szivacs Napló"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
         <activity
