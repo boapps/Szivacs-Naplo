@@ -1,7 +1,7 @@
-# e-Szivacs 2.0
+# Szivacs Napló
 Ez a 100% FOSS, reklámmentes verziója az e-Szivacsnak. Van egy play-edition branch is, amiben a Google Play áruházas verziónak a forráskódja van és amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. Ígérem, hogy soha nem lesz erőltetett reklám a szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
 
-Az e-Szivacs 2: egy multiplatformos kliensalkalmazás az e-Kréta rendszerhez.
+A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
 
 Ez a második verziója a nemhivatalos e-Szivacs alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
 
