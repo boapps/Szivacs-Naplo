@@ -9,3 +9,7 @@ build/
 ios/.generated/
 packages
 .flutter-plugins
+android/.gradle/
+android/local.properties
+flutter_01.log
+ios/Flutter/flutter_export_environment.sh
