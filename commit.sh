@@ -7,7 +7,7 @@ if [[ -z '$m' ]]; then
 else
     flutter pub get
 
-    git commit -a -m $m
+    git commit -a -m "$m"
     echo 'rsync'
     rsync -av --exclude='.git*' --exclude='README.md' ./ ../.szivacs-tmp/
     echo 'rsyncend'
@@ -19,7 +19,7 @@ else
     echo 'rsyncend'
     sh to_foss.sh
     flutter pub get
-    git commit -a -m $m
+    git commit -a -m "$m"
 
     git checkout play-edition
 
