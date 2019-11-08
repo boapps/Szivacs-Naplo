@@ -1,0 +1,90 @@
+Felhasználási feltételek Szivacs Napló mobil applikációhoz
+FELHASZNÁLÁSI FELTÉTELEK
+
+Jelen applikáció, vagyis a Szivacs Napló mobil applikáció (továbbiakban Applikáció) Botos András e.v. (továbbiakban Szolgáltató)
+
+Szolgáltató székhelye: <cím>
+
+Applikáció megnyitásával, annak tartalmához történő hozzáféréssel Ön korlátozás és fenntartás nélkül elfogadja a jelen nyilatkozatban foglalt feltételeket, függetlenül attól, hogy azokat elolvasta-e, vagy sem.
+
+Szolgáltató fenntartja a jogot az Applikációban közzétett tartalom bármikor történő felülvizsgálatára, módosítására, illetve frissítésére, mely módosítások Felhasználóra nézve kötelező érvényűek.
+
+FELELŐSSÉG
+Applikáció bármilyen célú használatát mindenki saját felelősségére teszi, saját belátása alapján. Az applikáción keresztül letöltött és megismert információ felhasználása önkéntes és kizárólag saját kockázatra végzett tevékenység. A Felhasználó vállalja, hogy az Applikációban található anyagokat kizárólag saját felelősségére használja.
+
+Applikáció használata közben közvetlenül, illetve közvetetten vagy véletlenszerűen – felmerülő hibáért, kárért, adatvesztésért, illetve az applikáció tartalmi hibáiért vagy hiányosságaiért felelősség Szolgáltatót nem terheli.
+
+Szolgáltató fenntartja azt a jogot, hogy előzetes bejelentés nélkül Applikáció bármely vagy összes szolgáltatását megszüntesse.
+
+Az applikációban technikai pontatlanságok előfordulhatnak. Szolgáltató fenntartja a jogot, hogy a mindenkor megjelenő tartalmat és termékeket bármikor, értesítés nélkül megváltoztassa, kijavítsa és/vagy tökéletesítse.
+
+Szolgáltató nem vonható felelősségre semmiféle kárért, amely az Ön készülékét vagy egyéb tulajdonát az Applikációhoz történő kapcsolódás, illetve hozzáférés során éri annak használata következtében, ideértve bármely anyag, adat, szöveg, kép, videó vagy hanganyag letöltése során bekövetkező negatív eseményt.
+
+ADATVÉDELMI ÉS ADATKEZELÉSI TÁJÉKOZTATÓ
+
+A Szabályzat célja
+
+A jelen adatvédelmi és adatkezelési tájékoztató (a továbbiakban: Tájékoztató) Botos András (a továbbiakban: Szolgáltató) által vezetett nyilvántartásokra vonatkozó legfontosabb adatvédelmi szabályokat, elveket tartalmazza, különös tekintettel az adatkezeléssel, adatfeldolgozással, adattovábbítással, adatvédelemmel és nyilvánosságra hozatallal kapcsolatos követelményekre. A Tájékoztató célja, hogy a vonatkozó magyar és uniós jogszabályok előírásai szerint, az érintettek érdekeinek megfelelően meghatározza az Szolgáltató által alkalmazott adatvédelmi és adatkezelési elveket és szabályokat és az adatfeldolgozás feltételeit, módját.
+A Szolgáltató működteti a applikációt (továbbiakban: Applikáció), melynek körében az Applikációt álltal nyújtott szolgáltatás után érdeklődő felhasználók (a továbbiakban együttesen: Felhasználók) adatait kezeli.
+A Tájékoztató az információs önrendelkezési jogról és az információszabadságról szóló 2011. évi CXII. törvény (a továbbiakban: Infotv.), az elektronikus kereskedelmi szolgáltatások, valamint az információs társadalommal összefüggő szolgáltatások egyes kérdéseiről szóló 2001. évi CVIII. törvény (Ekertv.), a gazdasági reklámtevékenység alapvető feltételeiről és egyes korlátairól szóló 2008. évi XLVIII. tv., valamint a természetes személyeknek a személyes adatok kezelése tekintetében történő védelméről és az ilyen adatok szabad áramlásáról, valamint a 95/46/EK Rendelet hatályon kívül helyezéséről rendelkező Európai Parlament és a Tanács (EU) 2016/679/EU rendelete (továbbiakban: GDPR) rendelkezéseinek megfelelően került kialakításra.
+A Szolgáltató fenntartja annak jogát, hogy az általa nyújtott szolgáltatások vagy általános szerződési feltételei módosításairól az Applikációban tájékoztatja a Felhasználót.
+
+Szolgáltató adatai:
+
+Cégnév: e.v.
+
+Székhely: <Cím>
+
+Adószám: <adószám>
+
+Nyilvántartási szám: <Nyilv. szám>
+
+Elektronikus elérhetőség:
+
+A tényleges adatfeldolgozás helye: Felhasználó eszközén
+
+Applikáció üzemeltetője: e.v.
+
+Az applikáció adattartalmáról szóló rendelkezés
+
+Az Applikációban megjelenített és feldolgozott adatok, nagy többsége az eKRÉTA Informatikai Zártkörűen Működő Részvénytársaság (továbbiakban eKRÉTA) álltal vannak szolgáltatva. Nyilvánosan elérhető jogszerű forrásokon keresztül kerülnek feldolgozásra és megejlenítésre az Applikációban.
+Az applikáció teljesen nyílt forráskódú, és ingyenesen használható. Az eKRÉTA és felhasználó között létrehozott és kezelt adatok harmadik fél álltal üzemeltetett feldolgozó szolgáltatása az Applikáció.
+
+A Szolgáltató által végzett adatkezelés
+
+Az Applikációban a bejelentkezés elvégzésével történik a kapcsolatfelvétel kezdeményezése.
+
+Rögzített adatok:
+
+Adatkezelés jogalapja: Felhasználó hozzájárul
+Adatkezelés időtartama: Az adatokat a Felhasználó eszköze mind addig tárolja ameddig azt a felhasználó el nem távolítja.
+
+Adattárolás módja: Az applikáció álltal rögzített adatok mind titkosítva vannak tárolva a Felhasználó mobileszközén ahova az Applikáció-t telepítette, a Felhasználón kívül semmilyen más fél ezeket nem ismeri meg.
+
+Adatkezelés célja: <cél>
+
+Szolgáltató nem adja ki Felhasználó adatait harmadik fél részére.
+
+Felelősség
+A Felhasználó minden adatát amit az Applikáció nem rögzít az eKRÉTA kezel, minden felelősség ezeknek az adatoknak a kezelésével kapcsolatban az eKRÉTA-át terheli.
+
+A Felhasználó jogai
+
+A Felhasználó adatai felett csak a felhasználó rendelkezhet. Mivel a szolgáltató álltal nincsen semmilyen rögzítve olyan helyen ahol ezeket kizárólagosan tudná kezelni.
+A Felhasználó jogosult a Polgári Törvénykönyvről szóló 2013. évi V. törvény alapján bíróság előtt érvényesíteni jogait, valamint az Infotv.-ben foglaltak szerint a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (1125 Budapest, Szilágyi Erzsébet fasor 22/c.; https://www.naih.hu/panaszuegyintezes-rendje.html) fordulni és panasszal élni.
+
+Egyéb tájékoztatás
+
+A Szolgáltató köteles a Felhasználót előzetesen tájékoztatni és előzetes, kifejezett hozzájárulását kérni, amennyiben a Felhasználó személyes adatait az általa meghatározott adatkezelési céltól eltérő célra kívánja felhasználni.
+A Szolgáltató köteles az adatkezelés és adatfeldolgozás biztonságáról gondoskodni és minden szükséges technikai intézkedést megtenni a rögzített, tárolt és kezelt adatok védelme, továbbá azok jogosulatlan felhasználása vagy módosítása, illetve megsemmisülése elkerülése érdekében.
+Adatvédelmi incidens a biztonság olyan sérülése, amely a kezelt személyes adatok véletlen vagy jogellenes megsemmisítését, elvesztését, megváltoztatását, jogosulatlan közlését vagy az azokhoz való jogosulatlan hozzáférést eredményezi. Adatvédelmi incidens esetén a Szolgáltató a GDPR 33. és 34. cikkei szerint köteles eljárni. Szolgáltató nyilvántartja az adatvédelmi incidenseket, feltüntetve az adatvédelmi incidenshez kapcsolódó tényeket, annak hatásait és az orvoslására tett intézkedéseket.
+A Szolgáltató bármikor jogosult jelen Tájékoztatót egyoldalúan módosítani. A Szolgáltató a Tájékoztató módosítását az Applikációban közzéteszi. A Felhasználó Applikáció szolgáltatásainak további igénybevételére Tájékoztató módosításának elfogadását követően jogosult.
+
+ SZERZŐI JOG
+Az Applikációban minden képi és szöveges anyag szabadon felhasználható. A Szolgáltató nem rendelkezik ezek felett szerzői joggal.
+
+Kapcsolat
+A jelen applikáció üzemeltetője e.v., eszivacs@gmail.com.
+Az applikációval kapcsolatos kérdés és észrevétel esetén kérjük, vegye fel a kapcsolatot Szolgáltatóval a fenti e-mail címen!
+
+Szolgáltató a jelen felhasználási feltételek módosításának jogát fenntartja. E felhasználási feltételek és az esetleges újabb információk áttekintése érdekében rendszeresen látogassa ezt az oldalt.
