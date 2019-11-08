@@ -2,6 +2,8 @@ import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Lesson.dart';
+import '../Dialog/HomeWorkDialog.dart';
+import "../Utils/StringFormatter.dart";
 
 class LessonCard extends StatelessWidget {
   List<Lesson> lessons;
@@ -46,8 +48,57 @@ class LessonCard extends StatelessWidget {
     return (lessons.indexWhere((Lesson l) => l.id==getNext().id) + 1).toString() + "/" + n.toString();
   }
 
-  void openDialog() {
-    _lessonsDialog(lessons);
+  Future<Null> _lessonInfoDialog(Lesson lesson) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text(lesson.subjectName),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: <Widget>[
+                new Text(S.of(context).room + lesson.room),
+                new Text(S.of(context).teacher + lesson.teacher),
+                new Text(S.of(context).group + lesson.group),
+                new Text(
+                    S.of(context).lesson_start + getLessonStartText(lesson)),
+                new Text(S.of(context).lesson_end + getLessonEndText(lesson)),
+                lesson.isMissed
+                    ? new Text(S.of(context).state + lesson.stateName)
+                    : new Container(),
+                (lesson.theme != "" && lesson.theme != null)
+                    ? new Text(S.of(context).theme + lesson.theme)
+                    : new Container(),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text(S.of(context).homework),
+              onPressed: () {
+                Navigator.of(context).pop();
+                return showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return new HomeWorkDialog(lesson);
+                  },
+                ) ??
+                    false;
+              },
+            ),
+
+            new FlatButton(
+              child: new Text(S.of(context).ok),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<Null> _lessonsDialog(List<Lesson> lessons) async {
@@ -59,35 +110,35 @@ class LessonCard extends StatelessWidget {
           children: <Widget>[
             new SingleChildScrollView(
               child: new ListBody(
-                children: lessons.map((Lesson l){
-                  return new Column(
-                      children: <Widget>[
-                        new ListTile(
-                          title: new Text(l.subject, style: new TextStyle(
-                              color: (l.end.isBefore(now))
-                                  ? Colors.grey
-                                  : null),),
-                          enabled: true,
-                          onTap: null,
-                          subtitle: new Text(l.teacher, style: new TextStyle(
-                              color: (l.end.isBefore(now))
-                                  ? Colors.grey
-                                  : null),),
-                          leading: new Container(child: new Text(
-                            l.count.toString(), style: new TextStyle(
-                              color: (l.end.isBefore(now)) ? Colors.grey : null,
-                              fontSize: 21),),
-                            alignment: Alignment(0, 1),
-                            height: 40,
-                            width: 20,),
-                        ),
-                        new Container(child: new Text(l.room,
-                          style: new TextStyle(color: (l.end.isBefore(now))
-                              ? Colors.grey
-                              : null),), alignment: Alignment(1, 0),),
-                        new Divider(color: Colors.blueGrey,),
-                      ]);
-                }).toList()
+                  children: lessons.map((Lesson l){
+                    return new Column(
+                        children: <Widget>[
+                          new ListTile(
+                            title: new Text(l.subject, style: new TextStyle(
+                                color: (l.end.isBefore(now))
+                                    ? Colors.grey
+                                    : null),),
+                            enabled: true,
+                            onTap: (){_lessonInfoDialog(l);},
+                            subtitle: new Text(l.teacher, style: new TextStyle(
+                                color: (l.end.isBefore(now))
+                                    ? Colors.grey
+                                    : null),),
+                            leading: new Container(child: new Text(
+                              l.count.toString(), style: new TextStyle(
+                                color: (l.end.isBefore(now)) ? Colors.grey : null,
+                                fontSize: 21),),
+                              alignment: Alignment(0, 1),
+                              height: 40,
+                              width: 20,),
+                          ),
+                          new Container(child: new Text(l.room,
+                            style: new TextStyle(color: (l.end.isBefore(now))
+                                ? Colors.grey
+                                : null),), alignment: Alignment(1, 0),),
+                          new Divider(color: Colors.blueGrey,),
+                        ]);
+                  }).toList()
               ),
             ),
           ],
@@ -108,7 +159,7 @@ class LessonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: openDialog,
+      onTap: (){_lessonsDialog(lessons);},
       child: new Card(
         child: new Column(
           children: <Widget>[
@@ -168,11 +219,11 @@ class LessonCard extends StatelessWidget {
                               fontSize: 18.0, color: Colors.blueAccent)),
                       new Expanded(
                           child: new Container(
-                        child: new Text(progress(),
-                            style: new TextStyle(
-                                fontSize: 18.0, color: Colors.blueAccent)),
-                        alignment: Alignment(1.0, 0.0),
-                      ))
+                            child: new Text(progress(),
+                                style: new TextStyle(
+                                    fontSize: 18.0, color: Colors.blueAccent)),
+                            alignment: Alignment(1.0, 0.0),
+                          ))
                     ],
                   ),
                 ))
