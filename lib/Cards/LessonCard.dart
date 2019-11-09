@@ -124,13 +124,13 @@ class LessonCard extends StatelessWidget {
                                 color: (lesson.end.isBefore(now))
                                     ? Colors.grey
                                     : null),),
-                            leading: new Container(child: new Text(
+                            leading: lesson.count != -1 ? new Container(child: new Text(
                               lesson.count.toString(), style: new TextStyle(
                                 color: (lesson.end.isBefore(now)) ? Colors.grey : null,
                                 fontSize: 21),),
                               alignment: Alignment(0, 1),
                               height: 40,
-                              width: 20,),
+                              width: 20,):null,
                           ),
                           new Container(child: new Text(lesson.room,
                             style: new TextStyle(color: (lesson.end.isBefore(now))
