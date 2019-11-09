@@ -7,6 +7,7 @@ import 'Datas/User.dart';
 import 'Datas/Average.dart';
 import 'Datas/Student.dart';
 import 'Datas/Note.dart';
+import 'Datas/Homework.dart';
 import 'Datas/Lesson.dart';
 import 'Datas/Account.dart';
 
@@ -64,4 +65,6 @@ DatabaseFactory dbFactory = databaseFactoryIo;
 
 Database db;
 var store = StoreRef.main();
+
+List<Homework> currentHomeworks = List();
 

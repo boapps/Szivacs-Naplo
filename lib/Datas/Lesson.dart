@@ -15,7 +15,7 @@ class Lesson {
   String presence;
   String presenceName;
   String theme;
-  String homework;
+  int homework;
   String calendarOraType;
 
   static const String MISSED = "Missed";
@@ -60,7 +60,7 @@ class Lesson {
     presence = json["PresenceType"];
     presenceName = json["PresenceTypeName"];
     theme = json["Theme"];
-    homework = json["Homework"];
+    homework = json["TeacherHomeworkId"];
     calendarOraType = json["CalendarOraType"];
 
     if (theme == null)
@@ -86,7 +86,7 @@ class Lesson {
     if (presenceName == null)
       presenceName = "";
     if (homework == null)
-      homework = "";
+      homework = null;
     if (calendarOraType == null)
       calendarOraType = "";
   }

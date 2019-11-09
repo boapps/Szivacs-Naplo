@@ -4,9 +4,42 @@ import '../Datas/User.dart';
 import '../Datas/Homework.dart';
 import '../Utils/AccountManager.dart';
 import '../Utils/Saver.dart';
+import '../Datas/Lesson.dart';
 import 'RequestHelper.dart';
+import '../globals.dart' as globals;
 
 class HomeworkHelper {
+  Future<List<Homework>> getHomeworksByLesson(Lesson lesson) async {
+    List<Homework> homeworks = List();
+    String code = await RequestHelper().getBearerToken(globals.selectedAccount.user, false);
+    String homeworkString = (await RequestHelper()
+        .getHomework(code, globals.selectedAccount.user.schoolCode, lesson.homework));
+    if (homeworkString == "[]")
+      homeworkString = "[" +
+    (await RequestHelper().getHomeworkByTeacher(code, globals.selectedAccount.user.schoolCode, lesson.homework))
+          + "]";
+    String ctargy = lesson.subject;
+    List<dynamic> homeworksJson = json.decode(homeworkString);
+    List<Map<String, dynamic>> hwmapuser = new List();
+
+    for (dynamic d in homeworksJson) {
+      Map<String, String> lessonProperty = <String, String>{
+        "subject": ctargy
+      };
+
+      (d as Map<String, dynamic>).addAll(lessonProperty);
+      hwmapuser.add(d as Map<String, dynamic>);
+    }
+
+    hwmapuser.forEach((Map<String, dynamic> e) {
+      Homework average = Homework.fromJson(e);
+      average.owner = e["user"];
+      homeworks.add(average);
+    });
+
+    return homeworks;
+  }
+
   Future<List<Homework>> getHomeworks(int time, bool showErrors) async {
     List<Map<String, dynamic>> evaluationsMap =
         new List<Map<String, dynamic>>();
