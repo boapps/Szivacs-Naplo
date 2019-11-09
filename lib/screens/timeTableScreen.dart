@@ -321,7 +321,7 @@ class TimeTableScreenState extends State<TimeTableScreen>
               lessonList[index].count.toString(),
               textScaleFactor: 2.0,
             )
-          : new Container(),
+          : null,
       title: new Text(
         lessonList[index].subject +
             (lessonList[index].isMissed ? " (${S.of(context).missed})" : "") +
