@@ -7,15 +7,15 @@ import '../Utils/StringFormatter.dart';
 import 'package:flutter_rounded_date_picker/rounded_date_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class HomeWorkDialog extends StatefulWidget {
-  const HomeWorkDialog(this.lesson);
+class NewHomeworkDialog extends StatefulWidget {
+  const NewHomeworkDialog(this.lesson);
   final Lesson lesson;
 
   @override
-  HomeWorkDialogState createState() => new HomeWorkDialogState();
+  NewHomeworkDialogState createState() => new NewHomeworkDialogState();
 }
 
-class HomeWorkDialogState extends State<HomeWorkDialog> {
+class NewHomeworkDialogState extends State<NewHomeworkDialog> {
   String selectedDate;
   String homework;
   List<DateTime> pickedDate;

@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:e_szivacs/Datas/Homework.dart';
+import 'package:e_szivacs/Helpers/HomeworkHelper.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html_unescape/html_unescape.dart';
 
-import '../Dialog/HomeWorkDialog.dart';
+import '../Dialog/NewHomeworkDialog.dart';
+import '../Dialog/HomeworkDialog.dart';
 import '../Datas/Lesson.dart';
 import '../Datas/User.dart';
 import '../Datas/Week.dart';
@@ -336,11 +341,19 @@ class TimeTableScreenState extends State<TimeTableScreen>
                     : null),
       ),
       subtitle: new Text(lessonList[index].theme),
-      trailing: new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      trailing:
+      new Row(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new Text(lessonList[index].room),
-          new Text(getLessonRangeText(lessonList[index])),
+          lessonList[index].homework != null ? new Container(child: new Icon(Icons.home), margin: EdgeInsets.all(3),):Container(),
+          new Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              new Text(lessonList[index].room),
+              new Text(getLessonRangeText(lessonList[index])),
+            ],
+          ),
         ],
       ),
       onTap: () {
@@ -349,56 +362,17 @@ class TimeTableScreenState extends State<TimeTableScreen>
     );
   }
 
+
   Future<Null> _lessonDialog(Lesson lesson) async {
-    return showDialog<Null>(
+
+    return showDialog(
+      barrierDismissible: true,
       context: context,
-      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
-        return new AlertDialog(
-          title: new Text(lesson.subject),
-          content: new SingleChildScrollView(
-            child: new ListBody(
-              children: <Widget>[
-                new Text(S.of(context).room + lesson.room),
-                new Text(S.of(context).teacher + lesson.teacher),
-                new Text(S.of(context).group + lesson.group),
-                new Text(
-                    S.of(context).lesson_start + getLessonStartText(lesson)),
-                new Text(S.of(context).lesson_end + getLessonEndText(lesson)),
-                lesson.isMissed
-                    ? new Text(S.of(context).state + lesson.stateName)
-                    : new Container(),
-                (lesson.theme != "" && lesson.theme != null)
-                    ? new Text(S.of(context).theme + lesson.theme)
-                    : new Container(),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text(S.of(context).homework),
-              onPressed: () {
-                Navigator.of(context).pop();
-                return showDialog(
-                  barrierDismissible: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return new HomeWorkDialog(lesson);
-                  },
-                ) ??
-                    false;
-              },
-            ),
-            new FlatButton(
-              child: new Text(S.of(context).ok),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return new HomeworkDialog(lesson);
       },
-    );
+    ) ??
+        false;
   }
 
   Future<Week> getWeek(DateTime startDate, bool offline, bool showErrors) async {
