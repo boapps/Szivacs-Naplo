@@ -54,7 +54,7 @@ class LessonCard extends StatelessWidget {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(lesson.subjectName),
+          title: new Text(lesson.subject),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
@@ -110,30 +110,30 @@ class LessonCard extends StatelessWidget {
           children: <Widget>[
             new SingleChildScrollView(
               child: new ListBody(
-                  children: lessons.map((Lesson l){
+                  children: lessons.map((Lesson lesson){
                     return new Column(
                         children: <Widget>[
                           new ListTile(
-                            title: new Text(l.subject, style: new TextStyle(
-                                color: (l.end.isBefore(now))
+                            title: new Text(lesson.subject, style: new TextStyle(
+                                color: (lesson.end.isBefore(now))
                                     ? Colors.grey
                                     : null),),
                             enabled: true,
-                            onTap: (){_lessonInfoDialog(l);},
-                            subtitle: new Text(l.teacher, style: new TextStyle(
-                                color: (l.end.isBefore(now))
+                            onTap: (){_lessonInfoDialog(lesson);},
+                            subtitle: new Text(lesson.teacher, style: new TextStyle(
+                                color: (lesson.end.isBefore(now))
                                     ? Colors.grey
                                     : null),),
                             leading: new Container(child: new Text(
-                              l.count.toString(), style: new TextStyle(
-                                color: (l.end.isBefore(now)) ? Colors.grey : null,
+                              lesson.count.toString(), style: new TextStyle(
+                                color: (lesson.end.isBefore(now)) ? Colors.grey : null,
                                 fontSize: 21),),
                               alignment: Alignment(0, 1),
                               height: 40,
                               width: 20,),
                           ),
-                          new Container(child: new Text(l.room,
-                            style: new TextStyle(color: (l.end.isBefore(now))
+                          new Container(child: new Text(lesson.room,
+                            style: new TextStyle(color: (lesson.end.isBefore(now))
                                 ? Colors.grey
                                 : null),), alignment: Alignment(1, 0),),
                           new Divider(color: Colors.blueGrey,),
