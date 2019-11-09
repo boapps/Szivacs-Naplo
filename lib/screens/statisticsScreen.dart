@@ -176,11 +176,41 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     return dbk.indexOf(max)+1;
   }
 
+  double getAverage(List<Evaluation> evaluations) {
+    double db = 0;
+    double sum = 0;
+    for (Evaluation evaluation in evaluations){
+      if (evaluation.IsAtlagbaBeleszamit && evaluation.NumberValue != 0) {
+          double multiplier = 1;
+          try {
+            multiplier = double.parse(evaluation.Weight.replaceAll("%", "")) / 100;
+          } catch (e) {
+            print(e);
+          }
+          sum += evaluation.NumberValue * multiplier;
+          db += multiplier;
+      }
+    }
+    return sum/db;
+  }
+
   void _initStats() async {
     await globals.selectedAccount.refreshStudentString(true, false);
     setState(() {
       averages = globals.selectedAccount.averages ?? List();
       averages.removeWhere((Average average) => average.value < 1);
+      if (averages == null || averages.isEmpty) {
+        Map<String, List<Evaluation>> evaluationsBySubject = Map();
+        for (Evaluation evaluation in globals.selectedAccount.midyearEvaluations) {
+          if (evaluationsBySubject[evaluation.Subject] == null)
+            evaluationsBySubject[evaluation.Subject] = List();
+          evaluationsBySubject[evaluation.Subject].add(evaluation);
+        }
+
+        evaluationsBySubject.forEach((String subject, List evaluations) {
+          averages.add(new Average(subject, evaluations[0].SubjectCategory, evaluations[0].SubjectCategoryName, getAverage(evaluations), 0.0, 0.0));
+        });
+      }
       if (averages == null || averages.isEmpty)
         averages = [Average("", "", "", 0.0, 0.0, 0.0)];
       averages.sort((Average a, Average b) {
@@ -409,7 +439,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                   new Text(
                     avrString,
                     style: TextStyle(
-                        color: getColorForAverage(double.parse(avrString)),
+                        color: getColorForAverage(double.parse(avrString=="null" ? "0" : avrString)),
                         fontWeight: FontWeight.bold),
                   ),
                   new Container(padding: EdgeInsets.only(left: 10),),
@@ -420,10 +450,11 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                       : Container() : Container(),
                   selectedAverage != null ? selectedAverage.classValue != null
                       ? new Text(
-                    selectedAverage.classValue.toString(),
+                    selectedAverage.classValue != 0 ? selectedAverage.classValue.toString():r"¯\_(ツ)_/¯",
                     style: TextStyle(
                         color: getColorForAverage(selectedAverage.classValue),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold
+                    ),
                   )
                       : Container() : Container(),
                 ],
