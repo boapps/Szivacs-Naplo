@@ -38,8 +38,11 @@ class LessonCard extends StatelessWidget {
   String progress() {
     int n = 0;
     for (Lesson lesson in lessons)
-      if (lesson.start.day == now.day) n++;
-    return (lessons.indexWhere((Lesson l) => l.id==getNext().id) + 1).toString() + "/" + n.toString();
+      if (lesson.start.day == now.day)
+        n++;
+      if (getNext()!=null)
+        return (lessons.indexWhere((Lesson l) => l.id==getNext().id) + 1).toString() + "/" + n.toString();
+      return "error";
   }
 
   Future<Null> _lessonInfoDialog(Lesson lesson) async {
@@ -68,21 +71,6 @@ class LessonCard extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            new FlatButton(
-              child: new Text(S.of(context).homework),
-              onPressed: () {
-                Navigator.of(context).pop();
-                return showDialog(
-                  barrierDismissible: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return new NewHomeworkDialog(lesson);
-                  },
-                ) ??
-                    false;
-              },
-            ),
-
             new FlatButton(
               child: new Text(S.of(context).ok),
               onPressed: () {
@@ -168,7 +156,7 @@ class LessonCard extends StatelessWidget {
                       fontSize: 18.0,
                     ),
                   ),
-                  new Text(getNext().subject??"error",
+                  new Text(getNext()!=null?getNext().subject:"error",
                       style: new TextStyle(
                           fontSize: 18.0, color: Colors.blueAccent)),
                   new Text(", ",
@@ -177,9 +165,9 @@ class LessonCard extends StatelessWidget {
                       )),
                   Container(
                     padding: EdgeInsets.only(right: 5),
-                    child: new Text(getNext().start.difference(DateTime.now()).inMinutes.toString() + " " + S
+                    child: new Text(getNext()!=null?getNext().start.difference(DateTime.now()).inMinutes.toString() + " " + S
                         .of(context)
-                        .minute,
+                        .minute:"error",
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
@@ -208,7 +196,7 @@ class LessonCard extends StatelessWidget {
                   padding: new EdgeInsets.all(0.0),
                   child: new Row(
                     children: <Widget>[
-                      new Text(getNext().room??"error",
+                      new Text(getNext()!=null?getNext().room:"error",
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.blueAccent)),
                       new Expanded(
