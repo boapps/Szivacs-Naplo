@@ -106,7 +106,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       case 5:
         return globals.color5;
       default:
-        return Colors.black;
+        return globals.isDark ? Colors.white : Colors.black;
     }
   }
 
