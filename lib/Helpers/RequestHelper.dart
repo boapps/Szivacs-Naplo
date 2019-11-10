@@ -127,12 +127,12 @@ class RequestHelper {
     }
   }
 
-  void uploadHomework(String homework, String deadline, Lesson lesson, User user) async {
+  void uploadHomework(String homework, Lesson lesson, User user) async {
     Map body = {
       "OraId": lesson.id.toString(),
       "OraDate": dateToHuman(lesson.date) + "00:00:00",
       "OraType": lesson.calendarOraType,
-      "HataridoUtc": deadline,
+      "HataridoUtc": dateToHuman(lesson.date.add(Duration(days: 2))) + "23:00:00",
       "FeladatSzovege": homework
     };
 

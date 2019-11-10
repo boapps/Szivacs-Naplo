@@ -1,4 +1,3 @@
-import 'package:e_szivacs/Helpers/RequestHelper.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
@@ -8,6 +7,7 @@ import '../Utils/StringFormatter.dart';
 import '../Helpers/HomeworkHelper.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'NewHomeworkDialog.dart';
 
 class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog(this.lesson);
@@ -40,13 +40,17 @@ class HomeworkDialogState extends State<HomeworkDialog> {
             widget.lesson.homework != null ? new Text("\n" + S.of(context).homework + ":"):Container(),
             Column(
               children: globals.currentHomeworks.map<Widget>((Homework homework){
-                return Html(data: HtmlUnescape().convert(homework.text));
+                return ListTile(
+                  title: Text(homework.uploader + " " + homework.uploadDate.substring(0, 10)), //, style: TextStyle(color: homework.byTeacher ? Colors.green:null),),
+                  subtitle: Html(data: HtmlUnescape().convert(homework.text)),
+                );
               }).toList(),
             )
           ],
         ),
       ),
       actions: <Widget>[
+        widget.lesson.homeworkEnabled ?
         new FlatButton(
           child: new Text(S.of(context).homework),
           onPressed: () {
@@ -55,12 +59,12 @@ class HomeworkDialogState extends State<HomeworkDialog> {
               barrierDismissible: true,
               context: context,
               builder: (BuildContext context) {
-                return new HomeworkDialog(widget.lesson);
+                return new NewHomeworkDialog(widget.lesson);
               },
             ) ??
                 false;
           },
-        ),
+        ) : Container(),
         new FlatButton(
           child: new Text(S.of(context).ok),
           onPressed: () {
