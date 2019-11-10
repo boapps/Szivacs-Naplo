@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../Datas/Lesson.dart';
 import '../Dialog/NewHomeworkDialog.dart';
 import "../Utils/StringFormatter.dart";
+import 'dart:async';
 
 class LessonCard extends StatelessWidget {
   List<Lesson> lessons;
@@ -28,17 +29,10 @@ class LessonCard extends StatelessWidget {
 
   Lesson getNext() {
     for (Lesson l in lessons) {
-      if (l.start.isAfter(now)) {
+      if (l.start.isAfter(DateTime.now())) {
         return l;
       }
     }
-  }
-
-  String getDurToNext() {
-    return getNext().start
-        .difference(now)
-        .inMinutes
-        .toString();
   }
 
   String progress() {
@@ -183,7 +177,7 @@ class LessonCard extends StatelessWidget {
                       )),
                   Container(
                     padding: EdgeInsets.only(right: 5),
-                    child: new Text(getDurToNext() + " " + S
+                    child: new Text(getNext().start.difference(DateTime.now()).inMinutes.toString() + " " + S
                         .of(context)
                         .minute,
                         style: new TextStyle(

@@ -81,6 +81,7 @@ class MainScreenState extends State<MainScreen> {
       globals.firstMain = false;
     }
     startDate = now;
+    new Timer.periodic(Duration(seconds: 10), (Timer t) => setState((){mainScreenCards = feedItems();}));
   }
 
   List<Widget> feedItems() {
@@ -111,8 +112,9 @@ class MainScreenState extends State<MainScreen> {
       }
     }
 
-    if (realLessons.length > 0 && isLessonsToday)
+    if (realLessons.length > 0 && isLessonsToday) {
       feedCards.add(new LessonCard(realLessons, context, now));
+    }
     try {
       feedCards.sort((Widget a, Widget b) {
         return b.key.toString().compareTo(a.key.toString());
