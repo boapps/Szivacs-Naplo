@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:e_szivacs/Cards/HomeworkCard.dart';
 import 'package:e_szivacs/Cards/TomorrowLessonCard.dart';
+import 'package:e_szivacs/Datas/Homework.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,7 @@ import '../Datas/Note.dart';
 import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/BackgroundHelper.dart';
+import '../Helpers/HomeworkHelper.dart';
 import '../Helpers/SettingsHelper.dart';
 import '../Helpers/TimetableHelper.dart';
 import '../globals.dart' as globals;
@@ -71,20 +74,23 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
     _initSettings();
     super.initState();
-    _onRefresh(offline: true, showErrors: false).then((var a) {
-      mainScreenCards = feedItems();
+    _onRefresh(offline: true, showErrors: false).then((var a) async {
+      mainScreenCards = await feedItems();
     });
     if (globals.firstMain) {
-      _onRefresh(offline: false, showErrors: false).then((var a) {
-        mainScreenCards = feedItems();
+      _onRefresh(offline: false, showErrors: false).then((var a) async {
+        mainScreenCards = await feedItems();
       });
       globals.firstMain = false;
     }
     startDate = now;
-    new Timer.periodic(Duration(seconds: 10), (Timer t) => setState((){mainScreenCards = feedItems();}));
+    new Timer.periodic(Duration(seconds: 10), (Timer t) => () async {
+      mainScreenCards = await feedItems();
+      setState((){});
+    });
   }
 
-  List<Widget> feedItems() {
+  Future<List<Widget>> feedItems() async {
     int maximumFeedLength = 100;
 
     List<Widget> feedCards = new List();
@@ -122,6 +128,18 @@ class MainScreenState extends State<MainScreen> {
     } catch (e) {
       print(e);
     }
+
+    //todo homework cards
+    /*for (Lesson l in lessons) {
+      if (l.homework != null){
+        print(l.homework);
+        List<Homework> homeworks = await HomeworkHelper().getHomeworksByLesson(l);
+        for (Homework homework in homeworks)
+          print(homework.text);
+          //feedCards.add(HomeworkCard(homework, globals.isSingle, context));
+      }
+    }
+    */
 
     for (Lesson l in realLessons) {
       if (l.start.isAfter(now) && l.start.day == now.add(Duration(days: 1)).day) {
@@ -185,7 +203,7 @@ class MainScreenState extends State<MainScreen> {
                 //todo search maybe?
               ],
             ),
-            body: hasOfflineLoaded && globals.isColor != null
+            body: hasOfflineLoaded && globals.isColor != null && mainScreenCards != null
                 ? new Container(
                     child: Column(children: <Widget>[
                       !hasLoaded ? Container(
@@ -201,10 +219,10 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         onRefresh: () {
                           Completer<Null> completer = new Completer<Null>();
-                          _onRefresh().then((bool b) {
+                          _onRefresh().then((bool b) async {
+                            mainScreenCards = await feedItems();
                             setState(() {
                               completer.complete();
-                              mainScreenCards = feedItems();
                             });
                           });
                           return completer.future;
