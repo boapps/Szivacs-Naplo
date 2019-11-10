@@ -1,15 +1,10 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:e_szivacs/Datas/Homework.dart';
-import 'package:e_szivacs/Helpers/HomeworkHelper.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:html_unescape/html_unescape.dart';
 
-import '../Dialog/NewHomeworkDialog.dart';
 import '../Dialog/HomeworkDialog.dart';
 import '../Datas/Lesson.dart';
 import '../Datas/User.dart';
@@ -317,7 +312,10 @@ class TimeTableScreenState extends State<TimeTableScreen>
               lessonList[index].count.toString(),
               textScaleFactor: 2.0,
             )
-          : null,
+          : new Text(
+        "+",
+        textScaleFactor: 2.0,
+      ),
       title: new Text(
         lessonList[index].subject +
             (lessonList[index].isMissed ? " (${S.of(context).missed})" : "") +
@@ -336,7 +334,7 @@ class TimeTableScreenState extends State<TimeTableScreen>
       new Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          lessonList[index].homework != null ? new Container(child: new Icon(Icons.home), margin: EdgeInsets.all(3),):Container(),
+          lessonList[index].homework != null ? new Container(child: new Icon(Icons.home), margin: EdgeInsets.all(8),):Container(),
           new Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

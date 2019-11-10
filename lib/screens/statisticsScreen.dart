@@ -208,7 +208,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         }
 
         evaluationsBySubject.forEach((String subject, List evaluations) {
-          averages.add(new Average(subject, evaluations[0].SubjectCategory, evaluations[0].SubjectCategoryName, getAverage(evaluations), 0.0, 0.0));
+          averages.add(new Average(subject, evaluations[0].SubjectCategory, evaluations[0].SubjectCategoryName, double.parse(getAverage(evaluations).toStringAsFixed(2)), 0.0, 0.0));
         });
       }
       if (averages == null || averages.isEmpty)
