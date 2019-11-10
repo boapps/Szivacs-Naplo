@@ -452,7 +452,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                       ? new Text(
                     selectedAverage.classValue != 0 ? selectedAverage.classValue.toString():r"¯\_(ツ)_/¯",
                     style: TextStyle(
-                        color: getColorForAverage(selectedAverage.classValue),
+                        color: selectedAverage.classValue != 0 ? getColorForAverage(selectedAverage.classValue) : globals.isDark ? Colors.white : Colors.black,
                         fontWeight: FontWeight.bold
                     ),
                   )
