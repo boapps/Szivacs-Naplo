@@ -17,6 +17,7 @@ class Lesson {
   String theme;
   int homework;
   String calendarOraType;
+  bool homeworkEnabled;
 
   static const String MISSED = "Missed";
 
@@ -38,7 +39,8 @@ class Lesson {
       this.presenceName,
       this.theme,
       this.homework,
-      this.calendarOraType);
+      this.calendarOraType,
+      this.homeworkEnabled);
 
   bool get isMissed => state == MISSED;
   bool get isSubstitution => depTeacher != "";
@@ -62,6 +64,7 @@ class Lesson {
     theme = json["Theme"];
     homework = json["TeacherHomeworkId"];
     calendarOraType = json["CalendarOraType"];
+    homeworkEnabled = json["IsTanuloHaziFeladatEnabled"];
 
     if (theme == null)
       theme = "";
@@ -89,5 +92,7 @@ class Lesson {
       homework = null;
     if (calendarOraType == null)
       calendarOraType = "";
+    if (homeworkEnabled == null)
+      homeworkEnabled = true;
   }
 }

@@ -16,9 +16,7 @@ class NewHomeworkDialog extends StatefulWidget {
 }
 
 class NewHomeworkDialogState extends State<NewHomeworkDialog> {
-  String selectedDate;
   String homework;
-  List<DateTime> pickedDate;
 
   Widget build(BuildContext context) {
     return new SimpleDialog(
@@ -27,21 +25,6 @@ class NewHomeworkDialogState extends State<NewHomeworkDialog> {
           .homework),
       contentPadding: const EdgeInsets.all(10.0),
       children: <Widget>[
-    new MaterialButton(
-    color: selectedDate==null ? Colors.deepOrangeAccent:Colors.green,
-      onPressed: () async {
-        DateTime newDateTime = await RoundedDatePicker.show(context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now().subtract(Duration(days: 1)),
-            lastDate: DateTime(DateTime.now().year + 1),
-            borderRadius: 5);
-        if (newDateTime != null) {
-          selectedDate = dateToHuman(newDateTime);
-          setState(() {});
-        }
-      },
-      child: new Text(selectedDate??"válassz határidőt"),
-    ),
         new TextField(
           keyboardType: TextInputType.multiline,
           maxLines: 10,
@@ -50,17 +33,8 @@ class NewHomeworkDialogState extends State<NewHomeworkDialog> {
         MaterialButton(
           child: Text(S.of(context).ok),
           onPressed: () {
-            if (selectedDate != null){
-              RequestHelper().uploadHomework(homework, selectedDate + "22:00:00", widget.lesson, globals.selectedAccount.user);
+              RequestHelper().uploadHomework(homework, widget.lesson, globals.selectedAccount.user);
               Navigator.of(context).pop();
-            } else {
-              Fluttertoast.showToast(
-                  msg: "Válassz határidőt!",
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 16.0
-              );
-            }
           },
         )
       ],
