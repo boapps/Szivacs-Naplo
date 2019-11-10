@@ -1,3 +1,5 @@
+Tesztetési céllal forkolva
+
 # Szivacs Napló
 Ez a 100% FOSS, reklámmentes verziója a Szivacs Naplónak. Van egy play-edition branch is, amiben a Google Play áruházas verziónak a forráskódja van és amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. Ígérem, hogy soha nem lesz erőltetett reklám a szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
 
