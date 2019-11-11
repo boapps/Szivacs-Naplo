@@ -1,6 +1,9 @@
 ### Ez mi?
 Egy nem hivatalos alkalmazás a KRÉTA rendszerhez, amiből meg tudod nézni a jegyeidet és még sokmindent, vannak benne extra funkciók, amiket a hivatalos nem tud.
 
+### Nem tudok bejelentkezni, lassú/egyáltalán nem megy a jegyek/órarend betöltése, mi történt?
+A krétások most megint elkezdték lassítani a nem hivatalos appok lekérdezéseit, sajnos ezzel én semmit nem tudok csinálni.
+
 ## Bejelentkezés:
  
 ### Nálunk nincs bevezetve a Kréta rendszer, tudom használni az appod?
