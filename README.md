@@ -1,35 +1,49 @@
+
+
 # Szivacs Napló
 
 A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
 
-Ez a második verziója a nemhivatalos Szivacs Napló alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
+Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivacs Naplónak. Van egy play-edition branch is, amiben a Google Play áruházas verziónak a forráskódja van és amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. Ígérem, hogy soha nem lesz erőltetett reklám a Szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
+
 
 #### Jelenlegi funkciók:
-* meg tudod nézni a jegyeidet, hiányzásaidat, órarendedet és a "faliújságot"
-* több fiókkal be tudsz jelentkezni és nem kell átlépegetned egyikből a másikba hanem egyszerre látod az összes jegyet
+* "faliújság"
+* jegyek
+* órarend
+* hiányzások
+* átlagok
+* egyszerre több fiók kezelése
 * gyors, logikus, modern felület
-* *sötét* téma (az e-Kréta app fejlesztő(i)ről elnevezve)
-* "színes főoldal"
+* sötét téma és személyre szabható színek
 * értesítések
 * grafikonok
-#### Tervezett:
-Issuekban vannak
 
-#### Project felállításához instrukciók:
-* `git clone https://github.com/boapps/Szivacs-Naplo
+## Letöltés
+#### Forráskódból:
+* `git clone https://github.com/boapps/Szivacs-Naplo`
 * `cd Szivacs-Naplo`
 * `flutter build apk --debug` vagy `flutter run`
 
-<a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a>
+#### Android:
+<a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a> <br>
+(Jelenleg a Google Playen nem vagyunk fent a Krétás e-mailek miatt)
 
-#### iOS verzió:
-Az alkalmazás működik iOS-en is, mert Flutterben készült, de az AppStore-ba nem tettem fel, mert akkor a nevem publikussá válna és én azt nem szeretném :P
+<a href='https://t.me/eSzivacs/'>
+<img alt='Töltsd le a Telegram Chaten!' src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F8%2F82%2FTelegram_logo.svg%2F1200px-Telegram_logo.svg.png&f=1&nofb=1' height=56px /></a> <br>
+(Töltsd le a legújabb verziót a Telegram csoportunkban innen)
 
-[hajducsekb](https://github.com/hajducsekb) [legyártott egy .ipa fájlt](https://www.dropbox.com/s/3vzrqagpfhb6g8l/flutter_naplo.ipa?dl=0), amit Cydia Impactorral fel lehet telepíteni. [további infó](https://github.com/boapps/e-Szivacs-2/issues/30)
+#### iOS:
+Az alkalmazás működik iOS-en is, mert Flutterben készült, de az AppStore-ba nem tettem fel, mert a fejlesztői fiók meglehetősen költséges.
 
-##### Felhasznált nyílt forráskódú projectek:
-* [Fira GO](https://github.com/bBoxType/FiraGO) - betűtípus
+Ennek ellenére [hajducsekb](https://github.com/hajducsekb) legyártott egy [.ipa fájlt](https://www.dropbox.com/s/3vzrqagpfhb6g8l/flutter_naplo.ipa?dl=0), amit Cydia Impactorral fel lehet telepíteni. [További infó a telepítésről](https://github.com/boapps/e-Szivacs-2/issues/30)
+
+
+
+## Felhasznált nyílt forráskódú projectek:
+
 * [Flutter](https://github.com/flutter/flutter) - alkalmazásfejlesztési keretrendszer (ezzel csináltam az appot)
+* [Fira GO](https://github.com/bBoxType/FiraGO) - betűtípus
 * Flutter kiegészítők:
   * [dynamic_theme](https://github.com/Norbert515/dynamic_theme) - a sötét témához
   * [Fluro](https://github.com/theyakka/fluro)
@@ -40,7 +54,8 @@ Az alkalmazás működik iOS-en is, mert Flutterben készült, de az AppStore-ba
   * [html_unescape](https://github.com/filiph/html_unescape)
   * [background_fetch](https://github.com/transistorsoft/flutter_background_fetch)
 
-### Licenc:
+## Licensz:
+```
 BSD 2-Clause License
 
 Copyright (c) 2019, boapps
@@ -66,3 +81,4 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
