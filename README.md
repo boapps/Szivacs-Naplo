@@ -1,4 +1,5 @@
 
+
 # Szivacs Napló
 
 A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
@@ -8,10 +9,10 @@ Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivac
 
 #### Jelenlegi funkciók:
 * "faliújság"
-* jegyek megtekintése
+* jegyek
 * órarend
 * hiányzások
-* *átlagok
+* átlagok
 * egyszerre több fiók kezelése
 * gyors, logikus, modern felület
 * sötét téma és személyre szabható színek
@@ -25,7 +26,7 @@ Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivac
 * `flutter build apk --debug` vagy `flutter run`
 
 #### Android:
-<a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a> 
+<a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a> <br>
 (Jelenleg a Google Playen nem vagyunk fent a Krétás e-mailek miatt)
 
 <a href='https://t.me/eSzivacs/'>
