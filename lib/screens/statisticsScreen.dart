@@ -93,6 +93,17 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     super.initState();
   }
 
+  dart_ui.Color getColorForAverageString(String averageString) {
+    double average = 0;
+    try {
+      average = double.parse(avrString);
+    } catch (e) {
+      print(e);
+    }
+
+    return getColorForAverage(average);
+  }
+
   dart_ui.Color getColorForAverage(double average){
     switch(average.round()){
       case 1:
@@ -162,8 +173,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         n += multiplier;
       }
     }
-    return sum / n;
+    if (n > 0)
+      return sum / n;
 
+    return 0;
   }
 
   double getMedian() {
@@ -200,7 +213,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
           db += multiplier;
       }
     }
-    return sum/db;
+    if (db > 0)
+      return sum / db;
+
+    return 0;
   }
 
   void _initStats() async {
@@ -448,7 +464,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                   new Text(
                     avrString,
                     style: TextStyle(
-                        color: getColorForAverage(double.parse(avrString=="null" ? "0" : avrString)),
+                        color: getColorForAverageString(avrString),
                         fontWeight: FontWeight.bold),
                   ),
                   new Container(padding: EdgeInsets.only(left: 10),),

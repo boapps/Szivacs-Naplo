@@ -119,6 +119,22 @@ class SettingsHelper {
   Future<void> setEvalColor(int eval, Color color) async {
     await _setPropertyBool("grade_${eval}_color", color.value);
   }
+
+  Future<bool> getAcceptTOS() async {
+    return await _getProperty("acceptTOS", false);
+  }
+
+  Future<void> setAcceptTOS(bool value) async {
+    await _setPropertyBool("acceptTOS", value);
+  }
+
+  Future<bool> getAcceptBlock() async {
+    return await _getProperty("acceptBlock", false);
+  }
+
+  Future<void> setAcceptBlock(bool value) async {
+    await _setPropertyBool("acceptBlock", value);
+  }
   // ad_start
   void setAds(bool value) async {
     await _setPropertyBool("ads", value);
