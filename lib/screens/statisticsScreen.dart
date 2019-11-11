@@ -4,9 +4,6 @@ import 'dart:ui';
 import 'package:charts_flutter/flutter.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
-// ad_start
-import 'package:firebase_admob/firebase_admob.dart';
-// ad_end
 
 import '../Datas/Average.dart';
 import '../Datas/Student.dart';
@@ -47,12 +44,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   void initState() {
-    // ad_start
-    if (globals.myBanner != null)
-      globals.myBanner.dispose();
-    globals.myBanner = null;
-    globals.loaded = false;
-    // ad_end
 
     switch (globals.themeID) {
       case 0:
@@ -512,13 +503,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
     return new WillPopScope(
         onWillPop: () {
-          // ad_start
-          globals.myBanner
-            ..load()
-            ..show(
-              anchorType: AnchorType.bottom,
-            );
-          // ad_end
 
           globals.screen = 0;
           Navigator.pushReplacementNamed(context, "/main");
