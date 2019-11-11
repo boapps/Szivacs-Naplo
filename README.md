@@ -1,15 +1,13 @@
 # Szivacs Napló
-Ez a 100% FOSS, reklámmentes verziója a Szivacs Naplónak. Van egy play-edition branch is, amiben a Google Play áruházas verziónak a forráskódja van és amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. Ígérem, hogy soha nem lesz erőltetett reklám a szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
+Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivacs Naplónak. Van egy play-edition branch is, amiben a Google Play áruházas verziónak a forráskódja van és amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. Ígérem, hogy soha nem lesz erőltetett reklám a szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
 
 A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
-
-Ez a második verziója a nemhivatalos Szivacs Napló alkalmazásnak, amit azért írtam, mert idegesítettek az eredeti app hibái (lassú, bugos, stb.).
 
 #### Jelenlegi funkciók:
 * meg tudod nézni a jegyeidet, hiányzásaidat, órarendedet és a "faliújságot"
 * több fiókkal be tudsz jelentkezni és nem kell átlépegetned egyikből a másikba hanem egyszerre látod az összes jegyet
 * gyors, logikus, modern felület
-* *sötét* téma (az e-Kréta app fejlesztő(i)ről elnevezve)
+* sötét téma
 * "színes főoldal"
 * értesítések
 * grafikonok
