@@ -120,6 +120,22 @@ class SettingsHelper {
     await _setPropertyBool("grade_${eval}_color", color.value);
   }
 
+  Future<bool> getAcceptTOS() async {
+    return await _getProperty("acceptTOS", false);
+  }
+
+  Future<void> setAcceptTOS(bool value) async {
+    await _setPropertyBool("acceptTOS", value);
+  }
+
+  Future<bool> getAcceptBlock() async {
+    return await _getProperty("acceptBlock", false);
+  }
+
+  Future<void> setAcceptBlock(bool value) async {
+    await _setPropertyBool("acceptBlock", value);
+  }
+
   static const List<Color> COLORS = [
     Colors.red,
     Colors.brown,

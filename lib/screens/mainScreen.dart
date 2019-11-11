@@ -4,6 +4,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:e_szivacs/Cards/HomeworkCard.dart';
 import 'package:e_szivacs/Cards/TomorrowLessonCard.dart';
 import 'package:e_szivacs/Datas/Homework.dart';
+import 'package:e_szivacs/Dialog/TOSDialog.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,10 +71,70 @@ class MainScreenState extends State<MainScreen> {
   }
 
 
+  Future<bool> showBlockDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            Text("""
+A krétások most megint elkezdték lassítani/blokkolni a szivacsot, így lehet, hogy nem működik majd a dolgok betöltése/bejelentkezés/stb. és hálózati hibát kaphattok.
+
+Egyelőre úgy néz ki, hogy a Klik-es iskolák érintettek, ez kb 3000 az összes 3800 krétás iskolából.
+
+Ez nem az én hibám, én nem tudok vele mit csinálni (próbáltam, de aztán meg kaptam az e-mail-t, hogy ez illegális).
+
+Ha továbbra is szivacsot használnátok, kénytelenek lesztek kivárni, amíg végigmegy a lekérdezés (ez 1-2 perc is lehet) az is lehet, hogy nem megy minden elsőre és igen, ez így használhatatlan.
+
+Még próbálok velük beszélni, remélem, hogy hajlandóak lesznek enyhíteni lassításon!
+
+Üdv.:
+Boa
+            """),
+            new MaterialButton(
+              child: Text("Értem"),
+              onPressed: () {
+          SettingsHelper().setAcceptBlock(true);
+          Navigator.of(context).pop(true);
+        },
+            )
+          ],
+          title: Text("Egy üzenet a fejlesztőtől:"),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<bool> showTOSDialog() async {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return new TOSDialog();
+      },
+    ) ??
+        false;
+  }
+
   @override
   void initState() {
     _initSettings();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!(await SettingsHelper().getAcceptTOS()))
+        showTOSDialog();
+      else if (!(await SettingsHelper().getAcceptBlock()))
+        showBlockDialog();
+    });
     _onRefresh(offline: true, showErrors: false).then((var a) async {
       mainScreenCards = await feedItems();
     });

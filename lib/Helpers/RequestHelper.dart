@@ -19,6 +19,7 @@ class RequestHelper {
   static const String SETTINGS_API_URL = "https://www.e-szivacs.org/mirror/settings.json";
   static const String INSTITUTES_API_URL = "https://www.e-szivacs.org/mirror/school-list.json";
   static const String FAQ_API_URL = "https://raw.githubusercontent.com/boapps/e-Szivacs-2/master/gyik.md";
+  static const String TOS_API_URL = "https://www.e-szivacs.org/adatkezeles_es_feltetelek.html";
 
   void showError(String msg) {
     Fluttertoast.showToast(
@@ -58,6 +59,11 @@ class RequestHelper {
     return faq;
   }
 
+  Future<String> getTOS() async {
+    String tos = utf8.decode((await http.get(TOS_API_URL)).bodyBytes);
+    return tos;
+  }
+
   Future<String> getStuffFromUrl(String url, String accessToken, String schoolCode) async {
     if (accessToken != null) {
       http.Response response = await http.get(
@@ -83,7 +89,7 @@ class RequestHelper {
 
   Future<String> getEvaluations(String accessToken, String schoolCode) =>
       getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu"
-      + "/mapi/api/v1/Student", accessToken, schoolCode);
+          + "/mapi/api/v1/Student", accessToken, schoolCode);
 
   Future<String> getHomework(String accessToken, String schoolCode,
       int id) => getStuffFromUrl("https://" + schoolCode +
@@ -97,7 +103,7 @@ class RequestHelper {
 
   Future<String> getEvents(String accessToken, String schoolCode) =>
       getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/Event",
-      accessToken, schoolCode);
+          accessToken, schoolCode);
 
   Future<String> getTimeTable(
       String from, String to, String accessToken, String schoolCode) =>
@@ -196,7 +202,7 @@ class RequestHelper {
 
       await http.post("https://eugyintezes.e-kreta.hu//integration-kretamobile-api/v1/kommunikacio/uzenetek/olvasott",
           headers: {
-        "Authorization": ("Bearer " + code),
+            "Authorization": ("Bearer " + code),
           },
           body: "{\"isOlvasott\":true,\"uzenetAzonositoLista\":[$id]}");
     } catch (e) {
@@ -207,11 +213,11 @@ class RequestHelper {
   }
 
   Future<String> getStudentString(User user, bool showErrors) async {
-      String code = await getBearerToken(user, showErrors);
+    String code = await getBearerToken(user, showErrors);
 
-      String evaluationsString = await getEvaluations(code, user.schoolCode);
+    String evaluationsString = await getEvaluations(code, user.schoolCode);
 
-      return evaluationsString;
+    return evaluationsString;
   }
 
   Future<String> getEventsString(User user, bool showErrors) async {

@@ -153,6 +153,21 @@ class AboutScreenState extends State<AboutScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
                   ),
+                  new FlatButton(onPressed: _launchTOS,
+                    child: new Row(
+                      children: <Widget>[
+                        new Container(
+                          child: new Icon(Icons.error,
+                            color: Colors.red, size: 20.0,),
+                          padding: EdgeInsets.all(5.0),
+                        ),
+                        new Text("Felhasználási feltételek", style: new TextStyle(
+                          color: Colors.red, fontSize: 20.0,),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
                   new FlatButton(onPressed: _launchYoutubeURL,
                     child: new Row(
                       children: <Widget>[
@@ -277,6 +292,15 @@ class AboutScreenState extends State<AboutScreen> {
 
   _launchYoutubeURL() async {
     const url = 'https://www.youtube.com/channel/UC1V9Sdq4RlYjzZEkB9bzwrA';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _launchTOS() async {
+    const url = 'https://www.e-szivacs.org/adatkezeles_es_feltetelek.html';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
