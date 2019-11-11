@@ -140,6 +140,9 @@ class StudentScreenState extends State<StudentScreen> {
               title: Text(S.of(context).info_mathers_name),
               trailing: Text(widget.account.student.MothersName),
             ),) : Container(),
+    // ad_start
+    globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
+    // ad_end
     ],
         ),
       ),

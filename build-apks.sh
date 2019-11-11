@@ -2,6 +2,9 @@
 
 version=$1
 fossness="foss"
+# ad_start
+fossness="play"
+# ad_end
 
 if [[ -z "$version" ]]; then
     echo "Nem adtál meg verziót!"

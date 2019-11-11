@@ -1,5 +1,8 @@
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
+// ad_start
+import 'package:e_szivacs/screens/mainScreen.dart';
+// ad_end
 
 import 'Datas/Account.dart';
 import 'Datas/User.dart';
@@ -213,6 +216,9 @@ class GDrawerState extends State<GDrawer> {
                 .evaluations,
               style: TextStyle(color: screen == 1 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 1;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/evaluations");
@@ -241,6 +247,9 @@ class GDrawerState extends State<GDrawer> {
                 .homeworks,
               style: TextStyle(color: screen == 8 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 8;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/homework");
@@ -255,6 +264,9 @@ class GDrawerState extends State<GDrawer> {
                 .notes,
               style: TextStyle(color: screen == 3 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
 
               screen = 3;
               Navigator.pop(context); // close the drawer
@@ -268,6 +280,9 @@ class GDrawerState extends State<GDrawer> {
             title: new Text(S.of(context).tests,
               style: TextStyle(color: screen == 10 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 10;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/tests");
@@ -280,6 +295,9 @@ class GDrawerState extends State<GDrawer> {
             title: new Text(S.of(context).messages,
               style: TextStyle(color: screen == 11 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 11;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/messages");
@@ -293,6 +311,9 @@ class GDrawerState extends State<GDrawer> {
                 .absent_title,
               style: TextStyle(color: screen == 5 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 5;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/absents");
@@ -320,6 +341,9 @@ class GDrawerState extends State<GDrawer> {
                 .accounts,
               style: TextStyle(color: screen == 4 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 4;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/accounts");
@@ -333,11 +357,17 @@ class GDrawerState extends State<GDrawer> {
                 .settings,
               style: TextStyle(color: screen == 7 ? Theme.of(context).accentColor : null),),
             onTap: () {
+              // ad_start
+              MainScreenState().tryLoadAds();
+              // ad_end
               screen = 7;
               Navigator.pop(context); // close the drawer
               Navigator.pushReplacementNamed(context, "/settings");
             },
           ),
+          // ad_start
+          loaded ? new Container(width: 400, height: adHeight):Container()
+          // ad_end
         ],
       ),
       ),
