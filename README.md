@@ -27,7 +27,7 @@ Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivac
 
 #### Android:
 <a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a> <br>
-(Jelenleg a Google Playen nem vagyunk fent a Krétás e-mailek miatt)
+(Jelenleg a Google Playen változó, hogy fenn van-e az app, az épp aktuális Krétás helyzetnek megfelelően)
 
 <a href='https://t.me/eSzivacs/'>
 <img alt='Töltsd le a Telegram Chaten!' src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F8%2F82%2FTelegram_logo.svg%2F1200px-Telegram_logo.svg.png&f=1&nofb=1' height=56px /></a> <br>
