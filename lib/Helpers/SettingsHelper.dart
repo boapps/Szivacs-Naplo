@@ -129,11 +129,11 @@ class SettingsHelper {
   }
 
   Future<bool> getAcceptBlock() async {
-    return await _getProperty("acceptBlock", false);
+    return await _getProperty("acceptBlockV2", false);
   }
 
   Future<void> setAcceptBlock(bool value) async {
-    await _setPropertyBool("acceptBlock", value);
+    await _setPropertyBool("acceptBlockV2", value);
   }
 
   static const List<Color> COLORS = [
