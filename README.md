@@ -58,7 +58,7 @@ Ennek ellenére [hajducsekb](https://github.com/hajducsekb) legyártott egy [.ip
 ```
 BSD 2-Clause License
 
-Copyright (c) 2019, boapps
+Copyright (c) 2019, Botos András
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
