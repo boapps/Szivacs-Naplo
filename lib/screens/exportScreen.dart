@@ -55,8 +55,8 @@ class ExportScreenState extends State<ExportScreen> {
 
   TextEditingController controller = new TextEditingController();
   User selectedUser = globals.users[0];
-  List<String> exportOptions = ["jegyek", "órák", "felhasználók", ];
-  List<String> formatOptions = ["json", "CSV"];
+  List<String> get exportOptions => [S.of(context).export_grades, S.of(context).export_lessons, S.of(context).export_accounts];
+  List<String> formatOptions = ["JSON", "CSV"];
   List<String> formats = [".json", ".csv"];
   int selectedData = 0;
   int selectedFormat = 0;
@@ -135,7 +135,7 @@ class ExportScreenState extends State<ExportScreen> {
                             setState(() {});
                           }
                         },
-                        child: new Text(selectedDate??"válassz intervallumot"),
+                        child: new Text(selectedDate??S.of(context).export_interval),
                     ):new Container(),
 
                     (selectedData != 2) ? new DropdownButton(items: formatOptions.map((String exportFormat){
@@ -180,7 +180,7 @@ class ExportScreenState extends State<ExportScreen> {
                                 file.writeAsString(data).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
-                                        msg: "export sikeres: " + path,
+                                        msg: S.of(context).export_success + ": " + path,
                                         backgroundColor: Colors.green,
                                         textColor: Colors.white,
                                         fontSize: 16.0
@@ -204,7 +204,7 @@ class ExportScreenState extends State<ExportScreen> {
                                 file.writeAsString(csv).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
-                                        msg: "export sikeres: " + path,
+                                        msg: S.of(context).export_success + ": " + path,
                                         backgroundColor: Colors.green,
                                         textColor: Colors.white,
                                         fontSize: 16.0
@@ -224,7 +224,7 @@ class ExportScreenState extends State<ExportScreen> {
                             file.writeAsString(data).then((File f){
                               if (f.existsSync())
                                 Fluttertoast.showToast(
-                                    msg: "export sikeres: " + path,
+                                    msg: S.of(context).export_success + ": " + path,
                                     backgroundColor: Colors.green,
                                     textColor: Colors.white,
                                     fontSize: 16.0
@@ -246,7 +246,7 @@ class ExportScreenState extends State<ExportScreen> {
                                 file.writeAsString(data).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
-                                        msg: "export sikeres: " + path,
+                                        msg: S.of(context).export_success + ": " + path,
                                         backgroundColor: Colors.green,
                                         textColor: Colors.white,
                                         fontSize: 16.0
@@ -271,7 +271,7 @@ class ExportScreenState extends State<ExportScreen> {
                                 file.writeAsString(csv).then((File f){
                                   if (f.existsSync())
                                     Fluttertoast.showToast(
-                                        msg: "export sikeres: " + path,
+                                        msg: S.of(context).export_success + ": " + path,
                                         backgroundColor: Colors.green,
                                         textColor: Colors.white,
                                         fontSize: 16.0
@@ -279,7 +279,7 @@ class ExportScreenState extends State<ExportScreen> {
                                 });
                               });
                           }                      }
-                    }, child: new Text("Export", style: TextStyle(color: Colors.white),), color: Colors.blue[700],),
+                    }, child: new Text(S.of(context).export, style: TextStyle(color: Colors.white),), color: Colors.blue[700],),
                         margin: EdgeInsets.all(16),
                     ),
                   ],

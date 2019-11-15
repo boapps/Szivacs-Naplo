@@ -68,7 +68,7 @@ class TomorrowLessonCard extends StatelessWidget {
               ),
             ),
           ],
-          title: Text("A holnapi órarend"),
+          title: Text(S.of(context).tomorrow_timetable),
           contentPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -92,7 +92,7 @@ class TomorrowLessonCard extends StatelessWidget {
             new Container(
               child: Wrap(
                 children: <Widget>[
-                  new Text("Holnap lesz",
+                  new Text(S.of(context).tomorrow,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
@@ -103,7 +103,7 @@ class TomorrowLessonCard extends StatelessWidget {
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
-                  new Text("óra.",
+                  new Text(S.of(context).tomorrow_lessons,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),

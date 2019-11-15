@@ -61,6 +61,12 @@ class S implements WidgetsLocalizations {
   String get endyear => "end-year";
   String get evaluations => "Evaluations";
   String get excluding_delay => "*excluding delay";
+  String get export => "export";
+  String get export_accounts => "accounts";
+  String get export_grades => "grades";
+  String get export_interval => "choose an interval";
+  String get export_lessons => "lessons";
+  String get export_success => "export successful";
   String get faq => "FAQ";
   String get flutter => "Flutter";
   String get github => "GitHub";
@@ -126,6 +132,8 @@ class S implements WidgetsLocalizations {
   String get school => "School: ";
   String get settings => "Settings";
   String get settings_ad => "Show ads";
+  String get settings_amoled => "Amoled";
+  String get settings_next_lesson => "Next lesson";
   String get short_friday => "F";
   String get short_monday => "M";
   String get short_saturday => "Sa";
@@ -153,6 +161,9 @@ class S implements WidgetsLocalizations {
   String get timetable => "Timetable";
   String get title => "Szivacs Napló";
   String get title_full => "Szivacs Napló";
+  String get tomorrow => "Tomorrow you'll have";
+  String get tomorrow_lessons => "lessons";
+  String get tomorrow_timetable => "Tomorrow's timetable";
   String get two_months => "two months";
   String get upload_time => "upload time: ";
   String get uploader => "uploader: ";
@@ -186,10 +197,6 @@ class $hu extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get faq => "GYIK";
-  @override
-  String get tests => "Számonkérések";
-  @override
   String get grade5 => "5-ös osztályzat:";
   @override
   String get grade4 => "4-es osztályzat:";
@@ -216,9 +223,17 @@ class $hu extends S {
   @override
   String get password => "jelszó";
   @override
+  String get settings_next_lesson => "Következő óra";
+  @override
   String get colorful_mainpage => "Színes főoldal";
   @override
+  String get export_accounts => "accounts";
+  @override
+  String get faq => "GYIK";
+  @override
   String get state => "állapot: ";
+  @override
+  String get settings_amoled => "Amoled";
   @override
   String get github => "GitHub";
   @override
@@ -286,7 +301,11 @@ class $hu extends S {
   @override
   String get lesson_end => "óra vége: ";
   @override
+  String get export_grades => "jegyek";
+  @override
   String get homework => "házi";
+  @override
+  String get tomorrow_timetable => "A holnapi órarend";
   @override
   String get missed => "elmarad";
   @override
@@ -346,11 +365,15 @@ class $hu extends S {
   @override
   String get later => "múlva";
   @override
+  String get export_interval => "válassz intervallumot";
+  @override
   String get school => "Iskola: ";
   @override
   String get absences_title => "Hiányzások";
   @override
   String get day => "nap";
+  @override
+  String get export => "export";
   @override
   String get info => "Infó";
   @override
@@ -364,6 +387,10 @@ class $hu extends S {
   @override
   String get datas => "Adatok";
   @override
+  String get export_lessons => "órák";
+  @override
+  String get tomorrow_lessons => "óra";
+  @override
   String get weight => "súly: ";
   @override
   String get average_menu => "átlag";
@@ -376,9 +403,13 @@ class $hu extends S {
   @override
   String get done => "kész";
   @override
+  String get export_success => "export sikeres";
+  @override
   String get flutter => "Flutter";
   @override
   String get dep_teacher => "helyettesítő tanár";
+  @override
+  String get tests => "Számonkérések";
   @override
   String get month => "hónap";
   @override
