@@ -1,6 +1,6 @@
 {
-  "title": "e-Szivacs",
-  "title_full": "e-Szivacs 2",
+  "title": "Szivacs Napló",
+  "title_full": "Szivacs Napló",
   "version": "verzió: ",
   "version_number": "2.0",
   "made_by": "készítette: ",
@@ -149,5 +149,17 @@
   "success": "Siker",
   "faq": "GYIK",
   "notification_failed": "Nem sikerül bekapcsolni az értesítéseket",
-  "tests": "Számonkérések"
+  "tests": "Számonkérések",
+  "settings_ad": "Reklámok mutatása",
+  "settings_next_lesson": "Következő óra",
+  "export_grades": "jegyek",
+  "export_lessons": "órák",
+  "export_accounts": "accounts",
+  "tomorrow_have": "Holnap lesz",
+  "tomorrow_lessons": "óra",
+  "settings_amoled": "Amoled",
+  "export": "export",
+  "export_success": "export sikeres",
+  "export_interval": "válassz intervallumot",
+  "tomorrow_timetable": "A holnapi órarend"
 }

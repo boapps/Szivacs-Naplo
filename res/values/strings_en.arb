@@ -1,6 +1,6 @@
 {
-  "title": "e-Szivacs",
-  "title_full": "e-Szivacs 2",
+  "title": "Szivacs Napló",
+  "title_full": "Szivacs Napló",
   "version": "version: ",
   "version_number": "2.0",
   "made_by": "made by: ",
@@ -149,5 +149,17 @@
   "success": "Success",
   "faq": "FAQ",
   "notification_failed": "Failed to turn on notifications",
-  "tests": "Tests"
+  "tests": "Tests",
+  "settings_ad": "Show ads",
+  "settings_next_lesson": "Next lesson",
+  "export_grades": "grades",
+  "export_lessons": "lessons",
+  "export_accounts": "accounts",
+  "tomorrow": "Tomorrow you'll have",
+  "tomorrow_lessons": "lessons",
+  "settings_amoled": "Amoled",
+  "export": "export",
+  "export_success": "export successful",
+  "export_interval": "choose an interval",
+  "tomorrow_timetable": "Tomorrow's timetable"
 }

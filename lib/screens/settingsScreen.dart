@@ -290,7 +290,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SwitchListTile(
                   title: new Text(
-                    "Amoled",
+                    S.of(context).settings_amoled,
                     style: TextStyle(fontSize: 20.0),
                   ),
                   activeColor: Theme.of(context).accentColor,
@@ -376,7 +376,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SwitchListTile(
                   title: new Text(
-                    "Következő óra",
+                    S.of(context).next_lesson,
                     style: TextStyle(fontSize: 20.0),
                   ),
                   value: nextLesson,
@@ -477,7 +477,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 !Platform.isIOS ? new ListTile(
                   leading: new Icon(Icons.import_export),
-                  title: new Text("Export"),
+                  title: new Text(S.of(context).export),
                   onTap: () {
                     Navigator.pushNamed(context, "/export");
                   },
