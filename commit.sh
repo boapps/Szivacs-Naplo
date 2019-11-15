@@ -26,4 +26,5 @@ else
     git checkout play-edition
 
     rm -rf ../.szivacs-tmp/
+    flutter pub get
 fi
