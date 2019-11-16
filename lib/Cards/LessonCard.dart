@@ -2,6 +2,7 @@ import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Lesson.dart';
+import '../Dialog/HomeWorkDialog.dart';
 import '../Dialog/NewHomeworkDialog.dart';
 import "../Utils/StringFormatter.dart";
 import 'dart:async';
@@ -46,41 +47,14 @@ class LessonCard extends StatelessWidget {
   }
 
   Future<Null> _lessonInfoDialog(Lesson lesson) async {
-    return showDialog<Null>(
+    return showDialog(
+      barrierDismissible: true,
       context: context,
-      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
-        return new AlertDialog(
-          title: new Text(lesson.subject),
-          content: new SingleChildScrollView(
-            child: new ListBody(
-              children: <Widget>[
-                new Text(S.of(context).room + lesson.room),
-                new Text(S.of(context).teacher + lesson.teacher),
-                new Text(S.of(context).group + lesson.group),
-                new Text(
-                    S.of(context).lesson_start + getLessonStartText(lesson)),
-                new Text(S.of(context).lesson_end + getLessonEndText(lesson)),
-                lesson.isMissed
-                    ? new Text(S.of(context).state + lesson.stateName)
-                    : new Container(),
-                (lesson.theme != "" && lesson.theme != null)
-                    ? new Text(S.of(context).theme + lesson.theme)
-                    : new Container(),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text(S.of(context).ok),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return new HomeworkDialog(lesson);
       },
-    );
+    ) ??
+        false;
   }
 
   Future<Null> _lessonsDialog(List<Lesson> lessons) async {

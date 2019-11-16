@@ -39,8 +39,7 @@ class HomeworkDialogState extends State<HomeworkDialog> {
                 : new Container(),
 
             widget.lesson.homework != null ? new Text("\n" + S.of(context).homework + ":"):Container(),
-            widget.lesson.homework != null ? new Divider(color: Colors.blueGrey,):Container(),
-            
+            widget.lesson.homework != null ? new Divider(color: Colors.blueGrey,):Container(),            
             Column(
               children: globals.currentHomeworks.map<Widget>((Homework homework){
                 return ListTile(
