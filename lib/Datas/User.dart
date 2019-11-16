@@ -12,6 +12,8 @@ class User {
   String parentName;
   String parentId;
   Color color;
+  Map<String, String> lastRefreshMap = Map();
+  static const RATE_LIMIT_MINUTES = 5;
 
   User(this.id, this.username, this.password, this.name,
       this.schoolCode, this.schoolUrl, this.schoolName, this.parentName,
@@ -29,15 +31,31 @@ class User {
     parentId = json["parentId"];
     try {
       color = Color(json["color"]);
-
     } catch (e) {
       color = Color(0);
-    } finally {
-
+    }
+    try {
+      lastRefreshMap = json["lastRefreshMap"] ?? Map();
+    } catch (e) {
+      print(e);
     }
   }
 
   bool isSelected() => id == globals.selectedUser.id;
+
+  bool getRecentlyRefreshed(String request) {
+    if (lastRefreshMap != null)
+      if (lastRefreshMap.containsKey(request))
+        return DateTime.now().difference(DateTime.parse(
+            lastRefreshMap[request])
+        ).inMinutes < RATE_LIMIT_MINUTES;
+
+    return false;
+  }
+
+  void setRecentlyRefreshed(String request) {
+    lastRefreshMap.update(request, (String s) => DateTime.now().toIso8601String(), ifAbsent: () => DateTime.now().toIso8601String());
+  }
 
   Map<String, dynamic> toMap() {
     var userMap = {
@@ -51,7 +69,9 @@ class User {
       "parentName": parentName,
       "parentId": parentId,
       "color": color != null ? color.value : 0,
+      "lastRefreshMap": lastRefreshMap,
     };
+
     return userMap;
   }
 }

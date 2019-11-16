@@ -416,8 +416,9 @@ Boa
       }
     } else {
       try {
-        lessons = await getLessons(
-            startDate, startDate.add(Duration(days: 6)), globals.selectedUser, showErrors);
+          lessons = await getLessons(
+              startDate, startDate.add(Duration(days: 6)), globals.selectedUser,
+              showErrors);
       } catch (exception) {
         print(exception);
       }
