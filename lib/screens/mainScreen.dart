@@ -81,7 +81,7 @@ class MainScreenState extends State<MainScreen> {
             Text("""
 A krétások csütörtök reggel feloldották a blokkolást, úgyhogy megint megy a szivacs, innen is köszönöm nekik!
 
-Szerintem szép gesztus lenne, ha azok, akik eddig emiatt egy csillagra értékelték őket, most többet adnának, szerintem megérdemlik.
+Szerintem szép gesztus lenne, ha azok, akik eddig emiatt 1 csillagosra értékelték őket, most ezért 5-öst adnának, szerintem megérdemlik.
 
 Üdv.:
 Boa
