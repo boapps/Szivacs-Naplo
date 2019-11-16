@@ -73,7 +73,7 @@ class SettingsHelper {
   }
 
   Future<int> getRefreshNotification() async {
-    return await _getProperty("RefreshNotification", 15);
+    return await _getProperty("RefreshNotification", 60);
   }
 
   void setSingleUser(bool value) {
