@@ -39,7 +39,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool nextLesson;
   String _lang = "auto";
 
-  static const List<String> LANG_LIST = ["auto", "en", "hu"];
+  static const List<String> LANG_LIST = ["auto", "en", "hu", "de"];
 
   final List<int> refreshArray = [60, 90, 120, 360, 720];
   int _refreshNotification;
