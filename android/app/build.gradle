@@ -49,25 +49,15 @@ android {
     }
     flavorDimensions "version"
     productFlavors {
-        play_release {
+        play {
             dimension "version"
             applicationIdSuffix ""
             versionNameSuffix ""
         }
-        play_beta {
-            dimension "version"
-            applicationIdSuffix ""
-            versionNameSuffix "-beta"
-        }
-        foss_release {
+        foss {
             dimension "version"
             applicationIdSuffix ".foss"
             versionNameSuffix ""
-        }
-        foss_beta {
-            dimension "version"
-            applicationIdSuffix ".foss"
-            versionNameSuffix "-beta"
         }
     }
 
