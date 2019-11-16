@@ -9,3 +9,5 @@ build/
 ios/.generated/
 packages
 .flutter-plugins
+android/.gradle
+android/local.properties
