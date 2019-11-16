@@ -307,6 +307,8 @@ class $hu extends S {
   @override
   String get tomorrow_timetable => "A holnapi órarend";
   @override
+  String get tomorrow => "Holnap lesz";
+  @override
   String get missed => "elmarad";
   @override
   String get color_teal => "kékeszöld";
