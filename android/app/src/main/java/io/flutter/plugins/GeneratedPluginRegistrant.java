@@ -3,7 +3,6 @@ package io.flutter.plugins;
 import io.flutter.plugin.common.PluginRegistry;
 import com.transistorsoft.flutter.backgroundfetch.BackgroundFetchPlugin;
 import io.flutter.plugins.connectivity.ConnectivityPlugin;
-import io.flutter.plugins.firebaseadmob.FirebaseAdMobPlugin;
 import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
 import com.benzneststudios.flutter_rounded_date_picker.FlutterRoundedDatePickerPlugin;
 import com.it_nomads.fluttersecurestorage.FlutterSecureStoragePlugin;
@@ -24,7 +23,6 @@ public final class GeneratedPluginRegistrant {
     }
     BackgroundFetchPlugin.registerWith(registry.registrarFor("com.transistorsoft.flutter.backgroundfetch.BackgroundFetchPlugin"));
     ConnectivityPlugin.registerWith(registry.registrarFor("io.flutter.plugins.connectivity.ConnectivityPlugin"));
-    FirebaseAdMobPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebaseadmob.FirebaseAdMobPlugin"));
     FlutterLocalNotificationsPlugin.registerWith(registry.registrarFor("com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin"));
     FlutterRoundedDatePickerPlugin.registerWith(registry.registrarFor("com.benzneststudios.flutter_rounded_date_picker.FlutterRoundedDatePickerPlugin"));
     FlutterSecureStoragePlugin.registerWith(registry.registrarFor("com.it_nomads.fluttersecurestorage.FlutterSecureStoragePlugin"));
