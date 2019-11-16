@@ -30,7 +30,7 @@ android {
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
+            //storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
     }
@@ -48,7 +48,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "version"
-    productFlavors {
+    /*productFlavors {
         play_release {
             dimension "version"
             applicationIdSuffix ""
@@ -69,7 +69,7 @@ android {
             applicationIdSuffix ".foss"
             versionNameSuffix "-beta"
         }
-    }
+    }*/
 
 }
 
