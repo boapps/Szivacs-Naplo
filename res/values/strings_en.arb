@@ -110,7 +110,7 @@
   "lessons": "lessons: $db",
   "absence": "absences",
   "next_lesson": "Next lesson: ",
-  "later": "later",
+  "later": "from now",
   "main_page": "Mainpage",
   "absences_title": "Absences",
   "sort_time": "upload time",
