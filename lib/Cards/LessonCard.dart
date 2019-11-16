@@ -38,22 +38,23 @@ class LessonCard extends StatelessWidget {
 
   String progress() {
     int n = 0;
-    for (Lesson lesson in lessons)
-      if (lesson.start.day == now.day)
-        n++;
-      if (getNext()!=null)
-        return (lessons.indexWhere((Lesson l) => l.id==getNext().id) + 1).toString() + "/" + n.toString();
-      return "error";
+    for (Lesson lesson in lessons) if (lesson.start.day == now.day) n++;
+    if (getNext() != null)
+      return (lessons.indexWhere((Lesson l) => l.id == getNext().id) + 1)
+              .toString() +
+          "/" +
+          n.toString();
+    return "error";
   }
 
   Future<Null> _lessonInfoDialog(Lesson lesson) async {
     return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) {
-        return new HomeworkDialog(lesson);
-      },
-    ) ??
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            return new HomeworkDialog(lesson);
+          },
+        ) ??
         false;
   }
 
@@ -66,37 +67,63 @@ class LessonCard extends StatelessWidget {
           children: <Widget>[
             new SingleChildScrollView(
               child: new ListBody(
-                  children: lessons.map((Lesson lesson){
-                    return new Column(
-                        children: <Widget>[
-                          new ListTile(
-                            title: new Text(lesson.subject, style: new TextStyle(
-                                color: (lesson.end.isBefore(now))
-                                    ? Colors.grey
-                                    : null),),
-                            enabled: true,
-                            onTap: (){_lessonInfoDialog(lesson);},
-                            subtitle: new Text(lesson.teacher, style: new TextStyle(
-                                color: (lesson.end.isBefore(now))
-                                    ? Colors.grey
-                                    : null),),
-                            leading: new Container(child: new Text(
-                              lesson.count != -1 ? lesson.count.toString() : "+",
-                              style: new TextStyle(
-                                color: (lesson.end.isBefore(now)) ? Colors.grey : null,
-                                fontSize: 21),),
-                              alignment: Alignment(0, 1),
-                              height: 40,
-                              width: 20,),
-                          ),
-                          new Container(child: new Text(lesson.room,
-                            style: new TextStyle(color: (lesson.end.isBefore(now))
-                                ? Colors.grey
-                                : null),), alignment: Alignment(1, 0),),
-                          new Divider(color: Colors.blueGrey,),
-                        ]);
-                  }).toList()
-              ),
+                  children: lessons.map((Lesson lesson) {
+                return new Column(children: <Widget>[
+                  new ListTile(
+                    title: new Text(
+                      lesson.subject,
+                      style: new TextStyle(
+                          color:
+                              (lesson.end.isBefore(now)) ? Colors.grey : null),
+                    ),
+                    enabled: true,
+                    onTap: () {
+                      _lessonInfoDialog(lesson);
+                    },
+                    subtitle: new Text(
+                      lesson.teacher,
+                      style: new TextStyle(
+                          color:
+                              (lesson.end.isBefore(now)) ? Colors.grey : null),
+                    ),
+                    leading: new Container(
+                      child: new Text(
+                        lesson.count != -1 ? lesson.count.toString() : "+",
+                        style: new TextStyle(
+                            color:
+                                (lesson.end.isBefore(now)) ? Colors.grey : null,
+                            fontSize: 21),
+                      ),
+                      alignment: Alignment(0, 1),
+                      height: 40,
+                      width: 20,
+                    ),
+                  ),
+                  new Row(
+                    //Bottom row containing room number and a house icon if there is homework set for the lesson.
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          lesson.homework != null ? "⌂" : "",
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          lesson.room,
+                          style: new TextStyle(
+                              color: (lesson.end.isBefore(now))
+                                  ? Colors.grey
+                                  : null),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                    ],
+                  ),
+                  new Divider(
+                    color: Colors.blueGrey,
+                  ),
+                ]);
+              }).toList()),
             ),
           ],
           title: Text("Órák"),
@@ -116,7 +143,9 @@ class LessonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){_lessonsDialog(lessons);},
+      onTap: () {
+        _lessonsDialog(lessons);
+      },
       child: new Card(
         child: new Column(
           children: <Widget>[
@@ -124,14 +153,12 @@ class LessonCard extends StatelessWidget {
               child: Wrap(
                 children: <Widget>[
                   new Text(
-                    S
-                        .of(context)
-                        .next_lesson,
+                    S.of(context).next_lesson,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
                   ),
-                  new Text(getNext()!=null?getNext().subject:"error",
+                  new Text(getNext() != null ? getNext().subject : "error",
                       style: new TextStyle(
                           fontSize: 18.0, color: Colors.blueAccent)),
                   new Text(", ",
@@ -140,16 +167,21 @@ class LessonCard extends StatelessWidget {
                       )),
                   Container(
                     padding: EdgeInsets.only(right: 5),
-                    child: new Text(getNext()!=null?getNext().start.difference(DateTime.now()).inMinutes.toString() + " " + S
-                        .of(context)
-                        .minute:"error",
+                    child: new Text(
+                        getNext() != null
+                            ? getNext()
+                                    .start
+                                    .difference(DateTime.now())
+                                    .inMinutes
+                                    .toString() +
+                                " " +
+                                S.of(context).minute
+                            : "error",
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
                   new Text(
-                    S
-                        .of(context)
-                        .later,
+                    S.of(context).later,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
@@ -171,16 +203,16 @@ class LessonCard extends StatelessWidget {
                   padding: new EdgeInsets.all(0.0),
                   child: new Row(
                     children: <Widget>[
-                      new Text(getNext()!=null?getNext().room:"error",
+                      new Text(getNext() != null ? getNext().room : "error",
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.blueAccent)),
                       new Expanded(
                           child: new Container(
-                            child: new Text(progress(),
-                                style: new TextStyle(
-                                    fontSize: 18.0, color: Colors.blueAccent)),
-                            alignment: Alignment(1.0, 0.0),
-                          ))
+                        child: new Text(progress(),
+                            style: new TextStyle(
+                                fontSize: 18.0, color: Colors.blueAccent)),
+                        alignment: Alignment(1.0, 0.0),
+                      ))
                     ],
                   ),
                 ))
