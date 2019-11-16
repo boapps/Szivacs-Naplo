@@ -10,6 +10,9 @@ import 'Datas/Note.dart';
 import 'Datas/Homework.dart';
 import 'Datas/Lesson.dart';
 import 'Datas/Account.dart';
+// ad_start
+import 'package:firebase_admob/firebase_admob.dart';
+// ad_end
 
 bool firstMain = true;
 String version;
@@ -68,3 +71,9 @@ var store = StoreRef.main();
 
 List<Homework> currentHomeworks = List();
 
+// ad_start
+bool isAds = false;
+BannerAd myBanner;
+double adHeight;
+bool loaded = false;
+// ad_end
