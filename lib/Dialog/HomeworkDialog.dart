@@ -37,12 +37,14 @@ class HomeworkDialogState extends State<HomeworkDialog> {
             (widget.lesson.theme != "" && widget.lesson.theme != null)
                 ? new Text(S.of(context).theme + widget.lesson.theme)
                 : new Container(),
+
             widget.lesson.homework != null ? new Text("\n" + S.of(context).homework + ":"):Container(),
+            widget.lesson.homework != null ? new Divider(color: Colors.blueGrey,):Container(),            
             Column(
               children: globals.currentHomeworks.map<Widget>((Homework homework){
                 return ListTile(
-                  title: Text(homework.uploader + " " + homework.uploadDate.substring(0, 10)), //, style: TextStyle(color: homework.byTeacher ? Colors.green:null),),
-                  subtitle: Html(data: HtmlUnescape().convert(homework.text)),
+                  title: Html(data: HtmlUnescape().convert(homework.text)),
+                  subtitle: Text(homework.uploader + " | " + homework.uploadDate.substring(0, 10)), //, style: TextStyle(color: homework.byTeacher ? Colors.green:null),),
                 );
               }).toList(),
             )

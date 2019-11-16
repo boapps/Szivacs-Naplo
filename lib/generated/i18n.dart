@@ -14,7 +14,7 @@ class S implements WidgetsLocalizations {
   static S current;
 
   static const GeneratedLocalizationsDelegate delegate =
-  GeneratedLocalizationsDelegate();
+    GeneratedLocalizationsDelegate();
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
@@ -94,7 +94,7 @@ class S implements WidgetsLocalizations {
   String get justification_mode => "justification method: ";
   String get justification_state => "justification status: ";
   String get language => "Language";
-  String get later => "later";
+  String get later => "from now";
   String get lesson => "lesson";
   String get lesson_end => "end of lesson: ";
   String get lesson_start => "start of lesson: ";
@@ -235,7 +235,7 @@ class $hu extends S {
   @override
   String get colorful_mainpage => "Színes főoldal";
   @override
-  String get export_accounts => "accounts";
+  String get export_accounts => "fiókok";
   @override
   String get faq => "GYIK";
   @override
@@ -381,7 +381,7 @@ class $hu extends S {
   @override
   String get day => "nap";
   @override
-  String get export => "export";
+  String get export => "Export";
   @override
   String get info => "Infó";
   @override
@@ -572,7 +572,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
           S.current = const $hu();
           return SynchronousFuture<S>(S.current);
         default:
-        // NO-OP.
+          // NO-OP.
       }
     }
     S.current = const S();
@@ -631,7 +631,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 }
 
 String getLang(Locale l) => l == null
-    ? null
-    : l.countryCode != null && l.countryCode.isEmpty
+  ? null
+  : l.countryCode != null && l.countryCode.isEmpty
     ? l.languageCode
     : l.toString();

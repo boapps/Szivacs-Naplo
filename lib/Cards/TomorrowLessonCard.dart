@@ -1,7 +1,9 @@
+import 'package:e_szivacs/Dialog/HomeworkDialog.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Lesson.dart';
+import '../Dialog/HomeWorkDialog.dart';
 
 class TomorrowLessonCard extends StatelessWidget {
   List<Lesson> lessons;
@@ -12,7 +14,8 @@ class TomorrowLessonCard extends StatelessWidget {
   TomorrowLessonCard(List<Lesson> lessons, BuildContext context, DateTime now) {
     this.now = now;
     this.lessons = lessons;
-    lessons.removeWhere((Lesson l) => l.start.day != now.add(Duration(days: 1)).day);
+    lessons.removeWhere(
+        (Lesson l) => l.start.day != now.add(Duration(days: 1)).day);
     numOfAbsences = lessons.length;
     this.context = context;
   }
@@ -36,6 +39,17 @@ class TomorrowLessonCard extends StatelessWidget {
     _lessonsDialog(lessons);
   }
 
+  Future<Null> _lessonInfoDialog(Lesson lesson) async {
+    return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            return new HomeworkDialog(lesson);
+          },
+        ) ??
+        false;
+  }
+
   Future<Null> _lessonsDialog(List<Lesson> lessons) async {
     return showDialog<Null>(
       context: context,
@@ -45,30 +59,66 @@ class TomorrowLessonCard extends StatelessWidget {
           children: <Widget>[
             new SingleChildScrollView(
               child: new ListBody(
-                children: lessons.map((Lesson l){
-                  return new Column(
-                      children: <Widget>[
-                        new ListTile(
-                          title: new Text(l.subject),
-                          enabled: true,
-                          onTap: null,
-                          subtitle: new Text(l.teacher),
-                          leading: new Container(child: new Text(
-                            l.count.toString(), style: new TextStyle(
-                              fontSize: 21),),
-                            alignment: Alignment(0, 1),
-                            height: 40,
-                            width: 20,),
+                  children: lessons.map((Lesson lesson) {
+                return new Column(children: <Widget>[
+                  new ListTile(
+                    title: new Text(
+                      lesson.subject,
+                      style: new TextStyle(
+                          color:
+                              (lesson.end.isBefore(now)) ? Colors.grey : null),
+                    ),
+                    enabled: true,
+                    onTap: () {
+                      _lessonInfoDialog(lesson);
+                    },
+                    subtitle: new Text(
+                      lesson.teacher,
+                      style: new TextStyle(
+                          color:
+                              (lesson.end.isBefore(now)) ? Colors.grey : null),
+                    ),
+                    leading: new Container(
+                      child: new Text(
+                        lesson.count != -1 ? lesson.count.toString() : "+",
+                        style: new TextStyle(
+                            color:
+                                (lesson.end.isBefore(now)) ? Colors.grey : null,
+                            fontSize: 21),
+                      ),
+                      alignment: Alignment(0, 1),
+                      height: 40,
+                      width: 20,
+                    ),
+                  ),
+                  new Row(
+                    //Bottom row containing room number and a house icon if there is homework set for the lesson.
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          lesson.homework != null ? "⌂" : "",
                         ),
-                        new Container(child: new Text(l.room),
-                          alignment: Alignment(1, 0),),
-                        new Divider(color: Colors.blueGrey,),
-                      ]);
-                }).toList()
-              ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          lesson.room,
+                          style: new TextStyle(
+                              color: (lesson.end.isBefore(now))
+                                  ? Colors.grey
+                                  : null),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                    ],
+                  ),
+                  new Divider(
+                    color: Colors.blueGrey,
+                  ),
+                ]);
+              }).toList()),
             ),
           ],
-          title: Text(S.of(context).tomorrow_timetable),
+          title: Text("Holnapi órák"), //todo fordítási adatbázisból!
           contentPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -92,7 +142,8 @@ class TomorrowLessonCard extends StatelessWidget {
             new Container(
               child: Wrap(
                 children: <Widget>[
-                  new Text(S.of(context).tomorrow,
+                  new Text(
+                    S.of(context).tomorrow,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
@@ -103,7 +154,8 @@ class TomorrowLessonCard extends StatelessWidget {
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
-                  new Text(S.of(context).tomorrow_lessons,
+                  new Text(
+                    S.of(context).tomorrow_lessons,
                     style: new TextStyle(
                       fontSize: 18.0,
                     ),
