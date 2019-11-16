@@ -41,7 +41,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   static const List<String> LANG_LIST = ["auto", "en", "hu"];
 
-  final List<int> refreshArray = [15, 30, 60, 120, 360];
+  final List<int> refreshArray = [60, 90, 120, 360, 720];
   int _refreshNotification;
   int _theme;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
