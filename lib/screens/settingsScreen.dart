@@ -38,9 +38,6 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _canSyncOnData;
   bool nextLesson;
   String _lang = "auto";
-  // ad_start
-  bool _isAds;
-  // ad_end
 
   static const List<String> LANG_LIST = ["auto", "en", "hu"];
 
@@ -61,9 +58,6 @@ class SettingsScreenState extends State<SettingsScreen> {
     _amoled = await SettingsHelper().getAmoled();
     _canSyncOnData = await SettingsHelper().getCanSyncOnData();
     nextLesson = await SettingsHelper().getNextLesson();
-    // ad_start
-    _isAds = await SettingsHelper().getAds();
-    // ad_end
 
     setState(() {});
   }
@@ -132,24 +126,6 @@ class SettingsScreenState extends State<SettingsScreen> {
       SettingsHelper().setLogo(_isLogo);
     });
   }
-  // ad_start
-  void _isAdsChange(bool value) {
-    setState(() {
-      _isAds = value;
-      globals.isAds = value;
-      SettingsHelper().setAds(_isAds);
-
-      if (!value) {
-        if (globals.myBanner != null)
-          globals.myBanner.dispose();
-        globals.myBanner = null;
-        globals.loaded = false;
-      } else {
-        MainScreenState().tryLoadAds();
-      }
-    });
-  }
-  // ad_end
 
   void _isColorChange(bool value) {
     setState(() {
@@ -462,20 +438,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                       fontFamily: "Material Design Icons"),
                   ),
                 ),
-                // ad_start
-                SwitchListTile(
-                  title: new Text(
-                    S.of(context).settings_ad,
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  onChanged: _isAdsChange,
-                  value: _isAds,
-                  activeColor: Theme.of(context).accentColor,
-                  secondary: new Icon(IconData(0xF6FA,
-                      fontFamily: "Material Design Icons"),
-                  ),
-                ),
-                // ad_end
                 ListTile(
                   title: new Text(
                     S
@@ -520,9 +482,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                     Navigator.pushNamed(context, "/export");
                   },
                 ):Container(),
-                // ad_start
-                globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
-                // ad_end
               ],
               padding: EdgeInsets.all(10),
             )

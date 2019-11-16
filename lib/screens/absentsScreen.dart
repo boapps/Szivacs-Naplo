@@ -110,9 +110,6 @@ class AbsentsScreenState extends State<AbsentsScreen> {
                             ),
                             onRefresh: _onRefresh),
                       ),
-                  // ad_start
-                  globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
-                  // ad_end
                 ])
                     : new Center(child: new CircularProgressIndicator()))));
   }
