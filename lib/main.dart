@@ -273,15 +273,9 @@ class LoginScreenState extends State<LoginScreen> {
         return new SimpleDialog(
           children: <Widget>[
             Text("""
-A krétások most megint elkezdték lassítani/blokkolni a szivacsot, így lehet, hogy nem működik majd a dolgok betöltése/bejelentkezés/stb. és hálózati hibát kaphattok.
+A krétások csütörtök reggel feloldották a blokkolást, úgyhogy megint megy a szivacs, innen is köszönöm nekik!
 
-Egyelőre úgy néz ki, hogy a Klik-es iskolák érintettek, ez kb 3000 az összes 3800 krétás iskolából.
-
-Ez nem az én hibám, én nem tudok vele mit csinálni (próbáltam, de aztán meg kaptam az e-mail-t, hogy ez illegális).
-
-Ha továbbra is szivacsot használnátok, kénytelenek lesztek kivárni, amíg végigmegy a lekérdezés (ez 1-2 perc is lehet) az is lehet, hogy nem megy minden elsőre és igen, ez így használhatatlan.
-
-Még próbálok velük beszélni, remélem, hogy hajlandóak lesznek enyhíteni lassításon!
+Szép gesztus lenne, ha azok, akik eddig emiatt 1 csillagosra értékelték őket, most ezért 5-öst adnának, szerintem megérdemlik.
 
 Üdv.:
 Boa
