@@ -4,7 +4,7 @@
 
 A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
 
-Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivacs Naplónak. Van egy play-edition branch is, amiben a Google Play áruházas verziónak a forráskódja van és amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. Ígérem, hogy soha nem lesz erőltetett reklám a Szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
+Ez a play áruházas verziója a Szivacs Naplónak, amiben vannak opcionális (bekapcsolható, de alapból kikapcsolt) reklámok. A foss branchben van a reklámmentes és google-dependency mentes verzió. Ígérem, hogy soha nem lesz erőltetett reklám a Szivacsban és mindig lesz egy "Google Play Services"-mentes teljesen FOSS verziója is az appnak.
 
 
 #### Jelenlegi funkciók:
@@ -27,7 +27,6 @@ Ez a 100% FOSS (Free and Open Source Software), reklámmentes verziója a Szivac
 
 #### Android:
 <a href='https://play.google.com/store/apps/details?id=io.github.boapps.meSzivacs&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/hu_badge_web_generic.png' height=56px /></a> <br>
-(Jelenleg a Google Playen nem vagyunk fent a Krétás e-mailek miatt)
 
 <a href='https://t.me/eSzivacs/'>
 <img alt='Töltsd le a Telegram Chaten!' src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F8%2F82%2FTelegram_logo.svg%2F1200px-Telegram_logo.svg.png&f=1&nofb=1' height=56px /></a> <br>
@@ -58,7 +57,7 @@ Ennek ellenére [hajducsekb](https://github.com/hajducsekb) legyártott egy [.ip
 ```
 BSD 2-Clause License
 
-Copyright (c) 2019, boapps
+Copyright (c) 2019, Botos András
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

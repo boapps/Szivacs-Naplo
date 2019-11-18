@@ -2,6 +2,9 @@
 
 version=$1
 fossness="foss"
+# ad_start
+fossness="play"
+# ad_end
 
 if [[ -z "$version" ]]; then
     echo "Nem adtál meg verziót!"
@@ -9,20 +12,11 @@ if [[ -z "$version" ]]; then
 else
     echo "Fájlok építése a $version verzióhoz..."
 
-    if [[ $2 == "beta" ]]; then
-        flavor="${fossness}_beta"
-        version="$version-beta"
-        echo "building beta version"
-        flutter build apk --flavor $flavor
-        flutter build appbundle --flavor $flavor --target-platform android-arm,android-arm64
-        flutter build apk --flavor $flavor --target-platform android-arm,android-arm64 --split-per-abi
-    else
-       flavor="${fossness}_release"
-       echo "building release version"
-       flutter build apk --flavor $flavor
-       flutter build appbundle --flavor $flavor --target-platform android-arm,android-arm64
-       flutter build apk --flavor $flavor --target-platform android-arm,android-arm64 --split-per-abi
-    fi
+    flavor="$fossness"
+    echo "building release version"
+    flutter build apk --flavor $flavor
+    flutter build appbundle --flavor $flavor --target-platform android-arm,android-arm64
+    flutter build apk --flavor $flavor --target-platform android-arm,android-arm64 --split-per-abi
 
     echo "A fájlok készen vannak, átmásolás a közös mappába..."
 

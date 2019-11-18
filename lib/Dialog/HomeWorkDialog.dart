@@ -51,7 +51,7 @@ class HomeWorkDialogState extends State<HomeWorkDialog> {
           child: Text(S.of(context).ok),
           onPressed: () {
             if (selectedDate != null){
-              RequestHelper().uploadHomework(homework, selectedDate + "22:00:00", widget.lesson, globals.selectedAccount.user);
+              RequestHelper().uploadHomework(homework, widget.lesson, globals.selectedAccount.user);
               Navigator.of(context).pop();
             } else {
               Fluttertoast.showToast(

@@ -14,7 +14,7 @@ class S implements WidgetsLocalizations {
   static S current;
 
   static const GeneratedLocalizationsDelegate delegate =
-    GeneratedLocalizationsDelegate();
+  GeneratedLocalizationsDelegate();
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
@@ -184,6 +184,14 @@ class S implements WidgetsLocalizations {
   String lessons(String db) => "lessons: $db";
   String parental_justification(String amount) => "Parental justification: $amount";
   String sync_frequency(String mins) => "Frequency of sync: $mins min";
+}
+
+class $de extends S {
+  const $de();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
 }
 
 class $en extends S {
@@ -529,6 +537,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
+      Locale("de", ""),
       Locale("en", ""),
       Locale("hu", ""),
     ];
@@ -555,6 +564,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     final String lang = getLang(locale);
     if (lang != null) {
       switch (lang) {
+        case "de":
+          S.current = const $de();
+          return SynchronousFuture<S>(S.current);
         case "en":
           S.current = const $en();
           return SynchronousFuture<S>(S.current);
@@ -562,7 +574,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
           S.current = const $hu();
           return SynchronousFuture<S>(S.current);
         default:
-          // NO-OP.
+        // NO-OP.
       }
     }
     S.current = const S();
@@ -621,7 +633,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 }
 
 String getLang(Locale l) => l == null
-  ? null
-  : l.countryCode != null && l.countryCode.isEmpty
+    ? null
+    : l.countryCode != null && l.countryCode.isEmpty
     ? l.languageCode
     : l.toString();

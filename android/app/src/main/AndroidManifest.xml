@@ -18,6 +18,12 @@
         android:label="Szivacs Napló"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
+        <!-- ad_start -->
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3792366820734167~2000232794"/>
+        <!-- ad_end -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-git push
 git checkout master
 git push
-git checkout play-edition
+git checkout foss
+git push
+git checkout master
+flutter pub get

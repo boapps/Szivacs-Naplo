@@ -133,6 +133,12 @@ class TimeTableScreenState extends State<TimeTableScreen>
   @override
   void initState() {
     super.initState();
+    // ad_start
+    if (globals.myBanner != null)
+      globals.myBanner.dispose();
+    globals.myBanner = null;
+    globals.loaded = false;
+    // ad_end
 
     initSelectedUser();
     startDateText = now;
@@ -298,6 +304,9 @@ class TimeTableScreenState extends State<TimeTableScreen>
                     crossAxisAlignment: CrossAxisAlignment.center,
                   ),
                 ),
+                // ad_start
+                globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
+                // ad_end
               ],
             )),
       ),
