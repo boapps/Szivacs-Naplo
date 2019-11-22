@@ -70,7 +70,7 @@ class RequestHelper {
           url,
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
-            "User-Agent": "szivacs_naplo",
+            "User-Agent": "",
             "Authorization": "Bearer " + accessToken
           });
 
@@ -121,7 +121,7 @@ class RequestHelper {
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-            "User-Agent": "szivacs_naplo"
+            "User-Agent": ""
           },
           body: jsonBody);
 
@@ -151,7 +151,7 @@ class RequestHelper {
             "HOST": user.schoolCode + ".e-kreta.hu",
             "Authorization": "Bearer " + token,
             "Content-Type": "application/json; charset=utf-8",
-            "User-Agent": "szivacs_naplo"
+            "User-Agent": ""
           },
           body: jsonBody);
       if (response.statusCode == 200)

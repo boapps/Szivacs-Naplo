@@ -43,8 +43,8 @@ android {
         applicationId "io.github.boapps.meSzivacs"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 2047
-        versionName "2.2.16"
+        versionCode 2048
+        versionName "2.2.17"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "version"
