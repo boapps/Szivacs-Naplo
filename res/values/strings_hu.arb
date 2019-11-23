@@ -53,6 +53,7 @@
   "notification": "Értesítés",
   "sync_frequency": "Szinkronizálás gyakorisága: $mins perc",
   "minute": "perc",
+  "hour": "óra",
   "logo_menu": "Logó a menüben",
   "info": "Infó",
   "average": "Átlag: ",
