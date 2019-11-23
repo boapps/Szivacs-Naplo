@@ -37,6 +37,27 @@ class LessonCard extends StatelessWidget {
     }
   }
 
+  String getRemainingTime(hourText, minuteText) {
+    var localText = "error";
+    if (getNext() != null) {
+      num minutes = getNext().start.difference(DateTime.now()).inMinutes;
+      num hours = (minutes / 60).floor();
+      minutes = (minutes - (hours * 60));
+      if (hours > 0) {
+        localText = hours.toString() +
+            " " +
+            hourText +
+            " " +
+            minutes.toString() +
+            " " +
+            minuteText;
+      } else {
+        localText = minutes.toString() + " " + minuteText;
+      }
+    }
+    return localText;
+  }
+
   String progress() {
     int n = 0;
     for (Lesson lesson in lessons) if (lesson.start.day == now.day) n++;
@@ -169,15 +190,8 @@ class LessonCard extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(right: 5),
                     child: new Text(
-                        getNext() != null
-                            ? getNext()
-                                    .start
-                                    .difference(DateTime.now())
-                                    .inMinutes
-                                    .toString() +
-                                " " +
-                                S.of(context).minute
-                            : "error",
+                        getRemainingTime(
+                            S.of(context).hour, S.of(context).minute),
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
