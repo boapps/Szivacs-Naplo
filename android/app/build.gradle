@@ -60,7 +60,6 @@ android {
             versionNameSuffix ""
         }
     }
-
 }
 
 flutter {
