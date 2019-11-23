@@ -318,8 +318,8 @@ Boa
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!(await SettingsHelper().getAcceptTOS()))
         showTOSDialog();
-      else if (!(await SettingsHelper().getAcceptBlock()))
-        showBlockDialog();
+      //else if (!(await SettingsHelper().getAcceptBlock()))
+      //  showBlockDialog();
     });
 
     initJson();
