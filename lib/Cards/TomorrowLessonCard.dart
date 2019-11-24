@@ -150,7 +150,7 @@ class TomorrowLessonCard extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.only(right: 5, left: 5),
-                    child: new Text(lessons.length.toString() + "db",
+                    child: new Text(lessons.length.toString(),
                         style: new TextStyle(
                             fontSize: 18.0, color: Colors.blueAccent)),
                   ),
