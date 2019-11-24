@@ -87,7 +87,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
 
     SettingsHelper().setNextLesson(nextLesson);
-    BackgroundHelper().cacnelNextLesson();
+    BackgroundHelper().cancelNextLesson();
   }
 
   void _setLang(String value) async {

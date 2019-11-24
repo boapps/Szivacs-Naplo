@@ -105,6 +105,7 @@ class S implements WidgetsLocalizations {
   String get main_page => "Mainpage";
   String get messages => "Messages";
   String get minute => "minutes";
+  String get hour => "hour(s)";
   String get missed => "canceled";
   String get mode => "mode: ";
   String get month => "month";
@@ -502,6 +503,8 @@ class $hu extends S {
   String get room => "terem: ";
   @override
   String get minute => "perc";
+  @override
+  String get hour => "óra";
   @override
   String get grey => "szürke";
   @override
