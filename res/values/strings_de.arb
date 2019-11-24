@@ -53,7 +53,7 @@
   "notification": "Push-Benachrichtigung",
   "sync_frequency": "Häufigkeit der Synchronisierung: Alle $mins Minuten",
   "minute": "Minute",
-  "hour": "Uhr",
+  "hour": "Stunde",
   "logo_menu": "Logo im Menu",
   "info": "Information",
   "average": "Durchschnitt: ",
