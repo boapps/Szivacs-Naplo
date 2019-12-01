@@ -79,9 +79,12 @@ class MainScreenState extends State<MainScreen> {
         return new SimpleDialog(
           children: <Widget>[
             Text("""
-A krétások csütörtök reggel feloldották a blokkolást, úgyhogy megint megy a szivacs, innen is köszönöm nekik!
+Most úgy néz ki, hogy megint lassítják a Szivacsot az iskolák egy részénél (valószínűleg a klikes sulik érintettek), így újra használhatatlan.
 
-Szép gesztus lenne, ha azok, akik eddig emiatt 1 csillagosra értékelték őket, most ezért 5-öst adnának, szerintem megérdemlik.
+Azt továbbra sem árulták el, hogy mi ennek az oka, nem válaszolnak e-maileimre.
+
+Ha tényleg így marad én nem látom értelmét a projekt folytatásának.
+Az app azért fent maradna a Play Áruházban a nagyon elvetemülteknek (és azoknak akiknek nincs lassítva), de nem frissíteném.
 
 Üdv.:
 Boa
@@ -126,8 +129,8 @@ Boa
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!(await SettingsHelper().getAcceptTOS()))
         showTOSDialog();
-      //else if (!(await SettingsHelper().getAcceptBlock()))
-      //  showBlockDialog();
+      else if (!(await SettingsHelper().getAcceptBlock()))
+        showBlockDialog();
     });
     _onRefresh(offline: true, showErrors: false).then((var a) async {
       mainScreenCards = await feedItems();
