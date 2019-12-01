@@ -129,11 +129,11 @@ class SettingsHelper {
   }
 
   Future<bool> getAcceptBlock() async {
-    return await _getProperty("acceptBlockV2", false);
+    return await _getProperty("acceptBlockV3", false);
   }
 
   Future<void> setAcceptBlock(bool value) async {
-    await _setPropertyBool("acceptBlockV2", value);
+    await _setPropertyBool("acceptBlockV3", value);
   }
   // ad_start
   void setAds(bool value) async {
