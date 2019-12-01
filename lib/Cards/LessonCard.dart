@@ -3,9 +3,6 @@ import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../Datas/Lesson.dart';
-import '../Dialog/HomeWorkDialog.dart';
-import '../Dialog/NewHomeworkDialog.dart';
-import "../Utils/StringFormatter.dart";
 import 'dart:async';
 
 class LessonCard extends StatelessWidget {
