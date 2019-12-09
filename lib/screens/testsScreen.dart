@@ -81,6 +81,7 @@ class TestsScreenState extends State<TestsScreen> {
     try {
       await globals.selectedAccount.refreshTests(false, showErrors);
       tests = globals.selectedAccount.tests;
+      tests.sort((Test a, Test b) => b.creationDate.compareTo(a.creationDate));
     } catch (e) {
       print(e);
     }
