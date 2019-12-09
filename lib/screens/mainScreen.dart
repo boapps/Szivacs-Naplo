@@ -1,19 +1,12 @@
 import 'dart:async';
 
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:e_szivacs/Cards/HomeworkCard.dart';
 import 'package:e_szivacs/Cards/TomorrowLessonCard.dart';
-import 'package:e_szivacs/Datas/Homework.dart';
 import 'package:e_szivacs/Dialog/TOSDialog.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-// ad_start
-// App ID: ca-app-pub-3792366820734167~2000232794
-//banner   ca-app-pub-3792366820734167/3421125670
-import 'package:firebase_admob/firebase_admob.dart';
-// ad_end
 
 import '../Cards/AbsenceCard.dart';
 import '../Cards/ChangedLessonCard.dart';
@@ -26,7 +19,6 @@ import '../Datas/Note.dart';
 import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
 import '../Helpers/BackgroundHelper.dart';
-import '../Helpers/HomeworkHelper.dart';
 import '../Helpers/SettingsHelper.dart';
 import '../Helpers/TimetableHelper.dart';
 import '../globals.dart' as globals;
@@ -75,56 +67,6 @@ class MainScreenState extends State<MainScreen> {
     globals.color5 = await SettingsHelper().getEvalColor(4);
   }
 
-  // ad_start
-  void loadAds(){
-    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      keywords: <String>['iskola', 'school', 'learning', 'tanulás'],
-      testDevices: <String>[],
-      // Android emulators are considered test devices
-      nonPersonalizedAds: true,
-    );
-    globals.myBanner = BannerAd(
-      adUnitId: "ca-app-pub-3792366820734167/3421125670",
-      size: AdSize.banner,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("BannerAd event is $event");
-        if (event == MobileAdEvent.failedToLoad)
-          globals.loaded = false;
-        if (event == MobileAdEvent.loaded)
-          globals.loaded = true;
-        setState(() {
-          globals.adHeight = globals.myBanner.size.height / 1;
-          print("globals.adHeight: " + globals.adHeight.toString());
-        });
-      },
-    );
-  }
-
-  void tryLoadAds() {
-    if (!globals.loaded && globals.isAds) {
-      if (globals.myBanner != null) {
-        globals.myBanner.isLoaded().then((bool isLoaded) {
-          if (!isLoaded) {
-            loadAds();
-          }
-          globals.myBanner
-            ..load()
-            ..show(
-              anchorType: AnchorType.bottom,
-            );
-        });
-      } else {
-        loadAds();
-        globals.myBanner
-          ..load()
-          ..show(
-            anchorType: AnchorType.bottom,
-          );
-      }
-    }
-  }
-  // ad_end
 
   Future<bool> showBlockDialog() async {
     return showDialog<bool>(
@@ -134,7 +76,7 @@ class MainScreenState extends State<MainScreen> {
         return new SimpleDialog(
           children: <Widget>[
             Text("""
-Most úgy néz ki, hogy megint lassítják a Szivacsot az iskolák egy részénél (valószínűleg a klikes sulik érintettek), így újra használhatatlan.
+Most úgy néz ki, hogy megint lassítják a Szivacsot az iskolák egy részénél (a visszajelzések alapján valószínűleg a klikes sulik érintettek), így újra használhatatlan.
 
 Azt továbbra sem árulták el, hogy mi ennek az oka, nem válaszolnak e-maileimre.
 
@@ -143,6 +85,8 @@ Az app azért fent maradna a Play Áruházban a nagyon elvetemülteknek (és azo
 
 Üdv.:
 Boa
+
+2019. 12. 09.
             """),
             new MaterialButton(
               child: Text("Értem"),
@@ -180,9 +124,6 @@ Boa
   @override
   void initState() {
     _initSettings();
-    // ad_start
-    tryLoadAds();
-    // ad_end
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!(await SettingsHelper().getAcceptTOS()))
@@ -345,9 +286,6 @@ Boa
                         },
                       ),
                     ),
-                      // ad_start
-                      globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
-                      // ad_end
                     ]))
                 : new Center(child: new CircularProgressIndicator())));
   }

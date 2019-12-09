@@ -141,9 +141,6 @@ void main({bool noReset = false}) async {
 
       globals.isDark = await SettingsHelper().getDarkTheme();
       globals.isAmoled = await SettingsHelper().getAmoled();
-      // ad_start
-      globals.isAds = await SettingsHelper().getAds();
-      // ad_end
       globals.isColor = await SettingsHelper().getColoredMainPage();
       globals.isSingle = await SettingsHelper().getSingleUser();
       globals.multiAccount = (await Saver.readUsers()).length != 1;
@@ -273,7 +270,7 @@ class LoginScreenState extends State<LoginScreen> {
         return new SimpleDialog(
           children: <Widget>[
             Text("""
-Most úgy néz ki, hogy megint lassítják a Szivacsot az iskolák egy részénél (valószínűleg a klikes sulik érintettek), így újra használhatatlan.
+Most úgy néz ki, hogy megint lassítják a Szivacsot az iskolák egy részénél (a visszajelzések alapján valószínűleg a klikes sulik érintettek), így újra használhatatlan.
 
 Azt továbbra sem árulták el, hogy mi ennek az oka, nem válaszolnak e-maileimre.
 
@@ -282,6 +279,8 @@ Az app azért fent maradna a Play Áruházban a nagyon elvetemülteknek (és azo
 
 Üdv.:
 Boa
+
+2019. 12. 09.
             """),
             new MaterialButton(
               child: Text("Értem"),

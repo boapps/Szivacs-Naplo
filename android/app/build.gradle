@@ -47,19 +47,6 @@ android {
         versionName "2.2.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    flavorDimensions "version"
-    productFlavors {
-        play {
-            dimension "version"
-            applicationIdSuffix ""
-            versionNameSuffix ""
-        }
-        foss {
-            dimension "version"
-            applicationIdSuffix ".foss"
-            versionNameSuffix ""
-        }
-    }
 }
 
 flutter {

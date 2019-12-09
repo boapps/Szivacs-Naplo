@@ -135,15 +135,6 @@ class SettingsHelper {
   Future<void> setAcceptBlock(bool value) async {
     await _setPropertyBool("acceptBlockV3", value);
   }
-  // ad_start
-  void setAds(bool value) async {
-    await _setPropertyBool("ads", value);
-  }
-
-  Future<bool> getAds() async {
-    return await _getProperty("ads", false);
-  }
-  // ad_end
 
   static const List<Color> COLORS = [
     Colors.red,
