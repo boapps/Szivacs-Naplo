@@ -18,20 +18,20 @@ class AbsenceCard extends StatelessWidget {
     this.context = context;
     this.absences = absence;
     numOfAbsences = absence.length;
-    //
 
+    String realLang = globals.lang == "auto" ? Localizations.localeOf(context).languageCode : globals.lang;
     if (absence[0].DelayTimeMinutes != 0) {
       //keses
-      if (globals.lang == "hu") {
+      if (realLang == "hu") {
         cardText = "késés";
-      } else if (globals.lang == "en") {
+      } else if (realLang == "en") {
         cardText = "delay";
       }
     } else {
       //logas
-      if (globals.lang == "hu") {
+      if (realLang == "hu") {
         cardText = "hiányzás";
-      } else if (globals.lang == "en") {
+      } else if (realLang == "en") {
         cardText = "absence(s)";
       }
     }
