@@ -79,7 +79,7 @@ class RequestHelper {
   }
 
   Future<String> getTests(String accessToken, String schoolCode) =>
-      getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/BejelentettSzamonkeresAmi?DatumTol=null&DatumIg=null", accessToken, schoolCode);
+      getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/BejelentettSzamonkeres?DatumTol=null&DatumIg=null", accessToken, schoolCode);
 
   Future<String> getMessages(String accessToken, String schoolCode) =>
       getStuffFromUrl("https://eugyintezes.e-kreta.hu/integration-kretamobile-api/v1/kommunikacio/postaladaelemek/sajat", accessToken, schoolCode);
@@ -89,7 +89,7 @@ class RequestHelper {
 
   Future<String> getEvaluations(String accessToken, String schoolCode) =>
       getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu"
-          + "/mapi/api/v1/StudentAmi", accessToken, schoolCode);
+          + "/mapi/api/v1/Student", accessToken, schoolCode);
 
   Future<String> getHomework(String accessToken, String schoolCode,
       int id) => getStuffFromUrl("https://" + schoolCode +
@@ -102,14 +102,14 @@ class RequestHelper {
       accessToken, schoolCode);
 
   Future<String> getEvents(String accessToken, String schoolCode) =>
-      getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/EventAmi",
+      getStuffFromUrl("https://" + schoolCode + ".e-kreta.hu/mapi/api/v1/Event",
           accessToken, schoolCode);
 
   Future<String> getTimeTable(
       String from, String to, String accessToken, String schoolCode) =>
       getStuffFromUrl("https://" +
           schoolCode +
-          ".e-kreta.hu/mapi/api/v1/LessonAmi?fromDate=" +
+          ".e-kreta.hu/mapi/api/v1/Lesson?fromDate=" +
           from +
           "&toDate=" +
           to, accessToken, schoolCode);

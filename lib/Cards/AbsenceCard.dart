@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Datas/Student.dart';
 import '../Utils/StringFormatter.dart';
-import '../Helpers/SettingsHelper.dart';
+import '../globals.dart' as globals;
 
 class AbsenceCard extends StatelessWidget {
   List<Absence> absences;
@@ -12,34 +12,30 @@ class AbsenceCard extends StatelessWidget {
   Color color;
   BuildContext context;
   bool isSingle;
+  String cardText = "?";
 
   AbsenceCard(List<Absence> absence, bool isSingle, BuildContext context){
     this.context = context;
     this.absences = absence;
     numOfAbsences = absence.length;
     //
-   	String cardText = "?";
-    String lang = SettingsHelper().getLang();
 
-    if(absence.DelayTimeMinutes != 0) {
-    	//keses
-		if(lang == "hu") {
-			cardText =  "késés";
-		} else if (lang == "en") {
-			cardText =  "delay";
-		}
+    if (absence[0].DelayTimeMinutes != 0) {
+      //keses
+      if (globals.lang == "hu") {
+        cardText = "késés";
+      } else if (globals.lang == "en") {
+        cardText = "delay";
+      }
     } else {
-    	//logas
-    	if(lang == "hu") {
-			cardText =  "hiányzás";
-		} else if (lang == "en") {
-			cardText =  "absence(s)";
-		}
+      //logas
+      if (globals.lang == "hu") {
+        cardText = "hiányzás";
+      } else if (globals.lang == "en") {
+        cardText = "absence(s)";
+      }
     }
 
-
-    = absence.DelayTimeMinutes;
-    
     this.isSingle = isSingle;
 
     bool unjust = false;
