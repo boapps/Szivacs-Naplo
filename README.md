@@ -1,4 +1,14 @@
 
+# A projekt vége
+
+A krétások(?) lassítása miatt a szivacs gyakorlatilag használhatatlanná vált több iskolában, ezért a fejlesztést abbahagyom, több frissítést nem tervezek kiadni. A lassítás okát nem árulták el, emailekre nem válaszolnak. Érdekes, hogy azt írták a weboldalukon, hogy engedik a nem hivatalos alkalmazások fejlesztését illetve emailes megkérdezésre ezt korábban kiegészítették a bevételt szerző alkalmazásokra is (itt direkt úgy kérdeztem rá, hogy a kréta apit használó alkalmazások). Azóta ezt nem vonták vissza, nekem nem tiltották meg a szivacs fejlesztését (habár felvetettek adatvédelmi és szerzői jogi gondokat, ezeknek szerintem azóta eleget tettem többek között az alkalmazás átnevezésével, illetve az adatvédelemmel nem értettem egyet, azt a naih vizsgálja). Helyette sunyin lassítják bizonyos iskolákban, amik felhasználói visszajelzések alpján klikes suliknak tűnnek, de olyan üzenetet is kaptam már, hogy van olyan klikes iskola, ahol még rendesen megy a szivacs.
+
+Bocsánatot kérek azoktól, akiknek a hibáit nem fogom javítani, kifejezetten az értesítésekkel kapcsolatban. Köszönöm mindenkinek, aki segített commitokkal, szerverrel, ötletekkel, hibajelentésekkel és értékes információval! Az amúgy opcionális reklámokat már teljesen kiszedtem, többé bevételem nincs a szivacsból, valami 1500 Ft körüli összeg jött össze, amit ki se tudok venni az admobból, mert nem éri el azt a minimumot, amitől kivehetném. :pensive:
+
+A repot és az alkalmázást nem tervezem leszedni, amíg a krétások nem mondják azt, hogy tilos a fejlesztés, de több commitot ne várjatok tőlem. A BSD licensz alapján forkolni szabad (természetesen legális kereteken belül), ha megnevezel, annak örülök, de egyébként tőlem nem kötelező. :wink:
+
+Boa
+2019. 12. 15.
 
 # Szivacs Napló
 
