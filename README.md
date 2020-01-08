@@ -10,6 +10,11 @@ A repot és az alkalmázást nem tervezem leszedni, amíg a krétások nem mondj
 Boa
 2019. 12. 15.
 
+
+A lassítást itt tárgyaljuk: https://github.com/boapps/Szivacs-Naplo/issues/58
+A lassítás mértékét pedig ezen a weboldalon tudjátok követni: http://szivacsstatus.govt.hu/
+
+
 # Szivacs Napló
 
 A Szivacs Napló: egy multiplatformos kliensalkalmazás az e-napló rendszerhez.
