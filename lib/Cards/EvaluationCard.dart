@@ -25,8 +25,7 @@ class EvaluationCard extends StatelessWidget {
     return await SettingsHelper().getColoredMainPage();
   }
 
-  EvaluationCard(Evaluation evaluation, bool isColor, bool isSingle,
-      BuildContext context) {
+  EvaluationCard(Evaluation evaluation, bool isColor, bool isSingle, BuildContext context) {
     this.evaluation = evaluation;
     this.context = context;
 
@@ -34,9 +33,7 @@ class EvaluationCard extends StatelessWidget {
     this.isSingle = isSingle;
 
     if (isColor) {
-      switch (evaluation.NumberValue) {
-        case 0:
-          break;
+      switch (evaluation.NumberValue) { //Define background and foreground color of the card for number values.
         case 1:
           bColor = globals.color1;
           fColor = Colors.white;
@@ -51,17 +48,17 @@ class EvaluationCard extends StatelessWidget {
           break;
         case 4:
           bColor = globals.color4;
-          fColor = Colors.black;
+          fColor = Colors.black; //This should be white if color4 is dark enough. Same applies to all of them.
           break;
-        case 5:
+        case 5: //I'm looking for something like this:
           bColor = globals.color5;
-          fColor = Colors.white;
+          fColor = Colors.white;//(lightLevel(globals.color5) > 50) ? Colors.black : Colors.white;
           break;
         default:
           bColor = Colors.black;
           fColor = Colors.white;
           break;
-      }
+      } //Define background and foreground color of the card for text values.
       switch (evaluation.Value) {
         case "Példás":
           bColor = globals.color5;
@@ -80,7 +77,7 @@ class EvaluationCard extends StatelessWidget {
           fColor = Colors.white;
           break;
       }
-    }
+    } //Map text values to be more readable
     switch (evaluation.Value) {
       case "Példás":
         textShort = "5";
@@ -96,10 +93,10 @@ class EvaluationCard extends StatelessWidget {
         break;
     }
 
-    switch (evaluation.Mode) {
+    switch (evaluation.Mode) { //Map evalutaion types to shorter, more readable versions. Set icons.
       case "Írásbeli témazáró dolgozat":
         typeIcon = Icons.widgets;
-        typeName = "TZ";
+        typeName = "témazáró";
         break;
       case "Témazáró":
         typeIcon = Icons.widgets;
@@ -170,12 +167,16 @@ class EvaluationCard extends StatelessWidget {
       default:
         typeIcon = Icons.help;
         typeName = evaluation.Mode;
-        if (evaluation.Mode == null && !evaluation.isMidYear()) {
+        /*if (evaluation.Mode == null && !evaluation.isMidYear()) { //HELYETTE MÁSIK CARD KELL, EZEKET NEM MUTATJA KÜLÖN
           if (evaluation.isEndYear())
             typeName = "év végi";
           if (evaluation.isHalfYear())
-            typeName = "félévi"; //NEGYEDÉVI IDE JÖJJÖN
-        }
+            typeName = "félévi";
+          if (evaluation.isFirstQuarter())
+            typeName = "első negyedéves";
+          if (evaluation.isThirdQuarter())
+            typeName = "harmadik negyedéves";
+        }*/
         break;
     }
 

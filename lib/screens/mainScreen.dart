@@ -13,6 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 // App ID: ca-app-pub-3792366820734167~2000232794
 //banner   ca-app-pub-3792366820734167/3421125670
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:markdown/markdown.dart' as prefix0;
 // ad_end
 
 import '../Cards/AbsenceCard.dart';
@@ -210,12 +211,13 @@ Boa
 
     for (String day in absents.keys.toList())
       feedCards.add(new AbsenceCard(absents[day], globals.isSingle, context));
-    for (Evaluation evaluation in evaluations)
-      feedCards.add(new EvaluationCard(
-          evaluation, globals.isColor, globals.isSingle, context));
+    for (Evaluation evaluation in evaluations) {
+      if (!evaluation.isSummaryEvaluation()) {
+      feedCards.add(new EvaluationCard(evaluation, globals.isColor, globals.isSingle, context));
+      }
+    }
     for (Note note in notes)
       feedCards.add(new NoteCard(note, globals.isSingle, context));
-
     for (Lesson l in lessons.where((Lesson lesson) =>
         (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));

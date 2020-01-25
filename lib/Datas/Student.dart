@@ -327,13 +327,18 @@ class Evaluation {
   static const String HALF_YEAR = "HalfYear";
   static const String MID_YEAR = "MidYear";
   static const String END_YEAR = "EndYear";
+  static const String FIRST_QUARTER = "IQuarterEvaluation";
+  static const String THIRD_QUARTER = "IIIQuarterEvaluation";
+
   static const String TEXT = "Text";
 
   bool isMidYear() => Type == MID_YEAR;
 
   bool isHalfYear() => Type == HALF_YEAR;
-
   bool isEndYear() => Type == END_YEAR;
+  bool isFirstQuarter() => Type == FIRST_QUARTER;
+  bool isThirdQuarter() => Type == THIRD_QUARTER;
+  bool isSummaryEvaluation() => (isHalfYear() || isEndYear() || isFirstQuarter() || isThirdQuarter());
 
   bool isText() => Type == TEXT;
 
@@ -351,7 +356,9 @@ class Evaluation {
           return 4;
         case "Változó":
           return 3;
-        case "Hanyag":
+        case "Hanyag": //Szorgalom
+          return 2;
+        case "Rossz": //Magatartás
           return 2;
       }
     }
