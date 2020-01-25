@@ -62,10 +62,14 @@ List <Lesson> lessons = new List();
 Color color1 = Colors.red;
 Color color2 = Colors.brown;
 Color color3 = Colors.orange;
-//FF9700
-//
 Color color4 = Color.fromARGB(255, 255, 151, 0);
 Color color5 = Colors.green;
+
+Color colorF1; //Foreground colors calculated for the values specified by the user. See in mainScreen, _initSettings()
+Color colorF2;
+Color colorF3;
+Color colorF4;
+Color colorF5;
 
 DatabaseFactory dbFactory = databaseFactoryIo;
 

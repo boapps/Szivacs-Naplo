@@ -33,50 +33,32 @@ class EvaluationCard extends StatelessWidget {
     this.isSingle = isSingle;
 
     if (isColor) {
-      switch (evaluation.NumberValue) { //Define background and foreground color of the card for number values.
+      switch (evaluation.realValue) { //Define background and foreground color of the card for number values.
         case 1:
           bColor = globals.color1;
-          fColor = Colors.white;
+          fColor = globals.colorF1;
           break;
         case 2:
           bColor = globals.color2;
-          fColor = Colors.white;
+          fColor = globals.colorF2;
           break;
         case 3:
           bColor = globals.color3;
-          fColor = Colors.white;
+          fColor = globals.colorF3;
           break;
         case 4:
           bColor = globals.color4;
-          fColor = Colors.black; //This should be white if color4 is dark enough. Same applies to all of them.
+          fColor = globals.colorF4;
           break;
-        case 5: //I'm looking for something like this:
+        case 5:
           bColor = globals.color5;
-          fColor = Colors.white;//(lightLevel(globals.color5) > 50) ? Colors.black : Colors.white;
+          fColor = globals.colorF5;
           break;
         default:
           bColor = Colors.black;
           fColor = Colors.white;
           break;
       } //Define background and foreground color of the card for text values.
-      switch (evaluation.Value) {
-        case "Példás":
-          bColor = globals.color5;
-          fColor = Colors.white;
-          break;
-        case "Jó":
-          bColor = globals.color4;
-          fColor = Colors.black;
-          break;
-        case "Változó":
-          bColor = globals.color3;
-          fColor = Colors.white;
-          break;
-        case "Hanyag":
-          bColor = globals.color2;
-          fColor = Colors.white;
-          break;
-      }
     } //Map text values to be more readable
     switch (evaluation.Value) {
       case "Példás":

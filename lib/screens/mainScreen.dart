@@ -75,6 +75,12 @@ class MainScreenState extends State<MainScreen> {
     globals.color3 = await SettingsHelper().getEvalColor(2);
     globals.color4 = await SettingsHelper().getEvalColor(3);
     globals.color5 = await SettingsHelper().getEvalColor(4);
+
+    globals.colorF1 = globals.color1.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF2 = globals.color2.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF3 = globals.color3.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF4 = globals.color4.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF5 = globals.color5.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
   }
 
   // ad_start
