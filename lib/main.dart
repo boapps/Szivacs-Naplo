@@ -310,15 +310,14 @@ Boa
 
   Future<bool> showTOSDialog() async {
     return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return new TOSDialog();
-      },
-    ) ??
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return new TOSDialog();
+          },
+        ) ??
         false;
   }
-
 
   @override
   void initState() {
@@ -327,8 +326,7 @@ Boa
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!(await SettingsHelper().getAcceptTOS()))
         showTOSDialog();
-      else if (!(await SettingsHelper().getAcceptBlock()))
-        showBlockDialog();
+      else if (!(await SettingsHelper().getAcceptBlock())) showBlockDialog();
     });
 
     initJson();
@@ -340,7 +338,8 @@ Boa
   }
 
   void initJson() async {
-    String data = ""; //await DefaultAssetBundle.of(context).loadString("assets/data.json");
+    String data =
+        ""; //await DefaultAssetBundle.of(context).loadString("assets/data.json");
 
     data = await RequestHelper().getInstitutes();
 
@@ -349,13 +348,15 @@ Boa
     } catch (e) {
       print(e);
       Fluttertoast.showToast(
-        msg: "Nem sikerült lekérni a Krétás iskolákat, így az offline adatbázist fogja használni az app.",
+        msg:
+            "Nem sikerült lekérni a Krétás iskolákat, így az offline adatbázist fogja használni az app.",
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0,
       );
 
-      data = await DefaultAssetBundle.of(context).loadString("assets/data.json");
+      data =
+          await DefaultAssetBundle.of(context).loadString("assets/data.json");
       globals.jsonres = json.decode(data);
     }
 
@@ -414,12 +415,13 @@ Boa
               "&grant_type=password&client_id=919e0c1c-76a2-4646-a2fb-7085bbbf3c56";
 
           try {
-            bearerResp = await RequestHelper().getBearer(jsonBody, instCode, false);
+            bearerResp =
+                await RequestHelper().getBearer(jsonBody, instCode, false);
             Map<String, dynamic> bearerMap = json.decode(bearerResp);
             code = bearerMap.values.toList()[0];
 
-            Map<String, String> userInfo =
-                await UserInfoHelper().getInfo(instCode, userName, password, false);
+            Map<String, String> userInfo = await UserInfoHelper()
+                .getInfo(instCode, userName, password, false);
 
             setState(() {
               User user = new User(
@@ -512,6 +514,10 @@ Boa
         );
       },
     );
+  }
+
+  _gotoAbout() {
+    Navigator.popAndPushNamed(context, "/about");
   }
 
   @override
@@ -683,7 +689,7 @@ Boa
                               new Row(
                                 children: <Widget>[
                                   !Platform.isIOS
-                                      ? new Container(
+                                      ? Expanded(child: new Container(
                                           //margin: EdgeInsets.only(top: 20.0),
                                           child: FlatButton(
                                             onPressed: () {
@@ -691,50 +697,61 @@ Boa
                                                   context, "/import");
                                             },
                                             child: new Text("Import"),
-                                            disabledColor:
-                                                Colors.blueGrey.shade800,
+                                            disabledColor: Colors.blueGrey[800],
                                             disabledTextColor: Colors.blueGrey,
                                             color: Colors.green,
                                             //#2196F3
                                             textColor: Colors.white,
                                           ),
-                                          padding: EdgeInsets.only(right: 12),
-                                        )
+                                          padding: EdgeInsets.only(right:12),
+                                        ))
                                       : Container(),
-                                  Expanded (
-                                    child: new Container(
+                                  Expanded(
+                                      child: new Container(
                                     //margin: EdgeInsets.only(top: 20.0),
                                     child: FlatButton(
                                       onPressed: _launchFAQ,
                                       child: new Text("GYIK"),
-                                      disabledColor:
-                                      Colors.blueGrey.shade800,
+                                      disabledColor: Colors.blueGrey[800],
                                       disabledTextColor: Colors.blueGrey,
                                       color: Colors.teal,
                                       //#2196F3
                                       textColor: Colors.white,
                                     ),
-                                  ))
-                                ],
-
-                              ),
-                                //margin: EdgeInsets.only(top: 20.0),
-                                  new FlatButton(
-                                    onPressed: !loggingIn
-                                        ? () {
-                                      setState(() {
-                                        loggingIn = true;
-                                        login(context);
-                                      });
-                                    }
-                                        : null,
-                                    disabledColor: Colors.blueGrey.shade800,
-                                    disabledTextColor: Colors.blueGrey,
-                                    child: new Text(S.of(context).login),
-                                    color: Colors.blue,
-                                    //#2196F3
-                                    textColor: Colors.white,
+                                    //padding: EdgeInsets.only(right: 12, left: 12),
+                                  )),
+                                  Expanded(
+                                    child: new Container(
+                                      child: FlatButton(
+                                        onPressed: _gotoAbout,
+                                        child: new Text("Info"),
+                                        disabledColor: Colors.orange[200],
+                                        disabledTextColor: Colors.orange[300],
+                                        color: Colors.orange[500],
+                                        textColor: Colors.white
+                                        ),
+                                        padding: EdgeInsets.only(left: 12),
                                   ),
+                                  ),
+                                ],
+                              ),
+                              //margin: EdgeInsets.only(top: 20.0),
+                              new FlatButton(
+                                onPressed: !loggingIn
+                                    ? () {
+                                        setState(() {
+                                          loggingIn = true;
+                                          login(context);
+                                        });
+                                      }
+                                    : null,
+                                disabledColor: Colors.blueGrey.shade800,
+                                disabledTextColor: Colors.blueGrey,
+                                child: new Text(S.of(context).login),
+                                color: Colors.blue,
+                                //#2196F3
+                                textColor: Colors.white,
+                              ),
                             ].reversed.toList(),
                           ))
                         : new Container(
@@ -837,7 +854,8 @@ class MyDialogState extends State<MyDialog> {
           subtitle: new Text(globals.searchres[index]["Url"]),
           onTap: () {
             setState(() {
-              globals.selectedSchoolCode = globals.searchres[index]["InstituteCode"];
+              globals.selectedSchoolCode =
+                  globals.searchres[index]["InstituteCode"];
               globals.selectedSchoolUrl = globals.searchres[index]["Url"];
               globals.selectedSchoolName = globals.searchres[index]["Name"];
               Navigator.pop(context);

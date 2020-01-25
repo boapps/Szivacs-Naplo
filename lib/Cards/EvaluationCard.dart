@@ -83,16 +83,16 @@ class EvaluationCard extends StatelessWidget {
     }
     switch (evaluation.Value) {
       case "Példás":
-        textShort = "Pé.";
+        textShort = "5";
         break;
       case "Jó":
-        textShort = "Jó";
+        textShort = "4";
         break;
       case "Változó":
-        textShort = "Vá.";
+        textShort = "3";
         break;
       case "Hanyag":
-        textShort = "Ha.";
+        textShort = "2";
         break;
     }
 
@@ -108,6 +108,10 @@ class EvaluationCard extends StatelessWidget {
       case "Írásbeli röpdolgozat":
         typeIcon = Icons.border_color;
         typeName = "röpdolgozat";
+        break;
+      case "Beszámoló":
+        typeIcon = Icons.border_color;
+        typeName = "beszámoló";
         break;
       case "Dolgozat":
         typeIcon = Icons.subject;
@@ -147,11 +151,11 @@ class EvaluationCard extends StatelessWidget {
         break;
       case "év végi":
         typeIcon = IconData(0xF23C, fontFamily: "Material Design Icons");
-        typeName = "évfolyamdolgozat";
+        typeName = "év végi dolgozat";
         break;
       case "Házi dolgozat":
         typeIcon = IconData(0xF224, fontFamily: "Material Design Icons");
-        typeName = "évfolyamdolgozat";
+        typeName = "házi dolgozat";
         break;
       case "":
         typeIcon = null;
@@ -170,7 +174,7 @@ class EvaluationCard extends StatelessWidget {
           if (evaluation.isEndYear())
             typeName = "év végi";
           if (evaluation.isHalfYear())
-            typeName = "félévi";
+            typeName = "félévi"; //NEGYEDÉVI IDE JÖJJÖN
         }
         break;
     }
@@ -260,156 +264,167 @@ class EvaluationCard extends StatelessWidget {
       onTap: openDialog,
       child: new Card(
         color: bColor,
-        child: new Column(
-          children: <Widget>[
-            new Container(
-              child: new ListTile(
-                title: evaluation.Subject != null
-                    ? new Text(evaluation.Subject,
-                        style: new TextStyle(
-                            color: fColor,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold))
-                    : evaluation.Jelleg.Leiras != null
-                    ? new Text(evaluation.Jelleg.Leiras,
-                    style: new TextStyle(
-                        color: fColor,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold))
-                    : Container(),
-                leading: (evaluation.NumberValue != 0 && textShort == null)
-                    ? new Text(evaluation.NumberValue.toString(),
-                        style: new TextStyle(
-                            color: fColor,
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold))
-                    : new Text(textShort ?? "",
-                        style: new TextStyle(
-                            color: fColor,
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold)),
-                subtitle: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    evaluation.isText()
-                        ? new Text(evaluation.Value)
-                        : new Container(),
-                    evaluation.Theme != null
-                        ? new Text(evaluation.Theme,
-                            style: new TextStyle(color: fColor, fontSize: 18.0))
-                        : Container(),
-                    new Text(
-                      evaluation.Teacher,
-                      style: new TextStyle(color: fColor, fontSize: 15.0),
-                    ),
-                  ],
+        child: Container(
+          child: new Column(
+            children: <Widget>[
+              new Container(
+                child: new ListTile(
+                  title: evaluation.Subject != null
+                      ? new Text(evaluation.Subject,
+                          style: new TextStyle(
+                              color: fColor,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold))
+                      : evaluation.Jelleg.Leiras != null
+                      ? new Text(evaluation.Jelleg.Leiras,
+                      style: new TextStyle(
+                          color: fColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold))
+                      : Container(),
+                  leading: (evaluation.NumberValue != 0 && textShort == null)
+                      ? new Text(evaluation.NumberValue.toString(),
+                          style: new TextStyle(
+                              color: fColor,
+                              fontSize: 40.0,
+                              fontWeight: FontWeight.bold))
+                      : new Text(textShort ?? "",
+                          style: new TextStyle(
+                              color: fColor,
+                              fontSize: 40.0,
+                              fontWeight: FontWeight.bold)),
+                  subtitle: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      evaluation.isText()
+                          ? new Text(evaluation.Value)
+                          : new Container(),
+                      evaluation.Theme != null
+                          ? new Text(evaluation.Theme,
+                              style: new TextStyle(color: fColor, fontSize: 18.0))
+                          : Container(),
+                      new Text(
+                        evaluation.Teacher,
+                        style: new TextStyle(color: fColor, fontSize: 15.0),
+                      ),
+                    ],
+                  ),
                 ),
+                margin: EdgeInsets.all(6.0),
               ),
-              margin: EdgeInsets.all(10.0),
-            ),
-            !showPadding || !isSingle
-                ? new Container(
-                    child: new Text(
-                        dateToHuman(evaluation.Date)??"" +
-                            dateToWeekDay(evaluation.Date)??"",
-                        style: new TextStyle(fontSize: 16.0, color: fColor)),
-                    alignment: Alignment(1.0, -1.0),
-                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-                  )
-                : new Container(),
-            showPadding
-                ? new Container(
-                    color: globals.isDark
-                        ? Color.fromARGB(255, 25, 25, 25)
-                        : Colors.white,
-                    child: new Padding(
-                      padding: new EdgeInsets.all(7.0),
-                      child: new Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          new Divider(),
-                          new Padding(
-                            padding: new EdgeInsets.all(7.0),
-                            child: new Icon(typeIcon,
-                                color: globals.isDark
-                                    ? Colors.white
-                                    : Colors.black87),
-                          ),
-                          new Padding(
-                            padding: new EdgeInsets.all(7.0),
-                            child: typeName != null
-                                ? new Text(
-                                    typeName,
-                                    style: new TextStyle(
-                                        fontSize: 18.0,
-                                        color: globals.isDark
-                                            ? Colors.white
-                                            : Colors.black87),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  )
-                                : new Text(
-                              evaluation.Value,
-                                    style: new TextStyle(
-                                        fontSize: 18.0,
-                                        color: globals.isDark
-                                            ? Colors.white
-                                            : Colors.black87),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                          ),
-                          new Flexible(
-                            child: new Container(
-                              child: new Padding(
-                                child: evaluation.Weight != "100%" &&
-                                    evaluation.Weight != null
-                                    ? new Text(evaluation.Weight,
-                                        style: TextStyle(
-                                            color: globals.isDark
-                                                ? Colors.white
-                                                : Colors.black87))
-                                    : null,
-                                padding: new EdgeInsets.all(7.0),
-                              ),
-                              alignment: Alignment(-1, 0),
+              !showPadding || !isSingle
+                  ? new Container(
+                      child: new Text(
+                          dateToHuman(evaluation.Date)??"" +
+                              dateToWeekDay(evaluation.Date)??"",
+                          style: new TextStyle(fontSize: 16.0, color: fColor)),
+                      alignment: Alignment(1.0, -1.0),
+                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
+                    )
+                  : new Container(),
+              showPadding
+                  ? new Container(
+                      color: globals.isDark
+                          ? Color.fromARGB(255, 25, 25, 25)
+                          : Colors.white,
+                      child: new Padding(
+                        padding: new EdgeInsets.all(7.0),
+                        child: new Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            new Divider(),
+                            new Padding(
+                              padding: new EdgeInsets.all(7.0),
+                              child: new Icon(typeIcon,
+                                  color: globals.isDark
+                                      ? Colors.white
+                                      : Colors.black87),
                             ),
-                          ),
-                          !isSingle
-                              ? new Expanded(
-                                  child: new Container(
-                                    child: new Text(evaluation.owner.name ?? "",
-                                        style: new TextStyle(
-                                            color: evaluation.owner.color ??
-                                                Colors.black,
-                                            fontSize: 18.0)),
-                                    alignment: Alignment(1.0, -1.0),
-                                  ),
-                                )
-                              : new Container(),
-                          isSingle
-                              ? new Expanded(
-                                  child: new Container(
-                                    child: new Text(
-                                      dateToHuman(evaluation.Date)??"" +
-                                          dateToWeekDay(evaluation.Date)??"",
+                            new Padding(
+                              padding: new EdgeInsets.all(7.0),
+                              child: typeName != null
+                                  ? new Text(
+                                      typeName,
                                       style: new TextStyle(
-                                          fontSize: 16.0,
+                                          fontSize: 18.0,
                                           color: globals.isDark
                                               ? Colors.white
                                               : Colors.black87),
-                                      textAlign: TextAlign.end,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    )
+                                  : new Text(
+                                evaluation.Value,
+                                      style: new TextStyle(
+                                          fontSize: 18.0,
+                                          color: globals.isDark
+                                              ? Colors.white
+                                              : Colors.black87),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
-                                    alignment: Alignment(1.0, 0.0),
-                                  ),
-                                )
-                              : new Container(),
-                        ],
-                      ),
-                    ))
-                : new Container()
-          ],
+                            ),
+                            new Flexible(
+                              child: new Container(
+                                child: new Padding(
+                                  child: (evaluation.Weight != "100%" && evaluation.Weight != null)
+                                      ? new Text(evaluation.Weight,
+                                          style: TextStyle(
+                                              color: globals.isDark
+                                                  ? Colors.white
+                                                  : Colors.black87))
+                                      : null,
+                                  padding: new EdgeInsets.all(7.0),
+                                ),
+                                alignment: Alignment(-1, 0),
+                              ),
+                            ),
+                            !isSingle
+                                ? new Expanded(
+                                    child: new Container(
+                                      child: new Text(evaluation.owner.name ?? "",
+                                          style: new TextStyle(
+                                              color: evaluation.owner.color ??
+                                                  Colors.black,
+                                              fontSize: 18.0)),
+                                      alignment: Alignment(1.0, -1.0),
+                                    ),
+                                  )
+                                : new Container(),
+                            isSingle
+                                ? new Expanded(
+                                    child: new Container(
+                                      child: new Text(
+                                        dateToHuman(evaluation.Date)??"" +
+                                            dateToWeekDay(evaluation.Date)??"",
+                                        style: new TextStyle(
+                                            fontSize: 16.0,
+                                            color: globals.isDark
+                                                ? Colors.white
+                                                : Colors.black87),
+                                        textAlign: TextAlign.end,
+                                      ),
+                                      alignment: Alignment(1.0, 0.0),
+                                    ),
+                                  )
+                                : new Container(),
+                          ],
+                        ),
+                      ))
+                  : new Container()
+            ],
+          ),
+          decoration: new BoxDecoration(
+            border: Border.all(
+              color: globals.isDark
+                ? Colors.white54
+                : Colors.black45,
+              width: (evaluation.Weight != "100%" && evaluation.Weight != null)
+               ? 4
+               : 1.5),
+            borderRadius: new BorderRadius.all(Radius.circular(5)),
+          ),
         ),
       ),
     );

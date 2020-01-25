@@ -49,6 +49,7 @@ class RequestHelper {
       String settings = utf8.decode((await http.get(SETTINGS_API_URL)).bodyBytes);
       Map settingsJson = json.decode(settings);
       globals.latestVersion = globals.isBeta ? settingsJson["BetaVersion"] : settingsJson["CurrentAppVersion"];
+      globals.userAgent = globals.behaveNicely ? "szivacs_naplo" : (settingsJson["FillableUserAgent"]);
     } catch (e) {
       print(e);
     }
@@ -70,7 +71,7 @@ class RequestHelper {
           url,
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
-            "User-Agent": "szivacs_naplo",
+            "User-Agent": globals.userAgent,
             "Authorization": "Bearer " + accessToken
           });
 
@@ -121,7 +122,7 @@ class RequestHelper {
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-            "User-Agent": "szivacs_naplo"
+            "User-Agent": globals.userAgent
           },
           body: jsonBody);
 
@@ -151,7 +152,7 @@ class RequestHelper {
             "HOST": user.schoolCode + ".e-kreta.hu",
             "Authorization": "Bearer " + token,
             "Content-Type": "application/json; charset=utf-8",
-            "User-Agent": "szivacs_naplo"
+            "User-Agent": globals.userAgent
           },
           body: jsonBody);
       if (response.statusCode == 200)

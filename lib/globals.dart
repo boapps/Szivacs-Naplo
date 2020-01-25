@@ -41,6 +41,9 @@ List<Evaluation> currentEvals = new List();
 int themeID = 0;
 String htmlFAQ = "betöltés...";
 
+String userAgent;
+bool behaveNicely = true;
+
 List<Account> accounts = new List();
 Account selectedAccount;
 
