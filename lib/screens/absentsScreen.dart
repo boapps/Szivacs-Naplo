@@ -158,7 +158,7 @@ class AbsentsScreenState extends State<AbsentsScreen> {
   Future<Null> absenceDialog(Absence absence) async {
     return showDialog<Null>(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: true, // the user doesn't have to tap the button.
       builder: (BuildContext context) {
         return new AlertDialog(
           title: new Text(absence.TypeName),
@@ -256,8 +256,9 @@ class AbsentsScreenState extends State<AbsentsScreen> {
 
     for (Absence absence in thisAbsence)
       children.add(new ListTile(
-        leading: new Icon(absence.DelayTimeMinutes == 0 ? iconifyState(
-            absence.JustificationState) : (Icons.watch_later),
+        leading: new Icon(absence.DelayTimeMinutes == 0
+            ? iconifyState(absence.JustificationState)
+            : (Icons.watch_later),
             color: colorifyState(absence.JustificationState)),
         title: new Text(absence.Subject),
         subtitle: new Text(absence.Teacher),

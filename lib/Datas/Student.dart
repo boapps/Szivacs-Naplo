@@ -324,15 +324,19 @@ class Evaluation {
   ErtekFajtaBean ErtekFajta;
 
   User owner;
-  static const String HALF_YEAR = "HalfYear";
+  
   static const String MID_YEAR = "MidYear";
+  static const String TEXT = "Text";
+  static const String PERCENTAGE = "Percentage"; //Nem biztos, hogy így van, de hátha :D
+
+  static const String HALF_YEAR = "HalfYear";
   static const String END_YEAR = "EndYear";
   static const String FIRST_QUARTER = "IQuarterEvaluation";
   static const String THIRD_QUARTER = "IIIQuarterEvaluation";
 
-  static const String TEXT = "Text";
-
   bool isMidYear() => Type == MID_YEAR;
+  bool isText() => Type == TEXT;
+  bool isPercentage() => Type == PERCENTAGE;
 
   bool isHalfYear() => Type == HALF_YEAR;
   bool isEndYear() => Type == END_YEAR;
@@ -340,7 +344,6 @@ class Evaluation {
   bool isThirdQuarter() => Type == THIRD_QUARTER;
   bool isSummaryEvaluation() => (isHalfYear() || isEndYear() || isFirstQuarter() || isThirdQuarter());
 
-  bool isText() => Type == TEXT;
 
   int trueID() =>
       int.parse(EvaluationId.toString() + Jelleg.Id

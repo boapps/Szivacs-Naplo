@@ -16,6 +16,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:markdown/markdown.dart' as prefix0;
 // ad_end
 
+import '../Cards/SummaryCards.dart';
 import '../Cards/AbsenceCard.dart';
 import '../Cards/ChangedLessonCard.dart';
 import '../Cards/EvaluationCard.dart';
@@ -77,7 +78,7 @@ class MainScreenState extends State<MainScreen> {
   }
 
   // ad_start
-  void loadAds(){
+  void loadAds() {
     MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
       keywords: <String>['iskola', 'school', 'learning', 'tanulás'],
       testDevices: <String>[],
@@ -90,10 +91,8 @@ class MainScreenState extends State<MainScreen> {
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
         print("BannerAd event is $event");
-        if (event == MobileAdEvent.failedToLoad)
-          globals.loaded = false;
-        if (event == MobileAdEvent.loaded)
-          globals.loaded = true;
+        if (event == MobileAdEvent.failedToLoad) globals.loaded = false;
+        if (event == MobileAdEvent.loaded) globals.loaded = true;
         setState(() {
           globals.adHeight = globals.myBanner.size.height / 1;
           print("globals.adHeight: " + globals.adHeight.toString());
@@ -145,9 +144,9 @@ Boa
             new MaterialButton(
               child: Text("Értem"),
               onPressed: () {
-          SettingsHelper().setAcceptBlock(true);
-          Navigator.of(context).pop(true);
-        },
+                SettingsHelper().setAcceptBlock(true);
+                Navigator.of(context).pop(true);
+              },
             )
           ],
           title: Text("Egy üzenet a fejlesztőtől:"),
@@ -166,12 +165,12 @@ Boa
 
   Future<bool> showTOSDialog() async {
     return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return new TOSDialog();
-      },
-    ) ??
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return new TOSDialog();
+          },
+        ) ??
         false;
   }
 
@@ -185,8 +184,7 @@ Boa
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!(await SettingsHelper().getAcceptTOS()))
         showTOSDialog();
-      else if (!(await SettingsHelper().getAcceptBlock()))
-        showBlockDialog();
+      else if (!(await SettingsHelper().getAcceptBlock())) showBlockDialog();
     });
     _onRefresh(offline: true, showErrors: false).then((var a) async {
       mainScreenCards = await feedItems();
@@ -198,29 +196,42 @@ Boa
       globals.firstMain = false;
     }
     startDate = now;
-    new Timer.periodic(Duration(seconds: 10), (Timer t) => () async {
-      mainScreenCards = await feedItems();
-      setState((){});
-    });
+    new Timer.periodic(
+        Duration(seconds: 10),
+        (Timer t) => () async {
+              mainScreenCards = await feedItems();
+              setState(() {});
+            });
   }
+
+  bool firstQuarterCard = false;
+  bool halfYearCard = false;
+  bool thirdQuarterCard = false;
+  bool endYearCard = false;
 
   Future<List<Widget>> feedItems() async {
     int maximumFeedLength = 100;
 
     List<Widget> feedCards = new List();
 
+    List<Evaluation> firstQuarterEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isFirstQuarter())).toList();
+    List<Evaluation> halfYearEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isHalfYear())).toList();
+    List<Evaluation> thirdQuarterEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isThirdQuarter())).toList();
+    List<Evaluation> endYearEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isEndYear())).toList();
+
     for (String day in absents.keys.toList())
       feedCards.add(new AbsenceCard(absents[day], globals.isSingle, context));
-    for (Evaluation evaluation in evaluations) {
-      if (!evaluation.isSummaryEvaluation()) {
+    for (Evaluation evaluation in evaluations.where((Evaluation evaluation) => !evaluation.isSummaryEvaluation())) //Only add non-summary evals
       feedCards.add(new EvaluationCard(evaluation, globals.isColor, globals.isSingle, context));
-      }
-    }
     for (Note note in notes)
       feedCards.add(new NoteCard(note, globals.isSingle, context));
-    for (Lesson l in lessons.where((Lesson lesson) =>
-        (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
+    for (Lesson l in lessons.where((Lesson lesson) => (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
+
+    if (firstQuarterEvaluations.length != 0) feedCards.add(new SummaryCard(firstQuarterEvaluations, context, 1, firstQuarterEvaluations[0].Date));
+    if (halfYearEvaluations.length != 0) feedCards.add(new SummaryCard(halfYearEvaluations, context, 2, halfYearEvaluations[0].Date));
+    if (thirdQuarterEvaluations.length != 0) feedCards.add(new SummaryCard(thirdQuarterEvaluations, context, 3, thirdQuarterEvaluations[0].Date));
+    if (endYearEvaluations.length != 0) feedCards.add(new SummaryCard(endYearEvaluations, context, 4, endYearEvaluations[0].Date));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
     bool isLessonsToday = false;
@@ -257,7 +268,8 @@ Boa
     */
 
     for (Lesson l in realLessons) {
-      if (l.start.isAfter(now) && l.start.day == now.add(Duration(days: 1)).day) {
+      if (l.start.isAfter(now) &&
+          l.start.day == now.add(Duration(days: 1)).day) {
         isLessonsTomorrow = true;
         break;
       }
@@ -293,8 +305,9 @@ Boa
                 ),
                 new FlatButton(
                   onPressed: () async {
-                    await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-                    },
+                    await SystemChannels.platform
+                        .invokeMethod<void>('SystemNavigator.pop');
+                  },
                   child: new Text(S.of(context).yes),
                 ),
               ],
@@ -318,15 +331,21 @@ Boa
                 //todo search maybe?
               ],
             ),
-            body: hasOfflineLoaded && globals.isColor != null && mainScreenCards != null
+            body: hasOfflineLoaded &&
+                    globals.isColor != null &&
+                    mainScreenCards != null
                 ? new Container(
                     child: Column(children: <Widget>[
-                      !hasLoaded ? Container(
-                      child: new LinearProgressIndicator(
-                        value: null,
-                      ),
-                      height: 3,
-                      ):Container(height: 3,),
+                    !hasLoaded
+                        ? Container(
+                            child: new LinearProgressIndicator(
+                              value: null,
+                            ),
+                            height: 3,
+                          )
+                        : Container(
+                            height: 3,
+                          ),
                     new Expanded(
                       child: new RefreshIndicator(
                         child: new ListView(
@@ -344,10 +363,12 @@ Boa
                         },
                       ),
                     ),
-                      // ad_start
-                      globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
-                      // ad_end
-                    ]))
+                    // ad_start
+                    globals.loaded
+                        ? new Container(width: 400, height: globals.adHeight)
+                        : Container()
+                    // ad_end
+                  ]))
                 : new Center(child: new CircularProgressIndicator())));
   }
 
@@ -365,8 +386,7 @@ Boa
 
     if (globals.isSingle) {
       try {
-        await globals.selectedAccount
-            .refreshStudentString(offline, showErrors);
+        await globals.selectedAccount.refreshStudentString(offline, showErrors);
         tempEvaluations.addAll(globals.selectedAccount.student.Evaluations);
         tempNotes.addAll(globals.selectedAccount.notes);
         tempAbsents.addAll(globals.selectedAccount.absents);
@@ -417,9 +437,8 @@ Boa
       }
     } else {
       try {
-          lessons = await getLessons(
-              startDate, startDate.add(Duration(days: 6)), globals.selectedUser,
-              showErrors);
+        lessons = await getLessons(startDate, startDate.add(Duration(days: 6)),
+            globals.selectedUser, showErrors);
       } catch (exception) {
         print(exception);
       }
