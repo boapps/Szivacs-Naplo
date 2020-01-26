@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
               '/about': (_) => new AboutScreen(),
               '/timetable': (_) => new TimeTableScreen(),
               '/homework': (_) => new HomeworkScreen(),
-              '/evaluations': (_) => new EvaluationsScreen(),
+              //'/evaluations': (_) => new EvaluationsScreen(),
               '/notes': (_) => new NotesScreen(),
               '/messages': (_) => new MessageScreen(),
               '/absents': (_) => new AbsentsScreen(),
