@@ -376,6 +376,8 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                 new Text(dateToHuman(_evaluations[index].Date)),
                 new Text(dateToWeekDay(_evaluations[index].Date)),
               ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
             ),
             onTap: () {
               _evaluationDialog(_evaluations[index]);

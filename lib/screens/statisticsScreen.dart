@@ -246,7 +246,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     initEvals();
   }
 
-  void _onSelect(Average average) async {
+  void _onSelect(Average average) async { 
     setState(() {
       selectedAverage = average;
       globals.selectedAverage = selectedAverage;
@@ -550,8 +550,12 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               currentIndex: currentBody,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
+                  icon: new Icon(Icons.list),
+                  title: new Text("Összes")
+                ),
+                BottomNavigationBarItem(
                   icon: new Icon(Icons.insert_chart),
-                  title: new Text(S.of(context).averages),
+                  title: new Text("Tárgyanként"),//S.of(context).averages),
                 ),
                 BottomNavigationBarItem(
                   icon: new Icon(Icons.info),
@@ -599,9 +603,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     try {
       return new Column(
         children: <Widget>[
-          new Divider(
-            height: index != 0 ? 2.0 : 0.0,
-          ),
           new Card(
             child: new ListTile(
               leading: new Container(
@@ -636,6 +637,8 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                       new Text(dateToHuman(globals.currentEvals[index].Date)),
                       new Text(dateToWeekDay(globals.currentEvals[index].Date)),
                     ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                   ),
                   globals.currentEvals[index].Mode == "Hamis"
                       ? new Container(
@@ -832,7 +835,7 @@ class GradeDialogState extends State<GradeDialog> {
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text("TZ: "),
+              new Text("Súlyozás: "),
               new Checkbox(
                 value: isTZ,
                 onChanged: (value) {
