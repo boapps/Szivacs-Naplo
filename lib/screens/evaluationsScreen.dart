@@ -359,9 +359,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                   border: Border.all(
                       color: (_evaluations[index].Weight != "100%" &&
                               _evaluations[index].Weight != null)
-                          ? globals.isDark ? Colors.white60 : Colors.black45
+                          ? globals.isDark ? Colors.white30 : Colors.black26
                           : Colors.transparent,
-                      width: 4
+                      width: 3
                       ),
                   borderRadius: new BorderRadius.all(Radius.circular(40))),
             ),

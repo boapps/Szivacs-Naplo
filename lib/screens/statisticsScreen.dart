@@ -687,9 +687,9 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     border: Border.all(
                         color: (globals.currentEvals[index].Weight != "100%" &&
                                 globals.currentEvals[index].Weight != null)
-                            ? globals.isDark ? Colors.white60 : Colors.black45
+                            ? globals.isDark ? Colors.white30 : Colors.black26
                             : Colors.transparent,
-                        width: 4),
+                        width: 3),
                     borderRadius: new BorderRadius.all(Radius.circular(40))),
               ),
               title: new Text(globals.currentEvals[index].Theme),
