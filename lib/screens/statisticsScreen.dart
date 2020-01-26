@@ -4,13 +4,15 @@ import 'dart:ui';
 import 'package:charts_flutter/flutter.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
-
 import '../Datas/Average.dart';
 import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import 'dart:ui' as dart_ui;
+import '../Utils/ColorManager.dart';
+import '../Dialog/SortDialog.dart';
+import '../Datas/User.dart';
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -20,6 +22,7 @@ class StatisticsScreen extends StatefulWidget {
   @override
   StatisticsScreenState createState() => new StatisticsScreenState();
 }
+
 //todo refactor this file
 List<Average> averages = new List();
 List<TimeAverage> timeData = new List();
@@ -39,6 +42,53 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   double allAverage;
   double allMedian;
   int allMode;
+
+  List<Evaluation> _evaluations = new List();
+  List<Average> averages = new List();
+  List<User> users = new List();
+
+  bool hasOfflineLoaded = false;
+  bool hasLoaded = true;
+
+  User selectedUser;
+
+  Future<bool> showSortDialog() {
+    return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            return new SortDialog();
+          },
+        ) ??
+        false;
+  }
+
+  void refreshSort() async {
+    setState(() {
+      switch (globals.sort) {
+        case 0:
+          _evaluations.sort((a, b) => b.CreatingTime.compareTo(a.CreatingTime));
+          break;
+        case 1:
+          _evaluations.sort((a, b) {
+            if (a.realValue == b.realValue)
+              return b.CreatingTime.compareTo(a.CreatingTime);
+            return a.realValue.compareTo(b.realValue);
+          });
+          break;
+        case 2:
+          _evaluations.sort((a, b) {
+            if (a.Subject == b.Subject)
+              return b.CreatingTime.compareTo(a.CreatingTime);
+            return a.Subject.compareTo(b.Subject);
+          });
+          break;
+        case 3:
+          _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
+          break;
+      }
+    });
+  }
 
   Color color = MaterialPalette.blue.shadeDefault;
 
@@ -95,8 +145,8 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     return getColorForAverage(average);
   }
 
-  dart_ui.Color getColorForAverage(double average){
-    switch(average.round()){
+  dart_ui.Color getColorForAverage(double average) {
+    switch (average.round()) {
       case 1:
         return globals.color1;
       case 2:
@@ -116,9 +166,11 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     await globals.selectedAccount.refreshStudentString(true, false);
     evals = globals.selectedAccount.student.Evaluations;
     evals.removeWhere((Evaluation evaluation) =>
-    evaluation.NumberValue == 0 ||
-        evaluation.Mode == "Na" || evaluation.Weight == null ||
-        evaluation.Weight == "-" || !evaluation.isMidYear());
+        evaluation.NumberValue == 0 ||
+        evaluation.Mode == "Na" ||
+        evaluation.Weight == null ||
+        evaluation.Weight == "-" ||
+        evaluation.isSummaryEvaluation());
     _onSelect(averages[0]);
     for (Evaluation e in evals)
       switch (e.NumberValue) {
@@ -141,12 +193,9 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     allAverage = getAllAverages();
     allMedian = getMedian();
     allMode = getModusz();
-    if (allMedian==null)
-      allMedian = 0;
-    if (allAverage==null)
-      allAverage = 0;
-    if (allMode==null)
-      allMode = 0;
+    if (allMedian == null) allMedian = 0;
+    if (allAverage == null) allAverage = 0;
+    if (allMode == null) allMode = 0;
   }
 
   double getAllAverages() {
@@ -164,48 +213,46 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         n += multiplier;
       }
     }
-    if (n > 0)
-      return sum / n;
+    if (n > 0) return sum / n;
 
     return 0;
   }
 
   double getMedian() {
     List<int> jegyek = new List();
-    for (Evaluation e in evals)
-      jegyek.add(e.NumberValue);
+    for (Evaluation e in evals) jegyek.add(e.NumberValue);
     jegyek.sort();
     if (!jegyek.length.isEven)
-      return jegyek[((jegyek.length+1)/2).round()]/1;
-    return (jegyek[(jegyek.length/2).round()]+jegyek[(jegyek.length/2+1).round()])/2;
+      return jegyek[((jegyek.length + 1) / 2).round()] / 1;
+    return (jegyek[(jegyek.length / 2).round()] +
+            jegyek[(jegyek.length / 2 + 1).round()]) /
+        2;
   }
 
-  int getModusz(){
+  int getModusz() {
     int max = 0;
     List<int> dbk = [db1, db2, db3, db4, db5];
-    for (int n in dbk)
-      if (n > max)
-        max = n;
-    return dbk.indexOf(max)+1;
+    for (int n in dbk) if (n > max) max = n;
+    return dbk.indexOf(max) + 1;
   }
 
   double getAverage(List<Evaluation> evaluations) {
     double db = 0;
     double sum = 0;
-    for (Evaluation evaluation in evaluations){
+    for (Evaluation evaluation in evaluations) {
       if (evaluation.IsAtlagbaBeleszamit && evaluation.NumberValue != 0) {
-          double multiplier = 1;
-          try {
-            multiplier = double.parse(evaluation.Weight.replaceAll("%", "")) / 100;
-          } catch (e) {
-            print(e);
-          }
-          sum += evaluation.NumberValue * multiplier;
-          db += multiplier;
+        double multiplier = 1;
+        try {
+          multiplier =
+              double.parse(evaluation.Weight.replaceAll("%", "")) / 100;
+        } catch (e) {
+          print(e);
+        }
+        sum += evaluation.NumberValue * multiplier;
+        db += multiplier;
       }
     }
-    if (db > 0)
-      return sum / db;
+    if (db > 0) return sum / db;
 
     return 0;
   }
@@ -217,14 +264,21 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       averages.removeWhere((Average average) => average.value < 1);
       if (averages == null || averages.isEmpty) {
         Map<String, List<Evaluation>> evaluationsBySubject = Map();
-        for (Evaluation evaluation in globals.selectedAccount.midyearEvaluations) {
+        for (Evaluation evaluation
+            in globals.selectedAccount.midyearEvaluations) {
           if (evaluationsBySubject[evaluation.Subject] == null)
             evaluationsBySubject[evaluation.Subject] = List();
           evaluationsBySubject[evaluation.Subject].add(evaluation);
         }
 
         evaluationsBySubject.forEach((String subject, List evaluations) {
-          averages.add(new Average(subject, evaluations[0].SubjectCategory, evaluations[0].SubjectCategoryName, double.parse(getAverage(evaluations).toStringAsFixed(2)), 0.0, 0.0));
+          averages.add(new Average(
+              subject,
+              evaluations[0].SubjectCategory,
+              evaluations[0].SubjectCategoryName,
+              double.parse(getAverage(evaluations).toStringAsFixed(2)),
+              0.0,
+              0.0));
         });
       }
       if (averages == null || averages.isEmpty)
@@ -241,7 +295,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     initEvals();
   }
 
-  void _onSelect(Average average) async {
+  void _onSelect(Average average) async { 
     setState(() {
       selectedAverage = average;
       globals.selectedAverage = selectedAverage;
@@ -264,9 +318,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         if (average.subject == e.Subject) {
           globals.currentEvals.add(e);
           setState(() {
-            timeData.add(new TimeAverage(
-                e.CreatingTime,
-                e.NumberValue));
+            timeData.add(new TimeAverage(e.CreatingTime, e.NumberValue));
             series = [
               new Series(
                 displayName: "asd",
@@ -321,6 +373,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   int currentBody = 0;
+  Widget evaluationsBody;
   Widget averageBody;
   Widget dataBody;
 
@@ -337,100 +390,144 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       ),
     ];
 
-    dataBody = new SingleChildScrollView(child: new Center(
-      child: new Container(
-        margin: EdgeInsets.all(10),
-        child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .grade1, style: TextStyle(fontSize: 21),),
-                new Text(db1.toString() + " db", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .grade2, style: TextStyle(fontSize: 21),),
-                new Text(db2.toString() + " db", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .grade3, style: TextStyle(fontSize: 21),),
-                new Text(db3.toString() + " db", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .grade4, style: TextStyle(fontSize: 21),),
-                new Text(db4.toString() + " db", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .grade5, style: TextStyle(fontSize: 21),),
-                new Text(db5.toString() + " db", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            new Divider(),
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .all_average, style: TextStyle(fontSize: 21),),
-                new Text(allAverage != null ? allAverage.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .all_median, style: TextStyle(fontSize: 21),),
-                new Text(allMedian != null ? allMedian.toStringAsFixed(2):"...", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            Row(
-              children: <Widget>[
-                new Text(S
-                    .of(context)
-                    .all_mode, style: TextStyle(fontSize: 21),),
-                new Text(allMode != null ? allMode.toString():"...", style: TextStyle(fontSize: 21),),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-
-          ],
-      ),
-      ),
-    ),
+    evaluationsBody = new Scaffold(
+      floatingActionButton: new Tooltip(
+                  child: new FlatButton(
+                    onPressed: () {
+                      showSortDialog().then((b) {
+                        refreshSort();
+                      });
+                    },
+                    child: new Icon(Icons.sort, color: Colors.white),
+                  ),
+                  message: S.of(context).sort,
+                ),
     );
 
-    averageBody = new Stack(
-        children: <Widget>[
-          new Column(
+    dataBody = new SingleChildScrollView(
+      child: new Center(
+        child: new Container(
+          margin: EdgeInsets.all(10),
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Container(
-                  child: selectedAverage != null
-                      ? new DropdownButton(
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).grade1,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    db1.toString() + " db",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).grade2,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    db2.toString() + " db",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).grade3,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    db3.toString() + " db",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).grade4,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    db4.toString() + " db",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).grade5,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    db5.toString() + " db",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              new Divider(),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).all_average,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    allAverage != null ? allAverage.toStringAsFixed(2) : "...",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).all_median,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    allMedian != null ? allMedian.toStringAsFixed(2) : "...",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Row(
+                children: <Widget>[
+                  new Text(
+                    S.of(context).all_mode,
+                    style: TextStyle(fontSize: 21),
+                  ),
+                  new Text(
+                    allMode != null ? allMode.toString() : "...",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    averageBody = new Stack(children: <Widget>[
+      new Column(
+        children: <Widget>[
+          new Container(
+            child: selectedAverage != null
+                ? new DropdownButton(
                     items: averages.map((Average average) {
                       return new DropdownMenuItem<Average>(
                           value: average,
@@ -442,67 +539,72 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     }).toList(),
                     onChanged: _onSelect,
                     value: selectedAverage,
-                  ) : new Container(),
-                alignment: Alignment(0, 0),
-                margin: EdgeInsets.all(5),
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(S
-                      .of(context)
-                      .average),
-                  new Text(
-                    avrString,
-                    style: TextStyle(
-                        color: getColorForAverageString(avrString),
-                        fontWeight: FontWeight.bold),
-                  ),
-                  new Container(padding: EdgeInsets.only(left: 10),),
-                  selectedAverage != null ? selectedAverage.classValue != null
-                      ? new Text(S
-                      .of(context)
-                      .class_average)
-                      : Container() : Container(),
-                  selectedAverage != null ? selectedAverage.classValue != null
-                      ? new Text(
-                    selectedAverage.classValue != 0 ? selectedAverage.classValue.toString():r"¯\_(ツ)_/¯",
-                    style: TextStyle(
-                        color: getColorForAverage(selectedAverage.classValue),
-                        fontWeight: FontWeight.bold
-                    ),
                   )
-                      : Container() : Container(),
-                ],
+                : new Container(),
+            alignment: Alignment(0, 0),
+            margin: EdgeInsets.all(5),
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(S.of(context).average),
+              new Text(
+                avrString,
+                style: TextStyle(
+                    color: getColorForAverageString(avrString),
+                    fontWeight: FontWeight.bold),
               ),
               new Container(
-                child: new SizedBox(
-                  child: new TimeSeriesChart(
-                    series,
-                    animate: true,
-                    primaryMeasureAxis: NumericAxisSpec(
-                      showAxisLine: true,
-                    ),
-                  ),
-                  height: 150,
-                ),
+                padding: EdgeInsets.only(left: 10),
               ),
-              new Flexible(child:
-              new Container(
-                child: new ListView.builder(
-                  itemBuilder: _itemBuilder,
-                  itemCount: globals.currentEvals.length,
-                  shrinkWrap: true,
-                ),
-              ),
-              ),
+              selectedAverage != null
+                  ? selectedAverage.classValue != null
+                      ? new Text(S.of(context).class_average)
+                      : Container()
+                  : Container(),
+              selectedAverage != null
+                  ? selectedAverage.classValue != null
+                      ? new Text(
+                          selectedAverage.classValue != 0
+                              ? selectedAverage.classValue.toString()
+                              : r"¯\_(ツ)_/¯",
+                          style: TextStyle(
+                              color: getColorForAverage(
+                                  selectedAverage.classValue),
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Container()
+                  : Container(),
             ],
           ),
-        ]);
-
+          new Container(
+            child: new SizedBox(
+              child: new TimeSeriesChart(
+                series,
+                animate: true,
+                primaryMeasureAxis: NumericAxisSpec(
+                  showAxisLine: true,
+                ),
+              ),
+              height: 150,
+            ),
+          ),
+          new Flexible(
+            child: new Container(
+              child: new ListView.builder(
+                itemBuilder: _itemBuilder,
+                itemCount: globals.currentEvals.length,
+                shrinkWrap: true,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ]);
 
     return new WillPopScope(
         onWillPop: () {
+
 
           globals.screen = 0;
           Navigator.pushReplacementNamed(context, "/main");
@@ -511,48 +613,48 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: currentBody,
               items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.insert_chart),
-                title: new Text(S
-                    .of(context)
-                    .averages),
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.info),
-                title: new Text(S
-                    .of(context)
-                    .datas),
-              ),
-            ],
-            onTap: switchToScreen,
+                BottomNavigationBarItem(
+                  icon: new Icon(Icons.list),
+                  title: new Text("Összes")
+                ),
+                BottomNavigationBarItem(
+                  icon: new Icon(Icons.insert_chart),
+                  title: new Text("Tárgyanként"),//S.of(context).averages),
+                ),
+                BottomNavigationBarItem(
+                  icon: new Icon(Icons.info),
+                  title: new Text(S.of(context).datas),
+                ),
+              ],
+              onTap: switchToScreen,
             ),
             drawer: GDrawer(),
             appBar: new AppBar(
-              title: new Text(S
-                  .of(context)
-                  .statistics),
+              title: new Text(S.of(context).statistics),
               actions: <Widget>[
-                currentBody==0 ? new FlatButton(
-                  onPressed: () {
-                    return showDialog(
-                          barrierDismissible: true,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return new GradeDialog(this.callback);
-                          },
-                        ) ??
-                        false;
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ):new Container(),
+                currentBody == 0
+                    ? new FlatButton(
+                        onPressed: () {
+                          return showDialog(
+                                barrierDismissible: true,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return new GradeDialog(this.callback);
+                                },
+                              ) ??
+                              false;
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      )
+                    : new Container(),
               ],
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
-            body: currentBody==0 ? averageBody:dataBody));
+            body: currentBody == 0 ? averageBody : dataBody));
   }
 
   void switchToScreen(int n) {
@@ -565,56 +667,71 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     try {
       return new Column(
         children: <Widget>[
-          new Divider(
-            height: index != 0 ? 2.0 : 0.0,
-          ),
-          new ListTile(
-            leading: new Container(
-              child: new Text(
-                  globals.currentEvals[index].NumberValue.toString(),
-                textScaleFactor: 2.0,
-                style: TextStyle(color: globals.currentEvals[index].color)
-              ),
-              padding: EdgeInsets.only(left: 8.0),
-            ),
-            title: new Text(globals.currentEvals[index].Subject),
-            subtitle: new Text(globals.currentEvals[index].Theme),
-            trailing: new Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Column(
-                  children: <Widget>[
-                    new Text(dateToHuman(globals.currentEvals[index].Date)),
-                    new Text(dateToWeekDay(globals.currentEvals[index].Date)),
-                  ],
+          new Card(
+            child: new ListTile(
+              leading: new Container(
+                child: new Text(
+                  globals.currentEvals[index].realValue.toString(),
+                  style: new TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: getColors(context,
+                          globals.currentEvals[index].realValue, false)),
                 ),
-                globals.currentEvals[index].Mode == "Hamis"
-                    ? new Container(
-                        padding: EdgeInsets.all(0.0),
-                        margin: EdgeInsets.all(0),
-                        height: 40,
-                        width: 40,
-                        child: new FlatButton(
-                          onPressed: () {
-                            setState(() {
-                              globals.currentEvals.removeAt(index);
-                              callback();
-                            });
-                          },
-                          child: new Icon(
-                            Icons.clear,
-                            color: Colors.redAccent,
-                            size: 30,
-                          ),
+                alignment: Alignment(0, 0),
+                height: 45,
+                width: 45,
+                decoration: new BoxDecoration(
+                    color: getColors(
+                        context, globals.currentEvals[index].realValue, true),
+                    border: Border.all(
+                        color: (globals.currentEvals[index].Weight != "100%" &&
+                                globals.currentEvals[index].Weight != null)
+                            ? globals.isDark ? Colors.white60 : Colors.black45
+                            : Colors.transparent,
+                        width: 4),
+                    borderRadius: new BorderRadius.all(Radius.circular(40))),
+              ),
+              title: new Text(globals.currentEvals[index].Theme),
+              trailing: new Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  new Column(
+                    children: <Widget>[
+                      new Text(dateToHuman(globals.currentEvals[index].Date)),
+                      new Text(dateToWeekDay(globals.currentEvals[index].Date)),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                  ),
+                  globals.currentEvals[index].Mode == "Hamis"
+                      ? new Container(
                           padding: EdgeInsets.all(0.0),
-                        ),
-                      )
-                    : new Container(),
-              ],
+                          margin: EdgeInsets.all(0),
+                          height: 40,
+                          width: 40,
+                          child: new FlatButton(
+                            onPressed: () {
+                              setState(() {
+                                globals.currentEvals.removeAt(index);
+                                callback();
+                              });
+                            },
+                            child: new Icon(
+                              Icons.clear,
+                              color: Colors.redAccent,
+                              size: 30,
+                            ),
+                            padding: EdgeInsets.all(0.0),
+                          ),
+                        )
+                      : new Container(),
+                ],
+              ),
+              onTap: () {
+                _evaluationDialog(globals.currentEvals[index]);
+              },
             ),
-            onTap: () {
-              _evaluationDialog(globals.currentEvals[index]);
-            },
           ),
         ],
       );
@@ -634,41 +751,22 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             child: new ListBody(
               children: <Widget>[
                 evaluation.Theme != ""
-                    ? new Text(S
-                    .of(context)
-                    .theme + evaluation.Theme)
+                    ? new Text(S.of(context).theme + evaluation.Theme)
                     : new Container(),
-                new Text(S
-                    .of(context)
-                    .teacher + evaluation.Teacher),
-                new Text(S
-                    .of(context)
-                    .time +
-                    dateToHuman(evaluation.Date)),
-                new Text(S
-                    .of(context)
-                    .mode + evaluation.Mode),
-                new Text(S
-                    .of(context)
-                    .administration_time +
+                new Text(S.of(context).teacher + evaluation.Teacher),
+                new Text(S.of(context).time + dateToHuman(evaluation.Date)),
+                new Text(S.of(context).mode + evaluation.Mode),
+                new Text(S.of(context).administration_time +
                     dateToHuman(evaluation.CreatingTime)),
-                new Text(S
-                    .of(context)
-                    .weight + evaluation.Weight),
-                new Text(S
-                    .of(context)
-                    .value + evaluation.Value),
-                new Text(S
-                    .of(context)
-                    .range + evaluation.FormName),
+                new Text(S.of(context).weight + evaluation.Weight),
+                new Text(S.of(context).value + evaluation.Value),
+                new Text(S.of(context).range + evaluation.FormName),
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text(S
-                  .of(context)
-                  .ok),
+              child: new Text(S.of(context).ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -711,9 +809,7 @@ class GradeDialogState extends State<GradeDialog> {
   Widget build(BuildContext context) {
     return new SimpleDialog(
       contentPadding: EdgeInsets.all(0),
-      title: new Text(S
-          .of(context)
-          .if_i_got),
+      title: new Text(S.of(context).if_i_got),
       children: <Widget>[
         Container(
           child: Row(
@@ -803,7 +899,7 @@ class GradeDialogState extends State<GradeDialog> {
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text("TZ: "),
+              new Text("Súlyozás: "),
               new Checkbox(
                 value: isTZ,
                 onChanged: (value) {
@@ -824,10 +920,8 @@ class GradeDialogState extends State<GradeDialog> {
                   onChanged: _onWeightInput,
                   autocorrect: false,
                   autofocus: isTZ,
-                  decoration: InputDecoration(
-                    suffix: Text("%"),
-                    hintText: "200"
-                  ),
+                  decoration:
+                      InputDecoration(suffix: Text("%"), hintText: "200"),
                   keyboardAppearance: Brightness.dark,
                   enabled: isTZ,
                 ),
@@ -877,9 +971,7 @@ class GradeDialogState extends State<GradeDialog> {
             });
           },
           child: new Text(
-            S
-                .of(context)
-                .done,
+            S.of(context).done,
             style: TextStyle(color: Theme.of(context).accentColor),
           ),
           padding: EdgeInsets.all(10),

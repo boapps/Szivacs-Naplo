@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../Cards/SummaryCards.dart';
 import '../Cards/AbsenceCard.dart';
 import '../Cards/ChangedLessonCard.dart';
 import '../Cards/EvaluationCard.dart';
@@ -65,8 +66,13 @@ class MainScreenState extends State<MainScreen> {
     globals.color3 = await SettingsHelper().getEvalColor(2);
     globals.color4 = await SettingsHelper().getEvalColor(3);
     globals.color5 = await SettingsHelper().getEvalColor(4);
-  }
 
+    globals.colorF1 = globals.color1.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF2 = globals.color2.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF3 = globals.color3.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF4 = globals.color4.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+    globals.colorF5 = globals.color5.computeLuminance() >= 0.5 ? Colors.black : Colors.white;
+  }
 
   Future<bool> showBlockDialog() async {
     return showDialog<bool>(
@@ -91,9 +97,9 @@ Boa
             new MaterialButton(
               child: Text("Értem"),
               onPressed: () {
-          SettingsHelper().setAcceptBlock(true);
-          Navigator.of(context).pop(true);
-        },
+                SettingsHelper().setAcceptBlock(true);
+                Navigator.of(context).pop(true);
+              },
             )
           ],
           title: Text("Egy üzenet a fejlesztőtől:"),
@@ -112,12 +118,12 @@ Boa
 
   Future<bool> showTOSDialog() async {
     return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return new TOSDialog();
-      },
-    ) ??
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return new TOSDialog();
+          },
+        ) ??
         false;
   }
 
@@ -128,8 +134,7 @@ Boa
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!(await SettingsHelper().getAcceptTOS()))
         showTOSDialog();
-      else if (!(await SettingsHelper().getAcceptBlock()))
-        showBlockDialog();
+      else if (!(await SettingsHelper().getAcceptBlock())) showBlockDialog();
     });
     _onRefresh(offline: true, showErrors: false).then((var a) async {
       mainScreenCards = await feedItems();
@@ -141,28 +146,42 @@ Boa
       globals.firstMain = false;
     }
     startDate = now;
-    new Timer.periodic(Duration(seconds: 10), (Timer t) => () async {
-      mainScreenCards = await feedItems();
-      setState((){});
-    });
+    new Timer.periodic(
+        Duration(seconds: 10),
+        (Timer t) => () async {
+              mainScreenCards = await feedItems();
+              setState(() {});
+            });
   }
+
+  bool firstQuarterCard = false;
+  bool halfYearCard = false;
+  bool thirdQuarterCard = false;
+  bool endYearCard = false;
 
   Future<List<Widget>> feedItems() async {
     int maximumFeedLength = 100;
 
     List<Widget> feedCards = new List();
 
+    List<Evaluation> firstQuarterEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isFirstQuarter())).toList();
+    List<Evaluation> halfYearEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isHalfYear())).toList();
+    List<Evaluation> thirdQuarterEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isThirdQuarter())).toList();
+    List<Evaluation> endYearEvaluations = (evaluations.where((Evaluation evaluation) => evaluation.isEndYear())).toList();
+
     for (String day in absents.keys.toList())
       feedCards.add(new AbsenceCard(absents[day], globals.isSingle, context));
-    for (Evaluation evaluation in evaluations)
-      feedCards.add(new EvaluationCard(
-          evaluation, globals.isColor, globals.isSingle, context));
+    for (Evaluation evaluation in evaluations.where((Evaluation evaluation) => !evaluation.isSummaryEvaluation())) //Only add non-summary evals
+      feedCards.add(new EvaluationCard(evaluation, globals.isColor, globals.isSingle, context));
     for (Note note in notes)
       feedCards.add(new NoteCard(note, globals.isSingle, context));
-
-    for (Lesson l in lessons.where((Lesson lesson) =>
-        (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
+    for (Lesson l in lessons.where((Lesson lesson) => (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
+
+    if (firstQuarterEvaluations.isNotEmpty) feedCards.add(new SummaryCard(firstQuarterEvaluations, context, "Első negyedévi jegyek", false, true));
+    if (halfYearEvaluations.isNotEmpty) feedCards.add(new SummaryCard(halfYearEvaluations, context, "Félévi jegyek", false, true));
+    if (thirdQuarterEvaluations.isNotEmpty) feedCards.add(new SummaryCard(thirdQuarterEvaluations, context, "Harmadik negyedévi jegyek", false, true));
+    if (endYearEvaluations.isNotEmpty) feedCards.add(new SummaryCard(endYearEvaluations, context, "Év végi jegyek", false, true));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
     bool isLessonsToday = false;
@@ -199,7 +218,8 @@ Boa
     */
 
     for (Lesson l in realLessons) {
-      if (l.start.isAfter(now) && l.start.day == now.add(Duration(days: 1)).day) {
+      if (l.start.isAfter(now) &&
+          l.start.day == now.add(Duration(days: 1)).day) {
         isLessonsTomorrow = true;
         break;
       }
@@ -235,8 +255,9 @@ Boa
                 ),
                 new FlatButton(
                   onPressed: () async {
-                    await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-                    },
+                    await SystemChannels.platform
+                        .invokeMethod<void>('SystemNavigator.pop');
+                  },
                   child: new Text(S.of(context).yes),
                 ),
               ],
@@ -260,15 +281,21 @@ Boa
                 //todo search maybe?
               ],
             ),
-            body: hasOfflineLoaded && globals.isColor != null && mainScreenCards != null
+            body: hasOfflineLoaded &&
+                    globals.isColor != null &&
+                    mainScreenCards != null
                 ? new Container(
                     child: Column(children: <Widget>[
-                      !hasLoaded ? Container(
-                      child: new LinearProgressIndicator(
-                        value: null,
-                      ),
-                      height: 3,
-                      ):Container(height: 3,),
+                    !hasLoaded
+                        ? Container(
+                            child: new LinearProgressIndicator(
+                              value: null,
+                            ),
+                            height: 3,
+                          )
+                        : Container(
+                            height: 3,
+                          ),
                     new Expanded(
                       child: new RefreshIndicator(
                         child: new ListView(
@@ -286,7 +313,9 @@ Boa
                         },
                       ),
                     ),
+
                     ]))
+
                 : new Center(child: new CircularProgressIndicator())));
   }
 
@@ -304,8 +333,7 @@ Boa
 
     if (globals.isSingle) {
       try {
-        await globals.selectedAccount
-            .refreshStudentString(offline, showErrors);
+        await globals.selectedAccount.refreshStudentString(offline, showErrors);
         tempEvaluations.addAll(globals.selectedAccount.student.Evaluations);
         tempNotes.addAll(globals.selectedAccount.notes);
         tempAbsents.addAll(globals.selectedAccount.absents);
@@ -356,9 +384,8 @@ Boa
       }
     } else {
       try {
-          lessons = await getLessons(
-              startDate, startDate.add(Duration(days: 6)), globals.selectedUser,
-              showErrors);
+        lessons = await getLessons(startDate, startDate.add(Duration(days: 6)),
+            globals.selectedUser, showErrors);
       } catch (exception) {
         print(exception);
       }

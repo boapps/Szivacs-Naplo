@@ -324,18 +324,26 @@ class Evaluation {
   ErtekFajtaBean ErtekFajta;
 
   User owner;
-  static const String HALF_YEAR = "HalfYear";
+  
   static const String MID_YEAR = "MidYear";
-  static const String END_YEAR = "EndYear";
   static const String TEXT = "Text";
+  static const String PERCENTAGE = "Percentage"; //Nem biztos, hogy így van, de hátha :D
+
+  static const String HALF_YEAR = "HalfYear";
+  static const String END_YEAR = "EndYear";
+  static const String FIRST_QUARTER = "IQuarterEvaluation";
+  static const String THIRD_QUARTER = "IIIQuarterEvaluation";
 
   bool isMidYear() => Type == MID_YEAR;
+  bool isText() => Type == TEXT;
+  bool isPercentage() => Type == PERCENTAGE;
 
   bool isHalfYear() => Type == HALF_YEAR;
-
   bool isEndYear() => Type == END_YEAR;
+  bool isFirstQuarter() => Type == FIRST_QUARTER;
+  bool isThirdQuarter() => Type == THIRD_QUARTER;
+  bool isSummaryEvaluation() => (isHalfYear() || isEndYear() || isFirstQuarter() || isThirdQuarter());
 
-  bool isText() => Type == TEXT;
 
   int trueID() =>
       int.parse(EvaluationId.toString() + Jelleg.Id
@@ -351,7 +359,9 @@ class Evaluation {
           return 4;
         case "Változó":
           return 3;
-        case "Hanyag":
+        case "Hanyag": //Szorgalom
+          return 2;
+        case "Rossz": //Magatartás
           return 2;
       }
     }
@@ -421,7 +431,7 @@ class Evaluation {
   Color get color {
     switch (Weight) {
       case "100%":
-        return null;
+        return Colors.white;
         break;
       case "200%":
         return Colors.redAccent;

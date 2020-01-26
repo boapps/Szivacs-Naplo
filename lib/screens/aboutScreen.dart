@@ -8,6 +8,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../Helpers/RequestHelper.dart';
+
 void main() {
   runApp(new MaterialApp(
     home: new AboutScreen(),
@@ -16,10 +18,7 @@ void main() {
       GlobalWidgetsLocalizations.delegate,
     ],
     supportedLocales: S.delegate.supportedLocales,
-    onGenerateTitle: (BuildContext context) =>
-    S
-        .of(context)
-        .title,
+    onGenerateTitle: (BuildContext context) => S.of(context).title,
   ));
 }
 
@@ -36,20 +35,19 @@ class AboutScreenState extends State<AboutScreen> {
     if (clicksUntilEasteregg > 1) {
       clicksUntilEasteregg--;
       Fluttertoast.showToast(
-          msg: clicksUntilEasteregg.toString() +
-              " lépésre vagy a battle royale módtól!",
+          msg: clicksUntilEasteregg.toString() + " lépésre vagy a battle royale módtól!",
           backgroundColor: Colors.black,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
     } else if (!showEasteregg) {
       showEasteregg = true;
+      //globals.behaveNicely = false;
+      RequestHelper().refreshSzivacsSettigns();
       Fluttertoast.showToast(
-          msg: "battle royale mód: töröld le a krétát",
+          msg: "Töröld le a krétát!"/*\nHiperhajtómű aktiválva! 🚀✅"*/,
           backgroundColor: Colors.green,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
       Navigator.pushReplacementNamed(context, "/easteregg");
     }
   }
@@ -64,24 +62,20 @@ class AboutScreenState extends State<AboutScreen> {
         child: Scaffold(
           drawer: GDrawer(),
           appBar: new AppBar(
-            title: new Text(S
-                .of(context)
-                .title),
-            actions: <Widget>[
-            ],
+            title: new Text(S.of(context).title),
+            actions: <Widget>[],
           ),
-          body:
-          new Center(
+          body: new Center(
             child: Container(
               child: new ListView(
                 padding: EdgeInsets.all(20),
                 children: <Widget>[
                   new Container(
                     child: new Text(
-                      S
-                          .of(context)
-                          .title,
-                      style: new TextStyle(fontSize: 28.0,),
+                      S.of(context).title,
+                      style: new TextStyle(
+                        fontSize: 28.0,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     padding: EdgeInsets.only(bottom: 30.0),
@@ -89,15 +83,18 @@ class AboutScreenState extends State<AboutScreen> {
                   new Row(
                     children: <Widget>[
                       new Text(
-                        S
-                            .of(context)
-                            .version,
-                        style: new TextStyle(fontSize: 22.0, ),
+                        S.of(context).version,
+                        style: new TextStyle(
+                          fontSize: 22.0,
+                        ),
                       ),
                       new GestureDetector(
                         onTap: battleRoyaleCounter,
-                        child: new Text(globals.version,
-                          style: new TextStyle(fontSize: 22.0, color: Theme.of(context).accentColor),
+                        child: new Text(
+                          globals.version,
+                          style: new TextStyle(
+                              fontSize: 22.0,
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],
@@ -107,15 +104,16 @@ class AboutScreenState extends State<AboutScreen> {
                     child: new Row(
                       children: <Widget>[
                         new Text(
-                          S
-                              .of(context)
-                              .made_by,
-                          style: new TextStyle(fontSize: 22.0, ),
+                          S.of(context).made_by,
+                          style: new TextStyle(
+                            fontSize: 22.0,
+                          ),
                         ),
-                        new Text(S
-                            .of(context)
-                            .boa,
-                          style: new TextStyle(fontSize: 22.0, color: Theme.of(context).accentColor),
+                        new Text(
+                          S.of(context).boa,
+                          style: new TextStyle(
+                              fontSize: 22.0,
+                              color: Theme.of(context).accentColor),
                         ),
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -124,170 +122,243 @@ class AboutScreenState extends State<AboutScreen> {
                   new Row(
                     children: <Widget>[
                       new Text(
-                        S
-                            .of(context)
-                            .made_with,
+                        S.of(context).made_with,
 //                                    style: Theme.of(context).textTheme.title,
-                        style: new TextStyle(fontSize: 22.0, ),
+                        style: new TextStyle(
+                          fontSize: 22.0,
+                        ),
                       ),
-                      new Text(S
-                          .of(context)
-                          .flutter,
-                        style: new TextStyle(fontSize: 22.0, color: Theme.of(context).accentColor),
+                      new Text(
+                        S.of(context).flutter,
+                        style: new TextStyle(
+                            fontSize: 22.0,
+                            color: Theme.of(context).accentColor),
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
                   ),
-                  new FlatButton(onPressed: _launchFAQ,
+                  new FlatButton(
+                    onPressed: _launchFAQ,
                     child: new Row(
                       children: <Widget>[
                         new Container(
-                          child: new Icon(Icons.question_answer,
-                            color: Colors.green, size: 20.0,),
-                          padding: EdgeInsets.all(5.0),
-                        ),
-                        new Text(S.of(context).faq, style: new TextStyle(
-                          color: Colors.green, fontSize: 20.0,),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  ),
-                  new FlatButton(onPressed: _launchTOS,
-                    child: new Row(
-                      children: <Widget>[
-                        new Container(
-                          child: new Icon(Icons.error,
-                            color: Colors.red, size: 20.0,),
-                          padding: EdgeInsets.all(5.0),
-                        ),
-                        new Text("Felhasználási feltételek", style: new TextStyle(
-                          color: Colors.red, fontSize: 20.0,),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  ),
-                  new FlatButton(onPressed: _launchYoutubeURL,
-                    child: new Row(
-                      children: <Widget>[
-                        new Container(
-                          child: new Icon(IconData(0xf5c3, fontFamily: "Material Design Icons"),
-                            color: Colors.red, size: 20.0,),
+                          child: new Icon(
+                            Icons.question_answer,
+                            color: Colors.green,
+                            size: 20.0,
+                          ),
                           padding: EdgeInsets.all(5.0),
                         ),
                         new Text(
-                          S
-                              .of(context)
-                              .youtube, style: new TextStyle(
-                          color: Colors.red, fontSize: 20.0,),
+                          S.of(context).faq,
+                          style: new TextStyle(
+                            color: Colors.green,
+                            fontSize: 20.0,
+                          ),
                         ),
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
                   ),
-                  new FlatButton(onPressed: _launchTelegramURL,
+                  new FlatButton(
+                    onPressed: _launchTOS,
+                    child: new Row(
+                      children: <Widget>[
+                        new Container(
+                          child: new Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 20.0,
+                          ),
+                          padding: EdgeInsets.all(5.0),
+                        ),
+                        new Text(
+                          "Felhasználási feltételek",
+                          style: new TextStyle(
+                            color: Colors.red,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
+                  new FlatButton(
+                    onPressed: _launchYoutubeURL,
+                    child: new Row(
+                      children: <Widget>[
+                        new Container(
+                          child: new Icon(
+                            IconData(0xf5c3,
+                                fontFamily: "Material Design Icons"),
+                            color: Colors.red,
+                            size: 20.0,
+                          ),
+                          padding: EdgeInsets.all(5.0),
+                        ),
+                        new Text(
+                          S.of(context).youtube,
+                          style: new TextStyle(
+                            color: Colors.red,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
+                  new FlatButton(
+                      onPressed: _launchTelegramURL,
                       child: new Row(
                         children: <Widget>[
                           new Container(
-                            child: new Icon(IconData(0xf501, fontFamily: "Material Design Icons"), color: Colors.blue, size: 20.0,),
+                            child: new Icon(
+                              IconData(0xf501,
+                                  fontFamily: "Material Design Icons"),
+                              color: Colors.blue,
+                              size: 20.0,
+                            ),
                             padding: EdgeInsets.all(5.0),
                           ),
                           new Text(
-                            S
-                                .of(context)
-                                .telegram, style: new TextStyle(
-                            color: Colors.blue, fontSize: 20.0,),
+                            S.of(context).telegram,
+                            style: new TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20.0,
+                            ),
                           ),
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
-                      )
-                  ),
-                  new FlatButton(onPressed: _launchGmailURL,
+                      )),
+                  new FlatButton(
+                      onPressed: _launchGmailURL,
                       child: new Row(
                         children: <Widget>[
                           new Container(
-                            child: new Icon(IconData(0xf2ab, fontFamily: "Material Design Icons"), color: Colors.red, size: 20.0,),
+                            child: new Icon(
+                              IconData(0xf2ab,
+                                  fontFamily: "Material Design Icons"),
+                              color: Colors.red,
+                              size: 20.0,
+                            ),
                             padding: EdgeInsets.all(5.0),
                           ),
                           new Text(
-                            S
-                                .of(context)
-                                .email,
+                            S.of(context).email,
                             style: new TextStyle(
                               color: Colors.red,
-                              fontSize: 20.0,),
+                              fontSize: 20.0,
+                            ),
                           ),
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
-                      )
-                  ),
-                  new FlatButton(onPressed: _launchGithubURL,
+                      )),
+                  new FlatButton(
+                      onPressed: _launchGithubURL,
                       child: new Row(
                         children: <Widget>[
                           new Container(
-                            child: new Icon(IconData(0xf2a4, fontFamily: "Material Design Icons"), color: Colors.black, size: 20.0,),
+                            child: new Icon(
+                              IconData(0xf2a4,
+                                  fontFamily: "Material Design Icons"),
+                              color: Colors.black,
+                              size: 20.0,
+                            ),
                             padding: EdgeInsets.all(5.0),
                           ),
                           new Text(
-                            S
-                                .of(context)
-                                .github, style: new TextStyle(fontSize: 20.0,),
+                            S.of(context).github,
+                            style: new TextStyle(
+                              fontSize: 20.0,
+                            ),
                           ),
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
-                      )
-                  ),
-                  new FlatButton(onPressed: _launchInstagramURL,
+                      )),
+                  new FlatButton(
+                      onPressed: _launchInstagramURL,
                       child: new Row(
                         children: <Widget>[
                           new Container(
-                            child: new Icon(IconData(0xf2fe,
-                                fontFamily: "Material Design Icons"),
-                              color: Colors.pink, size: 20.0,),
+                            child: new Icon(
+                              IconData(0xf2fe,
+                                  fontFamily: "Material Design Icons"),
+                              color: Colors.pink,
+                              size: 20.0,
+                            ),
                             padding: EdgeInsets.all(5.0),
                           ),
                           new Text(
-                            S
-                                .of(context)
-                                .instagram, style: new TextStyle(
-                            color: Colors.pink, fontSize: 20.0,),
+                            S.of(context).instagram,
+                            style: new TextStyle(
+                              color: Colors.pink,
+                              fontSize: 20.0,
+                            ),
                           ),
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
-                      )
-                  ),
+                      )),
+                  /*!globals.behaveNicely
+                      ? new RaisedButton(
+                          key: null,
+                          onPressed: _behaveNicelyAgain,
+                          color: const Color(0xFFe0e0e0),
+                          child: new Text(
+                            "Hiperhajtúmű kikapcsolása 🚀❌",
+                            style: new TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.black,
+                            ),
+                          ))
+                      : new Text(
+                          "Psszt... Nyomkodd meg a verziószámot!",
+                          style:
+                              new TextStyle(fontSize: 12.0, color: Colors.grey),
+                        ),*/
+                  (globals.selectedUser == null) //If there is no user selected, show a button to go back to login screen.
+                      ? new Container(
+                          child: new RaisedButton(
+                            onPressed: _popToLogin,
+                            child: new Text(
+                              "Vissza a bejelentkezéshez",
+                              style: new TextStyle(
+                                fontSize: 17.0,
+                              ),
+                            ),
+                          ),
+                          padding: EdgeInsets.all(5)
+                        )
+                      : new Container(),
                 ],
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 
   _launchFAQ() async {
-     return showDialog<Null>(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return new SimpleDialog(
-            children: <Widget>[
-              new SingleChildScrollView(
-                child: Html(data: globals.htmlFAQ),
-              ),
-            ],
-            title: Text(S.of(context).faq),
-            contentPadding: EdgeInsets.all(20),
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                style: BorderStyle.none,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(3),
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            new SingleChildScrollView(
+              child: Html(data: globals.htmlFAQ),
             ),
-          );
-        },
-      );
+          ],
+          title: Text(S.of(context).faq),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(3),
+          ),
+        );
+      },
+    );
   }
 
   _launchYoutubeURL() async {
@@ -342,5 +413,20 @@ class AboutScreenState extends State<AboutScreen> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  _behaveNicelyAgain() {
+    globals.behaveNicely = true;
+    Fluttertoast.showToast(
+        msg: "Hiperhajtómű kikapcsolva.",
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    RequestHelper().refreshSzivacsSettigns();
+    Navigator.pushNamed(context, "/about");
+  }
+
+  _popToLogin() {
+    Navigator.pushNamed(context, "/login");
   }
 }

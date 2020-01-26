@@ -71,7 +71,7 @@ class LessonCard extends StatelessWidget {
           barrierDismissible: true,
           context: context,
           builder: (BuildContext context) {
-            return new HomeworkDialog(lesson);
+            return new HomeworkDialog(lesson);            
           },
         ) ??
         false;

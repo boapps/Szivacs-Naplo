@@ -1,6 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:e_szivacs/globals.dart' as globals;
 
+Color getColors(BuildContext context, int value, bool getBackground) {
+    switch (value) { //Define background and foreground color of the card for number values.
+        case 1:
+          return getBackground
+          ? globals.color1
+          : globals.colorF1;
+        case 2:
+          return getBackground
+          ? globals.color2
+          : globals.colorF2;
+        case 3:
+          return getBackground
+          ? globals.color3
+          : globals.colorF3;
+        case 4:
+          return getBackground
+          ? globals.color4
+          : globals.colorF4;
+        case 5:
+          return getBackground
+          ? globals.color5
+          : globals.colorF5;
+        default:
+          return getBackground
+          ? Colors.white
+          : Colors.black;
+  }
+}
+
 class ColorManager {
 
   Color getColorSample(int id){
