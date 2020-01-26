@@ -44,7 +44,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 28
         versionCode 2050
-        versionName "2.2.18"
+        versionName "2.2.19"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
