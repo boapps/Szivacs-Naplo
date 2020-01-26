@@ -1,0 +1,76 @@
+name: e_szivacs
+description: A new Flutter application.
+
+dependencies:
+  background_fetch: '^0.2.0'
+  path_provider: "^0.4.0"
+  fluro: "^1.3.1"
+  url_launcher: ^3.0.3
+  http: ^0.11.0
+  html_unescape: ^1.0.1+2
+  flutter_html: ^0.9.4
+  http_client: ^0.5.0
+  flutter_local_notifications: ^0.8.1+1
+  package_info: ^0.4.0+1
+  permission_handler: ^3.2.2
+  flutter_material_color_picker: ^0.0.5
+  markdown: ^2.1.1
+  flutter_rounded_date_picker: 0.2.0
+  charts_flutter: ^0.8.1
+  dynamic_theme:
+    git:
+      url: git://github.com/Norbert515/dynamic_theme.git
+  flutter_linkify: ^1.0.3
+  flutter_localizations:
+    sdk: flutter
+  csv: ^4.0.3
+  fluttertoast: ^3.0.4
+  date_range_picker: ^1.0.6
+  connectivity: ^0.4.3+7
+  json_annotation: ^2.0.0
+  sembast: ^2.0.1
+  encrypt: '>=3.1.0'
+  crypto: '>=2.0.6'
+  flutter_secure_storage: ^3.2.1+1
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: "^0.7.0"
+  intl_translation: ^0.17.1
+  build_runner: ^1.0.0
+  json_serializable: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon.png
+    - assets/noise.webp
+    - assets/data.json
+
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: fonts/Rubik/Rubik-Regular.ttf
+    - family: Quicksand
+      fonts:
+        - asset: fonts/Quicksand/Quicksand-Regular.ttf
+    - family: Titillium_Web
+      fonts:
+        - asset: fonts/Titillium_Web/TitilliumWeb-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat/Montserrat-Regular.ttf
+    - family: Material Design Icons
+      fonts:
+        - asset: fonts/materialdesign/materialdesignicons-webfont.ttf
