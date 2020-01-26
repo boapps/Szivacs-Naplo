@@ -234,10 +234,10 @@ Boa
     for (Lesson l in lessons.where((Lesson lesson) => (lesson.isMissed || lesson.isSubstitution) && lesson.date.isAfter(now)))
       feedCards.add(ChangedLessonCard(l, context));
 
-    if (firstQuarterEvaluations.length != 0) feedCards.add(new SummaryCard(firstQuarterEvaluations, context, 1, firstQuarterEvaluations[0].Date));
-    if (halfYearEvaluations.length != 0) feedCards.add(new SummaryCard(halfYearEvaluations, context, 2, halfYearEvaluations[0].Date));
-    if (thirdQuarterEvaluations.length != 0) feedCards.add(new SummaryCard(thirdQuarterEvaluations, context, 3, thirdQuarterEvaluations[0].Date));
-    if (endYearEvaluations.length != 0) feedCards.add(new SummaryCard(endYearEvaluations, context, 4, endYearEvaluations[0].Date));
+    if (firstQuarterEvaluations.isNotEmpty) feedCards.add(new SummaryCard(firstQuarterEvaluations, context, "Első negyedévi jegyek", false, true));
+    if (halfYearEvaluations.isNotEmpty) feedCards.add(new SummaryCard(halfYearEvaluations, context, "Félévi jegyek", false, true));
+    if (thirdQuarterEvaluations.isNotEmpty) feedCards.add(new SummaryCard(thirdQuarterEvaluations, context, "Harmadik negyedévi jegyek", false, true));
+    if (endYearEvaluations.isNotEmpty) feedCards.add(new SummaryCard(endYearEvaluations, context, "Év végi jegyek", false, true));
 
     List realLessons = lessons.where((Lesson l) => !l.isMissed).toList();
     bool isLessonsToday = false;

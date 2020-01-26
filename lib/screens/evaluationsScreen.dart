@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:e_szivacs/Cards/SummaryCards.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ import '../Dialog/SortDialog.dart';
 import '../GlobalDrawer.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
+import '../Utils/ColorManager.dart';
 
 void main() {
   runApp(new MaterialApp(home: new EvaluationsScreen()));
@@ -112,15 +114,17 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                               ),
                               onRefresh: _onRefresh),
                         ),
-                  // ad_start
-                  globals.loaded ? new Container(width: 400, height: globals.adHeight):Container()
-                  // ad_end
-
-                ])
+                        // ad_start
+                        globals.loaded
+                            ? new Container(
+                                width: 400, height: globals.adHeight)
+                            : Container()
+                        // ad_end
+                      ])
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
-  Future<Null> _onRefresh({bool showErrors=true}) async {
+  Future<Null> _onRefresh({bool showErrors = true}) async {
     setState(() {
       hasLoaded = false;
     });
@@ -229,7 +233,8 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(evaluation.Subject??evaluation.Jelleg.Leiras + " " + evaluation.Value),
+          title: new Text(evaluation.Subject ??
+              evaluation.Jelleg.Leiras + " " + evaluation.Value),
           titlePadding: EdgeInsets.only(left: 16, right: 16, top: 16),
           content: new SingleChildScrollView(
             child: new ListBody(
@@ -309,6 +314,9 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
               style: TextStyle(fontSize: 16),
             ),
             margin: EdgeInsets.all(6),
+            color: globals.isDark ? Colors.white24 : Colors.black12,
+            alignment: Alignment(0,0),
+            constraints: BoxConstraints.expand(height: 36),
           );
         break;
       case 2:
@@ -320,6 +328,12 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
               style: TextStyle(fontSize: 16),
             ),
             margin: EdgeInsets.all(6),
+            alignment: Alignment(0,0),
+            decoration: new BoxDecoration(
+              color: globals.isDark ? Colors.white24 : Colors.black12,
+              borderRadius: new BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
+            ),
+            constraints: BoxConstraints.expand(height: 36),
           );
         break;
     }
@@ -333,15 +347,28 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         new ListTile(
           leading: new Container(
             child: new Text(
-              _evaluations[index].NumberValue != 0
-                  ? _evaluations[index].NumberValue.toString()
-                  : textShort ?? "",
-              textScaleFactor: 2.0,
-              style: TextStyle(color: _evaluations[index].color),
+              _evaluations[index].realValue.toString(),
+              style: new TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      getColors(context, _evaluations[index].realValue, false)),
             ),
-            padding: EdgeInsets.only(left: 8.0),
+            alignment: Alignment(0, 0),
+            height: 45,
+            width: 45,
+            decoration: new BoxDecoration(
+                color: getColors(context, _evaluations[index].realValue, true),
+                border: Border.all(
+                    color: _evaluations[index].color,
+                    width: (_evaluations[index].Weight != "100%" &&
+                            _evaluations[index].Weight != null)
+                        ? 4
+                        : 0.000001), //With 0 it was still 1 pixel wide...
+                borderRadius: new BorderRadius.all(Radius.circular(40))),
           ),
-          title: new Text(_evaluations[index].Subject??_evaluations[index].Jelleg.Leiras),
+          title: new Text(
+              _evaluations[index].Subject ?? _evaluations[index].Jelleg.Leiras),
           subtitle:
               new Text(_evaluations[index].Theme ?? _evaluations[index].Value),
           trailing: new Column(

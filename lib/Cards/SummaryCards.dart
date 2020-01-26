@@ -13,49 +13,37 @@ import '../Helpers/SettingsHelper.dart';
 import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import '../Cards/EvaluationCard.dart';
+import '../Utils/ColorManager.dart';
 
 class SummaryCard extends StatelessWidget {
   List<Evaluation> summaryEvaluations;
   BuildContext context;
   int summaryType;
   DateTime date;
+  String title;
+  bool showTheme;
+  bool showTitle;
 
-  SummaryCard(List<Evaluation> summaryEvaluations, BuildContext context, int summaryType, DateTime date) { //Summary types: 1: 1st Q, 2: Mid-year, 3: 3rd Q, 4: End-year
+  SummaryCard(List<Evaluation> summaryEvaluations, BuildContext context, String title, bool showTheme, bool showTitle) { //Summary types: 1: 1st Q, 2: Mid-year, 3: 3rd Q, 4: End-year
     this.summaryEvaluations = summaryEvaluations;
     this.context = context;
-    this.summaryType = summaryType;
-    this.date = date;
+    this.title = title;
+    this.showTheme = showTheme;
+    this.showTitle = showTitle;
   }
 
   @override
   Widget build(BuildContext context) {
-    String summaryTitle;
-    switch (summaryType) {
-      case 1:
-        summaryTitle = "Első negyedévi jegyek";
-        break;
-      case 2:
-        summaryTitle = "Félévi jegyek";
-        break;
-      case 3:
-        summaryTitle = "Harmadik negyedévi jegyek";
-        break;
-      case 4:
-        summaryTitle = "Év végi jegyek - Jó szünetet!";
-        break;
-      default:
-        summaryTitle = "Hiba!";
-    }
-
     return new Card(
         child: new Container(
       child: new Column(
         children: <Widget>[
-          new Container(
+          showTitle
+          ? new Container(
             child: new Column(
               children: <Widget>[
                 new Text(
-                  summaryTitle,
+                  title,
                   style:
                       new TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
@@ -65,7 +53,8 @@ class SummaryCard extends StatelessWidget {
             padding: EdgeInsets.all(7),
             color: globals.isDark ? Colors.white24 : Colors.black12,
             constraints: BoxConstraints.expand(height: 36),
-          ),
+          )
+          : new Container(),
           new Container(
             child: evaluationList(context)
           )
@@ -80,11 +69,11 @@ class SummaryCard extends StatelessWidget {
     ));
   }
   
-  String getDate() {
+  String getDate() {//Place the card on the main page where the last item on it would go
     return summaryEvaluations.first.CreatingTime.toIso8601String()??"" + summaryEvaluations.first.trueID().toString()??"";
   }
 
-  @override
+  @override //Köszi BoA az emailes segítségnyújtást, erre nem jöttem volna rá :D
   Key get key => new Key(getDate());
 
   Widget evaluationList(BuildContext context) {
@@ -107,7 +96,12 @@ class SummaryCard extends StatelessWidget {
               borderRadius: new BorderRadius.all(Radius.circular(40))
             ),
         ),
-        title: new Text(evaluation.Subject ?? evaluation.Jelleg.Leiras),
+        title: new Text(
+          evaluation.Subject ?? evaluation.Jelleg.Leiras,
+          style: new TextStyle(
+            fontWeight: FontWeight.bold
+          ),
+          ),
         subtitle: new Text(evaluation.Teacher),
         trailing: new Text(dateToHuman(evaluation.Date)),
         onTap: () {openDialog(evaluation);},
@@ -182,33 +176,4 @@ class SummaryCard extends StatelessWidget {
       },
     );
   }
-
-  getColors(BuildContext context, int value, bool getBackground) {
-    switch (value) { //Define background and foreground color of the card for number values.
-        case 1:
-          return getBackground
-          ? globals.color1
-          : globals.colorF1;
-        case 2:
-          return getBackground
-          ? globals.color2
-          : globals.colorF2;
-        case 3:
-          return getBackground
-          ? globals.color3
-          : globals.colorF3;
-        case 4:
-          return getBackground
-          ? globals.color4
-          : globals.colorF4;
-        case 5:
-          return getBackground
-          ? globals.color5
-          : globals.colorF5;
-        default:
-          return getBackground
-          ? Colors.white
-          : Colors.black;
-  }
-}
 }

@@ -431,7 +431,7 @@ class Evaluation {
   Color get color {
     switch (Weight) {
       case "100%":
-        return null;
+        return Colors.white;
         break;
       case "200%":
         return Colors.redAccent;
