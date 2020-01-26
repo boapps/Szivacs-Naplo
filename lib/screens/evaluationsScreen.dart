@@ -166,7 +166,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
             if (a.realValue == b.realValue)
               return b.CreatingTime.compareTo(a.CreatingTime);
             return a.realValue.compareTo(b.realValue);
-          });
+          });                                                                                                                                                                                                                                                                                                                                                                                                                                                           
           break;
         case 2:
           _evaluations.sort((a, b) {

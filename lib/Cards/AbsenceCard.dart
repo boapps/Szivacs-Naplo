@@ -61,7 +61,7 @@ class AbsenceCard extends StatelessWidget {
       state = "igazolandó";
       color = Colors.blue;
     } else {
-      state="vegyes";
+      state = "vegyes";
       color = Colors.orange;
     }
     }
@@ -181,9 +181,9 @@ class AbsenceCard extends StatelessWidget {
     return GestureDetector(
         onTap: openDialog,
         child: new Card(
+        margin: EdgeInsets.all(6.0),
       child: new Column(
         children: <Widget>[
-
           new Container(
             child: new Row(
               children: <Widget>[
@@ -232,7 +232,6 @@ class AbsenceCard extends StatelessWidget {
           )
         ],
       ),
-        ),
-    );
+    ));
   }
 }

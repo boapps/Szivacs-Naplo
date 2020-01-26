@@ -166,6 +166,7 @@ class LessonCard extends StatelessWidget {
         _lessonsDialog(lessons);
       },
       child: new Card(
+        margin: EdgeInsets.all(6.0),
         child: new Column(
           children: <Widget>[
             new Container(

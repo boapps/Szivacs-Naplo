@@ -35,7 +35,9 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Card(
-        child: new Container(
+      color: globals.isDark ? globals.isAmoled ? Colors.grey[900] : Colors.grey[700] : Colors.grey[300],
+      margin: EdgeInsets.all(6.0),
+      child: new Container(
       child: new Column(
         children: <Widget>[
           showTitle
@@ -51,19 +53,29 @@ class SummaryCard extends StatelessWidget {
               ],
             ),
             padding: EdgeInsets.all(7),
-            color: globals.isDark ? Colors.white24 : Colors.black12,
             constraints: BoxConstraints.expand(height: 36),
           )
           : new Container(),
           new Container(
-            child: evaluationList(context)
+            child: evaluationList(context),
+            padding: EdgeInsets.fromLTRB(0.0, 6.0, 0.0, 6.0),
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  style: BorderStyle.none,
+                  width: 0,
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              color: globals.isDark ? globals.isAmoled ? Colors.black : Colors.grey[850] : Colors.white,
+            ),
           )
         ],
       ),
       decoration: new BoxDecoration(
         border: Border.all(
-            color: globals.isDark ? Colors.white54 : Colors.black45,
-            width: 1.5),
+            color: globals.isDark ? globals.isAmoled ? Colors.grey[900] : Colors.grey[700] : Colors.grey[300],
+            width: 2.5),
         borderRadius: new BorderRadius.all(Radius.circular(5)),
       ),
     ));
@@ -170,7 +182,7 @@ class SummaryCard extends StatelessWidget {
               style: BorderStyle.none,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(5),
           ),
         );
       },
