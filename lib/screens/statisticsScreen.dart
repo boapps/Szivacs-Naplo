@@ -271,7 +271,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   void _initAllEvals() async {
     try {
       await globals.selectedAccount.refreshStudentString(true, false);
-      allEvals.addAll(globals.selectedAccount.student.Evaluations);
+      allEvals = (globals.selectedAccount.student.Evaluations.where((Evaluation evaluation) => evaluation.isMidYear())).toList();
     } catch (exeption) {
       Fluttertoast.showToast(
           msg: "Nem sikerült betölteni a jegyeket",
@@ -379,10 +379,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     Widget _allBuilder(BuildContext context, int index) {
       Widget sep = new Container();
 
-      switch (globals.sort) {
-        case 0:
-          break;
-        case 1:
+      if (globals.sort == 1) {
           if (((index == 0) && (allEvals[index].Value.length < 16) ||
               (allEvals[index].Value != allEvals[index - 1].Value &&
                   allEvals[index].Value.length < 16)))
@@ -398,23 +395,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 ),
                 margin:
                     EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 3));
-          break;
-        case 2:
-          if (index == 0 ||
-              (allEvals[index].Subject != allEvals[index - 1].Subject))
-            sep = Card(
-                color: globals.isDark ? Colors.grey[1000] : Colors.grey[300],
-                child: Container(
-                  child: new Text(
-                    allEvals[index].Subject,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  alignment: Alignment(0, 0),
-                  constraints: BoxConstraints.expand(height: 36),
-                ),
-                margin:
-                    EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 3));
-          break;
       }
 
       return new Column(
@@ -445,10 +425,13 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     borderRadius: new BorderRadius.all(Radius.circular(40))),
               ),
               title: new Text(
-                  allEvals[index].Subject ?? allEvals[index].Jelleg.Leiras ?? "",
+                  allEvals[index].Subject ??
+                      allEvals[index].Jelleg.Leiras ??
+                      "",
                   style: new TextStyle(fontWeight: FontWeight.bold)),
               subtitle:
-                  new Text(allEvals[index].Theme ?? allEvals[index].Value) ?? "",
+                  new Text(allEvals[index].Theme ?? allEvals[index].Value) ??
+                      "",
               trailing: new Column(
                 children: <Widget>[
                   new Text(dateToHuman(allEvals[index].Date)) ?? "",
@@ -466,11 +449,32 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       );
     }
 
+    void refreshSort() async {
+    setState(() {
+      switch (globals.sort) {
+        case 0:
+          allEvals.sort((a, b) => b.CreatingTime.compareTo(a.CreatingTime));
+          break;
+        case 1:
+          allEvals.sort((a, b) {
+            if (a.realValue == b.realValue)
+              return b.CreatingTime.compareTo(a.CreatingTime);
+            return a.realValue.compareTo(b.realValue);
+          });
+          break;
+        case 2:
+          allEvals.sort((a, b) => b.Date.compareTo(a.Date));
+          break;
+      }
+    });
+  }
+
     evaluationsBody = new Scaffold(
         floatingActionButton: new FloatingActionButton(
           onPressed: () {
             showSortDialog().then((b) {
-              //refreshSort();
+              refreshSort();
+              switchToScreen(0);
             });
           },
           child: new Icon(Icons.sort, color: Colors.white),
@@ -605,86 +609,105 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       ),
     );
 
-    averageBody = new Stack(children: <Widget>[
-      new Column(
-        children: <Widget>[
-          new Container(
-            child: selectedAverage != null
-                ? new DropdownButton(
-                    items: averages.map((Average average) {
-                      return new DropdownMenuItem<Average>(
-                          value: average,
-                          child: new Row(
-                            children: <Widget>[
-                              new Text(average.subject),
-                            ],
-                          ));
-                    }).toList(),
-                    onChanged: _onSelect,
-                    value: selectedAverage,
-                  )
-                : new Container(),
-            alignment: Alignment(0, 0),
-            margin: EdgeInsets.all(5),
-          ),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Text(S.of(context).average),
-              new Text(
-                avrString,
-                style: TextStyle(
-                    color: getColorForAverageString(avrString),
-                    fontWeight: FontWeight.bold),
+    averageBody = Scaffold(
+      body: new Stack(children: <Widget>[
+        new Column(
+          children: <Widget>[
+            new Container(
+              child: selectedAverage != null
+                  ? new DropdownButton(
+                      items: averages.map((Average average) {
+                        return new DropdownMenuItem<Average>(
+                            value: average,
+                            child: new Row(
+                              children: <Widget>[
+                                new Text(average.subject),
+                              ],
+                            ));
+                      }).toList(),
+                      onChanged: _onSelect,
+                      value: selectedAverage,
+                    )
+                  : new Container(),
+              alignment: Alignment(0, 0),
+              margin: EdgeInsets.all(5),
+            ),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(S.of(context).average),
+                new Text(
+                  avrString,
+                  style: TextStyle(
+                      color: getColorForAverageString(avrString),
+                      fontWeight: FontWeight.bold),
+                ),
+                new Container(
+                  padding: EdgeInsets.only(left: 10),
+                ),
+                selectedAverage != null
+                    ? selectedAverage.classValue != null
+                        ? new Text(S.of(context).class_average)
+                        : Container()
+                    : Container(),
+                selectedAverage != null
+                    ? selectedAverage.classValue != null
+                        ? new Text(
+                            selectedAverage.classValue != 0
+                                ? selectedAverage.classValue.toString()
+                                : r"¯\_(ツ)_/¯",
+                            style: TextStyle(
+                                color: getColorForAverage(
+                                    selectedAverage.classValue),
+                                fontWeight: FontWeight.bold),
+                          )
+                        : Container()
+                    : Container(),
+              ],
+            ),
+            new Container(
+              child: new SizedBox(
+                child: new TimeSeriesChart(
+                  series,
+                  animate: true,
+                  primaryMeasureAxis: NumericAxisSpec(
+                    showAxisLine: true,
+                  ),
+                ),
+                height: 150,
               ),
-              new Container(
-                padding: EdgeInsets.only(left: 10),
-              ),
-              selectedAverage != null
-                  ? selectedAverage.classValue != null
-                      ? new Text(S.of(context).class_average)
-                      : Container()
-                  : Container(),
-              selectedAverage != null
-                  ? selectedAverage.classValue != null
-                      ? new Text(
-                          selectedAverage.classValue != 0
-                              ? selectedAverage.classValue.toString()
-                              : r"¯\_(ツ)_/¯",
-                          style: TextStyle(
-                              color: getColorForAverage(
-                                  selectedAverage.classValue),
-                              fontWeight: FontWeight.bold),
-                        )
-                      : Container()
-                  : Container(),
-            ],
-          ),
-          new Container(
-            child: new SizedBox(
-              child: new TimeSeriesChart(
-                series,
-                animate: true,
-                primaryMeasureAxis: NumericAxisSpec(
-                  showAxisLine: true,
+            ),
+            new Flexible(
+              //Build list of evaluations below graph
+              child: new Container(
+                child: new ListView.builder(
+                  itemBuilder: _itemBuilder,
+                  itemCount: globals.currentEvals.length,
+                  shrinkWrap: true,
                 ),
               ),
-              height: 150,
             ),
-          ),
-          new Flexible(
-            //Build list of evaluations below graph
-            child: new Container(
-              child: new ListView.builder(
-                itemBuilder: _itemBuilder,
-                itemCount: globals.currentEvals.length,
-                shrinkWrap: true,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
+      ]),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () {
+          return showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return new GradeDialog(this.callback);
+                },
+              ) ??
+              false;
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        tooltip: S.of(context).sort,
       ),
-    ]);
+    );
 
     return new WillPopScope(
         onWillPop: () {
@@ -703,36 +726,13 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: new Icon(Icons.assistant),
-                  title: new Text("Eredmények"),
+                  title: new Text("Statisztika"),
                 ),
               ],
               onTap: switchToScreen,
             ),
             drawer: GDrawer(),
-            appBar: new AppBar(
-              title: new Text(S.of(context).statistics),
-              actions: <Widget>[
-                currentBody == 0
-                    ? new FlatButton(
-                        onPressed: () {
-                          return showDialog(
-                                barrierDismissible: true,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return new GradeDialog(this.callback);
-                                },
-                              ) ??
-                              false;
-                        },
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                      )
-                    : new Container(),
-              ],
-            ),
-            //floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
+            appBar: new AppBar(title: new Text(S.of(context).evaluations)),
             body: (currentBody == 0
                 ? evaluationsBody
                 : (currentBody == 1 ? averageBody : dataBody))));
@@ -810,7 +810,15 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                 ],
               ),
               onTap: () {
-                _evaluationDialog(globals.currentEvals[index]);
+                try {
+                  _evaluationDialog(globals.currentEvals[index]);
+                } catch (exeption) {
+                  Fluttertoast.showToast(
+                      msg: "HIBA",
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
               },
             ),
           ),
@@ -827,21 +835,23 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: new Text(evaluation.Subject + " " + evaluation.Value),
+          title:
+              new Text(evaluation.Subject ?? "" + " " + evaluation.Value ?? ""),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
                 evaluation.Theme != ""
-                    ? new Text(S.of(context).theme + evaluation.Theme)
+                    ? new Text(S.of(context).theme + evaluation.Theme ?? "")
                     : new Container(),
-                new Text(S.of(context).teacher + evaluation.Teacher),
-                new Text(S.of(context).time + dateToHuman(evaluation.Date)),
-                new Text(S.of(context).mode + evaluation.Mode),
+                new Text(S.of(context).teacher + evaluation.Teacher ?? ""),
+                new Text(
+                    S.of(context).time + dateToHuman(evaluation.Date ?? "")),
+                new Text(S.of(context).mode + evaluation.Mode ?? ""),
                 new Text(S.of(context).administration_time +
-                    dateToHuman(evaluation.CreatingTime)),
-                new Text(S.of(context).weight + evaluation.Weight),
-                new Text(S.of(context).value + evaluation.Value),
-                new Text(S.of(context).range + evaluation.FormName),
+                    dateToHuman(evaluation.CreatingTime ?? "")),
+                new Text(S.of(context).weight + evaluation.Weight ?? ""),
+                new Text(S.of(context).value + evaluation.Value ?? ""),
+                new Text(S.of(context).range + evaluation.FormName ?? ""),
               ],
             ),
           ),

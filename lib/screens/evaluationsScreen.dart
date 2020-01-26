@@ -115,9 +115,7 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
                               ),
                               onRefresh: _onRefresh),
                         ),
-
-                ])
-
+                      ])
                     : new Center(child: new CircularProgressIndicator()))));
   }
 
@@ -142,9 +140,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         _evaluations.sort((a, b) => a.realValue.compareTo(b.realValue));
         break;
       case 2:
-        _evaluations.sort((a, b) => a.Subject.compareTo(b.Subject));
-        break;
-      case 3:
         _evaluations.sort((a, b) => a.Date.compareTo(b.Date));
         break;
     }
@@ -169,13 +164,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
           });
           break;
         case 2:
-          _evaluations.sort((a, b) {
-            if (a.Subject == b.Subject)
-              return b.CreatingTime.compareTo(a.CreatingTime);
-            return a.Subject.compareTo(b.Subject);
-          });
-          break;
-        case 3:
           _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
           break;
       }
@@ -207,13 +195,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         });
         break;
       case 2:
-        _evaluations.sort((a, b) {
-          if (a.Subject == b.Subject)
-            return b.CreatingTime.compareTo(a.CreatingTime);
-          return a.Subject.compareTo(b.Subject);
-        });
-        break;
-      case 3:
         _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
         break;
     }
@@ -279,22 +260,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    String textShort;
-
-    switch (_evaluations[index].Value) {
-      case "Példás":
-        textShort = "Pé.";
-        break;
-      case "Jó":
-        textShort = "Jó";
-        break;
-      case "Változó":
-        textShort = "Vá.";
-        break;
-      case "Hanyag":
-        textShort = "Ha.";
-        break;
-    }
 
     Widget sep = new Container();
 
@@ -337,9 +302,6 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
     return new Column(
       children: <Widget>[
         sep,
-        /*new Divider(
-          height: index != 0 ? 2.0 : 0.0,
-        ),*/
         new Card(
           child: new ListTile(
             leading: new Container(
@@ -355,14 +317,14 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
               height: 45,
               width: 45,
               decoration: new BoxDecoration(
-                  color: getColors(context, _evaluations[index].realValue, true),
+                  color:
+                      getColors(context, _evaluations[index].realValue, true),
                   border: Border.all(
                       color: (_evaluations[index].Weight != "100%" &&
                               _evaluations[index].Weight != null)
                           ? globals.isDark ? Colors.white60 : Colors.black45
                           : Colors.transparent,
-                      width: 4
-                      ),
+                      width: 4),
                   borderRadius: new BorderRadius.all(Radius.circular(40))),
             ),
             title: new Text(
