@@ -11,6 +11,8 @@ import '../Utils/StringFormatter.dart';
 import '../globals.dart' as globals;
 import 'dart:ui' as dart_ui;
 import '../Utils/ColorManager.dart';
+import '../Dialog/SortDialog.dart';
+import '../Datas/User.dart';
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -40,6 +42,53 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   double allAverage;
   double allMedian;
   int allMode;
+
+  List<Evaluation> _evaluations = new List();
+  List<Average> averages = new List();
+  List<User> users = new List();
+
+  bool hasOfflineLoaded = false;
+  bool hasLoaded = true;
+
+  User selectedUser;
+
+  Future<bool> showSortDialog() {
+    return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            return new SortDialog();
+          },
+        ) ??
+        false;
+  }
+
+  void refreshSort() async {
+    setState(() {
+      switch (globals.sort) {
+        case 0:
+          _evaluations.sort((a, b) => b.CreatingTime.compareTo(a.CreatingTime));
+          break;
+        case 1:
+          _evaluations.sort((a, b) {
+            if (a.realValue == b.realValue)
+              return b.CreatingTime.compareTo(a.CreatingTime);
+            return a.realValue.compareTo(b.realValue);
+          });
+          break;
+        case 2:
+          _evaluations.sort((a, b) {
+            if (a.Subject == b.Subject)
+              return b.CreatingTime.compareTo(a.CreatingTime);
+            return a.Subject.compareTo(b.Subject);
+          });
+          break;
+        case 3:
+          _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
+          break;
+      }
+    });
+  }
 
   Color color = MaterialPalette.blue.shadeDefault;
 
@@ -324,6 +373,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   int currentBody = 0;
+  Widget evaluationsBody;
   Widget averageBody;
   Widget dataBody;
 
@@ -339,6 +389,20 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         data: timeData,
       ),
     ];
+
+    evaluationsBody = new Scaffold(
+      floatingActionButton: new Tooltip(
+                  child: new FlatButton(
+                    onPressed: () {
+                      showSortDialog().then((b) {
+                        refreshSort();
+                      });
+                    },
+                    child: new Icon(Icons.sort, color: Colors.white),
+                  ),
+                  message: S.of(context).sort,
+                ),
+    );
 
     dataBody = new SingleChildScrollView(
       child: new Center(
