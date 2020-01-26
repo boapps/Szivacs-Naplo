@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:charts_flutter/flutter.dart';
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../Datas/Average.dart';
 import '../Datas/Student.dart';
 import '../GlobalDrawer.dart';
@@ -13,6 +14,7 @@ import 'dart:ui' as dart_ui;
 import '../Utils/ColorManager.dart';
 import '../Dialog/SortDialog.dart';
 import '../Datas/User.dart';
+import 'evaluationsScreen.dart';
 
 void main() {
   runApp(new MaterialApp(home: new StatisticsScreen()));
@@ -28,6 +30,8 @@ List<Average> averages = new List();
 List<TimeAverage> timeData = new List();
 var series;
 
+List<Evaluation> allEvals = new List();
+
 class StatisticsScreenState extends State<StatisticsScreen> {
   Average selectedAverage;
   final List<Series<TimeAverage, DateTime>> seriesList = new List();
@@ -42,10 +46,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
   double allAverage;
   double allMedian;
   int allMode;
-
-  List<Evaluation> _evaluations = new List();
-  List<Average> averages = new List();
-  List<User> users = new List();
 
   bool hasOfflineLoaded = false;
   bool hasLoaded = true;
@@ -63,38 +63,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
         false;
   }
 
-  void refreshSort() async {
-    setState(() {
-      switch (globals.sort) {
-        case 0:
-          _evaluations.sort((a, b) => b.CreatingTime.compareTo(a.CreatingTime));
-          break;
-        case 1:
-          _evaluations.sort((a, b) {
-            if (a.realValue == b.realValue)
-              return b.CreatingTime.compareTo(a.CreatingTime);
-            return a.realValue.compareTo(b.realValue);
-          });
-          break;
-        case 2:
-          _evaluations.sort((a, b) {
-            if (a.Subject == b.Subject)
-              return b.CreatingTime.compareTo(a.CreatingTime);
-            return a.Subject.compareTo(b.Subject);
-          });
-          break;
-        case 3:
-          _evaluations.sort((a, b) => b.Date.compareTo(a.Date));
-          break;
-      }
-    });
-  }
-
   Color color = MaterialPalette.blue.shadeDefault;
 
   @override
   void initState() {
-
     switch (globals.themeID) {
       case 0:
         color = MaterialPalette.blue.shadeDefault;
@@ -130,6 +102,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
     setState(() {
       _initStats();
+      _initAllEvals();
     });
     super.initState();
   }
@@ -295,7 +268,20 @@ class StatisticsScreenState extends State<StatisticsScreen> {
     initEvals();
   }
 
-  void _onSelect(Average average) async { 
+  void _initAllEvals() async {
+    try {
+      await globals.selectedAccount.refreshStudentString(true, false);
+      allEvals.addAll(globals.selectedAccount.student.Evaluations);
+    } catch (exeption) {
+      Fluttertoast.showToast(
+          msg: "Nem sikerült betölteni a jegyeket",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  void _onSelect(Average average) async {
     setState(() {
       selectedAverage = average;
       globals.selectedAverage = selectedAverage;
@@ -390,19 +376,116 @@ class StatisticsScreenState extends State<StatisticsScreen> {
       ),
     ];
 
-    evaluationsBody = new Scaffold(
-      floatingActionButton: new Tooltip(
-                  child: new FlatButton(
-                    onPressed: () {
-                      showSortDialog().then((b) {
-                        refreshSort();
-                      });
-                    },
-                    child: new Icon(Icons.sort, color: Colors.white),
+    Widget _allBuilder(BuildContext context, int index) {
+      Widget sep = new Container();
+
+      switch (globals.sort) {
+        case 0:
+          break;
+        case 1:
+          if (((index == 0) && (allEvals[index].Value.length < 16) ||
+              (allEvals[index].Value != allEvals[index - 1].Value &&
+                  allEvals[index].Value.length < 16)))
+            sep = Card(
+                color: globals.isDark ? Colors.grey[1000] : Colors.grey[300],
+                child: Container(
+                  child: new Text(
+                    allEvals[index].Value,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  message: S.of(context).sort,
+                  alignment: Alignment(0, 0),
+                  constraints: BoxConstraints.expand(height: 36),
                 ),
-    );
+                margin:
+                    EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 3));
+          break;
+        case 2:
+          if (index == 0 ||
+              (allEvals[index].Subject != allEvals[index - 1].Subject))
+            sep = Card(
+                color: globals.isDark ? Colors.grey[1000] : Colors.grey[300],
+                child: Container(
+                  child: new Text(
+                    allEvals[index].Subject,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  alignment: Alignment(0, 0),
+                  constraints: BoxConstraints.expand(height: 36),
+                ),
+                margin:
+                    EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 3));
+          break;
+      }
+
+      return new Column(
+        children: <Widget>[
+          sep,
+          new Card(
+            child: new ListTile(
+              leading: new Container(
+                child: new Text(
+                  allEvals[index].realValue.toString() ?? "",
+                  style: new TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          getColors(context, allEvals[index].realValue, false)),
+                ),
+                alignment: Alignment(0, 0),
+                height: 45,
+                width: 45,
+                decoration: new BoxDecoration(
+                    color: getColors(context, allEvals[index].realValue, true),
+                    border: Border.all(
+                        color: (allEvals[index].Weight != "100%" &&
+                                allEvals[index].Weight != null)
+                            ? globals.isDark ? Colors.white60 : Colors.black45
+                            : Colors.transparent,
+                        width: 4),
+                    borderRadius: new BorderRadius.all(Radius.circular(40))),
+              ),
+              title: new Text(
+                  allEvals[index].Subject ?? allEvals[index].Jelleg.Leiras ?? "",
+                  style: new TextStyle(fontWeight: FontWeight.bold)),
+              subtitle:
+                  new Text(allEvals[index].Theme ?? allEvals[index].Value) ?? "",
+              trailing: new Column(
+                children: <Widget>[
+                  new Text(dateToHuman(allEvals[index].Date)) ?? "",
+                  new Text(dateToWeekDay(allEvals[index].Date)) ?? "",
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+              ),
+              onTap: () {
+                _evaluationDialog(allEvals[index]);
+              },
+            ),
+          ),
+        ],
+      );
+    }
+
+    evaluationsBody = new Scaffold(
+        floatingActionButton: new FloatingActionButton(
+          onPressed: () {
+            showSortDialog().then((b) {
+              //refreshSort();
+            });
+          },
+          child: new Icon(Icons.sort, color: Colors.white),
+          tooltip: S.of(context).sort,
+        ),
+        body: (new Container(
+            child: new Column(
+          children: <Widget>[
+            new Expanded(
+                child: new ListView.builder(
+              itemBuilder: _allBuilder,
+              itemCount: allEvals.length,
+            ))
+          ],
+        ))));
 
     dataBody = new SingleChildScrollView(
       child: new Center(
@@ -590,6 +673,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           new Flexible(
+            //Build list of evaluations below graph
             child: new Container(
               child: new ListView.builder(
                 itemBuilder: _itemBuilder,
@@ -604,8 +688,6 @@ class StatisticsScreenState extends State<StatisticsScreen> {
 
     return new WillPopScope(
         onWillPop: () {
-
-
           globals.screen = 0;
           Navigator.pushReplacementNamed(context, "/main");
         },
@@ -614,12 +696,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               currentIndex: currentBody,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: new Icon(Icons.list),
-                  title: new Text("Összes")
-                ),
+                    icon: new Icon(Icons.list), title: new Text("Összes")),
                 BottomNavigationBarItem(
                   icon: new Icon(Icons.show_chart),
-                  title: new Text("Tárgyanként"),//S.of(context).averages),
+                  title: new Text("Tárgyanként"), //S.of(context).averages),
                 ),
                 BottomNavigationBarItem(
                   icon: new Icon(Icons.assistant),
@@ -653,12 +733,10 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               ],
             ),
             //floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
-            body: (currentBody == 0 ? evaluationsBody : (currentBody == 1 ? averageBody : dataBody)
-            )
-        )
-    );
+            body: (currentBody == 0
+                ? evaluationsBody
+                : (currentBody == 1 ? averageBody : dataBody))));
   }
-  
 
   void switchToScreen(int n) {
     setState(() {
