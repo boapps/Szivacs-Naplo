@@ -73,7 +73,7 @@ class SettingsHelper {
   }
 
   Future<int> getRefreshNotification() async {
-    return await _getProperty("RefreshNotification", 15);
+    return await _getProperty("RefreshNotification", 60);
   }
 
   void setSingleUser(bool value) {
@@ -129,21 +129,12 @@ class SettingsHelper {
   }
 
   Future<bool> getAcceptBlock() async {
-    return await _getProperty("acceptBlockV2", false);
+    return await _getProperty("acceptBlockV3", false);
   }
 
   Future<void> setAcceptBlock(bool value) async {
-    await _setPropertyBool("acceptBlockV2", value);
+    await _setPropertyBool("acceptBlockV3", value);
   }
-  // ad_start
-  void setAds(bool value) async {
-    await _setPropertyBool("ads", value);
-  }
-
-  Future<bool> getAds() async {
-    return await _getProperty("ads", false);
-  }
-  // ad_end
 
   static const List<Color> COLORS = [
     Colors.red,

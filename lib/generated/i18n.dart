@@ -94,7 +94,7 @@ class S implements WidgetsLocalizations {
   String get justification_mode => "justification method: ";
   String get justification_state => "justification status: ";
   String get language => "Language";
-  String get later => "later";
+  String get later => "from now";
   String get lesson => "lesson";
   String get lesson_end => "end of lesson: ";
   String get lesson_start => "start of lesson: ";
@@ -105,6 +105,7 @@ class S implements WidgetsLocalizations {
   String get main_page => "Mainpage";
   String get messages => "Messages";
   String get minute => "minutes";
+  String get hour => "hour(s)";
   String get missed => "canceled";
   String get mode => "mode: ";
   String get month => "month";
@@ -235,7 +236,7 @@ class $hu extends S {
   @override
   String get colorful_mainpage => "Színes főoldal";
   @override
-  String get export_accounts => "accounts";
+  String get export_accounts => "fiókok";
   @override
   String get faq => "GYIK";
   @override
@@ -315,8 +316,6 @@ class $hu extends S {
   @override
   String get tomorrow_timetable => "A holnapi órarend";
   @override
-  String get tomorrow => "Holnap lesz";
-  @override
   String get missed => "elmarad";
   @override
   String get color_teal => "kékeszöld";
@@ -383,7 +382,7 @@ class $hu extends S {
   @override
   String get day => "nap";
   @override
-  String get export => "export";
+  String get export => "Export";
   @override
   String get info => "Infó";
   @override
@@ -400,6 +399,8 @@ class $hu extends S {
   String get export_lessons => "órák";
   @override
   String get tomorrow_lessons => "óra";
+  @override
+  String get tomorrow => "Holnap lesz";
   @override
   String get weight => "súly: ";
   @override
@@ -502,6 +503,8 @@ class $hu extends S {
   String get room => "terem: ";
   @override
   String get minute => "perc";
+  @override
+  String get hour => "óra";
   @override
   String get grey => "szürke";
   @override

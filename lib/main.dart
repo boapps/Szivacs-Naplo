@@ -141,9 +141,6 @@ void main({bool noReset = false}) async {
 
       globals.isDark = await SettingsHelper().getDarkTheme();
       globals.isAmoled = await SettingsHelper().getAmoled();
-      // ad_start
-      globals.isAds = await SettingsHelper().getAds();
-      // ad_end
       globals.isColor = await SettingsHelper().getColoredMainPage();
       globals.isSingle = await SettingsHelper().getSingleUser();
       globals.multiAccount = (await Saver.readUsers()).length != 1;
@@ -273,18 +270,17 @@ class LoginScreenState extends State<LoginScreen> {
         return new SimpleDialog(
           children: <Widget>[
             Text("""
-A krétások most megint elkezdték lassítani/blokkolni a szivacsot, így lehet, hogy nem működik majd a dolgok betöltése/bejelentkezés/stb. és hálózati hibát kaphattok.
+Most úgy néz ki, hogy megint lassítják a Szivacsot az iskolák egy részénél (a visszajelzések alapján valószínűleg a klikes sulik érintettek), így újra használhatatlan.
 
-Egyelőre úgy néz ki, hogy a Klik-es iskolák érintettek, ez kb 3000 az összes 3800 krétás iskolából.
+Azt továbbra sem árulták el, hogy mi ennek az oka, nem válaszolnak e-maileimre.
 
-Ez nem az én hibám, én nem tudok vele mit csinálni (próbáltam, de aztán meg kaptam az e-mail-t, hogy ez illegális).
-
-Ha továbbra is szivacsot használnátok, kénytelenek lesztek kivárni, amíg végigmegy a lekérdezés (ez 1-2 perc is lehet) az is lehet, hogy nem megy minden elsőre és igen, ez így használhatatlan.
-
-Még próbálok velük beszélni, remélem, hogy hajlandóak lesznek enyhíteni lassításon!
+Ha tényleg így marad én nem látom értelmét a projekt folytatásának.
+Az app azért fent maradna a Play Áruházban a nagyon elvetemülteknek (és azoknak akiknek nincs lassítva), de nem frissíteném.
 
 Üdv.:
 Boa
+
+2019. 12. 09.
             """),
             new MaterialButton(
               child: Text("Értem"),

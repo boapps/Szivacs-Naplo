@@ -43,24 +43,10 @@ android {
         applicationId "io.github.boapps.meSzivacs"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 2047
-        versionName "2.2.16"
+        versionCode 2050
+        versionName "2.2.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    flavorDimensions "version"
-    productFlavors {
-        play {
-            dimension "version"
-            applicationIdSuffix ""
-            versionNameSuffix ""
-        }
-        foss {
-            dimension "version"
-            applicationIdSuffix ".foss"
-            versionNameSuffix ""
-        }
-    }
-
 }
 
 flutter {

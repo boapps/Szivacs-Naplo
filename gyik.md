@@ -1,6 +1,9 @@
 ### Ez mi?
 Egy nem hivatalos alkalmazás a KRÉTA rendszerhez, amiből meg tudod nézni a jegyeidet és még sokmindent, vannak benne extra funkciók, amiket a hivatalos nem tud.
 
+### Nem tudok bejelentkezni, lassú/egyáltalán nem megy a jegyek/órarend betöltése, mi történt?
+A Krétások elkezdték blokkolni azokat a kéréseket, amelyeken kifejezetten fel van tüntetve, hogy nem az eredeti kliens van használatban. Ezek javarészt azokra az iskolákra vonatkozik, amelyek intézményi kódja "klik"-el kezdődik. Ennek ellenére elképzelhető, hogy a kliens hiba nélkül működik, ugyanis ez a blokkolás csak egyetlen Krétás szerverre vonatkozik az 5-6 közül.
+
 ## Bejelentkezés:
  
 ### Nálunk nincs bevezetve a Kréta rendszer, tudom használni az appod?

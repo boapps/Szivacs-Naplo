@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert' show json, utf8;
-import 'dart:math';
 
 import 'package:e_szivacs/Datas/Lesson.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,9 @@ class RequestHelper {
           url,
           headers: {
             "HOST": schoolCode + ".e-kreta.hu",
+
             "User-Agent": globals.userAgent,
+
             "Authorization": "Bearer " + accessToken
           });
 
@@ -123,6 +124,7 @@ class RequestHelper {
             "HOST": schoolCode + ".e-kreta.hu",
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
             "User-Agent": globals.userAgent
+
           },
           body: jsonBody);
 
@@ -152,7 +154,9 @@ class RequestHelper {
             "HOST": user.schoolCode + ".e-kreta.hu",
             "Authorization": "Bearer " + token,
             "Content-Type": "application/json; charset=utf-8",
+
             "User-Agent": globals.userAgent
+
           },
           body: jsonBody);
       if (response.statusCode == 200)

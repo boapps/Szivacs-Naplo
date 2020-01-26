@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Datas/Student.dart';
 import '../Utils/StringFormatter.dart';
+import '../globals.dart' as globals;
 
 class AbsenceCard extends StatelessWidget {
   List<Absence> absences;
@@ -11,12 +12,30 @@ class AbsenceCard extends StatelessWidget {
   Color color;
   BuildContext context;
   bool isSingle;
+  String cardText = "?";
 
   AbsenceCard(List<Absence> absence, bool isSingle, BuildContext context){
     this.context = context;
     this.absences = absence;
     numOfAbsences = absence.length;
-    
+
+    String realLang = globals.lang == "auto" ? Localizations.localeOf(context).languageCode : globals.lang;
+    if (absence[0].DelayTimeMinutes != 0) {
+      //keses
+      if (realLang == "hu") {
+        cardText = "késés";
+      } else if (realLang == "en") {
+        cardText = "delay";
+      }
+    } else {
+      //logas
+      if (realLang == "hu") {
+        cardText = "hiányzás";
+      } else if (realLang == "en") {
+        cardText = "absence(s)";
+      }
+    }
+
     this.isSingle = isSingle;
 
     bool unjust = false;
@@ -169,9 +188,7 @@ class AbsenceCard extends StatelessWidget {
             child: new Row(
               children: <Widget>[
                   new Text("$numOfAbsences db ", style: new TextStyle(fontSize: 18.0, color: color),),
-                new Text(S
-                    .of(context)
-                    .absence + ", ", style: new TextStyle(fontSize: 18.0,)),
+                  new Text("$cardText, ", style: new TextStyle(fontSize: 18.0,)),
                   new Text(" $state", style: new TextStyle(fontSize: 18.0, color: color)),
                   new Text(". ", style: new TextStyle(fontSize: 18.0,)),
               ],
