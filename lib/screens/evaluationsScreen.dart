@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' as prefix0;
 
 import 'package:e_szivacs/Cards/SummaryCards.dart';
 import 'package:e_szivacs/generated/i18n.dart';
@@ -308,78 +309,82 @@ class EvaluationsScreenState extends State<EvaluationsScreen> {
         if (((index == 0) && (_evaluations[index].Value.length < 16) ||
             (_evaluations[index].Value != _evaluations[index - 1].Value &&
                 _evaluations[index].Value.length < 16)))
-          sep = Container(
-            child: new Text(
-              _evaluations[index].Value,
-              style: TextStyle(fontSize: 16),
-            ),
-            margin: EdgeInsets.all(6),
-            color: globals.isDark ? Colors.white24 : Colors.black12,
-            alignment: Alignment(0,0),
-            constraints: BoxConstraints.expand(height: 36),
-          );
+          sep = Card(
+              color: globals.isDark ? Colors.grey[1000] : Colors.grey[300],
+              child: Container(
+                child: new Text(
+                  _evaluations[index].Value,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                alignment: Alignment(0, 0),
+                constraints: BoxConstraints.expand(height: 36),
+              ),
+              margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 3));
         break;
       case 2:
         if (index == 0 ||
             (_evaluations[index].Subject != _evaluations[index - 1].Subject))
-          sep = Container(
-            child: new Text(
-              _evaluations[index].Subject,
-              style: TextStyle(fontSize: 16),
-            ),
-            margin: EdgeInsets.all(6),
-            alignment: Alignment(0,0),
-            decoration: new BoxDecoration(
-              color: globals.isDark ? Colors.white24 : Colors.black12,
-              borderRadius: new BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
-            ),
-            constraints: BoxConstraints.expand(height: 36),
-          );
+          sep = Card(
+              color: globals.isDark ? Colors.grey[1000] : Colors.grey[300],
+              child: Container(
+                child: new Text(
+                  _evaluations[index].Subject,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                alignment: Alignment(0, 0),
+                constraints: BoxConstraints.expand(height: 36),
+              ),
+              margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 3));
         break;
     }
 
     return new Column(
       children: <Widget>[
         sep,
-        new Divider(
+        /*new Divider(
           height: index != 0 ? 2.0 : 0.0,
-        ),
-        new ListTile(
-          leading: new Container(
-            child: new Text(
-              _evaluations[index].realValue.toString(),
-              style: new TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      getColors(context, _evaluations[index].realValue, false)),
+        ),*/
+        new Card(
+          child: new ListTile(
+            leading: new Container(
+              child: new Text(
+                _evaluations[index].realValue.toString(),
+                style: new TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: getColors(
+                        context, _evaluations[index].realValue, false)),
+              ),
+              alignment: Alignment(0, 0),
+              height: 45,
+              width: 45,
+              decoration: new BoxDecoration(
+                  color: getColors(context, _evaluations[index].realValue, true),
+                  border: Border.all(
+                      color: (_evaluations[index].Weight != "100%" &&
+                              _evaluations[index].Weight != null)
+                          ? globals.isDark ? Colors.white60 : Colors.black45
+                          : Colors.transparent,
+                      width: 4
+                      ),
+                  borderRadius: new BorderRadius.all(Radius.circular(40))),
             ),
-            alignment: Alignment(0, 0),
-            height: 45,
-            width: 45,
-            decoration: new BoxDecoration(
-                color: getColors(context, _evaluations[index].realValue, true),
-                border: Border.all(
-                    color: _evaluations[index].color,
-                    width: (_evaluations[index].Weight != "100%" &&
-                            _evaluations[index].Weight != null)
-                        ? 4
-                        : 0.000001), //With 0 it was still 1 pixel wide...
-                borderRadius: new BorderRadius.all(Radius.circular(40))),
+            title: new Text(
+                _evaluations[index].Subject ??
+                    _evaluations[index].Jelleg.Leiras,
+                style: new TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: new Text(
+                _evaluations[index].Theme ?? _evaluations[index].Value),
+            trailing: new Column(
+              children: <Widget>[
+                new Text(dateToHuman(_evaluations[index].Date)),
+                new Text(dateToWeekDay(_evaluations[index].Date)),
+              ],
+            ),
+            onTap: () {
+              _evaluationDialog(_evaluations[index]);
+            },
           ),
-          title: new Text(
-              _evaluations[index].Subject ?? _evaluations[index].Jelleg.Leiras),
-          subtitle:
-              new Text(_evaluations[index].Theme ?? _evaluations[index].Value),
-          trailing: new Column(
-            children: <Widget>[
-              new Text(dateToHuman(_evaluations[index].Date)),
-              new Text(dateToWeekDay(_evaluations[index].Date)),
-            ],
-          ),
-          onTap: () {
-            _evaluationDialog(_evaluations[index]);
-          },
         ),
       ],
     );

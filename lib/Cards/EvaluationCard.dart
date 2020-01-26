@@ -400,9 +400,11 @@ class EvaluationCard extends StatelessWidget {
           ),
           decoration: new BoxDecoration(
             border: Border.all(
-              color: globals.isDark
+              color: (evaluation.Weight != "100%" && evaluation.Weight != null)
+              ? globals.isDark
                 ? Colors.white54
-                : Colors.black45,
+                : Colors.black45
+              : Colors.transparent,
               width: (evaluation.Weight != "100%" && evaluation.Weight != null)
                ? 4
                : 1.5),
