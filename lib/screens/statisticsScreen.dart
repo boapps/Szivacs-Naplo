@@ -618,12 +618,12 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                   title: new Text("Összes")
                 ),
                 BottomNavigationBarItem(
-                  icon: new Icon(Icons.insert_chart),
+                  icon: new Icon(Icons.show_chart),
                   title: new Text("Tárgyanként"),//S.of(context).averages),
                 ),
                 BottomNavigationBarItem(
-                  icon: new Icon(Icons.info),
-                  title: new Text(S.of(context).datas),
+                  icon: new Icon(Icons.assistant),
+                  title: new Text("Eredmények"),
                 ),
               ],
               onTap: switchToScreen,
@@ -652,10 +652,13 @@ class StatisticsScreenState extends State<StatisticsScreen> {
                     : new Container(),
               ],
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            body: currentBody == 0 ? averageBody : dataBody));
+            //floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
+            body: (currentBody == 0 ? evaluationsBody : (currentBody == 1 ? averageBody : dataBody)
+            )
+        )
+    );
   }
+  
 
   void switchToScreen(int n) {
     setState(() {
