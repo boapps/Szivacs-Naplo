@@ -80,6 +80,13 @@ class SummaryCard extends StatelessWidget {
     ));
   }
   
+  String getDate() {
+    return summaryEvaluations.first.CreatingTime.toIso8601String()??"" + summaryEvaluations.first.trueID().toString()??"";
+  }
+
+  @override
+  Key get key => new Key(getDate());
+
   Widget evaluationList(BuildContext context) {
     return Column(children: <Widget>[
       for (Evaluation evaluation in summaryEvaluations) new ListTile(
@@ -103,8 +110,76 @@ class SummaryCard extends StatelessWidget {
         title: new Text(evaluation.Subject ?? evaluation.Jelleg.Leiras),
         subtitle: new Text(evaluation.Teacher),
         trailing: new Text(dateToHuman(evaluation.Date)),
+        onTap: () {openDialog(evaluation);},
         )
     ]
+    );
+  }
+
+  void openDialog(Evaluation evaluation) {
+    _evaluationDialog(evaluation);
+  }
+
+  Widget listEntry(String data, {bold = false, right = false}) => new Container(
+    child: new Text(
+      data,
+      style: TextStyle(fontSize: right ? 16 : 19, fontWeight: bold ? FontWeight.bold : FontWeight.normal),
+    ),
+    alignment: right ? Alignment(1, -1) : Alignment(0, 0),
+    padding: EdgeInsets.only(bottom: 3),
+  );
+
+  Future<Null> _evaluationDialog(Evaluation evaluation) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          children: <Widget>[
+            new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  evaluation.Value != null
+                      ? listEntry(evaluation.Value)
+                      : new Container(),
+                  evaluation.Weight != "" &&
+                      evaluation.Weight != "100%" &&
+                      evaluation.Weight != null
+                      ? listEntry(evaluation.Weight,
+                      bold: ["200%", "300%"].contains(evaluation.Weight))
+                      : new Container(),
+                  evaluation.Theme != "" && evaluation.Theme != null
+                      ? listEntry(evaluation.Theme)
+                      : new Container(),
+                  evaluation.Mode != "" && evaluation.Theme != null
+                      ? listEntry(evaluation.Mode)
+                      : new Container(),
+                  evaluation.CreatingTime != null
+                      ? listEntry(
+                      dateToHuman(evaluation.CreatingTime), right: true)
+                      : new Container(),
+                  evaluation.Teacher != null
+                      ? listEntry(evaluation.Teacher, right: true)
+                      : new Container(),
+                ],
+              ),
+            ),
+          ],
+          title: (evaluation.Subject != null)
+              ? Text(evaluation.Subject)
+              : evaluation.Jelleg.Leiras != null
+              ? Text(evaluation.Jelleg.Leiras)
+              : new Container(),
+          contentPadding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              style: BorderStyle.none,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(3),
+          ),
+        );
+      },
     );
   }
 
