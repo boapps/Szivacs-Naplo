@@ -61,6 +61,7 @@ class HomeworkCard extends StatelessWidget {
     return new GestureDetector(
       onTap: openDialog,
       child: new Card(
+      margin: EdgeInsets.all(6.0),
       color: Colors.lightBlue,
       child: new Column(
         children: <Widget>[

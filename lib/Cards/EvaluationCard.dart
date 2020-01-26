@@ -246,7 +246,7 @@ class EvaluationCard extends StatelessWidget {
     return new GestureDetector(
       onTap: openDialog,
       child: new Card(
-        margin: EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 6.0),
+        margin: EdgeInsets.all(6.0),
         color: bColor,
         child: Container(
           child: new Column(
@@ -367,7 +367,7 @@ class EvaluationCard extends StatelessWidget {
                                                   ? Colors.white
                                                   : Colors.black87))
                                       : null,
-                                  padding: new EdgeInsets.all(7.0),
+                                  padding: new EdgeInsets.only(left: 7.0),
                                 ),
                                 alignment: Alignment(-1, 0),
                               ),
@@ -390,6 +390,8 @@ class EvaluationCard extends StatelessWidget {
                                       child: new Text(
                                         dateToHuman(evaluation.Date)??"" +
                                             dateToWeekDay(evaluation.Date)??"",
+                                        maxLines: 1,
+                                        softWrap: false,
                                         style: new TextStyle(
                                             fontSize: 16.0,
                                             color: globals.isDark
