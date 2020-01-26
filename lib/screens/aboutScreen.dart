@@ -35,16 +35,16 @@ class AboutScreenState extends State<AboutScreen> {
     if (clicksUntilEasteregg > 1) {
       clicksUntilEasteregg--;
       Fluttertoast.showToast(
-          msg: clicksUntilEasteregg.toString() + " lépésre vagy a sebességtől!",
+          msg: clicksUntilEasteregg.toString() + " lépésre vagy a battle royale módtól!",
           backgroundColor: Colors.black,
           textColor: Colors.white,
           fontSize: 16.0);
     } else if (!showEasteregg) {
       showEasteregg = true;
-      globals.behaveNicely = false;
+      //globals.behaveNicely = false;
       RequestHelper().refreshSzivacsSettigns();
       Fluttertoast.showToast(
-          msg: "Töröld le a krétát!\nHiperhajtómű aktiválva! 🚀✅",
+          msg: "Töröld le a krétát!"/*\nHiperhajtómű aktiválva! 🚀✅"*/,
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
@@ -298,7 +298,7 @@ class AboutScreenState extends State<AboutScreen> {
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
                       )),
-                  !globals.behaveNicely
+                  /*!globals.behaveNicely
                       ? new RaisedButton(
                           key: null,
                           onPressed: _behaveNicelyAgain,
@@ -314,7 +314,7 @@ class AboutScreenState extends State<AboutScreen> {
                           "Psszt... Nyomkodd meg a verziószámot!",
                           style:
                               new TextStyle(fontSize: 12.0, color: Colors.grey),
-                        ),
+                        ),*/
                   (globals.selectedUser == null) //If there is no user selected, show a button to go back to login screen.
                       ? new Container(
                           child: new RaisedButton(

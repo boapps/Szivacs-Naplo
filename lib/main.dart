@@ -716,7 +716,7 @@ Boa
                                     ),
                                     //padding: EdgeInsets.only(right: 12, left: 12),
                                   )),
-                                  Expanded(
+                                  /*Expanded(
                                     child: new Container(
                                       child: FlatButton(
                                         onPressed: _gotoAbout,
@@ -728,7 +728,7 @@ Boa
                                         ),
                                         padding: EdgeInsets.only(left: 12),
                                   ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                               //margin: EdgeInsets.only(top: 20.0),
