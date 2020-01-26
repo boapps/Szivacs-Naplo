@@ -233,7 +233,7 @@ class EvaluationCard extends StatelessWidget {
               style: BorderStyle.none,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(4),
           ),
         );
       },
@@ -246,6 +246,7 @@ class EvaluationCard extends StatelessWidget {
     return new GestureDetector(
       onTap: openDialog,
       child: new Card(
+        margin: EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 6.0),
         color: bColor,
         child: Container(
           child: new Column(
@@ -302,16 +303,24 @@ class EvaluationCard extends StatelessWidget {
                               dateToWeekDay(evaluation.Date)??"",
                           style: new TextStyle(fontSize: 16.0, color: fColor)),
                       alignment: Alignment(1.0, -1.0),
-                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
                     )
                   : new Container(),
               showPadding
                   ? new Container(
-                      color: globals.isDark
-                          ? Color.fromARGB(255, 25, 25, 25)
-                          : Colors.white,
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            style: BorderStyle.none,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        color: globals.isDark
+                            ? Color.fromARGB(255, 25, 25, 25)
+                            : Colors.white,
+                      ),
                       child: new Padding(
-                        padding: new EdgeInsets.all(7.0),
+                        padding: new EdgeInsets.fromLTRB(7.0, 3.0, 12.0, 3.0),
                         child: new Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -402,12 +411,10 @@ class EvaluationCard extends StatelessWidget {
             border: Border.all(
               color: (evaluation.Weight != "100%" && evaluation.Weight != null)
               ? globals.isDark
-                ? Colors.white54
-                : Colors.black45
+                ? Colors.white38
+                : Colors.black38
               : Colors.transparent,
-              width: (evaluation.Weight != "100%" && evaluation.Weight != null)
-               ? 4
-               : 1.5),
+              width: 2.5),
             borderRadius: new BorderRadius.all(Radius.circular(5)),
           ),
         ),
