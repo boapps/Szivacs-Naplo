@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:ui' as prefix0;
 import 'package:flutter/material.dart';
 import '../GlobalDrawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -100,25 +101,6 @@ class AboutScreenState extends State<AboutScreen> {
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
                   ),
-                  Container(
-                    child: new Row(
-                      children: <Widget>[
-                        new Text(
-                          S.of(context).made_by,
-                          style: new TextStyle(
-                            fontSize: 22.0,
-                          ),
-                        ),
-                        new Text(
-                          S.of(context).boa,
-                          style: new TextStyle(
-                              fontSize: 22.0,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  ),
                   new Row(
                     children: <Widget>[
                       new Text(
@@ -136,6 +118,27 @@ class AboutScreenState extends State<AboutScreen> {
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  Container(
+                    child: new Column(
+                      children: <Widget>[
+                        new Text(
+                          S.of(context).made_by,
+                          style: new TextStyle(
+                            fontSize: 22.0,
+                          ),
+                        ),
+                        new Text(
+                          "BoA, palmarci, RedyAu, UnknownPlayer78, Daaniiieel, SakiiCode",
+                          style: new TextStyle(
+                              fontSize: 22.0,
+                              color: Theme.of(context).accentColor),
+                          textAlign: prefix0.TextAlign.center,
+                        ),
+                        new Divider(),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
                   ),
                   new FlatButton(
                     onPressed: _launchFAQ,
@@ -174,30 +177,6 @@ class AboutScreenState extends State<AboutScreen> {
                         ),
                         new Text(
                           "Felhasználási feltételek",
-                          style: new TextStyle(
-                            color: Colors.red,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  ),
-                  new FlatButton(
-                    onPressed: _launchYoutubeURL,
-                    child: new Row(
-                      children: <Widget>[
-                        new Container(
-                          child: new Icon(
-                            IconData(0xf5c3,
-                                fontFamily: "Material Design Icons"),
-                            color: Colors.red,
-                            size: 20.0,
-                          ),
-                          padding: EdgeInsets.all(5.0),
-                        ),
-                        new Text(
-                          S.of(context).youtube,
                           style: new TextStyle(
                             color: Colors.red,
                             fontSize: 20.0,
@@ -261,7 +240,7 @@ class AboutScreenState extends State<AboutScreen> {
                             child: new Icon(
                               IconData(0xf2a4,
                                   fontFamily: "Material Design Icons"),
-                              color: Colors.black,
+                              color: Colors.white,
                               size: 20.0,
                             ),
                             padding: EdgeInsets.all(5.0),
@@ -275,60 +254,6 @@ class AboutScreenState extends State<AboutScreen> {
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
                       )),
-                  new FlatButton(
-                      onPressed: _launchInstagramURL,
-                      child: new Row(
-                        children: <Widget>[
-                          new Container(
-                            child: new Icon(
-                              IconData(0xf2fe,
-                                  fontFamily: "Material Design Icons"),
-                              color: Colors.pink,
-                              size: 20.0,
-                            ),
-                            padding: EdgeInsets.all(5.0),
-                          ),
-                          new Text(
-                            S.of(context).instagram,
-                            style: new TextStyle(
-                              color: Colors.pink,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      )),
-                  /*!globals.behaveNicely
-                      ? new RaisedButton(
-                          key: null,
-                          onPressed: _behaveNicelyAgain,
-                          color: const Color(0xFFe0e0e0),
-                          child: new Text(
-                            "Hiperhajtúmű kikapcsolása 🚀❌",
-                            style: new TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.black,
-                            ),
-                          ))
-                      : new Text(
-                          "Psszt... Nyomkodd meg a verziószámot!",
-                          style:
-                              new TextStyle(fontSize: 12.0, color: Colors.grey),
-                        ),*/
-                  (globals.selectedUser == null) //If there is no user selected, show a button to go back to login screen.
-                      ? new Container(
-                          child: new RaisedButton(
-                            onPressed: _popToLogin,
-                            child: new Text(
-                              "Vissza a bejelentkezéshez",
-                              style: new TextStyle(
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ),
-                          padding: EdgeInsets.all(5)
-                        )
-                      : new Container(),
                 ],
               ),
             ),
@@ -359,15 +284,6 @@ class AboutScreenState extends State<AboutScreen> {
         );
       },
     );
-  }
-
-  _launchYoutubeURL() async {
-    const url = 'https://www.youtube.com/channel/UC1V9Sdq4RlYjzZEkB9bzwrA';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 
   _launchTOS() async {
@@ -404,29 +320,5 @@ class AboutScreenState extends State<AboutScreen> {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  _launchInstagramURL() async {
-    const url = 'https://www.instagram.com/e_szivacs/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  _behaveNicelyAgain() {
-    globals.behaveNicely = true;
-    Fluttertoast.showToast(
-        msg: "Hiperhajtómű kikapcsolva.",
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-    RequestHelper().refreshSzivacsSettigns();
-    Navigator.pushNamed(context, "/about");
-  }
-
-  _popToLogin() {
-    Navigator.pushNamed(context, "/login");
   }
 }
