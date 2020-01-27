@@ -357,8 +357,7 @@ class EvaluationCard extends StatelessWidget {
                                       maxLines: 1,
                                     ),
                             ),
-                            new Flexible(
-                              child: new Container(
+                            new Container(
                               child: new Padding(
                                 child: (evaluation.Weight != "100%" && evaluation.Weight != null)
                                     ? new Text(evaluation.Weight,
@@ -370,15 +369,14 @@ class EvaluationCard extends StatelessWidget {
                                 padding: new EdgeInsets.all(2.0),
                                 ),
                               alignment: Alignment(-1.0, 0.0),
-                              ),
                             ),
                             !isSingle
-                                ? new Container(
+                                ? new Expanded(
                                     child: new Container(
                                       child: new Text(evaluation.owner.name ?? "",
                                         maxLines: 1,
                                         softWrap: false,
-                                        overflow: TextOverflow.fade,
+                                        overflow: TextOverflow.fade, 
                                         style: new TextStyle(
                                             color: evaluation.owner.color ??
                                                 Colors.black,
