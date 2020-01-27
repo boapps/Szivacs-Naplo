@@ -114,37 +114,12 @@ class GDrawerState extends State<GDrawer> {
                                   : Container()
                             ],
                           ),
-                          new Row(
-                            children: <Widget>[
-                              new Container(
-                                child: new Text(
-                                  S.of(context).made_by,
-                                  style: TextStyle(
-                                    fontSize: 19.0,
-                                  ),
-                                ),
-                                padding: new EdgeInsets.fromLTRB(
-                                    16.0, 0.0, 0.0, 4.0),
-                              ),
-                              new Container(
-                                child: new Text(
-                                  S.of(context).boa,
-                                  style: TextStyle(
-                                      fontSize: 19.0,
-                                      color: Theme.of(context).accentColor),
-                                ),
-                                padding:
-                                    new EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 4.0),
-                              ),
-                            ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          ),
                         ],
                         crossAxisAlignment: CrossAxisAlignment.start,
                       ),
                       padding: EdgeInsets.all(2.0),
                     ),
-                    height: 190.0,
+                    height: 170.0,
                   )
                 : new Container(
                     height: 5,
