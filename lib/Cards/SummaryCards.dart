@@ -104,14 +104,13 @@ class SummaryCard extends StatelessWidget {
             style: new TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: getColors(context, evaluation.realValue, false)
-            ),
-            ),
+              color: globals.isColor ? getColors(context, evaluation.realValue, false) : Colors.white,
+            )),
             alignment: Alignment(0,0),
             height: 40,
             width: 40,
             decoration: new BoxDecoration(
-              color: getColors(context, evaluation.realValue, true),
+              color: globals.isColor ? getColors(context, evaluation.realValue, true) : Color.fromARGB(255, 15, 15, 15), 
               borderRadius: new BorderRadius.all(Radius.circular(40))
             ),
         ),

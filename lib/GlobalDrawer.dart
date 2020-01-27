@@ -258,7 +258,7 @@ class GDrawerState extends State<GDrawer> {
                     color: screen == 1 ? Theme.of(context).accentColor : null),
               ),
               onTap: () {
-                screen = 6;
+                screen = 1;
                 Navigator.pop(context); // close the drawer
                 Navigator.pushReplacementNamed(context, "/evaluations");
               },

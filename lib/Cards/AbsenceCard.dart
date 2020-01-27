@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:e_szivacs/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
@@ -181,57 +183,90 @@ class AbsenceCard extends StatelessWidget {
     return GestureDetector(
         onTap: openDialog,
         child: new Card(
-        margin: EdgeInsets.all(6.0),
-      child: new Column(
-        children: <Widget>[
-          new Container(
-            child: new Row(
+          margin: EdgeInsets.all(6.0),
+          child: new Container(
+            child: new Column(
               children: <Widget>[
-                  new Text("$numOfAbsences db ", style: new TextStyle(fontSize: 18.0, color: color),),
-                  new Text("$cardText, ", style: new TextStyle(fontSize: 18.0,)),
-                  new Text(" $state", style: new TextStyle(fontSize: 18.0, color: color)),
-                  new Text(". ", style: new TextStyle(fontSize: 18.0,)),
-              ],
-            ),
-            padding: EdgeInsets.all(10.0),
-          ),
-          !isSingle ? new Container(
-            child: new Text(dateToHuman(absences[0].LessonStartTime) +
-                dateToWeekDay(absences[0].LessonStartTime),
-                style: new TextStyle(
-                fontSize: 16.0,)),
-            alignment: Alignment(1.0, -1.0),
-            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
-          ) : new Container(),
-
-          new Divider(height: 1.0,),
-          new Container(
-              padding: EdgeInsets.all(10.0),
-              child: new Padding(
-                padding: new EdgeInsets.all(0.0),
-                child: new Row(
-                  children: <Widget>[
-                    !!isSingle ? new Expanded(
-                      child: new Container(
-                        child: new Text(dateToHuman(
-                            absences[0].LessonStartTime) + dateToWeekDay(
-                            absences[0].LessonStartTime), style: new TextStyle(
-                          fontSize: 18.0,)),
-                      alignment: Alignment(1.0, 0.0),
-                    )) : new Container(),
-                    !isSingle ? new Expanded(
-                      child: new Container(
-                        child: new Text(
-                            absences[0].owner.name, style: new TextStyle(
-                            fontSize: 18.0, color: absences[0].owner.color)),
-                      alignment: Alignment(1.0, 0.0),
-                    )) : new Container(),
-                  ],
+                new Container(
+                  child: new Row(
+                    children: <Widget>[
+                        new Text("$numOfAbsences ", style: new TextStyle(fontSize: 18.0, color: Colors.blueAccent)),
+                        new Text("db ", style: new TextStyle(fontSize: 18.0, color: globals.isDark ? Colors.white : Colors.black)),
+                        new Text("$state ", style: new TextStyle(fontSize: 18.0, color: color)),
+                        new Text(cardText, style: new TextStyle(fontSize: 18.0, color: globals.isDark ? Colors.white : Colors.black)),
+                    ],
+                  ),
+                  padding: EdgeInsets.all(10.0),
                 ),
-              )
-          )
-        ],
+                !isSingle ? new Container(
+                  child: new Text(dateToHuman(absences[0].LessonStartTime) +
+                      dateToWeekDay(absences[0].LessonStartTime),
+                      style: new TextStyle(
+                      fontSize: 16.0,)),
+                  alignment: Alignment(1.0, -1.0),
+                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),
+                ) : new Container(),
+
+                new Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Padding(
+                    padding: new EdgeInsets.all(0.0),
+                    child: new Row(
+                      children: <Widget>[
+                        new Container(
+                          padding: new EdgeInsets.only(left: 2),
+                          child: new Icon(
+                            Icons.block,
+                            color: globals.isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
+                        new Container(
+                          child: new Text(cardText,
+                            style: new TextStyle(fontSize: 18.0),
+                          ),
+                          padding: EdgeInsets.only(left: 8.0),
+                        ),
+
+                        isSingle ? new Expanded(
+                          child: new Container(
+                            child: new Text(dateToHuman(
+                                absences[0].LessonStartTime) + dateToWeekDay(
+                                absences[0].LessonStartTime), style: new TextStyle(
+                              fontSize: 18.0,)),
+                          alignment: Alignment(1.0, 0.0),
+                        )) : new Container(),
+                        !isSingle ? new Expanded(
+                          child: new Container(
+                            child: new Text(
+                                absences[0].owner.name, style: new TextStyle(
+                                fontSize: 18.0, color: absences[0].owner.color)),
+                          alignment: Alignment(1.0, 0.0),
+                        )) : new Container(),
+                      ],
+                    ),
+                  ),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        style: BorderStyle.none,
+                        width: 1,
+                      ),
+                    borderRadius: BorderRadius.circular(4),
+                    ),
+                    color: globals.isDark ? Color.fromARGB(255, 15, 15, 15) : Colors.white
+                  ),
+                )
+            ],
+          ),
+        decoration: new BoxDecoration(
+          border: Border.all(
+            color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blueGrey[100],
+            width: 2.5),
+          borderRadius: new BorderRadius.all(Radius.circular(5)),
+          color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blueGrey[100],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }

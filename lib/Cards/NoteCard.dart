@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import '../Datas/Note.dart';
@@ -69,7 +71,7 @@ class NoteCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       margin: EdgeInsets.all(6.0),
-      color: Colors.lightBlue,
+      color: globals.isColor ? Colors.blue : globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
       child: Container(
         child: new Column(
           children: <Widget>[
@@ -79,7 +81,10 @@ class NoteCard extends StatelessWidget {
             ),
 
             new Container(
-              child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+              child: new Text(note.content, 
+                  style: new TextStyle(
+                    fontSize: 17.0, 
+                    color: globals.isColor ? Colors.white : globals.isDark ? Colors.white : Colors.black)),
               padding: EdgeInsets.all(10.0),
             ),
 
@@ -105,11 +110,17 @@ class NoteCard extends StatelessWidget {
                 child: new Row(
                   children: <Widget>[
                     new Container(
-                      padding: new EdgeInsets.only(left: 6),
+                      padding: new EdgeInsets.only(left: 2),
                       child: new Icon(
                         IconData(0xf0e5, fontFamily: "Material Design Icons"),
                         color: globals.isDark ? Colors.white : Colors.black,
                       ),
+                    ),
+                    new Container(
+                      child: new Text("Feljegyzés",
+                        style: new TextStyle(fontSize: 18.0),
+                      ),
+                      padding: EdgeInsets.only(left: 8.0),
                     ),
                     new Divider(),
                     isSingle ? new Expanded(
@@ -136,7 +147,7 @@ class NoteCard extends StatelessWidget {
         ),
         decoration: new BoxDecoration(
             border: Border.all(
-              color: Colors.lightBlue,
+              color: globals.isColor ? Colors.blue : globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
               width: 2.5),
             borderRadius: new BorderRadius.all(Radius.circular(5)),
           ),
@@ -147,7 +158,7 @@ class NoteCard extends StatelessWidget {
       return new GestureDetector(
           onTap: openDialog,
           child: Card(
-        color: Colors.lightBlue,
+        color: globals.isColor ? Colors.blue : globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
         child: new Column(
           children: <Widget>[
 
@@ -168,7 +179,19 @@ class NoteCard extends StatelessWidget {
                   padding: new EdgeInsets.all(10.0),
                   child: new Row(
                     children: <Widget>[
-                      new Divider(),
+                      new Container(
+                        padding: new EdgeInsets.only(left: 2),
+                        child: new Icon(
+                          IconData(0xf0e5, fontFamily: "Material Design Icons"),
+                          color: globals.isDark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      new Container(
+                        child: new Text("Feljegyzés",
+                          style: new TextStyle(fontSize: 18.0),
+                        ),
+                        padding: EdgeInsets.only(left: 8.0),
+                      ),
                       isSingle ? new Expanded(
                           child: new Container(
                             child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),

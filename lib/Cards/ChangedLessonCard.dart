@@ -59,7 +59,7 @@ class ChangedLessonCard extends StatelessWidget {
                   alignment: WrapAlignment.start,
                 ),
                 alignment: Alignment(-1, 0),
-                color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.red[100],
+                color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blueGrey[100],
                 padding: EdgeInsets.all(12.0),
               ),
               new Container(
@@ -107,10 +107,10 @@ class ChangedLessonCard extends StatelessWidget {
           ),
         decoration: new BoxDecoration(
           border: Border.all(
-            color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.red[100],
+            color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blueGrey[100],
             width: 2.5),
           borderRadius: new BorderRadius.all(Radius.circular(5)),
-          color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.red[100],
+          color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.blueGrey[100],
         )),
       ),
     );
