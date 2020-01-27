@@ -386,21 +386,24 @@ class EvaluationCard extends StatelessWidget {
                                   )
                                 : new Container(),
                             isSingle
-                                ? new Container(
-                                    child: new Text(
-                                      dateToHuman(evaluation.Date)??"" +
-                                          dateToWeekDay(evaluation.Date)??"",
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      style: new TextStyle(
-                                          fontSize: 16.0,
-                                          color: globals.isDark
-                                              ? Colors.white
-                                              : Colors.black87),
-                                      textAlign: TextAlign.end,
-                                    ),
+                                ? new Expanded( 
+                                    child: new Container(
+                                      child: new Text(
+                                        dateToHuman(evaluation.Date)??"" +
+                                            dateToWeekDay(evaluation.Date)??"",
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: new TextStyle(
+                                            fontSize: 16.0,
+                                            color: globals.isDark
+                                                ? Colors.white
+                                                : Colors.black87),
+                                        textAlign: TextAlign.end,
+                                      ),
                                     alignment: Alignment(1.0, 0.0),
-                                  )
+                                  ),
+                                )
                                 : new Container(),
                           ],
                         ),
