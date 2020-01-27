@@ -35,7 +35,7 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Card(
-      color: globals.isDark ? Color.fromARGB(255,25,25,25) : Colors.grey[300],
+      color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.grey[300],
       margin: EdgeInsets.all(6.0),
       child: new Container(
       child: new Column(
@@ -67,14 +67,14 @@ class SummaryCard extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(5),
               ),
-              color: globals.isDark ? globals.isAmoled ? Colors.black : Color.fromARGB(255,40,40,40) : Colors.white,
+              color: globals.isDark ? globals.isAmoled ? Colors.black : Color.fromARGB(255, 15, 15, 15) : Colors.white,
             ),
           )
         ],
       ),
       decoration: new BoxDecoration(
         border: Border.all(
-            color: globals.isDark ? Color.fromARGB(255,25,25,25) : Colors.grey[300],
+            color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.grey[300],
             width: 2.5),
         borderRadius: new BorderRadius.all(Radius.circular(5)),
       ),

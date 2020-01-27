@@ -357,50 +357,49 @@ class EvaluationCard extends StatelessWidget {
                                       maxLines: 1,
                                     ),
                             ),
-                            new Flexible(
-                              child: new Container(
-                                child: new Padding(
-                                  child: (evaluation.Weight != "100%" && evaluation.Weight != null)
-                                      ? new Text(evaluation.Weight,
-                                          style: TextStyle(
-                                              color: globals.isDark
-                                                  ? Colors.white
-                                                  : Colors.black87))
-                                      : null,
-                                  padding: new EdgeInsets.only(left: 7.0),
-                                ),
-                                alignment: Alignment(-1.0, 0.0),
+                            new Container(
+                              child: new Padding(
+                                child: (evaluation.Weight != "100%" && evaluation.Weight != null)
+                                    ? new Text(evaluation.Weight,
+                                        style: TextStyle(
+                                            color: globals.isDark
+                                                ? Colors.white
+                                                : Colors.black87))
+                                    : null,
+                                padding: new EdgeInsets.all(2.0),
                               ),
+                              alignment: Alignment(-1.0, 0.0),
                             ),
                             !isSingle
                                 ? new Expanded(
                                     child: new Container(
                                       child: new Text(evaluation.owner.name ?? "",
-                                          style: new TextStyle(
-                                              color: evaluation.owner.color ??
-                                                  Colors.black,
-                                              fontSize: 18.0)),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: new TextStyle(
+                                            color: evaluation.owner.color ??
+                                                Colors.black,
+                                            fontSize: 18.0)),
                                       alignment: Alignment(1.0, -1.0),
                                     ),
                                   )
                                 : new Container(),
                             isSingle
                                 ? new Container(
-                                    child: new Container(
-                                      child: new Text(
-                                        dateToHuman(evaluation.Date)??"" +
-                                            dateToWeekDay(evaluation.Date)??"",
-                                        maxLines: 1,
-                                        softWrap: false,
-                                        style: new TextStyle(
-                                            fontSize: 16.0,
-                                            color: globals.isDark
-                                                ? Colors.white
-                                                : Colors.black87),
-                                        textAlign: TextAlign.end,
-                                      ),
-                                      alignment: Alignment(1.0, 0.0),
+                                    child: new Text(
+                                      dateToHuman(evaluation.Date)??"" +
+                                          dateToWeekDay(evaluation.Date)??"",
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      style: new TextStyle(
+                                          fontSize: 16.0,
+                                          color: globals.isDark
+                                              ? Colors.white
+                                              : Colors.black87),
+                                      textAlign: TextAlign.end,
                                     ),
+                                    alignment: Alignment(1.0, 0.0),
                                   )
                                 : new Container(),
                           ],

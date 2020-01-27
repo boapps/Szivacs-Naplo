@@ -79,7 +79,7 @@ class NoteCard extends StatelessWidget {
             ),
 
             new Container(
-              child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white),),
+              child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white)),
               padding: EdgeInsets.all(10.0),
             ),
 
@@ -108,11 +108,11 @@ class NoteCard extends StatelessWidget {
                       padding: new EdgeInsets.only(left: 6),
                       child: new Icon(
                         IconData(0xf0e5, fontFamily: "Material Design Icons"),
-                        color: globals.isDark ? Colors.white : Colors.grey[900],
+                        color: globals.isDark ? Colors.white : Colors.black,
                       ),
                     ),
                     new Divider(),
-                    !!isSingle ? new Expanded(
+                    isSingle ? new Expanded(
                         child: new Container(
                           child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: globals.isDark ? Colors.white : Colors.grey[900])),
                           alignment: Alignment(1.0, 0.0),
@@ -120,7 +120,11 @@ class NoteCard extends StatelessWidget {
 
                     !isSingle ? new Expanded(
                       child: new Container(
-                        child: new Text(note.owner.name, style: new TextStyle(color: globals.isDark ? Colors.white : Colors.grey[900], fontSize: 15.0)),
+                        child: new Text(note.owner.name, 
+                            style: new TextStyle(
+                              color: note.owner.color ??
+                                  (globals.isDark ? Colors.white : Colors.black),
+                              fontSize: 18.0)),
                         alignment: Alignment(1.0, -1.0),
                       ),
                     ) : new Container(),
@@ -148,7 +152,7 @@ class NoteCard extends StatelessWidget {
           children: <Widget>[
 
             new Container(
-              child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white),),
+              child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white)),
               padding: EdgeInsets.all(10.0),
             ),
 
@@ -165,7 +169,7 @@ class NoteCard extends StatelessWidget {
                   child: new Row(
                     children: <Widget>[
                       new Divider(),
-                      !!isSingle ? new Expanded(
+                      isSingle ? new Expanded(
                           child: new Container(
                             child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
                             alignment: Alignment(1.0, 0.0),
@@ -173,7 +177,11 @@ class NoteCard extends StatelessWidget {
 
                       !isSingle ? new Expanded(
                         child: new Container(
-                          child: new Text(note.owner.name, style: new TextStyle(color: Colors.white, fontSize: 15.0)),
+                          child: new Text(note.owner.name, 
+                              style: new TextStyle(
+                                color: note.owner.color ??
+                                    (globals.isDark ? Colors.white : Colors.black),
+                                fontSize: 18.0)),
                           alignment: Alignment(1.0, -1.0),
                         ),
                       ) : new Container(),
