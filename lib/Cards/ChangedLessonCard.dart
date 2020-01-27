@@ -25,34 +25,35 @@ class ChangedLessonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-//      onTap: openDialog,
+      //onTap: openDialog,
       child: new Card(
         margin: EdgeInsets.all(6.0),
-        child: new Column(
-          children: <Widget>[
-            new Container(
-              child: Wrap(
-                children: <Widget>[
-                  new Text((isSubstitution ? S.of(context).dep : S.of(context).missed) + ": ",
-                      style: new TextStyle(
-                          fontSize: 18.0, )),
-                  new Text(lesson.subject,
-                      style: new TextStyle(
-                        fontSize: 18.0, color: Colors.blueAccent
-                      )),
-                  isSubstitution ? new Text(lesson.depTeacher, style: new TextStyle(
-                      fontSize: 18.0, color: Colors.green
-                  )):null,
-                ].where((Widget w)=>w!=null).toList(),
-                alignment: WrapAlignment.start,
+        child: new Container(
+          child: new Column(
+            children: <Widget>[
+              new Container(
+                child: Wrap(
+                  children: <Widget>[
+                    new Text((isSubstitution ? S.of(context).dep : S.of(context).missed) + ": ",
+                        style: new TextStyle(
+                            fontSize: 18.0, )),
+                    new Text(lesson.subject,
+                        style: new TextStyle(
+                          fontSize: 18.0, color: Colors.blueAccent
+                        )),
+                    isSubstitution ? new Text(lesson.depTeacher, style: new TextStyle(
+                        fontSize: 18.0, color: Colors.green
+                    )):null,
+                  ].where((Widget w)=>w!=null).toList(),
+                  alignment: WrapAlignment.start,
+                ),
+                alignment: Alignment(-1, 0),
+                padding: EdgeInsets.all(10.0),
               ),
-              alignment: Alignment(-1, 0),
-              padding: EdgeInsets.all(10.0),
-            ),
-            new Divider(
-              height: 1.0,
-            ),
-            new Container(
+              new Divider(
+                height: 1.0,
+              ),
+              new Container(
                 padding: EdgeInsets.all(10.0),
                 child: new Padding(
                   padding: new EdgeInsets.all(0.0),
@@ -70,8 +71,9 @@ class ChangedLessonCard extends StatelessWidget {
                           ))
                     ],
                   ),
-                ))
-          ],
+                )),
+            ],
+          ),
         ),
       ),
     );

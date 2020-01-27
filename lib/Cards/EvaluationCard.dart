@@ -369,7 +369,7 @@ class EvaluationCard extends StatelessWidget {
                                       : null,
                                   padding: new EdgeInsets.only(left: 7.0),
                                 ),
-                                alignment: Alignment(-1, 0),
+                                alignment: Alignment(-1.0, 0.0),
                               ),
                             ),
                             !isSingle
@@ -385,7 +385,7 @@ class EvaluationCard extends StatelessWidget {
                                   )
                                 : new Container(),
                             isSingle
-                                ? new Expanded(
+                                ? new Container(
                                     child: new Container(
                                       child: new Text(
                                         dateToHuman(evaluation.Date)??"" +
@@ -411,11 +411,7 @@ class EvaluationCard extends StatelessWidget {
           ),
           decoration: new BoxDecoration(
             border: Border.all(
-              color: (evaluation.Weight != "100%" && evaluation.Weight != null)
-              ? globals.isDark
-                ? Colors.white38
-                : Colors.black38
-              : Colors.transparent,
+              color: Colors.transparent,
               width: 2.5),
             borderRadius: new BorderRadius.all(Radius.circular(5)),
           ),

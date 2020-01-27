@@ -53,7 +53,7 @@ class GDrawerState extends State<GDrawer> {
         break;
       case 6:
         Navigator.pop(context); // close the drawer
-        Navigator.pushReplacementNamed(context, "/statistics");
+        Navigator.pushReplacementNamed(context, "/evaluations");
         break;
       case 8:
         Navigator.pop(context); // close the drawer
@@ -260,7 +260,7 @@ class GDrawerState extends State<GDrawer> {
               onTap: () {
                 screen = 6;
                 Navigator.pop(context); // close the drawer
-                Navigator.pushReplacementNamed(context, "/statistics");
+                Navigator.pushReplacementNamed(context, "/evaluations");
               },
             ),
             new ListTile(
@@ -372,7 +372,7 @@ class GDrawerState extends State<GDrawer> {
               onTap: () {
                 screen = 6;
                 Navigator.pop(context); // close the drawer
-                Navigator.pushReplacementNamed(context, "/statistics");
+                Navigator.pushReplacementNamed(context, "/evaluations");
               },
             ),*/
             new ListTile(
