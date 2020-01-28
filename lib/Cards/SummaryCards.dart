@@ -35,7 +35,7 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Card(
-      color: globals.isDark ? globals.isAmoled ? Colors.grey[900] : Colors.grey[700] : Colors.grey[300],
+      color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.grey[300],
       margin: EdgeInsets.all(6.0),
       child: new Container(
       child: new Column(
@@ -67,17 +67,24 @@ class SummaryCard extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(5),
               ),
-              color: globals.isDark ? globals.isAmoled ? Colors.black : Colors.grey[850] : Colors.white,
+              color: globals.isDark ? globals.isAmoled ? Colors.black : Color.fromARGB(255, 15, 15, 15) : Colors.white,
             ),
           )
         ],
       ),
       decoration: new BoxDecoration(
         border: Border.all(
-            color: globals.isDark ? globals.isAmoled ? Colors.grey[900] : Colors.grey[700] : Colors.grey[300],
+            color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.grey[300],
             width: 2.5),
         borderRadius: new BorderRadius.all(Radius.circular(5)),
       ),
+    ),
+    shape: RoundedRectangleBorder(
+      side: BorderSide(
+        style: BorderStyle.none,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.circular(5),
     ));
   }
   
@@ -97,14 +104,13 @@ class SummaryCard extends StatelessWidget {
             style: new TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: getColors(context, evaluation.realValue, false)
-            ),
-            ),
+              color: globals.isColor ? getColors(context, evaluation.realValue, false) : Colors.white,
+            )),
             alignment: Alignment(0,0),
             height: 40,
             width: 40,
             decoration: new BoxDecoration(
-              color: getColors(context, evaluation.realValue, true),
+              color: globals.isColor ? getColors(context, evaluation.realValue, true) : Color.fromARGB(255, 15, 15, 15), 
               borderRadius: new BorderRadius.all(Radius.circular(40))
             ),
         ),

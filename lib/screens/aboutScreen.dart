@@ -240,7 +240,7 @@ class AboutScreenState extends State<AboutScreen> {
                             child: new Icon(
                               IconData(0xf2a4,
                                   fontFamily: "Material Design Icons"),
-                              color: Colors.white,
+                              color: globals.isDark ? Colors.white : Colors.black87,
                               size: 20.0,
                             ),
                             padding: EdgeInsets.all(5.0),

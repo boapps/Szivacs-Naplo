@@ -36,20 +36,10 @@ class AverageDialogState extends State<AverageDialog> {
         || e.Mode == "Na" || e.Weight == null || e.Weight == "-");
 
     List<String> avrChoice = [
-      S
-          .of(context)
-          .average_menu,
-      S
-          .of(context)
-          .halfyear,
-      S
-          .of(context)
-          .quarteryear + " (${S
-          .of(context)
-          .notworking})",
-      S
-          .of(context)
-          .endyear
+      S.of(context).average_menu,
+      S.of(context).halfyear,
+      S.of(context).quarteryear + " (${S.of(context).notworking})",
+      S.of(context).endyear
     ];
 
     widgets.add(

@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import '../Datas/Note.dart';
 import '../Utils/StringFormatter.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
+import '../globals.dart' as globals;
 
 class NoteCard extends StatelessWidget {
   Note note;
@@ -36,7 +39,7 @@ class NoteCard extends StatelessWidget {
               child: new Linkify(
                   text: note.content,
                   onOpen: (String url) {launcher.launch(url);},
-                  style: new TextStyle(fontSize: 18.0, color: Colors.white),
+                  style: new TextStyle(fontSize: 18.0),
               ),
             ),
           ],
@@ -68,110 +71,150 @@ class NoteCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       margin: EdgeInsets.all(6.0),
-      color: Colors.lightBlue,
-      child: new Column(
-        children: <Widget>[
-          new Container(
-            child: new Text(note.title, style: new TextStyle(fontSize: 21.0, color: Colors.white, fontWeight: FontWeight.bold),),
-            margin: EdgeInsets.all(10.0),
-          ),
-
-          new Container(
-            child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white),),
-            padding: EdgeInsets.all(10.0),
-          ),
-
-          !isSingle ? new Container(
-            child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
-            alignment: Alignment(1.0, -1.0),
-            padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
-          ) : new Container(),
-
-          new Divider(height: 1.0,color: Colors.white,),
-          new Container(
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  style: BorderStyle.none,
-                  width: 0,
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              color: Colors.blue,
+      color: globals.isColor ? Colors.blue : globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
+      child: Container(
+        child: new Column(
+          children: <Widget>[
+            new Container(
+              child: new Text(note.title, style: new TextStyle(fontSize: 21.0, color: Colors.white, fontWeight: FontWeight.bold),),
+              margin: EdgeInsets.all(10.0),
             ),
-            child: new Padding(
-              padding: new EdgeInsets.all(10.0),
-              child: new Row(
-                children: <Widget>[
-                  new Divider(),
-                  !!isSingle ? new Expanded(
-                      child: new Container(
-                        child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
-                        alignment: Alignment(1.0, 0.0),
-                      )) : new Container(),
 
-                  !isSingle ? new Expanded(
-                    child: new Container(
-                      child: new Text(note.owner.name, style: new TextStyle(color: Colors.white, fontSize: 15.0)),
-                      alignment: Alignment(1.0, -1.0),
-                    ),
-                  ) : new Container(),
-                ],
+            new Container(
+              child: new Text(note.content, 
+                  style: new TextStyle(
+                    fontSize: 17.0, 
+                    color: globals.isColor ? Colors.white : globals.isDark ? Colors.white : Colors.black)),
+              padding: EdgeInsets.all(10.0),
+            ),
+
+            !isSingle ? new Container(
+              child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
+              alignment: Alignment(1.0, -1.0),
+              padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
+            ) : new Container(),
+
+            new Container(
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    style: BorderStyle.none,
+                    width: 0,
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                color: globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
               ),
-            )
-          ),
-        ],
-      ),
-      ),
-    );
-    else
-    return new GestureDetector(
-        onTap: openDialog,
-        child: Card(
-      color: Colors.lightBlue,
-      child: new Column(
-        children: <Widget>[
-
-          new Container(
-            child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white),),
-            padding: EdgeInsets.all(10.0),
-          ),
-
-          !isSingle ? new Container(
-            child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
-            alignment: Alignment(1.0, -1.0),
-            padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
-          ) : new Container(),
-
-          new Divider(height: 1.0,color: Colors.white,),
-          new Container(
-              color: Colors.blue,
               child: new Padding(
                 padding: new EdgeInsets.all(10.0),
                 child: new Row(
                   children: <Widget>[
+                    new Container(
+                      padding: new EdgeInsets.only(left: 2),
+                      child: new Icon(
+                        IconData(0xf0e5, fontFamily: "Material Design Icons"),
+                        color: globals.isDark ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    new Container(
+                      child: new Text("Feljegyzés",
+                        style: new TextStyle(fontSize: 18.0),
+                      ),
+                      padding: EdgeInsets.only(left: 8.0),
+                    ),
                     new Divider(),
-                    !!isSingle ? new Expanded(
+                    isSingle ? new Expanded(
                         child: new Container(
-                          child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                          child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: globals.isDark ? Colors.white : Colors.grey[900])),
                           alignment: Alignment(1.0, 0.0),
                         )) : new Container(),
 
                     !isSingle ? new Expanded(
                       child: new Container(
-                        child: new Text(note.owner.name, style: new TextStyle(color: Colors.white, fontSize: 15.0)),
+                        child: new Text(note.owner.name, 
+                            style: new TextStyle(
+                              color: note.owner.color ??
+                                  (globals.isDark ? Colors.white : Colors.black),
+                              fontSize: 18.0)),
                         alignment: Alignment(1.0, -1.0),
                       ),
                     ) : new Container(),
                   ],
-                ),
+                  ),
               )
-          )
-        ],
-      ),
+            ),
+          ],
         ),
+        decoration: new BoxDecoration(
+            border: Border.all(
+              color: globals.isColor ? Colors.blue : globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
+              width: 2.5),
+            borderRadius: new BorderRadius.all(Radius.circular(5)),
+          ),
+        ),
+        ),
+      );
+      else
+      return new GestureDetector(
+          onTap: openDialog,
+          child: Card(
+        color: globals.isColor ? Colors.blue : globals.isDark ? Color.fromARGB(255, 25, 25, 25) : Colors.white,
+        child: new Column(
+          children: <Widget>[
+
+            new Container(
+              child: new Text(note.content, style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+              padding: EdgeInsets.all(10.0),
+            ),
+
+            !isSingle ? new Container(
+              child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 16.0, color: Colors.white)),
+              alignment: Alignment(1.0, -1.0),
+              padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
+            ) : new Container(),
+
+            new Container(
+                color: Color.fromARGB(255, 25, 25, 25),
+                child: new Padding(
+                  padding: new EdgeInsets.all(10.0),
+                  child: new Row(
+                    children: <Widget>[
+                      new Container(
+                        padding: new EdgeInsets.only(left: 2),
+                        child: new Icon(
+                          IconData(0xf0e5, fontFamily: "Material Design Icons"),
+                          color: globals.isDark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      new Container(
+                        child: new Text("Feljegyzés",
+                          style: new TextStyle(fontSize: 18.0),
+                        ),
+                        padding: EdgeInsets.only(left: 8.0),
+                      ),
+                      isSingle ? new Expanded(
+                          child: new Container(
+                            child: new Text(dateToHuman(note.date) + dateToWeekDay(note.date), style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                            alignment: Alignment(1.0, 0.0),
+                          )) : new Container(),
+
+                      !isSingle ? new Expanded(
+                        child: new Container(
+                          child: new Text(note.owner.name, 
+                              style: new TextStyle(
+                                color: note.owner.color ??
+                                    (globals.isDark ? Colors.white : Colors.black),
+                                fontSize: 18.0)),
+                          alignment: Alignment(1.0, -1.0),
+                        ),
+                      ) : new Container(),
+                    ],
+                  ),
+                )
+              ),
+          ],
+        ),
+      ),
     );
-
-
   }
 }

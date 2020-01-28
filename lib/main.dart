@@ -37,14 +37,13 @@ import 'screens/absentsScreen.dart';
 import 'screens/accountsScreen.dart';
 import 'screens/battleroyalScreen.dart';
 import 'screens/evaluationColorSettingsScreen.dart';
-import 'screens/evaluationsScreen.dart';
 import 'screens/exportScreen.dart';
 import 'screens/homeworkScreen.dart';
 import 'screens/importScreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/notesScreen.dart';
 import 'screens/settingsScreen.dart';
-import 'screens/statisticsScreen.dart';
+import 'screens/evaluationsScreen.dart';
 import 'screens/studentScreen.dart';
 import 'screens/timeTableScreen.dart';
 import 'screens/testsScreen.dart';
@@ -85,7 +84,7 @@ class MyApp extends StatelessWidget {
               '/absents': (_) => new AbsentsScreen(),
               '/accounts': (_) => new AccountsScreen(),
               '/settings': (_) => new SettingsScreen(),
-              '/statistics': (_) => new StatisticsScreen(),
+              '/evaluations': (_) => new EvaluationsScreen(),
               '/export': (_) => new ExportScreen(),
               '/import': (_) => new ImportScreen(),
               '/easteregg': (_) => new BattleRoyaleScreen(),
